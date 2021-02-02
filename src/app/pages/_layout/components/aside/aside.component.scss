@@ -1,0 +1,26 @@
+:host {
+  .aside {
+    height: 100%;
+
+    .aside-menu {
+      margin: 0;
+    }
+
+    .tooltip {
+      z-index: 1000 !important;
+    }
+  }
+
+  // fixed text line break issue on minimized aside hover
+  .menu-text {
+    white-space: nowrap;
+  }
+}
+
+.colorize-yellow {
+  filter: invert(41%) sepia(62%) saturate(591%) hue-rotate(262deg) brightness(87%) contrast(85%);
+}
+
+.colorize-red {
+  filter: invert(35%) sepia(80%) saturate(4024%) hue-rotate(1deg) brightness(102%) contrast(103%);
+}

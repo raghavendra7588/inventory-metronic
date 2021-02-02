@@ -1,0 +1,87 @@
+<div id="demo">
+    <img src="/assets/images/gv.PNG" class="mx-auto d-block" height="80px" width="130px" />
+
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 col-12 col-sm-12 col-lg-12 col-xl-12 mt-4">
+
+                <table mat-table [dataSource]="dataSource" class="custom-table">
+
+
+                    <ng-container matColumnDef="ProductName">
+                        <th mat-header-cell *matHeaderCellDef>Prouct</th>
+                        <td mat-cell *matCellDef="let element">{{element.ProductName}}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="BrandName">
+                        <th mat-header-cell *matHeaderCellDef>Brand</th>
+                        <td mat-cell *matCellDef="let element">{{element.Brand}}</td>
+
+                    </ng-container>
+
+                    <ng-container matColumnDef="Varient">
+                        <th mat-header-cell *matHeaderCellDef>Varient</th>
+                        <td mat-cell *matCellDef="let element">{{element.Varient}}</td>
+
+                    </ng-container>
+
+                    <ng-container matColumnDef="ProductMRP">
+                        <th mat-header-cell *matHeaderCellDef>Buying Price</th>
+                        <td mat-cell *matCellDef="let element">{{element.BuyingPrice}}</td>
+
+                    </ng-container>
+
+                    <ng-container matColumnDef="ProductDiscount">
+                        <th mat-header-cell *matHeaderCellDef>Discount</th>
+                        <td mat-cell *matCellDef="let element">{{element.Discount}}</td>
+
+                    </ng-container>
+                    <ng-container matColumnDef="BrandWiseTotal">
+                        <th mat-header-cell *matHeaderCellDef>BrandWise Tot</th>
+                        <td mat-cell *matCellDef="let element">{{element.BrandTotal}}</td>
+
+                    </ng-container>
+                    <ng-container matColumnDef="totalOrders">
+                        <th mat-header-cell *matHeaderCellDef>Tot Orders</th>
+                        <td mat-cell *matCellDef="let element">{{element.TotalOrder}}</td>
+
+                    </ng-container>
+
+                    <ng-container matColumnDef="totalQuantityOrder">
+                        <th mat-header-cell *matHeaderCellDef>Tot Quant Order</th>
+                        <td mat-cell *matCellDef="let element">{{element.TotalQuantityOrder }}</td>
+
+                    </ng-container>
+
+                    <ng-container matColumnDef="totalFinalPrice">
+                        <th mat-header-cell *matHeaderCellDef>Tot Final Price</th>
+                        <td mat-cell *matCellDef="let element">{{element.TotalFinalPrice}}</td>
+
+                    </ng-container>
+
+                    <ng-container matColumnDef="totalDiscountPrice">
+                        <th mat-header-cell *matHeaderCellDef>Tot Disc Price</th>
+                        <td mat-cell *matCellDef="let element">{{element.TotalDiscountPrice}}</td>
+
+                    </ng-container>
+
+                    <ng-container matColumnDef="FinalPurchaseAmount">
+                        <th mat-header-cell *matHeaderCellDef>Final Purchase Amt</th>
+                        <td mat-cell *matCellDef="let element">{{element.FinalPurchaseAmount }}</td>
+
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<div mat-dialog-actions align="end" class="ml-3 mt-3">
+
+    <button mat-raised-button color="primary" [useExistingCss]="true" printTitle="GV" printSectionId="demo"
+        ngxPrint>Print</button>
+    <button mat-raised-button color="warn" mat-dialog-close>Close</button>
+</div>

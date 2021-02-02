@@ -1,0 +1,167 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-3 col-sm-6 col-6 col-lg-3 col-xl-3">
+            <mat-form-field style="width: 100%;">
+                <mat-label>Category</mat-label>
+                <mat-select placeholder="Category" [(ngModel)]="purchaseReport.categoryId">
+                    <mat-select-filter [placeholder]="'Filter'" [displayMember]="'name'" [array]="categorySearch"
+                        (filteredReturn)="loginService.seller_object.categories=$event"></mat-select-filter>
+
+                    <mat-option (onSelectionChange)="onCategoriesChange($event,category)"
+                        *ngFor="let category of loginService.seller_object.categories" [value]="category.id">
+                        {{category.name }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+
+        <div class="col-md-3 col-sm-6 col-6 col-lg-3 col-xl-3">
+            <mat-form-field style="width: 100%;">
+                <mat-label>Sub Category</mat-label>
+                <mat-select #select [(ngModel)]="purchaseReport.subCategoryId">
+                    <mat-select-filter [placeholder]="'Filter'" [displayMember]="'name'" [array]="subCategorySearch"
+                        (filteredReturn)="multipleCategoriesArray=$event"></mat-select-filter>
+                    <mat-option value="all" (click)="onSubCategorySelectAll()">All</mat-option>
+                    <mat-option (onSelectionChange)="onSubCategoriesChange($event,category)"
+                        *ngFor="let category of multipleCategoriesArray" [value]="category.id">
+                        {{category.name }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+
+        </div>
+        <div class="col-md-3 col-sm-6 col-6 col-lg-3 col-xl-3">
+            <mat-form-field style="width: 100%;">
+                <mat-label>Brand</mat-label>
+                <mat-select #BrandSelect [(ngModel)]="purchaseReport.brandId">
+                    <mat-select-filter [placeholder]="'Filter'" [displayMember]="'BrandName'" [array]="brandSearch"
+                        (filteredReturn)="anyArray=$event"></mat-select-filter>
+                    <mat-option (onSelectionChange)="onProductChange($event,brand)" *ngFor="let brand of anyArray"
+                        [value]="brand.BrandID">
+                        {{brand.BrandName}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <div class="col-md-3 col-sm-6 col-6 col-lg-3 col-xl-3">
+            <mat-form-field style="width: 100%;">
+                <mat-label>Product</mat-label>
+                <mat-select [(ngModel)]="purchaseReport.productId">
+                    <mat-select-filter [placeholder]="'Filter'" [displayMember]="'Name'" [array]="productSearch"
+                        (filteredReturn)="finalProductNameArray=$event"></mat-select-filter>
+                    <mat-option value="all" (click)="onProductSelectAll()">All</mat-option>
+                    <mat-option (onSelectionChange)="changeProduct($event,brand)"
+                        *ngFor="let brand of finalProductNameArray" [value]="brand.ProductID">
+                        {{brand.Name}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-3 col-sm-6 col-6 col-lg-3 col-xl-3">
+            <mat-form-field style="width: 100%;">
+                <mat-label>Start Date</mat-label>
+                <input matInput [matDatepicker]="picker1" placeholder="From Date" [(ngModel)]="startDate">
+                <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                <mat-datepicker #picker1></mat-datepicker>
+            </mat-form-field>
+        </div>
+        <div class="col-md-3 col-sm-6 col-6 col-lg-3 col-xl-3">
+            <mat-form-field style="width: 100%;">
+                <mat-label>End Date</mat-label>
+                <input matInput [matDatepicker]="picker" [(ngModel)]="endDate">
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+        </div>
+        <div class="col-md-3 col-sm-6 col-6 col-lg-3 col-xl-3">
+            <button mat-raised-button style="color:white" class="width-100 mt-2 save-button" (click)="searchRecords()">Search
+                Records</button>
+        </div>
+    </div>
+</div>
+
+<div class="container mb-4">
+    <div class="row">
+        <div class="col-md-12 col-12 col-sm-12 col-lg-12 col-xl-12">
+            <mat-form-field style="width: 100%;">
+                <mat-label>Filter</mat-label>
+                <input matInput (keyup)="applyFilter($event.target.value)">
+            </mat-form-field>
+        </div>
+    </div>
+</div>
+
+
+<div class="container mb-5">
+    <div class="row">
+        <div class="col-md-12 col-12 col-sm-12 col-lg-12 col-xl-12">
+            <table mat-table [dataSource]="dataSource" class="custom-table">
+
+                <ng-container matColumnDef="ProductName">
+                    <th mat-header-cell *matHeaderCellDef>Product</th>
+                    <td mat-cell *matCellDef="let element">{{element.ProductName}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="BrandName">
+                    <th mat-header-cell *matHeaderCellDef>Brand Name</th>
+                    <td mat-cell *matCellDef="let element">{{element.Brand}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="Varient">
+                    <th mat-header-cell *matHeaderCellDef>Varient</th>
+                    <td mat-cell *matCellDef="let element">{{element.Varient}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="ProductMRP">
+                    <th mat-header-cell *matHeaderCellDef>MRP</th>
+                    <td mat-cell *matCellDef="let element">{{element.BuyingPrice}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="ProductDiscount">
+                    <th mat-header-cell *matHeaderCellDef>Discount</th>
+                    <td mat-cell *matCellDef="let element">{{element.Discount}}</td>
+                </ng-container>
+
+
+
+                <ng-container matColumnDef="totalQuantityOrder">
+                    <th mat-header-cell *matHeaderCellDef>Tot Quant Order</th>
+                    <td mat-cell *matCellDef="let element">{{element.TotalQuantityOrder}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="totalFinalPrice">
+                    <th mat-header-cell *matHeaderCellDef>Tot Final Price</th>
+                    <td mat-cell *matCellDef="let element">{{element.TotalFinalPrice}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="totalDiscountPrice">
+                    <th mat-header-cell *matHeaderCellDef>Tot Disc Price</th>
+                    <td mat-cell *matCellDef="let element">{{element.TotalDiscountPrice}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="FinalPurchaseAmount">
+                    <th mat-header-cell *matHeaderCellDef>Final Purchase Amt</th>
+                    <td mat-cell *matCellDef="let element">{{element.FinalPurchaseAmount}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="print">
+                    <th mat-header-cell *matHeaderCellDef> Print </th>
+                    <td mat-cell *matCellDef="let element">
+                        <button mat-icon-button (click)="viewPurchaseReport(element)">
+                            <mat-icon class="mat-18">print</mat-icon>
+                        </button>
+                    </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+            <mat-paginator [pageSizeOptions]="[25,50,100]" showFirstLastButtons></mat-paginator>
+        </div>
+    </div>
+</div>
+<ngx-spinner></ngx-spinner>

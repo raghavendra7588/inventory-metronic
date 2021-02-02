@@ -1,0 +1,63 @@
+.custom-table {
+    width: 100%;
+}
+
+*:focus {
+    outline: none;
+}
+
+.make-gold {
+    background-color:#add8e6;
+}
+
+.mat-column-ProductName {
+    flex: none;
+    text-align: center;
+}
+
+
+.mat-column-BrandName {
+    flex: none;
+    text-align: center;
+}
+
+
+.mat-column-Varient {
+    flex: none;
+    text-align: center;
+}
+
+
+.mat-column-ProductMRP {
+    flex: none;
+    text-align: center;
+}
+
+
+.mat-column-ProductDiscount {
+    flex: none;
+    text-align: center;
+}
+
+
+.mat-column-totalQuantityOrder {
+    flex: none;
+    text-align: center;
+}
+
+
+.mat-column-totalFinalPrice {
+    flex: none;
+    text-align: center;
+}
+
+.mat-column-totalDiscountPrice {
+    flex: none;
+    text-align: center;
+}
+
+
+.mat-column-FinalPurchaseAmount {
+    flex: none;
+    text-align: center;
+}

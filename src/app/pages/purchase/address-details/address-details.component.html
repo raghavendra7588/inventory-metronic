@@ -1,0 +1,40 @@
+<div class="card card-custom card-stretch">
+
+    <div class="container pt-4">
+        <div class="row">
+            <div class="col-md-8 col-6 col-sm-6 col-lg-8 col-xl-8">
+                <h4 class="light-blue mt-2">Add Retailer Address</h4>
+            </div>
+            <div class="col-md-4 col-6 col-sm-6 col-lg-4 col-xl-4 text-right mb-5">
+                <button mat-raised-button style="color: white;" class="save-button" (click)="openDialog()">My
+                    Address</button>
+            </div>
+
+            <div class="col-md-12 col-12 col-sm-12 col-lg-12 col-xl-12">
+
+                <mat-table [dataSource]="dataSource" class="custom-table">
+
+                    <ng-container matColumnDef="address">
+                        <mat-header-cell *matHeaderCellDef>Address</mat-header-cell>
+                        <mat-cell *matCellDef="let element"> {{element.billing_address}} </mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="action">
+                        <mat-header-cell *matHeaderCellDef> Edit </mat-header-cell>
+                        <mat-cell *matCellDef="let element" class="text-right">
+                            <mat-icon class="mat-18" style="cursor: pointer;" (click)="editEmployee(element)">
+                                edit
+                            </mat-icon>
+                        </mat-cell>
+                    </ng-container>
+
+                    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+                </mat-table>
+                <mat-paginator [pageSizeOptions]="[10,50,100]" showFirstLastButtons></mat-paginator>
+
+            </div>
+
+        </div>
+    </div>
+</div>

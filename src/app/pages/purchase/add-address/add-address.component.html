@@ -1,0 +1,183 @@
+<h2 mat-dialog-title style="text-align: center;">Add Retailer Address Details</h2>
+
+<form [formGroup]="addressForm" (ngSubmit)="onSubmit()">
+
+    <div class="container">
+        <div class="row">
+
+            <div class="container">
+                <h3 class="font-weight-bold">Billing Information</h3>
+                <div class="row">
+                    <div class="col-md-4 mt-3">
+
+                        <mat-form-field>
+                            <mat-label>Billing Name</mat-label>
+                            <input matInput placeholder="Billing Name" name="billingName" formControlName="billing_name"
+                                [(ngModel)]="address.billingName" disabled />
+                        </mat-form-field>
+
+                    </div>
+
+                    <div class="col-md-4">
+
+                        <mat-form-field>
+                            <mat-label>Address</mat-label>
+                            <textarea matInput placeholder="Ex. It makes me feel..." formControlName="billing_address"
+                                [(ngModel)]="address.billing_address"></textarea>
+                        </mat-form-field>
+
+                    </div>
+
+                    <div class="col-md-4 mt-3">
+                        <mat-form-field>
+                            <input matInput placeholder="City" formControlName="billing_city"
+                                [(ngModel)]="address.billing_city">
+                        </mat-form-field>
+                    </div>
+
+
+                </div>
+
+
+                <div class="row">
+                    <div class="col-md-4">
+
+                        <mat-form-field>
+                            <input matInput placeholder="Pin Code" formControlName="billing_pinCode"
+                                [maxLength]="maxLengthPinCode" [(ngModel)]="address.billing_pinCode" appNumber>
+                        </mat-form-field>
+                    </div>
+
+
+                    <div class="col-md-4">
+                        <mat-form-field>
+                            <input matInput placeholder="State" formControlName="billing_state"
+                                [(ngModel)]="address.billing_state">
+                        </mat-form-field>
+                    </div>
+
+                    <div class="col-md-4">
+
+                        <mat-form-field>
+                            <input matInput placeholder="Country" formControlName="billing_country"
+                                [(ngModel)]="address.billing_country">
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <mat-form-field>
+                            <input matInput placeholder="Phone" formControlName="billing_phone" [maxLength]="maxLength"
+                                [(ngModel)]="address.billing_phone" appNumber>
+                        </mat-form-field>
+
+                    </div>
+                    <div class="col-md-4">
+                        <mat-form-field>
+                            <input matInput placeholder="Email" formControlName="billing_email"
+                                [(ngModel)]="address.billing_email">
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h3 class="font-weight-bold">Shipping Information</h3>
+                    </div>
+                    <div class="col-md-6">
+
+                        <button type="button" class="btn btn-light float-right" (click)="copyBillingAddress()">Copy
+                            Billing Address</button>
+                    </div>
+                </div>
+
+                <div class="row">
+
+                    <div class="col-md-4 mt-3">
+
+                        <mat-form-field>
+                            <mat-label>Shipping Name</mat-label>
+                            <input matInput name="shippingName" placeholder="Shipping Name"
+                                formControlName="shipping_name" [(ngModel)]="address.shippingName" disabled />
+
+                        </mat-form-field>
+
+
+                    </div>
+                    <div class="col-md-4">
+                        <mat-form-field>
+                            <mat-label>Address</mat-label>
+                            <textarea matInput placeholder="Ex. It makes me feel..." formControlName="shipping_addresss"
+                                [(ngModel)]="address.shipping_address"></textarea>
+                        </mat-form-field>
+
+                    </div>
+
+                    <div class="col-md-4 mt-3">
+                        <mat-form-field>
+                            <input matInput placeholder="City" [(ngModel)]="address.shipping_city"
+                                formControlName="shipping_city">
+                        </mat-form-field>
+                    </div>
+
+
+                </div>
+
+
+                <div class="row">
+                    <div class="col-md-4">
+
+                        <mat-form-field>
+                            <input matInput placeholder="Pin Code" [(ngModel)]="address.shipping_pinCode"
+                                [maxLength]="maxLengthPinCode" formControlName="shipping_pinCode" appNumber>
+                        </mat-form-field>
+                    </div>
+
+
+                    <div class="col-md-4">
+                        <mat-form-field>
+                            <input matInput placeholder="State" [(ngModel)]="address.shipping_state"
+                                formControlName="shipping_state">
+                        </mat-form-field>
+                    </div>
+
+                    <div class="col-md-4">
+
+                        <mat-form-field>
+                            <input matInput placeholder="Country" [(ngModel)]="address.shipping_country"
+                                formControlName="shipping_country">
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4">
+
+                        <mat-form-field>
+                            <input matInput placeholder="Phone" [(ngModel)]="address.shipping_phone"
+                                [maxLength]="maxLength" formControlName="shipping_phone" appNumber>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-4">
+                        <mat-form-field>
+                            <input matInput placeholder="Email" [(ngModel)]="address.shipping_email"
+                                formControlName="shipping_email">
+                        </mat-form-field>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+        </div>
+    </div>
+    <div mat-dialog-actions align="end">
+        <button mat-raised-button color="primary" [disabled]="!addressForm.valid">Save</button>
+        <button mat-raised-button mat-dialog-close color="warn">Close</button>
+    </div>
+
+</form>

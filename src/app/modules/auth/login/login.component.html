@@ -1,0 +1,41 @@
+<div class="login-form login-signin">
+
+
+  <div class="pb-13 pt-lg-0 pt-5">
+    <h3 class="font-weight-bolder text-dark font-size-h4 font-size-h1-lg">
+      <span style="color: #986923;">Welcome to GramVyapar</span>
+    </h3>
+
+  </div>
+
+  <div class="form-group">
+    <label class="font-size-h6 font-weight-bolder text-dark"><span style="color: #986923;">User Name</span> </label>
+    <input class="form-control form-control-solid h-auto py-7 px-6 rounded-lg" name="email"  maxlength="10" [(ngModel)]="user.username" autocomplete="off" />
+  </div>
+
+  <div class="form-group">
+    <div class="d-flex justify-content-between mt-n5">
+      <label class="font-size-h6 font-weight-bolder text-dark pt-5" style="color: #986923;"><span
+          style="color: #986923;">Password</span>
+      </label>
+
+    </div>
+
+    <input class="form-control form-control-solid h-auto py-7 px-6 rounded-lg"  [(ngModel)]="user.password" type="password" name="password"
+      autocomplete="off" />
+
+    <div class="pb-lg-0 pb-5">
+      <button id="kt_login_signin_submit" class="btn btn-primary font-weight-bolder font-size-h6 px-8 py-4 my-3 mr-3"
+        (click)="login()">
+        Log In
+      </button>
+
+
+      <ng-container *ngIf="isLoading$ | async">
+        <span class="spinner spinner-primary ml-5"></span>
+      </ng-container>
+    </div>
+
+
+
+  </div>

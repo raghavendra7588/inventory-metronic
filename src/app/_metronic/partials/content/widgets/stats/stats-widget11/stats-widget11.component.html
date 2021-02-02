@@ -1,0 +1,74 @@
+<div class="card card-custom" [ngClass]="cssClass">
+  <!-- Body -->
+  <h6 class="text-center">stats-widget11</h6>
+  <div class="card-body p-0">
+
+    <div class="row">
+      <div class="btn-group btn-group-toggle d-inline mx-auto center mt-0" data-toggle="buttons">
+        <label class="btn btn-info font-size-sm">
+          <input type="radio" name="options" id="option1" autocomplete="off" (click)="weekly()"> Weekly
+        </label>
+        <label class="btn btn-danger font-size-sm">
+          <input type="radio" name="options" id="option2" autocomplete="off" (click)="monthly()"> Monthly
+        </label>
+      </div>
+    </div>
+
+    <div class="d-flex align-items-center justify-content-between card-spacer flex-grow-1">
+      <span [ngClass]="symbolCSSClasses">
+        <span class="symbol-label">
+          <span [inlineSVG]="'./assets/media/svg/icons/Layout/Layout-4-blocks.svg'" [ngClass]="svgCSSClasses"></span>
+        </span>
+      </span>
+
+
+      <div class="d-flex flex-column text-right"
+        *ngIf="isActiveByVendor==='byPurchaseValue' && isActiveMonth==='weekly'">
+        <span class="text-dark-75 font-weight-bolder font-size-h3">+{{totalPurchaseAmount}}</span>
+        <span class="text-muted font-weight-bold mt-2">Weekly Purchase</span>
+      </div>
+
+      <div class="d-flex flex-column text-right" *ngIf="isActiveByVendor==='byVendor' && isActiveMonth==='weekly'">
+        <span class="text-dark-75 font-weight-bolder font-size-h3">+{{totalVendorsByWeekly}}</span>
+        <span class="text-muted font-weight-bold mt-2">Weekly Vendors</span>
+      </div>
+
+
+      <div class="d-flex flex-column text-right"
+        *ngIf="isActiveByVendor==='byPurchaseValue' && isActiveMonth==='monthly'">
+        <span class="text-dark-75 font-weight-bolder font-size-h3">+{{totalPurchaseAmountByMonth}}</span>
+        <span class="text-muted font-weight-bold mt-2">Monthly Purchase</span>
+      </div>
+
+      <div class="d-flex flex-column text-right" *ngIf="isActiveByVendor==='byVendor' && isActiveMonth==='monthly'">
+        <span class="text-dark-75 font-weight-bolder font-size-h3">+{{totalVendorsByMonthly}}</span>
+        <span class="text-muted font-weight-bold mt-2">Monthly Vendors</span>
+      </div>
+
+    </div>
+    <!--begin::Chart-->
+    <div id="kt_stats_widget_11_chart" class="card-rounded-bottom" [style.height]="'150px'">
+      <!-- <apx-chart [series]="chartOptions.series" [chart]="chartOptions.chart" [xaxis]="chartOptions.xaxis"
+        [yaxis]="chartOptions.yaxis" [dataLabels]="chartOptions.dataLabels" [stroke]="chartOptions.stroke"
+        [legend]="chartOptions.legend" [fill]="chartOptions.fill" [states]="chartOptions.states"
+        [tooltip]="chartOptions.tooltip" [colors]="chartOptions.colors" [markers]="chartOptions.markers"
+        [plotOptions]="chartOptions.plotOptions">
+      </apx-chart> -->
+
+      <apx-chart [series]="chartOptions.series" [chart]="chartOptions.chart" [dataLabels]="chartOptions.dataLabels"
+        [stroke]="chartOptions.stroke" [legend]="chartOptions.legend" [fill]="chartOptions.fill"
+        [states]="chartOptions.states" [tooltip]="chartOptions.tooltip" [colors]="chartOptions.colors"
+        [markers]="chartOptions.markers" [plotOptions]="chartOptions.plotOptions">
+      </apx-chart>
+    </div>
+    
+    <div class="btn-group btn-group-toggle d-inline mx-auto center mt-2" data-toggle="buttons">
+      <label class="btn btn-info font-size-sm">
+        <input type="radio" name="options" id="option1" autocomplete="off" (click)="byVendors()">By Vendors
+      </label>
+      <label class="btn btn-danger font-size-sm">
+        <input type="radio" name="options" id="option2" autocomplete="off" (click)="byPurchase()">By Purchase
+      </label>
+    </div>
+  </div>
+</div>

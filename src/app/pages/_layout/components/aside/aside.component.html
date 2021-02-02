@@ -1,0 +1,96 @@
+<div class="aside-primary d-flex flex-column align-items-center flex-row-auto">
+
+  <div class="aside-brand d-flex flex-column align-items-center flex-column-auto py-5 py-lg-12" id="kt_brand"
+    [ngClass]="brandClasses">
+
+    <a routerLink="/" class="brand-logo">
+      <img alt="Logo" src="./assets/media/logos/logo-letter-2.png" class="max-h-30px" />
+    </a>
+
+  </div>
+
+  <div class="aside-nav d-flex flex-column align-items-center flex-column-fluid py-5 scroll scroll-pull">
+
+    <ul class="nav flex-column" role="tablist">
+
+      <!-- <li class="nav-item mb-3" placement="right" ngbTooltip="Latest project" container="body">
+        <a class="nav-link btn btn-icon btn-clean btn-lg" data-toggle="tab"
+          [ngClass]="{ active: activeTabId === TABS[1] }" (click)="setTab(TABS[1])" data-target="#kt_aside_tab_1"
+          role="tab">
+          <span [inlineSVG]="'./assets/media/svg/icons/General/Search.svg'" cacheSVG="true"
+            class="svg-icon svg-icon-xl"></span>
+        </a>
+      </li> -->
+
+      <li class="nav-item mb-3" placement="right" ngbTooltip="Dashboard" ngbTooltipClass="tooltip" container="body">
+        <a class="nav-link btn btn-icon btn-clean btn-lg" routerLink="/dashboard" data-toggle="tab"
+          data-target="#kt_aside_tab_4" role="tab">
+          <span [inlineSVG]="'./assets/media/svg/icons/Design/Layers.svg'" cacheSVG="true"
+            class="svg-icon svg-icon-xl colorize-yellow"></span>
+        </a>
+      </li>
+
+      <li class="nav-item mb-3" placement="right" ngbTooltip="Inventory" container="body"
+        (click)="onTabChange('Inventory')" [ngClass]="currentlySelectedTab ==='Inventory'? 'activeClass':''">
+        <a class="nav-link btn btn-icon btn-clean btn-lg" (click)="setTab(TABS[2])" data-toggle="tab"
+          data-target="#kt_aside_tab_2" role="tab">
+          <span [inlineSVG]="'./assets/media/svg/icons/Shopping/Bag1.svg'" cacheSVG="true"
+            class="svg-icon svg-icon-xl colorize-red"></span>
+        </a>
+      </li>
+
+      <li class="nav-item mb-3" placement="right" ngbTooltip="Sales" container="body" (click)="onTabChange('Sales')"
+        [ngClass]=" currentlySelectedTab ==='Sales'? 'activeClass':''">
+        <a class="nav-link btn btn-icon btn-clean btn-lg" (click)="setTab(TABS[2])" data-toggle="tab"
+          data-target="#kt_aside_tab_2" role="tab">
+          <span [inlineSVG]="'./assets/media/svg/icons/Clothes/Briefcase.svg'" cacheSVG="true"
+            class="svg-icon svg-icon-xl colorize-yellow"></span>
+        </a>
+      </li>
+
+    </ul>
+
+  </div>
+
+  <app-topbar class="aside-footer d-flex flex-column align-items-center flex-column-auto py-4 py-lg-10"></app-topbar>
+
+</div>
+<ng-container *ngIf="disableAsideSecondaryDisplay">
+
+  <div class="aside-secondary d-flex flex-row-fluid">
+
+    <div class="aside-workspace scroll scroll-push my-2">
+
+      <div class="tab-content">
+
+        <div class="tab-pane fade" id="kt_aside_tab_1" [ngClass]="{ 'show active': activeTabId === TABS[1] }">
+          <app-aside-search class="aside-menu-wrapper flex-column-fluid" id="kt_aside_menu_wrapper"></app-aside-search>
+        </div>
+
+        <!-- <div class="tab-pane fade" id="kt_aside_tab_3" [ngClass]="{ 'show active': activeTabId === TABS[3] }">
+          <app-fpo class="aside-menu-wrapper flex-column-fluid" id="kt_aside_menu_wrapper">
+          </app-fpo>
+        </div> -->
+
+
+        <div class="tab-pane fade" id="kt_aside_tab_2" [ngClass]="{ 'show active': activeTabId === TABS[2] }">
+          <ng-container *ngIf="asideMenuStatic">
+
+            <app-aside-static class="aside-menu-wrapper flex-column-fluid" id="kt_aside_menu_wrapper">
+            </app-aside-static>
+
+          </ng-container>
+          <ng-container *ngIf="!asideMenuStatic">
+
+            <app-aside-dynamic class="aside-menu-wrapper flex-column-fluid" id="kt_aside_menu_wrapper">
+            </app-aside-dynamic>
+
+            <!-- <app-aside-search class="aside-menu-wrapper flex-column-fluid" id="kt_aside_menu_wrapper">
+            </app-aside-search> -->
+          </ng-container>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</ng-container>

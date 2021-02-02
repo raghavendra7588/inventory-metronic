@@ -1,0 +1,189 @@
+<div class="container">
+    <div class="row">
+        <div class="col-6 col-sm-6 col-md-2 col-lg-2 col-xl-2">
+            <mat-form-field style="width: 100% !important;">
+                <mat-select id="vendor_List" placeholder="Vendor List" [(ngModel)]="vendorDetails">
+                    <mat-option *ngFor="let item of vendorData;" [value]="item.vendorId"
+                        (click)="selectedVendorFromList(item)">
+                        {{item.name}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+
+
+        </div>
+
+        <div class="col-6 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+
+            <mat-form-field style="width: 100%;">
+                <mat-label>Category</mat-label>
+                <mat-select placeholder="Category" [(ngModel)]="categoryList">
+                    <mat-select-filter [placeholder]="'Filter'" [displayMember]="'name'" [array]="categorySearch"
+                        (filteredReturn)="particularCategoryArray=$event"></mat-select-filter>
+                    <mat-option (onSelectionChange)="onCategoriesChange($event,category)"
+                        *ngFor="let category of particularCategoryArray" [value]="category.id">
+                        {{category.name }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <div class="col-6 col-sm-6 col-md-4 col-lg-4 col-xl-4">
+
+
+            <mat-form-field style="width: 100%;">
+                <mat-label>Sub Category</mat-label>
+                <mat-select #select [(ngModel)]="subCategoriesList">
+                    <mat-select-filter [placeholder]="'Filter'" [displayMember]="'name'" [array]="subCategorySearch"
+                        (filteredReturn)="multipleCategoriesArray=$event"></mat-select-filter>
+
+                    <mat-option (onSelectionChange)="onSubCategoriesChange($event,category)"
+                        *ngFor="let category of multipleCategoriesArray" [value]="category.id">
+                        {{category.name }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+
+
+        </div>
+
+        <div class="col-6 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+
+            <mat-form-field style="width: 100%;">
+                <mat-label>Brand</mat-label>
+                <mat-select #BrandSelect [(ngModel)]="brandList">
+                    <mat-select-filter [placeholder]="'Filter'" [displayMember]="'BrandName'" [array]="brandSearch"
+                        (filteredReturn)="anyArray=$event"></mat-select-filter>
+
+                    <mat-option (onSelectionChange)="onProductChange($event,brand)" *ngFor="let brand of anyArray"
+                        [value]="brand.BrandName">
+                        {{brand.BrandName}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+        </div>
+
+    </div>
+    <div class="row mt-3">
+        <div class="col-6 col-sm-6 col-md-9 col-lg-9 col-xl-9">
+            <mat-form-field style="width: 100%;">
+                <mat-label>Filter</mat-label>
+                <input matInput (keyup)="applyFilter($event.target.value)">
+            </mat-form-field>
+        </div>
+        <div class="col-6 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+
+            <button style="color:white" mat-raised-button [disabled]="updateAllRecordsCount===0"
+                [ngClass]="updateAllRecordsCount===0 ? 'opacity' : 'noOpacity'" (click)="logSelection()"
+                class="width-100 mt-2 save-button"><span style="color:white">Update All</span>
+                (<span style="color:white">{{updateAllRecordsCount === 0 ? 0 : updateAllRecordsCount}}</span>)</button>
+            <!-- <a class="btn btn-primary btn-fixed-height font-weight-bold px-2 px-lg-5 mr-2"
+                [disabled]="updateAllRecordsCount===0" (click)="logSelection()">
+                <span [inlineSVG]="'./assets/media/svg/icons/Navigation/Check.svg'" cacheSVG="true"
+                    class="svg-icon svg-icon-lg"></span>
+                Update All (<span class="d-none d-md-inline">{{updateAllRecordsCount === 0 ? 0 :
+                    updateAllRecordsCount}}</span>)
+
+            </a> -->
+        </div>
+
+    </div>
+</div>
+
+
+<div class="container my-5">
+    <div class="row">
+        <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 mb-3">
+
+            <table mat-table [dataSource]="dataSource" class="custom-table">
+                <ng-container matColumnDef="select">
+                    <th mat-header-cell *matHeaderCellDef style="width: 20px;">
+                        <mat-checkbox (change)="$event ? masterToggle() : null"
+                            [checked]="selection.hasValue() && isAllSelected()"
+                            [indeterminate]="selection.hasValue() && !isAllSelected()">
+                        </mat-checkbox>
+                    </th>
+                    <td mat-cell *matCellDef="let row">
+                        <mat-checkbox (click)="$event.stopPropagation()"
+                            (change)="$event ? [selection.toggle(row),onChange($event)] : null"
+                            [checked]="selection.isSelected(row)">
+                        </mat-checkbox>
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="productId">
+                    <th mat-header-cell *matHeaderCellDef>ID</th>
+                    <td mat-cell *matCellDef="let element">{{element.ProductID}}</td>
+                </ng-container>
+                <ng-container matColumnDef="brandName">
+                    <th mat-header-cell *matHeaderCellDef>Brand</th>
+                    <td mat-cell *matCellDef="let element">{{element.BrandName}}</td>
+                </ng-container>
+                <ng-container matColumnDef="productName">
+                    <th mat-header-cell *matHeaderCellDef>Product</th>
+                    <td mat-cell *matCellDef="let element">{{element.Name}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="quantity">
+                    <th mat-header-cell *matHeaderCellDef>Quant</th>
+                    <td mat-cell *matCellDef="let element">{{element.Quantity}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="actualPrice">
+                    <th mat-header-cell *matHeaderCellDef>Buying Price</th>
+                    <td mat-cell *matCellDef="let element; let i = index">
+                        <mat-form-field floatLabel="never" style="width:40px;">
+                            <input matInput placeholder="amount" [(ngModel)]="element.ProductPrice">
+                        </mat-form-field>
+
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="discount">
+                    <th mat-header-cell *matHeaderCellDef>Disc</th>
+                    <td mat-cell *matCellDef="let element">
+                        <mat-form-field floatLabel="never" style="width:40px;">
+                            <input matInput placeholder="amount" [(ngModel)]="element.Discount">
+                        </mat-form-field>
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="finalPrice">
+                    <th mat-header-cell *matHeaderCellDef>Final Price</th>
+                    <td mat-cell *matCellDef="let element">
+                        <mat-form-field floatLabel="never" style="width:40px;">
+                            <input matInput placeholder="amount" [(ngModel)]="element.FinalPrice">
+                        </mat-form-field>
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="availableQuantity">
+                    <th mat-header-cell *matHeaderCellDef>Available Quant</th>
+                    <td mat-cell *matCellDef="let element">{{element.AvailableQuantity}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="save">
+                    <th mat-header-cell *matHeaderCellDef>Save</th>
+                    <td mat-cell *matCellDef="let element;let i=index">
+                        <button mat-icon-button (click)="editPriceList(element)">
+                            <!-- <span [disabled]="!i"> -->
+                            <mat-icon>save</mat-icon>
+                            <!-- </span> -->
+                        </button>
+                    </td>
+                </ng-container>
+
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row [ngClass]="{'make-gold': row.ProductPrice > 0}"
+                    *matRowDef="let row; columns: displayedColumns;">
+                </tr>
+            </table>
+
+            <mat-paginator [pageSizeOptions]="[25,50,100]" showFirstLastButtons></mat-paginator>
+        </div>
+    </div>
+</div>
+
+<ngx-spinner></ngx-spinner>
