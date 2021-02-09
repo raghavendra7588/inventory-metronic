@@ -1,0 +1,110 @@
+<div class="container-fluid">
+
+    <div class="row">
+        <div class="col-md-3 col-6 col-sm-3 col-xl-3">
+            <mat-form-field style="width: 100% !important">
+                <mat-select placeholder="Seller">
+
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <div class="col-md-3 col-6 col-sm-3 col-xl-3">
+
+            <mat-form-field style="width: 100% !important">
+                <mat-select placeholder="Category">
+
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <div class="col-md-3 col-6 col-sm-3 col-xl-3">
+            <mat-form-field style="width: 100% !important">
+                <mat-select placeholder="Sub Category">
+
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <div class="col-md-3 col-6 col-sm-3 col-xl-3">
+            <mat-form-field style="width: 100% !important">
+                <mat-select placeholder="Brand">
+
+                </mat-select>
+            </mat-form-field>
+        </div>
+
+    </div>
+
+    <div class="row">
+        <div class="col-md-12 col-12 col-sm-12 col-xl-12">
+            <mat-form-field style="width: 100%;">
+                <mat-label>Search</mat-label>
+                <input matInput (keyup)="applyFilter($event.target.value)">
+            </mat-form-field>
+        </div>
+      
+   
+    </div>
+
+    <div class="row">
+        <div class="col-md-12 col-12 col-sm-12 col-xl-12 my-2">
+            <table mat-table [dataSource]="dataSource" class="custom-table">
+
+                <ng-container matColumnDef="id">
+                    <th mat-header-cell *matHeaderCellDef>ID</th>
+                    <td mat-cell *matCellDef="let element">{{element.name}}</td>
+                </ng-container>
+                <ng-container matColumnDef="brand">
+                    <th mat-header-cell *matHeaderCellDef>Brand</th>
+                    <td mat-cell *matCellDef="let element">{{element.name}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="product">
+                    <th mat-header-cell *matHeaderCellDef>Product</th>
+                    <td mat-cell *matCellDef="let element">{{element.name}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="quantity">
+                    <th mat-header-cell *matHeaderCellDef>Quantity</th>
+                    <td mat-cell *matCellDef="let element">{{element.name}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="price">
+                    <th mat-header-cell *matHeaderCellDef>Price</th>
+                    <td mat-cell *matCellDef="let element">
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="discount">
+                    <th mat-header-cell *matHeaderCellDef>Discount</th>
+                    <td mat-cell *matCellDef="let element">
+                    
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="finalPrice">
+                    <th mat-header-cell *matHeaderCellDef>Final Price</th>
+                    <td mat-cell *matCellDef="let element">
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="outOfStockMsg">
+                    <th mat-header-cell *matHeaderCellDef>Out Of Stock Msg</th>
+                    <td mat-cell *matCellDef="let element">
+                    
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="isOutOfStock">
+                    <th mat-header-cell *matHeaderCellDef>is Out Of Stock</th>
+                    <td mat-cell *matCellDef="let element">
+                    </td>
+                </ng-container>
+
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+
+            <mat-paginator [pageSizeOptions]="[25,50,100]" showFirstLastButtons></mat-paginator>
+        </div>
+    </div>
+</div>

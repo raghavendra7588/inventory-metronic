@@ -21,7 +21,7 @@ export class PurchaseService {
   allvendorData: any = [];
   allBrandData: any = [];
 
-
+  private GET_CATEGORIES_DATA = environment.ADMIN_BASE_URL + '/ProductSellerMapping/getalledit';
   private GET_ALL_ADDRESSS_DATA = environment.BASE_URL + 'api/Address';
   private SAVE_VENDOR_MASTER = environment.BASE_URL + 'api/Vendor';
   private GET_SUBCATEGORIES = environment.ADMIN_BASE_URL + 'Category/getall';
@@ -55,9 +55,19 @@ export class PurchaseService {
     this.storageSellerId = Number(sessionStorage.getItem('sellerId'));
   }
 
+  getAllCategories(SellerId) {
+    let data = { CategoryId: '0', SellerId: SellerId, SubCategoryId: '0' };
+    let reqHeader = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + this.token
+    });
+
+    return this.http.post(this.GET_CATEGORIES_DATA, data, { headers: reqHeader });
+  }
+
   getAllSubCategories(parentid) {
     const data = { 'parentid': parentid }
-    var reqHeader = new HttpHeaders({
+    let reqHeader = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': 'Bearer ' + this.token
     });
@@ -68,7 +78,7 @@ export class PurchaseService {
 
   getAllBrand(parenetid: any, SubCategoryId: string) {
     const data = { "SellerId": this.sellerId, "CategoryId": parenetid, "SubCategoryId": SubCategoryId }
-    var reqHeader = new HttpHeaders({
+    let reqHeader = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': 'Bearer ' + this.token
     });
@@ -77,7 +87,7 @@ export class PurchaseService {
 
   getEveryBrand() {
     const data = { "SellerId": this.sellerId, "CategoryId": "0", "SubCategoryId": "0" }
-    var reqHeader = new HttpHeaders({
+    let reqHeader = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': 'Bearer ' + this.token
     });
@@ -86,7 +96,7 @@ export class PurchaseService {
 
   getEachBrand(categoryId, subcategoryId) {
     const data = { "SellerId": this.sellerId, "CategoryId": categoryId, "SubCategoryId": subcategoryId }
-    var reqHeader = new HttpHeaders({
+    let reqHeader = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': 'Bearer ' + this.token
     });

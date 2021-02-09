@@ -1,0 +1,126 @@
+<form [formGroup]="editUserForm">
+
+    <div class="container-fluid">
+        <h3 class="text-center font-weight-bold theme-color">{{salesService.currentTab}}</h3>
+        <div class="row my-2">
+
+            <div class="col-md-12 col-sm-12 col-12 col-xl-12">
+                <mat-form-field style="width: 100%;">
+                    <input matInput placeholder="Name" formControlName="name" [(ngModel)]="editUser.name">
+                    <mat-error
+                        *ngIf="editUserForm.controls.mobilenumber.touched && editUserForm.controls.mobilenumber.invalid">
+                        <span *ngIf="editUserForm.controls.mobilenumber.errors.required">Name is
+                            mandatory.</span>
+                    </mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+
+        <div class="row my-2">
+
+
+            <div class="col-md-4 col-sm-4 col-4 col-xl-4">
+                <mat-form-field style="width: 100%;">
+                    <input matInput placeholder="Email ID" formControlName="emailid" [(ngModel)]="editUser.emailid">
+                </mat-form-field>
+            </div>
+
+            <div class="col-md-4 col-sm-4 col-4 col-xl-4">
+                <mat-form-field style="width: 100%;">
+                    <input matInput placeholder="Mobile Number" [maxLength]="maxLengthPhone"
+                        formControlName="mobilenumber" [(ngModel)]="editUser.mobilenumber" appNumber>
+                    <mat-error
+                        *ngIf="editUserForm.controls.mobilenumber.touched && editUserForm.controls.mobilenumber.invalid">
+                        <span *ngIf="editUserForm.controls.mobilenumber.errors.required">Mobile Number is
+                            mandatory.</span>
+                    </mat-error>
+                </mat-form-field>
+            </div>
+
+            <div class="col-md-4 col-sm-4 col-4 col-xl-4">
+                <!-- <mat-form-field style="width: 100%;">
+                    <input matInput placeholder="Password" formControlName="password" [(ngModel)]="editUser.password">
+                    <mat-error
+                        *ngIf="editUserForm.controls.mobilenumber.touched && editUserForm.controls.mobilenumber.invalid">
+                        <span *ngIf="editUserForm.controls.mobilenumber.errors.required">Password is
+                            mandatory.</span>
+                    </mat-error>
+                </mat-form-field> -->
+
+                <mat-form-field style="width: 100%;">
+
+                    <input matInput [type]="hide ? 'password' : 'text'" placeholder="Password"
+                        formControlName="password" [(ngModel)]="editUser.password">
+                    <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+                        [attr.aria-pressed]="hide">
+                        <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                    </button>
+                    <mat-error
+                        *ngIf="editUserForm.controls.mobilenumber.touched && editUserForm.controls.mobilenumber.invalid">
+                        <span *ngIf="editUserForm.controls.mobilenumber.errors.required">Password is
+                            mandatory.</span>
+                    </mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+
+
+
+        <div class="row my-2">
+            <div class="col-md-12 col-sm-12 col-12 col-xl-12">
+                <mat-form-field style="width: 100%;">
+                    <input matInput placeholder="Address" formControlName="address" [(ngModel)]="editUser.address">
+                    <mat-error
+                        *ngIf="editUserForm.controls.mobilenumber.touched && editUserForm.controls.mobilenumber.invalid">
+                        <span *ngIf="editUserForm.controls.mobilenumber.errors.required">Address is
+                            mandatory.</span>
+                    </mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+
+
+        <div class="row my-2">
+
+            <div class="col-md-4 col-sm-4 col-4 col-xl-4">
+                <mat-form-field style="width: 100%;">
+                    <input matInput placeholder="Pin Code" formControlName="pincode" [maxLength]="maxLengthPinCode"
+                        [(ngModel)]="editUser.pincode" appNumber>
+                    <mat-error
+                        *ngIf="editUserForm.controls.mobilenumber.touched && editUserForm.controls.mobilenumber.invalid">
+                        <span *ngIf="editUserForm.controls.mobilenumber.errors.required">Pin Code is
+                            mandatory.</span>
+                    </mat-error>
+                </mat-form-field>
+            </div>
+
+            <div class="col-md-4 col-sm-4 col-4 col-xl-4">
+                <mat-form-field style="width: 100%;">
+                    <input matInput placeholder="State" formControlName="state" [(ngModel)]="editUser.state">
+                    <mat-error
+                        *ngIf="editUserForm.controls.mobilenumber.touched && editUserForm.controls.mobilenumber.invalid">
+                        <span *ngIf="editUserForm.controls.mobilenumber.errors.required">State is
+                            mandatory.</span>
+                    </mat-error>
+                </mat-form-field>
+            </div>
+
+            <div class="col-md-4 col-sm-4 col-4 col-xl-4">
+                <mat-form-field style="width: 100%;">
+                    <input matInput placeholder="City" formControlName="city" [(ngModel)]="editUser.city">
+                </mat-form-field>
+            </div>
+        </div>
+        <div mat-dialog-actions>
+            <button mat-raised-button [ngClass]="!editUserForm.valid? 'opacity' : 'noOpacity'" class="save-button"
+                [disabled]="!editUserForm.valid" (click)="onSubmit()"><span class="custom-text-color">Save</span></button>
+            <button mat-raised-button mat-dialog-close color="warn">Delete</button>
+            <button mat-raised-button mat-dialog-close>Close</button>
+        </div>
+    </div>
+
+
+</form>
+
+<ngx-spinner>
+</ngx-spinner>

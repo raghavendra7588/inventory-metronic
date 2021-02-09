@@ -36,8 +36,7 @@ export class DialogContentVendorComponent implements OnInit {
   brandSettings = {};
 
 
-
-
+  allCategoryData: any = [];
   documents: any;
   labelPosition: 'before' = 'before';
   selectedTerm: any;
@@ -145,6 +144,7 @@ export class DialogContentVendorComponent implements OnInit {
     let sortedData = this.sortArrayInAscendingOrder(this.loginService.seller_object.categories);
     this.loginService.seller_object.categories = [];
     this.loginService.seller_object.categories = sortedData;
+    // this.getAllCategoryData();
     this.vendorData = data;
     this.categorySettings = {
       singleSelection: false,
@@ -177,16 +177,12 @@ export class DialogContentVendorComponent implements OnInit {
     this.vendor.code = 'GVV';
     if (this.vendorData) {
 
-      // console.log('inside edit mode ', this.vendorData);
+
       this.vendor.code = this.vendorData.code;
       this.isImageUploaded = true;
       this.prevBrand = this.vendorData.brand;
       this.prevSubCategory = this.vendorData.subCategory
       this.prevCategory = this.vendorData.category;
-      // console.log('prev sub cat', this.prevSubCategory);
-      // console.log('prev cat', this.prevCategory);
-      // console.log('prev brand', this.prevBrand);
-
 
     }
 
@@ -259,6 +255,16 @@ export class DialogContentVendorComponent implements OnInit {
 
   }
 
+  getAllCategoryData() {
+    this.spinner.show();
+    this.purchaseService.getAllCategories(this.strSellerId).subscribe(res => {
+      this.allCategoryData = res;
+      let sortedData = this.sortArrayInAscendingOrder(this.allCategoryData);
+      this.loginService.seller_object.categories = [];
+      this.loginService.seller_object.categories = sortedData;
+      this.spinner.hide();
+    });
+  }
 
   selectedBillingAddress(event, adr) {
     this.currentBillingId = adr.id.toString();
@@ -270,7 +276,6 @@ export class DialogContentVendorComponent implements OnInit {
 
 
   copyVendorName(event) {
-    // console.log('event', event);
     this.vendor.printName = event;
   }
 
@@ -284,17 +289,17 @@ export class DialogContentVendorComponent implements OnInit {
       this.anyArray = this.sortUniqueBrandName(uniqueBrandName);
 
     },
-    err => {
-      this.toastr.error('An Error Occured !!');
-    });
+      err => {
+        this.toastr.error('An Error Occured !!');
+      });
 
   }
 
   onCategorySelectAllList(event) {
-    // console.log('select all', event);
+
   }
   onCategoryDeSelectAll(event) {
-    // console.log('disselect all', event);
+
   }
 
   onSubCategorySelectAll() {
@@ -305,9 +310,9 @@ export class DialogContentVendorComponent implements OnInit {
       let uniqueBrands = this.createUniqueBrandName(this.AllSubCategoryArray);
       this.anyArray = this.sortUniqueBrandName(uniqueBrands);
     },
-    err => {
-      this.toastr.error('An Error Occured !!');
-    });
+      err => {
+        this.toastr.error('An Error Occured !!');
+      });
   }
 
   onBrandSelectAll() {
@@ -318,7 +323,7 @@ export class DialogContentVendorComponent implements OnInit {
   onCategorySelect(event) {
 
     this.selectedCategoryIdArray.push(event.id);
-    // console.log('selectedCategoryIdArray', this.selectedCategoryIdArray);
+
     this.purchaseService.getAllSubCategories(event.id).subscribe(data => {
 
       if (this.multipleCategoriesArray.length === 0) {
@@ -336,9 +341,9 @@ export class DialogContentVendorComponent implements OnInit {
         this.multipleCategoriesArray = sortedSubCategory;
       }
     },
-    err => {
-      this.toastr.error('An Error Occured !!');
-    });
+      err => {
+        this.toastr.error('An Error Occured !!');
+      });
 
 
 
@@ -357,14 +362,14 @@ export class DialogContentVendorComponent implements OnInit {
       this.anyArray = [];
       this.selectedSubCategoryIdArray = [];
       this.selectedBrandIdArray = [];
-      // this.dataSource = [];
+
     }
 
     const index = this.selectedCategoryIdArray.indexOf(event.id);
     if (index > -1) {
       this.selectedCategoryIdArray.splice(index, 1);
     }
-    // console.log('removed  this.selectedCategoryIdArray', this.selectedCategoryIdArray);
+
   }
 
 
@@ -373,7 +378,7 @@ export class DialogContentVendorComponent implements OnInit {
   onSubCategorySelect(event, data) {
 
     this.selectedSubCategoryIdArray.push(event.id);
-    // console.log('selectedSubCategoryIdArray', this.selectedSubCategoryIdArray);
+
 
     this.purchaseService.getAllBrand(data[0].parentid, event.id).subscribe(data => {
       if (this.multipleBrandArray.length === 0) {
@@ -388,9 +393,9 @@ export class DialogContentVendorComponent implements OnInit {
       this.anyArray = this.sortUniqueBrandName(this.uniqueBrandNamesArray);
       this.subCategoryNamesArray = this.multipleBrandArray;
     },
-    err => {
-      this.toastr.error('An Error Occured !!');
-    });
+      err => {
+        this.toastr.error('An Error Occured !!');
+      });
   }
 
   onSubCategoryDeSelect(event) {
@@ -403,7 +408,7 @@ export class DialogContentVendorComponent implements OnInit {
     if (subCategoryIndex > -1) {
       this.selectedSubCategoryIdArray.splice(subCategoryIndex, 1);
     }
-    // console.log('removed selectedSubCategoryIdArray', this.selectedSubCategoryIdArray);
+
     if (this.multipleCategoriesArray.length === 0) {
       this.anyArray = [];
     }
@@ -414,7 +419,7 @@ export class DialogContentVendorComponent implements OnInit {
   onBrandSelect(event) {
 
     this.selectedBrandIdArray.push(event.BrandID);
-    // console.log('selectedBrandIdArray', this.selectedBrandIdArray);
+
 
     if (this.finalBrandArray.length === 0) {
       let filteredBrandArray = this.multipleBrandArray.filter(function (item) {
@@ -448,7 +453,7 @@ export class DialogContentVendorComponent implements OnInit {
       this.selectedBrandIdArray.splice(brandIndex, 1);
 
     }
-    // console.log('remove selectedBrandIdArray', this.selectedBrandIdArray);
+
 
   }
 
@@ -456,10 +461,10 @@ export class DialogContentVendorComponent implements OnInit {
   onCategoriesChange(event, category: any) {
 
     this.categoryId = category.id;
-    // this.selectedCategoryIdArray = [];
+
     this.selectedCategoryIdArray.push(category.id);
 
-    // console.log('selectedCategoryIdArray', this.selectedCategoryIdArray);
+
 
     if (event.isUserInput) {
       if (event.source.selected) {
@@ -477,9 +482,9 @@ export class DialogContentVendorComponent implements OnInit {
           }
           this.spinner.hide();
         },
-        err => {
-          this.toastr.error('An Error Occured !!');
-        });
+          err => {
+            this.toastr.error('An Error Occured !!');
+          });
 
       }
     }
@@ -490,25 +495,24 @@ export class DialogContentVendorComponent implements OnInit {
 
         return Number(item.parentid) !== Number(category.id);
       });
-      // console.log('after unselect cat', newCategoriesArr);
+
       this.multipleCategoriesArray = newCategoriesArr;
       const index = this.categoriesArray.indexOf(category.id);
       if (index > -1) {
         this.categoriesArray.splice(index, 1);
       }
-      // console.log('before removed  this.selectedCategoryIdArray', this.selectedCategoryIdArray);
+
 
       let uniqueCategoryIdArray = [...new Set(this.selectedCategoryIdArray)];
 
-      // console.log('extracted index to be deleted', category.id);
+
       const indexx = uniqueCategoryIdArray.indexOf(category.id);
-      // console.log('extracted index', indexx);
+
       if (indexx > -1) {
         uniqueCategoryIdArray.splice(indexx, 1);
       }
 
       this.selectedCategoryIdArray = uniqueCategoryIdArray;
-      // console.log('removed  this.selectedCategoryIdArray', this.selectedCategoryIdArray);
 
 
     }
@@ -518,10 +522,9 @@ export class DialogContentVendorComponent implements OnInit {
     if (event.isUserInput) {
       if (event.source.selected) {
 
-        // this.selectedSubCategoryIdArray = [];
+
         this.selectedSubCategoryIdArray.push(subCategory.id);
-        // console.log('cate called ', this.selectedSubCategoryIdArray);
-        // this.spinner.show();
+
         this.purchaseService.getAllBrand(subCategory.parentid, subCategory.id).subscribe(data => {
           if (this.multipleBrandArray.length < 2 && this.array3 < 1) {
             this.multipleBrandArray = data;
@@ -534,11 +537,11 @@ export class DialogContentVendorComponent implements OnInit {
           this.uniqueBrandNamesArray = this.createUniqueBrandName(this.multipleBrandArray);
           this.anyArray = this.sortUniqueBrandName(this.uniqueBrandNamesArray);
           this.subCategoryNamesArray = this.multipleBrandArray;
-          // this.spinner.hide();
+
         },
-        err => {
-          this.toastr.error('An Error Occured !!');
-        });
+          err => {
+            this.toastr.error('An Error Occured !!');
+          });
       }
     }
     if (!event.source.selected) {
@@ -558,15 +561,15 @@ export class DialogContentVendorComponent implements OnInit {
 
       let uniqueSubCategoryIdArray = [...new Set(this.selectedSubCategoryIdArray)];
 
-      // console.log('extracted index to be deleted', subCategory.id);
+
       const indexx = uniqueSubCategoryIdArray.indexOf(subCategory.id);
-      // console.log('extracted index', indexx);
+
       if (indexx > -1) {
         uniqueSubCategoryIdArray.splice(indexx, 1);
       }
 
       this.selectedSubCategoryIdArray = uniqueSubCategoryIdArray;
-      // console.log('removed  this.selectedSubCategoryIdArray', this.selectedSubCategoryIdArray);
+
     }
   }
 
@@ -576,9 +579,9 @@ export class DialogContentVendorComponent implements OnInit {
     if (event.isUserInput) {
       if (event.source.selected) {
 
-        // this.spinner.show();
+
         this.selectedBrandIdArray.push(product.BrandID);
-        // console.log('selectedBrandIdArray', this.selectedBrandIdArray);
+
         if (this.finalBrandArray.length === 0) {
           let filteredBrandArray = this.multipleBrandArray.filter(function (item) {
             return item.BrandName.trim() === product.BrandName
@@ -595,11 +598,10 @@ export class DialogContentVendorComponent implements OnInit {
           this.brands3 = [...this.finalBrandArray, ...this.brands2];
           this.finalBrandArray = this.brands3;
         }
-        // this.spinner.hide();
+
       }
       if (!event.source.selected) {
-        // console.log('product unselect', product);
-        // console.log('final brand array', this.finalBrandArray);
+
 
         var tempArr = this.finalBrandArray.filter(function (item) {
           return item.BrandName.trim() != product.BrandName;
@@ -613,15 +615,15 @@ export class DialogContentVendorComponent implements OnInit {
 
         let uniqueBrandIdArray = [...new Set(this.selectedBrandIdArray)];
 
-        // console.log('extracted index to be deleted', product.BrandID);
+
         const indexx = uniqueBrandIdArray.indexOf(product.BrandID);
-        // console.log('extracted index', indexx);
+
         if (indexx > -1) {
           uniqueBrandIdArray.splice(indexx, 1);
         }
 
         this.selectedBrandIdArray = uniqueBrandIdArray;
-        // console.log('removed  this.selectedCategoryIdArray', this.selectedBrandIdArray);
+
       }
     }
   }
@@ -640,25 +642,25 @@ export class DialogContentVendorComponent implements OnInit {
   }
 
   selectedSubCategory() {
-    // console.log(this.vendor.subCategory);
+
   }
 
 
   onBrandChange() {
-    // console.log('inside brand');
+
   }
 
   selectePaymentTerm() {
-    // console.log(this.vendor.paymentTerm);
+
 
   }
 
   selectePriceCategory() {
-    // console.log(this.vendor.priceCategory);
+
   }
 
   selectedTransporterDetail() {
-    // console.log(this.vendor.transporter);
+
   }
 
 
@@ -1040,14 +1042,7 @@ export class DialogContentVendorComponent implements OnInit {
       this.vendor.contactPerson = this.vendorData.contactPerson;
       this.vendor.printName = this.vendorData.printName;
       this.vendor.gst = this.vendorData.gst;
-      // this.vendor.category = this.vendorData.category;
-      // this.vendor.subCategory = this.vendorData.subCategory;
-      // this.purchaseService.allBrandData.filter(data => {
-      //   if (Number(data.BrandID) === Number(this.vendorData.brand) && Number(data.SubCategoryID) === Number(this.vendorData.subCategory)) {
 
-      //     this.vendor.brand = data.BrandName;
-      //   }
-      // });
 
       this.vendor.brand = this.vendorData.brand;
       this.vendor.gstCategory = this.vendorData.gstCategory;
@@ -1090,27 +1085,27 @@ export class DialogContentVendorComponent implements OnInit {
     this.purchaseService.getAddressData().subscribe(data => {
       this.getAddressData = data;
     },
-    err => {
-      this.toastr.error('An Error Occured !!');
-    });
+      err => {
+        this.toastr.error('An Error Occured !!');
+      });
   }
 
   getMasterBrandData() {
     this.purchaseService.getEveryBrand().subscribe(data => {
       this.masterBrandData = data;
     },
-    err => {
-      this.toastr.error('An Error Occured !!');
-    });
+      err => {
+        this.toastr.error('An Error Occured !!');
+      });
   }
 
   getVendorData() {
     this.purchaseService.getAllVendorData(this.strSellerId).subscribe(data => {
       this.vendorDetails = data;
     },
-    err => {
-      this.toastr.error('An Error Occured !!');
-    });
+      err => {
+        this.toastr.error('An Error Occured !!');
+      });
   }
 
   createUniqueBrandName(array: any) {
@@ -1136,36 +1131,6 @@ export class DialogContentVendorComponent implements OnInit {
     });
     return array;
   }
-
-
-  // mapObj(apiData, ownDbData) {
-  //   for (let i = 0; i < apiData.length; i++) {
-  //     apiData[i].ProductPrice = 0;
-  //     apiData[i].Discount = 0;
-  //     apiData[i].FinalPrice = 0;
-  //     for (let j = 0; j < ownDbData.length; j++) {
-  //       if (apiData[i].ProductID === ownDbData[j].ProductId && apiData[i].ProductVarientId === ownDbData[j].ProductVarientId) {
-  //         apiData[i].ProductPrice = ownDbData[j].BuyingPrice;
-  //         apiData[i].Discount = ownDbData[j].Discount;
-  //         apiData[i].FinalPrice = ownDbData[j].FinalPrice;
-  //       }
-  //     }
-  //   }
-  //   return apiData;
-  // }
-
-  // createUniqueBrandName(array: any) {
-  //   let sortedArray: Array<any> = [];
-  //   for (let i = 0; i < array.length; i++) {
-  //     if ((sortedArray.findIndex(p => p.BrandName.trim() == array[i].BrandName.trim())) == -1) {
-  //       var item = { BrandName: array[i].BrandName.trim(), SubCategoryID: array[i].SubCategoryID, BrandID: array[i].BrandID }
-  //       sortedArray.push(item);
-  //     }
-  //   }
-  //   return sortedArray;
-  // }
-
-
 
   ngOnDestroy() {
     this.isImageUploaded = false;

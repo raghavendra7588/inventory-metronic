@@ -1,0 +1,33 @@
+<div class="card card" style="max-width: 500px !important;height: 355px;background-color: #f3f6f9;border: 1px solid white">
+    <div class="container-fluid">
+        <h2 class="text-center theme-color font-wight-bold my-4">Download / Upload Product Seller Mapping</h2>
+        <div class="row parent">
+            <div class="col-md-12 col-12 col-sm-12 col-xl-12 my-2">
+                <mat-form-field style="width: 100% !important">
+                    <mat-select placeholder="Download Type">
+
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="col-md-12 col-12 col-sm-12 col-xl-12 mt-2">
+
+                <mat-form-field style="width: 100% !important">
+                    <mat-select placeholder="Seller Name">
+
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="col-md-12 col-12 col-sm-12 col-xl-12 my-2">
+                <button mat-raised-button class="width-100 mt-2 save-button"><span style="color:white">
+                        Download</span></button>
+            </div>
+            <div class="col-md-12 col-12 col-sm-12 col-xl-12 mt-3">
+                <input type="file" id="file" (change)="selectFile($event)" class="width-100">
+            </div>
+            <div class="col-md-12 col-12 col-sm-12 col-xl-12 my-2">
+                <button mat-raised-button class="width-100 mt-2 save-button"><span style="color:white">
+                        Update</span></button>
+            </div>
+        </div>
+    </div>
+</div>

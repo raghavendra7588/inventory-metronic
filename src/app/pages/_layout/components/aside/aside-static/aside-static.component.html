@@ -163,403 +163,407 @@
     </ng-container>
 
     <ng-container *ngIf="currentlySelectedTab==='Sales'">
-   
-  
-  
-        <li class="menu-section">
-          <h4 class="menu-text theme-color">Sales Part</h4>
-          <i class="menu-icon flaticon-more-v2"></i>
-        </li>
-    
-        <li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover"
-          routerLinkActive="menu-item-open" *ngIf="role==='Admin' || role==='Seller' ||role==='Sales'||role==='Partner'">
-          <a class="menu-link menu-toggle" routerLinkActive="active">
-            <span [inlineSVG]="'./assets/media/svg/icons/General/User.svg'" cacheSVG="true"
-              class="svg-icon menu-icon colorize-ornage"></span>
-            <span class="menu-text">User</span>
-            <i class="menu-arrow"></i>
-          </a>
-          <div class="menu-submenu">
-            <i class="menu-arrow"></i>
-            <ul class="menu-subnav">
-              <li class="menu-item menu-item-parent" aria-haspopup="true">
-                <span class="menu-link">
-                  <span class="menu-text">User</span>
-                </span>
-              </li>
-    
-              <li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover"
-                routerLinkActive="menu-item-open" *ngIf="role==='Admin'">
-                <a class="menu-link menu-toggle" routerLinkActive="active" routerLink="/purchase/vendor">
-                  <i class="menu-bullet menu-bullet-dot">
-                    <span></span>
-                  </i>
-                  <span class="menu-text">Admin</span>
-                </a>
-    
-              </li>
-    
-              <li class="menu-item menu-item-submenu" routerLinkActive="menu-item-open" aria-haspopup="true"
-                data-menu-toggle="hover" *ngIf="role==='Admin' || role==='Sales' || role==='Partner'">
-                <a class="menu-link menu-toggle" routerLinkActive="active" routerLink="/purchase/priceList">
-                  <i class="menu-bullet menu-bullet-dot">
-                    <span></span>
-                  </i>
-                  <span class="menu-text">Seller</span>
-    
-                </a>
-    
-              </li>
-    
-              <li class="menu-item menu-item-submenu" routerLinkActive="menu-item-open" aria-haspopup="true"
-                data-menu-toggle="hover" *ngIf="role==='Seller' || role==='Admin'">
-                <a class="menu-link menu-toggle" routerLinkActive="active" routerLink="/purchase/specificPriceList">
-                  <i class="menu-bullet menu-bullet-dot">
-                    <span></span>
-                  </i>
-                  <span class="menu-text">Customer</span>
-    
-                </a>
-    
-              </li>
-    
-              <li class="menu-item menu-item-submenu" routerLinkActive="menu-item-open" aria-haspopup="true"
-                data-menu-toggle="hover" *ngIf="role==='Admin'">
-                <a class="menu-link menu-toggle" routerLinkActive="active" routerLink="/purchase/purchaseOrder">
-                  <i class="menu-bullet menu-bullet-dot">
-                    <span></span>
-                  </i>
-                  <span class="menu-text">Sales</span>
-                </a>
-              </li>
-    
-              <li class="menu-item menu-item-submenu" routerLinkActive="menu-item-open" aria-haspopup="true"
-                data-menu-toggle="hover" *ngIf="role==='Admin'">
-                <a class="menu-link menu-toggle" routerLinkActive="active" routerLink="/purchase/purchaseOrder">
-                  <i class="menu-bullet menu-bullet-dot">
-                    <span></span>
-                  </i>
-                  <span class="menu-text">Back Office</span>
-                </a>
-              </li>
-    
-              <li class="menu-item menu-item-submenu" routerLinkActive="menu-item-open" aria-haspopup="true"
-                data-menu-toggle="hover" *ngIf="role==='Admin'">
-                <a class="menu-link menu-toggle" routerLinkActive="active" routerLink="/purchase/purchaseOrder">
-                  <i class="menu-bullet menu-bullet-dot">
-                    <span></span>
-                  </i>
-                  <span class="menu-text">MIS</span>
-                </a>
-              </li>
-    
-              <li class="menu-item menu-item-submenu" routerLinkActive="menu-item-open" aria-haspopup="true"
-                data-menu-toggle="hover" *ngIf="role==='Admin'">
-                <a class="menu-link menu-toggle" routerLinkActive="active" routerLink="/purchase/purchaseOrder">
-                  <i class="menu-bullet menu-bullet-dot">
-                    <span></span>
-                  </i>
-                  <span class="menu-text">Partner</span>
-                </a>
-              </li>
-            </ul>
-          </div>
-        </li>
-    
-        <li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover"
-          routerLinkActive="menu-item-open" *ngIf="role==='Admin' || role==='Seller' ||role==='Backoffice'">
-          <a class="menu-link menu-toggle" routerLinkActive="active">
-            <span [inlineSVG]="'./assets/media/svg/icons/Clothes/Crown.svg'" cacheSVG="true"
-              class="svg-icon menu-icon colorize-blue"></span>
-            <span class="menu-text">Master Management</span>
-            <i class="menu-arrow"></i>
-          </a>
-          <div class="menu-submenu">
-            <i class="menu-arrow"></i>
-            <ul class="menu-subnav">
-              <li class="menu-item menu-item-parent" aria-haspopup="true">
-                <span class="menu-link">
-                  <span class="menu-text">Master Management</span>
-                </span>
-              </li>
-    
-    
-              <li class="menu-item" routerLinkActive="menu-item-active" aria-haspopup="true" data-menu-toggle="hover"
-                *ngIf="role==='Admin'">
-                <a class="menu-link" routerLinkActive="active" routerLink="/inventory/stockInEntry">
-                  <i class="menu-bullet menu-bullet-dot">
-                    <span></span>
-                  </i>
-                  <span class="menu-text">Category</span>
-                </a>
-              </li>
-    
-              <li class="menu-item" routerLinkActive="menu-item-active" aria-haspopup="true" data-menu-toggle="hover"
-                *ngIf="role==='Admin'">
-                <a class="menu-link" routerLinkActive="active" routerLink="/inventory/stockInEntry">
-                  <i class="menu-bullet menu-bullet-dot">
-                    <span></span>
-                  </i>
-                  <span class="menu-text">Sub Category</span>
-                </a>
-              </li>
-    
-              <li class="menu-item" routerLinkActive="menu-item-active" aria-haspopup="true" data-menu-toggle="hover"
-                *ngIf="role==='Admin' || role==='Backoffice'">
-                <a class="menu-link" routerLinkActive="active" routerLink="/inventory/stockInEntry">
-                  <i class="menu-bullet menu-bullet-dot">
-                    <span></span>
-                  </i>
-                  <span class="menu-text">Product Measurement Unit</span>
-                </a>
-              </li>
-    
-              <li class="menu-item" routerLinkActive="menu-item-active" aria-haspopup="true" data-menu-toggle="hover"
-                *ngIf="role==='Admin' || role==='Backoffice'">
-                <a class="menu-link" routerLinkActive="active" routerLink="/inventory/stockInEntry">
-                  <i class="menu-bullet menu-bullet-dot">
-                    <span></span>
-                  </i>
-                  <span class="menu-text">Brand</span>
-                </a>
-              </li>
-    
-              <li class="menu-item" routerLinkActive="menu-item-active" aria-haspopup="true" data-menu-toggle="hover"
-                *ngIf="role==='Admin' || role==='Backoffice' || role==='Seller'">
-                <a class="menu-link" routerLinkActive="active" routerLink="/inventory/stockInEntry">
-                  <i class="menu-bullet menu-bullet-dot">
-                    <span></span>
-                  </i>
-                  <span class="menu-text">Product</span>
-                </a>
-              </li>
-            </ul>
-          </div>
-        </li>
-    
-        <li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover"
-          routerLinkActive="menu-item-open" *ngIf="role==='Admin' || role==='Seller' ||role==='Backoffice'">
-          <a class="menu-link menu-toggle" routerLinkActive="active">
-            <span [inlineSVG]="'./assets/media/svg/icons/Text/Bullet-list.svg'" cacheSVG="true"
-              class="svg-icon menu-icon colorize-blue-color"></span>
-            <span class="menu-text">Product Management</span>
-            <i class="menu-arrow"></i>
-          </a>
-          <div class="menu-submenu">
-            <i class="menu-arrow"></i>
-            <ul class="menu-subnav">
-              <li class="menu-item menu-item-parent" aria-haspopup="true">
-                <span class="menu-link">
-                  <span class="menu-text">Product Management</span>
-                </span>
-              </li>
-    
-              <li class="menu-item" routerLinkActive="menu-item-active" aria-haspopup="true" data-menu-toggle="hover"
-                *ngIf="role==='Admin'">
-                <a class="menu-link" routerLink="/reports/vendorOrderWisePurchaseReport" routerLinkActive="active">
-                  <i class="menu-bullet menu-bullet-dot">
-                    <span></span>
-                  </i>
-                  <span class="menu-text">Bulk Product Seller Mapping</span>
-                </a>
-              </li>
-    
-              <li class="menu-item" routerLinkActive="menu-item-active" aria-haspopup="true" data-menu-toggle="hover"
-                *ngIf="role==='Seller' ||role==='Admin' || role==='Backoffice'">
-                <a class="menu-link" routerLink="/reports/vendorOrderWisePurchaseReport" routerLinkActive="active">
-                  <i class="menu-bullet menu-bullet-dot">
-                    <span></span>
-                  </i>
-                  <span class="menu-text">Mapped Product</span>
-                </a>
-              </li>
-    
-              <li class="menu-item" routerLinkActive="menu-item-active" aria-haspopup="true" data-menu-toggle="hover"
-                *ngIf="role==='Seller' ||role==='Admin' || role==='Backoffice'">
-                <a class="menu-link" routerLink="/reports/vendorOrderWisePurchaseReport" routerLinkActive="active">
-                  <i class="menu-bullet menu-bullet-dot">
-                    <span></span>
-                  </i>
-                  <span class="menu-text">UnMapped Product</span>
-                </a>
-              </li>
-    
-              <li class="menu-item" routerLinkActive="menu-item-active" aria-haspopup="true" data-menu-toggle="hover"
-                *ngIf="role==='Seller' ||role==='Admin' || role==='Backoffice'">
-                <a class="menu-link" routerLink="/reports/vendorOrderWisePurchaseReport" routerLinkActive="active">
-                  <i class="menu-bullet menu-bullet-dot">
-                    <span></span>
-                  </i>
-                  <span class="menu-text">Update Out Of Stock</span>
-                </a>
-              </li>
-    
-            </ul>
-          </div>
-        </li>
-    
-    
-        <li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover"
-          routerLinkActive="menu-item-open" *ngIf="role==='Admin' || role==='Seller'">
-          <a class="menu-link menu-toggle" routerLinkActive="active">
-            <span [inlineSVG]="'./assets/media/svg/icons/General/Bookmark.svg'" cacheSVG="true"
-              class="svg-icon menu-icon colorize-yellow"></span>
-            <span class="menu-text">Order Management</span>
-            <i class="menu-arrow"></i>
-          </a>
-          <div class="menu-submenu">
-            <i class="menu-arrow"></i>
-            <ul class="menu-subnav">
-              <li class="menu-item menu-item-parent" aria-haspopup="true">
-                <span class="menu-link">
-                  <span class="menu-text">Order Management</span>
-                </span>
-              </li>
-    
-              <li class="menu-item" routerLinkActive="menu-item-active" aria-haspopup="true" data-menu-toggle="hover"
-                *ngIf="role==='Admin' || role==='Seller'">
-                <a class="menu-link" routerLink="/reports/vendorOrderWisePurchaseReport" routerLinkActive="active">
-                  <i class="menu-bullet menu-bullet-dot">
-                    <span></span>
-                  </i>
-                  <span class="menu-text">Order</span>
-                </a>
-              </li>
-    
-            </ul>
-          </div>
-        </li>
-    
-        <li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover"
-          routerLinkActive="menu-item-open"
-          *ngIf="role==='Admin' || role==='Seller' ||role==='Backoffice' ||role==='Sales' || role==='Partner'|| role==='MIS'">
-          <a class="menu-link menu-toggle" routerLinkActive="active">
-            <span [inlineSVG]="'./assets/media/svg/icons/Media/Equalizer.svg'" cacheSVG="true"
-              class="svg-icon menu-icon colorize-blue"></span>
-            <span class="menu-text">Reports</span>
-            <i class="menu-arrow"></i>
-          </a>
-          <div class="menu-submenu">
-            <i class="menu-arrow"></i>
-            <ul class="menu-subnav">
-              <li class="menu-item menu-item-parent" aria-haspopup="true">
-                <span class="menu-link">
-                  <span class="menu-text">Reports</span>
-                </span>
-              </li>
-    
-              <li class="menu-item" routerLinkActive="menu-item-active" aria-haspopup="true" data-menu-toggle="hover"
-                *ngIf="role==='MIS' || role==='Admin' || role==='Seller'">
-                <a class="menu-link" routerLink="/reports/vendorOrderWisePurchaseReport" routerLinkActive="active">
-                  <i class="menu-bullet menu-bullet-dot">
-                    <span></span>
-                  </i>
-                  <span class="menu-text">Order/Sales Report</span>
-                </a>
-              </li>
-    
-              <li class="menu-item" routerLinkActive="menu-item-active" aria-haspopup="true" data-menu-toggle="hover"
-                *ngIf="role==='Admin' || role==='Sales' || role==='Partner' || role==='Seller'">
-                <a class="menu-link" routerLink="/reports/vendorOrderWisePurchaseReport" routerLinkActive="active">
-                  <i class="menu-bullet menu-bullet-dot">
-                    <span></span>
-                  </i>
-                  <span class="menu-text">Bussiness Snapshot</span>
-                </a>
-              </li>
-    
-            </ul>
-          </div>
-        </li>
-    
-    
-    
-        <li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover"
-          routerLinkActive="menu-item-open" *ngIf="role==='Admin' || role==='Sales'">
-          <a class="menu-link menu-toggle" routerLinkActive="active">
-            <span [inlineSVG]="'./assets/media/svg/icons/Communication/Adress-book2.svg'" cacheSVG="true"
-              class="svg-icon menu-icon colorize-ornage"></span>
-            <span class="menu-text">Enquiry Form</span>
-            <i class="menu-arrow"></i>
-          </a>
-          <div class="menu-submenu">
-            <i class="menu-arrow"></i>
-            <ul class="menu-subnav">
-              <li class="menu-item menu-item-parent" aria-haspopup="true">
-                <span class="menu-link">
-                  <span class="menu-text">Enquiry Form</span>
-                </span>
-              </li>
-    
-              <li class="menu-item" routerLinkActive="menu-item-active" aria-haspopup="true" data-menu-toggle="hover"
-                *ngIf="role==='Admin' || role==='Sales'">
-                <a class="menu-link" routerLink="/reports/vendorOrderWisePurchaseReport" routerLinkActive="active">
-                  <i class="menu-bullet menu-bullet-dot">
-                    <span></span>
-                  </i>
-                  <span class="menu-text">Sales Enquiry</span>
-                </a>
-              </li>
-    
-    
-    
-            </ul>
-          </div>
-        </li>
-    
-    
-        <li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover"
-          routerLinkActive="menu-item-open"
-          *ngIf="role==='Admin' || role==='Partner' ||role==='Seller' || role==='Sales'|| role==='Backoffice'">
-          <a class="menu-link menu-toggle" routerLinkActive="active">
-            <span [inlineSVG]="'./assets/media/svg/icons/Files/Selected-file.svg'" cacheSVG="true"
-              class="svg-icon menu-icon colorize-blue-color"></span>
-            <span class="menu-text">Document</span>
-    
-          </a>
-          <div class="menu-submenu">
-    
-            <ul class="menu-subnav">
-              <li class="menu-item menu-item-parent" aria-haspopup="true">
-                <span class="menu-link">
-                  <span class="menu-text">Document</span>
-                </span>
-              </li>
-    
-    
-    
-    
-            </ul>
-          </div>
-        </li>
-    
-        <li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover"
-          routerLinkActive="menu-item-open" *ngIf="role==='Admin'">
-          <a class="menu-link menu-toggle" routerLinkActive="active">
-            <span [inlineSVG]="'./assets/media/svg/icons/Communication/Mail-notification.svg'" cacheSVG="true"
-              class="svg-icon menu-icon colorize-yellow"></span>
-            <span class="menu-text">Send Notification</span>
-    
-          </a>
-          <div class="menu-submenu">
-    
-            <ul class="menu-subnav">
-              <li class="menu-item menu-item-parent" aria-haspopup="true">
-                <span class="menu-link">
-                  <span class="menu-text">Send Notification</span>
-                </span>
-              </li>
-    
-            </ul>
-          </div>
-        </li>
-    
-      
+
+
+
+      <li class="menu-section">
+        <h4 class="menu-text theme-color">Sales Part</h4>
+        <i class="menu-icon flaticon-more-v2"></i>
+      </li>
+
+      <li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover"
+        routerLinkActive="menu-item-open" *ngIf="role==='Admin' || role==='Seller' ||role==='Sales'||role==='Partner'">
+        <a class="menu-link menu-toggle" routerLinkActive="active">
+          <span [inlineSVG]="'./assets/media/svg/icons/General/User.svg'" cacheSVG="true"
+            class="svg-icon menu-icon colorize-ornage"></span>
+          <span class="menu-text">User</span>
+          <i class="menu-arrow"></i>
+        </a>
+        <div class="menu-submenu">
+          <i class="menu-arrow"></i>
+          <ul class="menu-subnav">
+            <li class="menu-item menu-item-parent" aria-haspopup="true">
+              <span class="menu-link">
+                <span class="menu-text">User</span>
+              </span>
+            </li>
+
+            <li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover"
+              routerLinkActive="menu-item-open" *ngIf="role==='Admin'">
+              <a class="menu-link menu-toggle" routerLinkActive="active" routerLink="/sales/user/admin">
+                <i class="menu-bullet menu-bullet-dot">
+                  <span></span>
+                </i>
+                <span class="menu-text">Admin</span>
+              </a>
+
+            </li>
+
+            <li class="menu-item menu-item-submenu" routerLinkActive="menu-item-open" aria-haspopup="true"
+              data-menu-toggle="hover" *ngIf="role==='Admin' || role==='Sales' || role==='Partner'">
+              <a class="menu-link menu-toggle" routerLinkActive="active" routerLink="/sales/user/seller">
+                <i class="menu-bullet menu-bullet-dot">
+                  <span></span>
+                </i>
+                <span class="menu-text">Seller</span>
+
+              </a>
+
+            </li>
+
+            <li class="menu-item menu-item-submenu" routerLinkActive="menu-item-open" aria-haspopup="true"
+              data-menu-toggle="hover" *ngIf="role==='Seller' || role==='Admin'">
+              <a class="menu-link menu-toggle" routerLinkActive="active" routerLink="sales/user/customer">
+                <i class="menu-bullet menu-bullet-dot">
+                  <span></span>
+                </i>
+                <span class="menu-text">Customer</span>
+
+              </a>
+
+            </li>
+
+            <li class="menu-item menu-item-submenu" routerLinkActive="menu-item-open" aria-haspopup="true"
+              data-menu-toggle="hover" *ngIf="role==='Admin'">
+              <a class="menu-link menu-toggle" routerLinkActive="active" routerLink="/sales/user/sales">
+                <i class="menu-bullet menu-bullet-dot">
+                  <span></span>
+                </i>
+                <span class="menu-text">Sales</span>
+              </a>
+            </li>
+
+            <li class="menu-item menu-item-submenu" routerLinkActive="menu-item-open" aria-haspopup="true"
+              data-menu-toggle="hover" *ngIf="role==='Admin'">
+              <a class="menu-link menu-toggle" routerLinkActive="active" routerLink="/sales/user/backOffice">
+                <i class="menu-bullet menu-bullet-dot">
+                  <span></span>
+                </i>
+                <span class="menu-text">Back Office</span>
+              </a>
+            </li>
+
+            <li class="menu-item menu-item-submenu" routerLinkActive="menu-item-open" aria-haspopup="true"
+              data-menu-toggle="hover" *ngIf="role==='Admin'">
+              <a class="menu-link menu-toggle" routerLinkActive="active" routerLink="/sales/user/mis">
+                <i class="menu-bullet menu-bullet-dot">
+                  <span></span>
+                </i>
+                <span class="menu-text">MIS</span>
+              </a>
+            </li>
+
+            <li class="menu-item menu-item-submenu" routerLinkActive="menu-item-open" aria-haspopup="true"
+              data-menu-toggle="hover" *ngIf="role==='Admin'">
+              <a class="menu-link menu-toggle" routerLinkActive="active" routerLink="/sales/user/partner">
+                <i class="menu-bullet menu-bullet-dot">
+                  <span></span>
+                </i>
+                <span class="menu-text">Partner</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </li>
+
+      <li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover"
+        routerLinkActive="menu-item-open" *ngIf="role==='Admin' || role==='Seller' ||role==='Backoffice'">
+        <a class="menu-link menu-toggle" routerLinkActive="active">
+          <span [inlineSVG]="'./assets/media/svg/icons/Clothes/Crown.svg'" cacheSVG="true"
+            class="svg-icon menu-icon colorize-blue"></span>
+          <span class="menu-text">Master Management</span>
+          <i class="menu-arrow"></i>
+        </a>
+        <div class="menu-submenu">
+          <i class="menu-arrow"></i>
+          <ul class="menu-subnav">
+            <li class="menu-item menu-item-parent" aria-haspopup="true">
+              <span class="menu-link">
+                <span class="menu-text">Master Management</span>
+              </span>
+            </li>
+
+
+            <li class="menu-item" routerLinkActive="menu-item-active" aria-haspopup="true" data-menu-toggle="hover"
+              *ngIf="role==='Admin'">
+              <a class="menu-link" routerLinkActive="active" routerLink="/sales/masterManagement/category">
+                <i class="menu-bullet menu-bullet-dot">
+                  <span></span>
+                </i>
+                <span class="menu-text">Category</span>
+              </a>
+            </li>
+
+            <li class="menu-item" routerLinkActive="menu-item-active" aria-haspopup="true" data-menu-toggle="hover"
+              *ngIf="role==='Admin'">
+              <a class="menu-link" routerLinkActive="active" routerLink="/sales/masterManagement/subCategory">
+                <i class="menu-bullet menu-bullet-dot">
+                  <span></span>
+                </i>
+                <span class="menu-text">Sub Category</span>
+              </a>
+            </li>
+
+            <li class="menu-item" routerLinkActive="menu-item-active" aria-haspopup="true" data-menu-toggle="hover"
+              *ngIf="role==='Admin' || role==='Backoffice'">
+              <a class="menu-link" routerLinkActive="active"
+                routerLink="/sales/masterManagement/productMeasurementUnit">
+                <i class="menu-bullet menu-bullet-dot">
+                  <span></span>
+                </i>
+                <span class="menu-text">Product Measurement Unit</span>
+              </a>
+            </li>
+
+            <li class="menu-item" routerLinkActive="menu-item-active" aria-haspopup="true" data-menu-toggle="hover"
+              *ngIf="role==='Admin' || role==='Backoffice'">
+              <a class="menu-link" routerLinkActive="active" routerLink="/sales/masterManagement/brand">
+                <i class="menu-bullet menu-bullet-dot">
+                  <span></span>
+                </i>
+                <span class="menu-text">Brand</span>
+              </a>
+            </li>
+
+            <li class="menu-item" routerLinkActive="menu-item-active" aria-haspopup="true" data-menu-toggle="hover"
+              *ngIf="role==='Admin' || role==='Backoffice' || role==='Seller'">
+              <a class="menu-link" routerLinkActive="active" routerLink="/sales/masterManagement/product">
+                <i class="menu-bullet menu-bullet-dot">
+                  <span></span>
+                </i>
+                <span class="menu-text">Product</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </li>
+
+      <li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover"
+        routerLinkActive="menu-item-open" *ngIf="role==='Admin' || role==='Seller' ||role==='Backoffice'">
+        <a class="menu-link menu-toggle" routerLinkActive="active">
+          <span [inlineSVG]="'./assets/media/svg/icons/Text/Bullet-list.svg'" cacheSVG="true"
+            class="svg-icon menu-icon colorize-blue-color"></span>
+          <span class="menu-text">Product Management</span>
+          <i class="menu-arrow"></i>
+        </a>
+        <div class="menu-submenu">
+          <i class="menu-arrow"></i>
+          <ul class="menu-subnav">
+            <li class="menu-item menu-item-parent" aria-haspopup="true">
+              <span class="menu-link">
+                <span class="menu-text">Product Management</span>
+              </span>
+            </li>
+
+            <li class="menu-item" routerLinkActive="menu-item-active" aria-haspopup="true" data-menu-toggle="hover"
+              *ngIf="role==='Admin'">
+              <a class="menu-link" routerLink="/sales/productManagement/bulkProductSellerMapping"
+                routerLinkActive="active">
+                <i class="menu-bullet menu-bullet-dot">
+                  <span></span>
+                </i>
+                <span class="menu-text">Bulk Product Seller Mapping</span>
+              </a>
+            </li>
+
+            <li class="menu-item" routerLinkActive="menu-item-active" aria-haspopup="true" data-menu-toggle="hover"
+              *ngIf="role==='Seller' ||role==='Admin' || role==='Backoffice'">
+              <a class="menu-link" routerLink="/sales/productManagement/mappedProduct" routerLinkActive="active">
+                <i class="menu-bullet menu-bullet-dot">
+                  <span></span>
+                </i>
+                <span class="menu-text">Mapped Product</span>
+              </a>
+            </li>
+
+            <li class="menu-item" routerLinkActive="menu-item-active" aria-haspopup="true" data-menu-toggle="hover"
+              *ngIf="role==='Seller' ||role==='Admin' || role==='Backoffice'">
+              <a class="menu-link" routerLink="/sales/productManagement/unMappedProduct" routerLinkActive="active">
+                <i class="menu-bullet menu-bullet-dot">
+                  <span></span>
+                </i>
+                <span class="menu-text">UnMapped Product</span>
+              </a>
+            </li>
+
+            <li class="menu-item" routerLinkActive="menu-item-active" aria-haspopup="true" data-menu-toggle="hover"
+              *ngIf="role==='Seller' ||role==='Admin' || role==='Backoffice'">
+              <a class="menu-link" routerLink="/sales/productManagement/updateOutOfStock" routerLinkActive="active">
+                <i class="menu-bullet menu-bullet-dot">
+                  <span></span>
+                </i>
+                <span class="menu-text">Update Out Of Stock</span>
+              </a>
+            </li>
+
+          </ul>
+        </div>
+      </li>
+
+
+      <li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover"
+        routerLinkActive="menu-item-open" *ngIf="role==='Admin' || role==='Seller'">
+        <a class="menu-link menu-toggle" routerLinkActive="active">
+          <span [inlineSVG]="'./assets/media/svg/icons/General/Bookmark.svg'" cacheSVG="true"
+            class="svg-icon menu-icon colorize-yellow"></span>
+          <span class="menu-text">Order Management</span>
+          <i class="menu-arrow"></i>
+        </a>
+        <div class="menu-submenu">
+          <i class="menu-arrow"></i>
+          <ul class="menu-subnav">
+            <li class="menu-item menu-item-parent" aria-haspopup="true">
+              <span class="menu-link">
+                <span class="menu-text">Order Management</span>
+              </span>
+            </li>
+
+            <li class="menu-item" routerLinkActive="menu-item-active" aria-haspopup="true" data-menu-toggle="hover"
+              *ngIf="role==='Admin' || role==='Seller'">
+              <a class="menu-link" routerLink="/sales/orderManagement/orders" routerLinkActive="active">
+                <i class="menu-bullet menu-bullet-dot">
+                  <span></span>
+                </i>
+                <span class="menu-text">Order</span>
+              </a>
+            </li>
+
+          </ul>
+        </div>
+      </li>
+
+      <li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover"
+        routerLinkActive="menu-item-open"
+        *ngIf="role==='Admin' || role==='Seller' ||role==='Backoffice' ||role==='Sales' || role==='Partner'|| role==='MIS'">
+        <a class="menu-link menu-toggle" routerLinkActive="active">
+          <span [inlineSVG]="'./assets/media/svg/icons/Media/Equalizer.svg'" cacheSVG="true"
+            class="svg-icon menu-icon colorize-blue"></span>
+          <span class="menu-text">Reports</span>
+          <i class="menu-arrow"></i>
+        </a>
+        <div class="menu-submenu">
+          <i class="menu-arrow"></i>
+          <ul class="menu-subnav">
+            <li class="menu-item menu-item-parent" aria-haspopup="true">
+              <span class="menu-link">
+                <span class="menu-text">Reports</span>
+              </span>
+            </li>
+
+            <li class="menu-item" routerLinkActive="menu-item-active" aria-haspopup="true" data-menu-toggle="hover"
+              *ngIf="role==='MIS' || role==='Admin' || role==='Seller'">
+              <a class="menu-link" routerLink="/sales/reports/orderSalesReport" routerLinkActive="active">
+                <i class="menu-bullet menu-bullet-dot">
+                  <span></span>
+                </i>
+                <span class="menu-text">Order/Sales Report</span>
+              </a>
+            </li>
+
+            <li class="menu-item" routerLinkActive="menu-item-active" aria-haspopup="true" data-menu-toggle="hover"
+              *ngIf="role==='Admin' || role==='Sales' || role==='Partner' || role==='Seller'">
+              <a class="menu-link" routerLink="/sales/reports/bussinessSnapshot" routerLinkActive="active">
+                <i class="menu-bullet menu-bullet-dot">
+                  <span></span>
+                </i>
+                <span class="menu-text">Bussiness Snapshot</span>
+              </a>
+            </li>
+
+          </ul>
+        </div>
+      </li>
+
+
+
+      <li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover"
+        routerLinkActive="menu-item-open" *ngIf="role==='Admin' || role==='Sales'">
+        <a class="menu-link menu-toggle" routerLinkActive="active">
+          <span [inlineSVG]="'./assets/media/svg/icons/Communication/Adress-book2.svg'" cacheSVG="true"
+            class="svg-icon menu-icon colorize-ornage"></span>
+          <span class="menu-text">Enquiry Form</span>
+          <i class="menu-arrow"></i>
+        </a>
+        <div class="menu-submenu">
+          <i class="menu-arrow"></i>
+          <ul class="menu-subnav">
+            <li class="menu-item menu-item-parent" aria-haspopup="true">
+              <span class="menu-link">
+                <span class="menu-text">Enquiry Form</span>
+              </span>
+            </li>
+
+            <li class="menu-item" routerLinkActive="menu-item-active" aria-haspopup="true" data-menu-toggle="hover"
+              *ngIf="role==='Admin' || role==='Sales'">
+              <a class="menu-link" routerLink="/sales/enquiry/salesEnquiry" routerLinkActive="active">
+                <i class="menu-bullet menu-bullet-dot">
+                  <span></span>
+                </i>
+                <span class="menu-text">Sales Enquiry</span>
+              </a>
+            </li>
+
+
+
+          </ul>
+        </div>
+      </li>
+
+
+      <li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover"
+        routerLinkActive="menu-item-open"
+        *ngIf="role==='Admin' || role==='Partner' ||role==='Seller' || role==='Sales'|| role==='Backoffice'">
+        <a class="menu-link menu-toggle" routerLinkActive="active">
+          <span [inlineSVG]="'./assets/media/svg/icons/Files/Selected-file.svg'" cacheSVG="true"
+            class="svg-icon menu-icon colorize-blue-color"></span>
+          <span class="menu-text">Document</span>
+
+        </a>
+        <div class="menu-submenu">
+
+          <ul class="menu-subnav">
+
+            <li class="menu-item" routerLinkActive="menu-item-active" aria-haspopup="true" data-menu-toggle="hover">
+              <a class="menu-link" routerLink="/sales/documents" routerLinkActive="active">
+                <i class="menu-bullet menu-bullet-dot">
+                  <span></span>
+                </i>
+                <span class="menu-text">Document</span>
+              </a>
+            </li>
+
+
+          </ul>
+        </div>
+      </li>
+
+      <li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover"
+        routerLinkActive="menu-item-open" *ngIf="role==='Admin'">
+        <a class="menu-link menu-toggle" routerLinkActive="active">
+          <span [inlineSVG]="'./assets/media/svg/icons/Communication/Mail-notification.svg'" cacheSVG="true"
+            class="svg-icon menu-icon colorize-yellow"></span>
+          <span class="menu-text">Send Notification</span>
+
+        </a>
+        <div class="menu-submenu">
+
+          <ul class="menu-subnav">
+            <li class="menu-item menu-item-parent" aria-haspopup="true">
+              <span class="menu-link">
+                <span class="menu-text">Send Notification</span>
+              </span>
+            </li>
+
+          </ul>
+        </div>
+      </li>
+
+
     </ng-container>
   </ul>
 
- 
 
-  
+
+
 
 </div>

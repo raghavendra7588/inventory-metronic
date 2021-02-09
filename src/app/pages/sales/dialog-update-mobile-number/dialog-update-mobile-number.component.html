@@ -1,0 +1,34 @@
+<form [formGroup]="updateMobileNumberForm" (ngSubmit)="onSubmit()">
+
+    <div class="container-fluid">
+        <h2 mat-dialog-title class="font-weight-bold mb-5 text-left theme-color">Update Mobile Number For
+            {{userData.role}}</h2>
+        <h4 class="font-weight-bold mt-3 orange-icon">Curent Mobile Number : {{userData.mobilenumber}}</h4>
+        <div class="row">
+
+            <div class="col-md-12 col-12 col-sm-12 col-xl-12">
+                <mat-form-field style="width: 100%;">
+                    <input matInput placeholder="Mobile Number" formControlName="mobilenumber"
+                        [(ngModel)]="newMobileNumber" [maxLength]="maxLengthMobileNumber" appNumber>
+                    <mat-error
+                        *ngIf="updateMobileNumberForm.controls.mobilenumber.touched && updateMobileNumberForm.controls.mobilenumber.invalid">
+                        <span *ngIf="updateMobileNumberForm.controls.mobilenumber.errors.required">Mobile Number is
+                            mandatory.</span>
+                    </mat-error>
+
+                </mat-form-field>
+            </div>
+
+        </div>
+        <div mat-dialog-actions>
+            <button mat-raised-button [ngClass]="!updateMobileNumberForm.valid? 'opacity' : 'noOpacity'"
+                class="save-button" [disabled]="!updateMobileNumberForm.valid"><span
+                    class="custom-text-color">Save</span></button>
+            <button mat-raised-button mat-dialog-close color="warn">Close</button>
+        </div>
+    </div>
+
+</form>
+<ngx-spinner>
+    <p class="loading">Loading </p>
+</ngx-spinner>

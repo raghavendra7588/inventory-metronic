@@ -27,8 +27,11 @@ import { HeaderMenuDynamicComponent } from './_layout/components/header/header-m
 import { DropdownMenusModule } from '../_metronic/partials/content/dropdown-menus/dropdown-menus.module';
 
 import { PurchaseModule } from './purchase/purchase.module';
+import { SalesModule } from './sales/sales.module';
+
 import { EmitterService } from '../shared/emitter.service';
 import { ToastrModule } from 'ngx-toastr';
+
 
 @NgModule({
   declarations: [
@@ -60,7 +63,8 @@ import { ToastrModule } from 'ngx-toastr';
     DropdownMenusModule,
     PurchaseModule,
     InlineSVGModule.forRoot(),
-    ToastrModule.forRoot()
+    ToastrModule.forRoot(),
+    SalesModule
   ],
   providers: [EmitterService]
 })

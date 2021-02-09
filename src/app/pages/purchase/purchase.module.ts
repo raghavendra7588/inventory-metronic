@@ -4,9 +4,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 
-// import { AddAddressComponent } from './add-address/add-address.component';
-// import { VendorComponent } from './vendor/vendor.component';
-// import { DialogViewVendorDataComponent } from './dialog-view-vendor-data/dialog-view-vendor-data.component';
 
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatBadgeModule } from '@angular/material/badge';
@@ -44,11 +41,12 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTreeModule } from '@angular/material/tree';
 import { MatFormFieldModule } from '@angular/material/form-field';
 
-// import { ToastrModule } from 'ngx-toastr';
+import { ToastrModule } from 'ngx-toastr';
 import { NgxPrintModule } from 'ngx-print';
 import { NgxSpinnerModule } from "ngx-spinner";
 import { MatSelectFilterModule } from 'mat-select-filter';
 import { InlineSVGModule } from 'ng-inline-svg';
+
 import { AddAddressComponent } from './add-address/add-address.component';
 import { AddressDetailsComponent } from './address-details/address-details.component';
 import { DialogContentVendorComponent } from './dialog-content-vendor/dialog-content-vendor.component';
@@ -61,20 +59,6 @@ import { PurchaseOrderComponent } from './purchase-order/purchase-order.componen
 import { SpecificPriceListComponent } from './specific-price-list/specific-price-list.component';
 import { VendorComponent } from './vendor/vendor.component';
 import { NumberDirective } from './number.directive';
-import { ToastrModule } from 'ngx-toastr';
-
-// import { PriceListComponent } from './price-list/price-list.component';
-// import { SpecificPriceListComponent } from './specific-price-list/specific-price-list.component';
-// import { PurchaseOrderComponent } from './purchase-order/purchase-order.component';
-// import { GetPriceListComponent } from './get-price-list/get-price-list.component';
-// import { InlineSVGModule } from 'ng-inline-svg';
-// import { DialogContentVendorComponent } from './dialog-content-vendor/dialog-content-vendor.component';
-// import { AddressDetailsComponent } from './address-details/address-details.component';
-// import { NumberDirective } from './number.directive';
-// import { DialogPurchaseOrderPrintComponent } from './dialog-purchase-order-print/dialog-purchase-order-print.component';
-// import { DialogOrderPrintComponent } from './dialog-order-print/dialog-order-print.component';
-
-
 
 
 @NgModule({

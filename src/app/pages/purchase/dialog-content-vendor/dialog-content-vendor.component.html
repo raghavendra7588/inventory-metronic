@@ -1,8 +1,8 @@
 <form [formGroup]="saveVendorForm">
 
-    <h2 mat-dialog-title style="text-align: center;">Vendor Master</h2>
+    <h2 class="text-center font-weight-bold theme-color">Vendor Master</h2>
     <div class="container">
-        <h3 class="font-weight-bold">Basic</h3>
+        <h3 class="font-weight-bold theme-color">Basic</h3>
 
         <div class="row">
 
@@ -52,10 +52,7 @@
                     </mat-select>
                 </mat-form-field>
 
-
-
             </div>
-
 
             <div class="col-md-4">
                 <mat-form-field style="width: 100%;">
@@ -67,7 +64,6 @@
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
-
             </div>
 
             <div class="col-md-4">
@@ -80,7 +76,7 @@
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
-           
+
             </div>
         </div>
 
@@ -105,7 +101,7 @@
 
 
     <div class="container">
-        <h3 class="font-weight-bold mt-3">Statutory</h3>
+        <h3 class="font-weight-bold theme-color mt-3">Statutory</h3>
 
         <div class="row">
             <div class="col-md-4">
@@ -158,7 +154,7 @@
     <mat-divider></mat-divider>
 
     <div class="container">
-        <h3 class="font-weight-bold mt-3">Vendor Address Details</h3>
+        <h3 class="font-weight-bold theme-color mt-3">Vendor Address Details</h3>
         <div class="row">
 
             <div class="col-md-4">
@@ -228,7 +224,7 @@
 
 
     <div class="container">
-        <h3 class="font-weight-bold mt-3">Defaults</h3>
+        <h3 class="font-weight-bold theme-color mt-3">Defaults</h3>
 
         <div class="row">
             <div class="col-md-4">
@@ -279,7 +275,7 @@
     </div>
     <mat-divider></mat-divider>
     <div class="container">
-        <h3 class="font-weight-bold mt-3">Bank Details</h3>
+        <h3 class="font-weight-bold theme-color mt-3">Bank Details</h3>
 
         <div class="row">
             <div class="col-md-4">
@@ -327,15 +323,16 @@
                 </mat-form-field>
             </div>
         </div>
+        <div mat-dialog-actions>
+            <button mat-raised-button color="primary" (click)="saveVendor()" [disabled]="!saveVendorForm.valid"
+                DisableAfterClick>Save</button>
+            <button mat-raised-button mat-dialog-close color="warn">Close</button>
+        </div>
 
     </div>
 
 
-    <div mat-dialog-actions align="end">
-        <button mat-raised-button color="primary" (click)="saveVendor()" [disabled]="!saveVendorForm.valid"
-            DisableAfterClick>Save</button>
-        <button mat-raised-button mat-dialog-close color="warn">Close</button>
-    </div>
+
 
 </form>
 <ngx-spinner type="ball-scale-multiple"></ngx-spinner>

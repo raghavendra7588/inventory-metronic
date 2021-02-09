@@ -119,6 +119,7 @@
 
 .custom-table {
   width: 100%;
+  background-color: #f3f6f9 !important;
 }
 
 .orange-icon {
@@ -146,7 +147,21 @@
 }
 
 .activeClass {
-  background-color: #E6FFFF;
-  // background-color: red;
-  // background-color: #B3FFF2;
+  background-color: #e6ffff;
 }
+
+.custom-mat-icon {
+  vertical-align: middle;
+  margin-top: 1px;
+  cursor: pointer;
+}
+
+.custom-text-color {
+  color: white;
+}
+
+.mat-paginator-container {
+  background-color: #f3f6f9 !important;
+}
+
+

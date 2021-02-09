@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-// import { MyPageComponent } from './my-page/my-page.component';
 import { LayoutComponent } from './_layout/layout.component';
 
 const routes: Routes = [
@@ -8,10 +7,11 @@ const routes: Routes = [
     path: '',
     component: LayoutComponent,
     children: [
-      // {
-      //   path: 'my-page', // <= Page URL
-      //   component: MyPageComponent // <= Page component registration
-      // },
+      {
+        path: 'dashboard',
+        loadChildren: () =>
+          import('./dashboard/dashboard.module').then((m) => m.DashboardModule),
+      },
       {
         path: 'purchase',
         loadChildren: () =>
@@ -28,9 +28,9 @@ const routes: Routes = [
           import('./reports/reports.module').then((m) => m.ReportsModule),
       },
       {
-        path: 'dashboard',
+        path: 'sales',
         loadChildren: () =>
-          import('./dashboard/dashboard.module').then((m) => m.DashboardModule),
+          import('./sales/sales.module').then((m) => m.SalesModule),
       },
       {
         path: 'builder',

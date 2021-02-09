@@ -1,0 +1,131 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-7 col-12 col-sm-12 col-xl-7">
+
+
+            <div class="row">
+                <div class="col-md-6 col-6 col-sm-6 col-xl-6">
+                    <mat-form-field style="width: 100% !important">
+                        <mat-select placeholder="Category">
+
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-6 col-6 col-sm-6 col-xl-6">
+                    <mat-form-field style="width: 100% !important">
+                        <mat-select placeholder="Sub Category">
+
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </div>
+
+            <div class="row my-2">
+                <div class="col-md-12 col-12 col-sm-12 col-xl-12">
+                    <mat-form-field style="width: 100% !important;">
+                        <input matInput placeholder="Name" name="orderNo">
+                    </mat-form-field>
+                </div>
+            </div>
+
+            <div class="row my-2">
+                <div class="col-md-6 col-6 col-sm-6 col-xl-6">
+                    <mat-form-field style="width: 100% !important">
+                        <mat-select placeholder="Category">
+
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-6 col-6 col-sm-6 col-xl-6 mt-3">
+                    <input type="file" id="file" (change)="selectFile($event)" class="width-100">
+                </div>
+            </div>
+
+            <div class="row my-2">
+                <div class="col-md-6 col-6 col-sm-6 col-xl-6">
+                    <mat-form-field style="width: 100% !important;">
+                        <textarea placeholder="Description" matInput></textarea>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-6 col-6 col-sm-6 col-xl-6">
+                    <mat-form-field style="width: 100% !important;">
+                        <textarea placeholder="Hot Keyword" matInput></textarea>
+                    </mat-form-field>
+                </div>
+            </div>
+
+
+            <div class="row my-2">
+                <div class="col-md-3 col-6 col-sm-6 col-xl-3">
+                    <mat-form-field style="width: 100% !important">
+                        <mat-select placeholder="Measurement Unit">
+
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-3 col-6 col-sm-6 col-xl-3">
+                    <mat-form-field style="width: 100% !important;">
+                        <input matInput placeholder="Varient" name="orderNo">
+                    </mat-form-field>
+                </div>
+                <div class="col-md-3 col-6 col-sm-6 col-xl-3">
+                    <mat-form-field style="width: 100% !important;">
+                        <input matInput placeholder="Price" name="orderNo">
+                    </mat-form-field>
+                </div>
+
+                <div class="col-md-3 col-6 col-sm-6 col-xl-3">
+                    <button mat-mini-fab class="save-button">
+                        <span class="custom-text-color">
+                            <mat-icon>add</mat-icon>
+                        </span>
+
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-5 col-12 col-sm-12 col-xl-5">
+
+            <table mat-table [dataSource]="dataSource" class="custom-table">
+
+                <ng-container matColumnDef="measurementUnit">
+                    <th mat-header-cell *matHeaderCellDef>Measurement Unit</th>
+                    <td mat-cell *matCellDef="let element">{{element.productId}}</td>
+                    <td mat-footer-cell *matFooterCellDef></td>
+                </ng-container>
+
+                <ng-container matColumnDef="varient">
+                    <th mat-header-cell *matHeaderCellDef>Varient</th>
+                    <td mat-cell *matCellDef="let element">{{element.productId}}</td>
+                    <td mat-footer-cell *matFooterCellDef></td>
+                </ng-container>
+
+                <ng-container matColumnDef="price">
+                    <th mat-header-cell *matHeaderCellDef>Price</th>
+                    <td mat-cell *matCellDef="let element">{{element.productId}}</td>
+                    <td mat-footer-cell *matFooterCellDef></td>
+                </ng-container>
+                <ng-container matColumnDef="edit">
+                    <th mat-header-cell *matHeaderCellDef>Edit</th>
+                    <td mat-cell *matCellDef="let element">{{element.productId}}</td>
+                    <td mat-footer-cell *matFooterCellDef></td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
+            </table>
+            <mat-paginator [pageSizeOptions]="[7,20,100]" showFirstLastButtons></mat-paginator>
+        </div>
+    </div>
+
+    <div mat-dialog-actions class="mt-5">
+        <!-- <button mat-raised-button [ngClass]="!editUserForm.valid? 'opacity' : 'noOpacity'" class="save-button"
+            [disabled]="!editUserForm.valid"><span class="custom-text-color">Save</span></button> -->
+        <button mat-raised-button mat-dialog-close class="save-button"><span
+                class="custom-text-color">Save</span></button>
+        <button mat-raised-button mat-dialog-close color="warn">Delete</button>
+        <button mat-raised-button mat-dialog-close>Close</button>
+    </div>
+</div>
