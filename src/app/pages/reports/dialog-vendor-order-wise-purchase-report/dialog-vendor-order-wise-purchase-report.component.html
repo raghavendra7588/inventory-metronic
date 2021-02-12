@@ -1,19 +1,30 @@
 <div id="demo">
-    <img src="/assets/images/gv.PNG" class="mx-auto d-block" height="80px" width="130px" />
+    <!-- <img src="/assets/images/gv.PNG" class="mx-auto d-block" height="80px" width="130px" /> -->
     <div class="container my-2">
-        <div class="row">
+        <div class="row my-4">
             <div class="col-md-4 text-center">
+
+                <img src="/assets/images/gv.PNG" height="80px" width="130px" />
+            </div>
+            <div class="col-md-4 text-center">
+            </div>
+            <div class="col-md-4 text-center">
+            </div>
+        </div>
+        <div class="row my-2">
+            <div class="col-md-4 text-center">
+
                 <h3 class="font-weight-bold orange-icon">Vendor Name</h3>
-                <h4 class="font-weight-bold theme-color">{{vendorName | titlecase}}</h4>
+                <h4 class="font-weight-bold">{{vendorName | titlecase}}</h4>
             </div>
             <div class="col-md-4 text-center">
                 <h3 class="font-weight-bold orange-icon">Seller</h3>
-                <h4 class="font-weight-bold theme-color">{{sellerName | titlecase}}</h4>
+                <h4 class="font-weight-bold">{{sellerName | titlecase}}</h4>
             </div>
 
             <div class="col-md-4 text-center">
                 <h3 class="font-weight-bold orange-icon">Order No</h3>
-                <h4 class="font-weight-bold theme-color"> {{orderNo}}</h4>
+                <h4 class="font-weight-bold"> {{orderNo}}</h4>
             </div>
         </div>
 
@@ -23,7 +34,7 @@
         <div class="row">
 
             <div class="col-md-12 col-12 col-sm-12 col-lg-12 col-xl-12">
-                <table mat-table [dataSource]="dataSource" class="custom-table">
+                <table mat-table [dataSource]="dataSource" class="custom-dialog-table">
 
                     <ng-container matColumnDef="ProductName">
                         <th mat-header-cell *matHeaderCellDef>Product</th>

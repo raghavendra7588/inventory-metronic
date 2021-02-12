@@ -80,6 +80,10 @@ import { BussinessSnapshotComponent } from './bussiness-snapshot/bussiness-snaps
 import { DocumentComponent } from './document/document.component';
 import { SalesEnquiryComponent } from './sales-enquiry/sales-enquiry.component';
 import { DialogProductDataComponent } from './dialog-product-data/dialog-product-data.component';
+import { DialogOrderManagementComponent } from './dialog-order-management/dialog-order-management.component';
+import { DialogOrderManagementPrintComponent } from './dialog-order-management-print/dialog-order-management-print.component';
+import { DialogSalesEnquiryComponent } from './dialog-sales-enquiry/dialog-sales-enquiry.component';
+import { SendNotificationComponent } from './send-notification/send-notification.component';
 
 
 
@@ -115,7 +119,12 @@ import { DialogProductDataComponent } from './dialog-product-data/dialog-product
     BussinessSnapshotComponent,
     DocumentComponent,
     SalesEnquiryComponent,
-    DialogProductDataComponent
+    DialogProductDataComponent,
+    DialogOrderManagementComponent,
+    DialogOrderManagementPrintComponent,
+    DialogSalesEnquiryComponent,
+    DialogSalesEnquiryComponent,
+    SendNotificationComponent
   ],
   imports: [
     CommonModule,
@@ -260,6 +269,10 @@ import { DialogProductDataComponent } from './dialog-product-data/dialog-product
         path: 'documents',
         component: DocumentComponent
       },
+      {
+        path: 'sendNotification',
+        component: SendNotificationComponent
+      },
 
     ]),
   ],
@@ -293,7 +306,9 @@ import { DialogProductDataComponent } from './dialog-product-data/dialog-product
     OrderSalesReportComponent,
     BussinessSnapshotComponent,
     DocumentComponent,
-    SalesEnquiryComponent
+    SalesEnquiryComponent,
+    DialogOrderManagementComponent,
+    SendNotificationComponent
   ],
   providers: [
     SalesService
@@ -307,7 +322,10 @@ import { DialogProductDataComponent } from './dialog-product-data/dialog-product
     DialogSubCategoryComponent,
     DialogProductComponent,
     DialogBrandComponent,
-    DialogProductDataComponent
+    DialogProductDataComponent,
+    DialogOrderManagementComponent,
+    DialogOrderManagementPrintComponent,
+    DialogSalesEnquiryComponent
   ],
 })
 export class SalesModule { }

@@ -122,6 +122,10 @@
   background-color: #f3f6f9 !important;
 }
 
+.custom-dialog-table {
+  width: 100%;
+}
+
 .orange-icon {
   color: #ff8c00;
 }
@@ -160,8 +164,11 @@
   color: white;
 }
 
-.mat-paginator-container {
-  background-color: #f3f6f9 !important;
+// .mat-paginator-container {
+//   background-color: #f3f6f9 !important;
+// }
+
+.custom-dialog-paginator {
+  color: rgba(0, 0, 0, 0.54);
+  background-color: rgba(0, 0, 0, 0.54);
 }
-
-

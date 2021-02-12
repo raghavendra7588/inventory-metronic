@@ -1,4 +1,4 @@
-<h2 mat-dialog-title style="text-align: center;">Add Retailer Address Details</h2>
+<h3 mat-dialog-title style="text-align: center;">Add Retailer Address Details</h3>
 
 <form [formGroup]="addressForm" (ngSubmit)="onSubmit()">
 
@@ -13,7 +13,7 @@
                         <mat-form-field>
                             <mat-label>Billing Name</mat-label>
                             <input matInput placeholder="Billing Name" name="billingName" formControlName="billing_name"
-                                [(ngModel)]="address.billingName" disabled />
+                                [(ngModel)]="address.billingName" readonly />
                         </mat-form-field>
 
                     </div>
@@ -101,7 +101,7 @@
                         <mat-form-field>
                             <mat-label>Shipping Name</mat-label>
                             <input matInput name="shippingName" placeholder="Shipping Name"
-                                formControlName="shipping_name" [(ngModel)]="address.shippingName" disabled />
+                                formControlName="shipping_name" [(ngModel)]="address.shippingName" readonly />
 
                         </mat-form-field>
 
@@ -176,7 +176,8 @@
         </div>
     </div>
     <div mat-dialog-actions align="end">
-        <button mat-raised-button color="primary" [disabled]="!addressForm.valid">Save</button>
+        <button mat-raised-button class="save-button" [disabled]="!addressForm.valid || isButtonDisabled">
+            <span style="color: white;">Save</span></button>
         <button mat-raised-button mat-dialog-close color="warn">Close</button>
     </div>
 

@@ -19,7 +19,7 @@
 
             <div class="col-md-4">
                 <mat-form-field style="width: 100%;">
-                    <input matInput placeholder="Code" type="text" formControlName="code" [(ngModel)]="vendor.code">
+                    <input matInput placeholder="Code" type="text" formControlName="code" [(ngModel)]="vendor.code" readonly>
                 </mat-form-field>
             </div>
 
@@ -83,7 +83,7 @@
         <div class="row">
             <div class="col-md-4">
                 <mat-form-field style="width: 100%;">
-                    <input matInput placeholder="Under Ledger" type="text" formControlName="underLedger"
+                    <input matInput placeholder="Key Person (Owner)" type="text" formControlName="underLedger"
                         [(ngModel)]="vendor.underLedger">
                 </mat-form-field>
             </div>
@@ -129,17 +129,11 @@
         <div class="row">
             <div class="col-md-4">
                 <mat-form-field style="width: 100%;">
-                    <mat-label>Choose a date</mat-label>
+                    <mat-label>Vendor Registration Date</mat-label>
                     <input matInput [matDatepicker]="picker" formControlName="datePicker"
-                        [(ngModel)]="vendor.registrationDate" (dateChange)="valueChanged()" [max]="maxDate">
-                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                    <mat-datepicker #picker></mat-datepicker>
-                </mat-form-field>
-            </div>
-
-            <div class="col-md-4">
-                <mat-form-field style="width: 100%;">
-                    <input matInput placeholder="Distance" formControlName="distance" [(ngModel)]="vendor.distance">
+                        [(ngModel)]="vendor.registrationDate" (dateChange)="valueChanged()" [max]="maxDate" readonly>
+                    <mat-datepicker-toggle matSuffix [for]="picker" readonly></mat-datepicker-toggle>
+                    <mat-datepicker #picker disabled></mat-datepicker>
                 </mat-form-field>
             </div>
 
@@ -149,6 +143,14 @@
                         [(ngModel)]="vendor.cin">
                 </mat-form-field>
             </div>
+
+            <!-- <div class="col-md-4">
+                <mat-form-field style="width: 100%;">
+                    <input matInput placeholder="Distance" formControlName="distance" [(ngModel)]="vendor.distance">
+                </mat-form-field>
+            </div> -->
+
+
         </div>
     </div>
     <mat-divider></mat-divider>
@@ -194,7 +196,7 @@
 
             <div class="col-md-4">
                 <mat-form-field style="width: 100%;">
-                    <input matInput placeholder="Country" [(ngModel)]="vendor.Country" formControlName="country" />
+                    <input matInput placeholder="Country" [(ngModel)]="vendor.Country" formControlName="country" readonly/>
                 </mat-form-field>
             </div>
 
@@ -323,9 +325,9 @@
                 </mat-form-field>
             </div>
         </div>
-        <div mat-dialog-actions>
-            <button mat-raised-button color="primary" (click)="saveVendor()" [disabled]="!saveVendorForm.valid"
-                DisableAfterClick>Save</button>
+        <div mat-dialog-actions align="end">
+            <button mat-raised-button color="primary" (click)="saveVendor()"
+                [disabled]="!saveVendorForm.valid || isButtonDisabled">Save</button>
             <button mat-raised-button mat-dialog-close color="warn">Close</button>
         </div>
 

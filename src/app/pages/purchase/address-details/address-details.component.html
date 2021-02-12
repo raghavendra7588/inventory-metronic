@@ -12,7 +12,7 @@
 
             <div class="col-md-12 col-12 col-sm-12 col-lg-12 col-xl-12">
 
-                <mat-table [dataSource]="dataSource" class="custom-table">
+                <mat-table [dataSource]="dataSource" class="custom-dialog-table">
 
                     <ng-container matColumnDef="address">
                         <mat-header-cell *matHeaderCellDef>Address</mat-header-cell>
@@ -31,7 +31,8 @@
                     <mat-header-row *matHeaderRowDef="displayedColumns;sticky: true"></mat-header-row>
                     <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
                 </mat-table>
-                <mat-paginator [pageSizeOptions]="[10,50,100]" showFirstLastButtons></mat-paginator>
+                <mat-paginator style="background-color:  white !important;" [pageSizeOptions]="[10,50,100]"
+                    showFirstLastButtons></mat-paginator>
 
             </div>
 

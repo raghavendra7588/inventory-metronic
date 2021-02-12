@@ -76,4 +76,8 @@ export class DialogViewVendorDataComponent implements OnInit {
       });
   }
 
+  applyFilter(filter: string) {
+    this.dataSource.filter = filter.trim().toLowerCase();
+  }
+
 }

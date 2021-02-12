@@ -19,6 +19,7 @@ import * as _ from 'lodash';
 import { ExportToCsv } from 'export-to-csv';
 import { ReportsService } from '../reports.service';
 import { ProductVendorWisePurchaseReport } from '../reports.model';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-product-vendor-wise-purchase-report',
@@ -103,6 +104,21 @@ export class ProductVendorWisePurchaseReportComponent implements OnInit {
   brandSearch: any = [];
   productSearch: any = [];
 
+
+
+  particularCategory;
+  strcategoryIdArray: any = [];
+  strsubCategoryIdArray: any = [];
+  numCategoryIdArray: any = [];
+  strBrandIdArray: any = [];
+  particularVendor: any = [];
+
+  numSubcategoryIdArray: any = [];
+  numBrandIdArray: any = [];
+  particularCategoryArray: any = [];
+
+  categoryOriginalArray: any = [];
+
   constructor(public dialog: MatDialog,
     public loginService: LoginService,
     public purchaseService: PurchaseService,
@@ -110,7 +126,8 @@ export class ProductVendorWisePurchaseReportComponent implements OnInit {
     public toastr: ToastrService,
     private cdr: ChangeDetectorRef,
     private inventoryService: InventoryService,
-    private reportsService: ReportsService) {
+    private reportsService: ReportsService,
+    private spinner: NgxSpinnerService) {
   }
 
 
@@ -121,6 +138,7 @@ export class ProductVendorWisePurchaseReportComponent implements OnInit {
     this.strSellerId = sessionStorage.getItem('sellerId').toString();
 
     this.loginService.seller_object.categories = JSON.parse(sessionStorage.getItem('categories'));
+    this.categoryOriginalArray = this.loginService.seller_object.categories;
     this.categorySearch = this.loginService.seller_object.categories;
     this.getPriceListData();
     this.getVendorData();
@@ -157,13 +175,66 @@ export class ProductVendorWisePurchaseReportComponent implements OnInit {
   }
 
   selectedVendorFromList(item) {
+    this.purchaseReport.categoryId = '';
+    this.loginService.seller_object.categories = this.categoryOriginalArray;
     this.vendorId = item.vendorId;
+    this.vendorData.filter(item => {
+      if (Number(item.vendorId) === Number(this.vendorId)) {
+        this.particularVendor = item;
+      }
+    });
+    console.log('particular vendor', this.particularVendor);
+    this.dataSource = [];
+    this.strcategoryIdArray = this.particularVendor.category;
+    this.numCategoryIdArray = this.strcategoryIdArray.split(',').map(Number);
+    console.log('int category array', this.numCategoryIdArray);
+
+
+    this.strsubCategoryIdArray = this.particularVendor.subCategory;
+    this.numSubcategoryIdArray = this.strsubCategoryIdArray.split(',').map(Number);
+    console.log('int sub category array', this.numSubcategoryIdArray);
+
+    this.strBrandIdArray = this.particularVendor.brand;
+    this.numBrandIdArray = this.strBrandIdArray.split(',').map(Number);
+    console.log('int brand array', this.numBrandIdArray);
+    let particularCategory: any = [];
+    this.particularCategoryArray = [];
+    this.loginService.seller_object.categories.filter(item => {
+      if (this.numCategoryIdArray.includes(Number(item.id))) {
+        particularCategory = item;
+        this.particularCategoryArray.push(particularCategory);
+      }
+    });
+    this.particularCategoryArray = _.uniqBy(this.particularCategoryArray, 'id');
+
+    console.log('particularCategoryArray', this.particularCategoryArray);
+    // let uniquePurchaseOrder = _.uniqBy(this.purchaseReportResponse, 'ProductVarientId');
+    this.loginService.seller_object.categories = [];
+    this.loginService.seller_object.categories = _.uniqBy(this.particularCategoryArray, 'id');
+    this.categorySearch = this.particularCategoryArray;
+    if (this.numCategoryIdArray[0] == 0) {
+      this.loginService.seller_object.categories = [];
+    }
+    this.particularCategoryArray = this.categorySearch.slice();
+
+    this.multipleCategoriesArray = [];
+    this.anyArray = [];
+    this.finalProductNameArray = [];
+
+    this.purchaseReport.subCategoryId = '';
+    this.purchaseReport.categoryId = '';
+    this.purchaseReport.brandId = '';
+    this.purchaseReport.productId = '';
   }
 
   getVendorData() {
+    this.spinner.show();
     this.purchaseService.getAllVendorData(this.strSellerId).subscribe(data => {
       this.vendorData = data;
       console.log('vendor data minimum purchase reports ', this.vendorData);
+      this.spinner.hide();
+    }, err => {
+      this.spinner.hide();
     });
   }
 
@@ -174,7 +245,7 @@ export class ProductVendorWisePurchaseReportComponent implements OnInit {
     let catchMappedSubCategory: any = [];
     this.purchaseReport.subCategoryId = 'ALL'.toString();
     console.log('ng model sub cat', this.purchaseReport.subCategoryId);
-
+    this.spinner.show();
     this.purchaseService.getEachBrand(this.categoryId.toString(), '0').subscribe(data => {
       this.AllSubCategoryArray = data;
       catchMappedSubCategory = this.mapObj(this.AllSubCategoryArray, this.dbData);
@@ -185,6 +256,9 @@ export class ProductVendorWisePurchaseReportComponent implements OnInit {
       this.anyArray = this.sortUniqueBrandName(uniqueBrands);
       this.brandSearch = this.anyArray;
       console.log('any array', this.anyArray);
+      this.spinner.hide();
+    }, err => {
+      this.spinner.hide();
     });
     this.loginService.seller_object.categories = this.categorySearch.slice();
     this.multipleCategoriesArray = this.subCategorySearch.slice();
@@ -199,13 +273,36 @@ export class ProductVendorWisePurchaseReportComponent implements OnInit {
       if (event.source.selected) {
         this.categoryId = category.id.toString();
         this.categoriesArray.push(category.id);
+        this.spinner.show();
         this.purchaseService.getAllSubCategories(category.id).subscribe(data => {
           orderedSubCategoriesData = this.sortArrayInAscendingOrder(data);
 
-          this.multipleCategoriesArray = orderedSubCategoriesData;
+
+          let particularSubCategoryArray: any = [];
+          orderedSubCategoriesData.filter(item => {
+
+
+            if (this.numSubcategoryIdArray.includes(Number(item.id))) {
+
+              particularSubCategoryArray.push(item);
+            }
+          });
+          console.log('particularSubCategoryArray', particularSubCategoryArray);
+          this.multipleCategoriesArray = particularSubCategoryArray;
           this.subCategorySearch = this.multipleCategoriesArray;
 
-        });
+          this.anyArray = [];
+          this.finalProductNameArray = [];
+          this.purchaseReport.brandId = '';
+          this.purchaseReport.productId = '';
+          this.purchaseReport.subCategoryId = '';
+          // this.multipleCategoriesArray = orderedSubCategoriesData;
+          // this.subCategorySearch = this.multipleCategoriesArray;
+          this.spinner.hide();
+        },
+          err => {
+            this.spinner.hide();
+          });
         let eachBrandData: any = [];
         let mappedData: any = [];
         let uniqueBrandName: any = [];
@@ -230,24 +327,41 @@ export class ProductVendorWisePurchaseReportComponent implements OnInit {
   }
 
   onSubCategoriesChange(event, subCategory: any) {
-
+    let filteredBrandDataArray: any = [];
     if (event.isUserInput) {
       if (event.source.selected) {
         this.subCategoryId = subCategory.id.toString();
         this.subCategoriesArray.push(subCategory.id);
+        this.spinner.show();
         this.purchaseService.getAllBrand(subCategory.parentid, subCategory.id).subscribe(data => {
 
           this.multipleBrandArray = data;
           this.catchMappedData = this.mapObj(this.multipleBrandArray, this.dbData);
-
           this.multipleBrandArray = this.catchMappedData;
 
-          this.uniqueBrandNamesArray = this.createUniqueBrandName(this.catchMappedData);
+
+
+          this.catchMappedData.filter(data => {
+
+            if (this.numBrandIdArray.includes(Number(data.BrandID))) {
+              filteredBrandDataArray.push(data);
+            }
+          });
+          console.log('filteredBrandDataArray', filteredBrandDataArray);
+
+          this.uniqueBrandNamesArray = this.createUniqueBrandName(filteredBrandDataArray);
           this.anyArray = this.sortUniqueBrandName(this.uniqueBrandNamesArray);
+          console.log('brand data received', this.anyArray);
           this.brandSearch = this.anyArray;
+
           this.multipleBrandArray = this.catchMappedData;
+          this.spinner.hide();
+          this.finalProductNameArray = [];
+          this.purchaseReport.brandId = '';
+          this.purchaseReport.productId = '';
 
-
+        }, err => {
+          this.spinner.hide();
         });
       }
       this.loginService.seller_object.categories = this.categorySearch.slice();
@@ -314,7 +428,7 @@ export class ProductVendorWisePurchaseReportComponent implements OnInit {
   viewPurchaseReport(response) {
 
     this.dialog.open(DialogProductVendorWisePurchaseReportComponent, {
-      height: '600px',
+      height: '340px',
       width: '1400px',
       data: response
     });
@@ -421,7 +535,7 @@ export class ProductVendorWisePurchaseReportComponent implements OnInit {
     //   this.reportData = uniquePurchaseOrder;
     //   this.dataSource = new MatTableDataSource(this.reportData);
     // });
-
+    this.spinner.show();
     this.reportsService.getProductVendorWiseData(this.purchaseReport).subscribe(data => {
       console.log('1 got result', data);
       this.purchaseReportResponse = data;
@@ -433,7 +547,11 @@ export class ProductVendorWisePurchaseReportComponent implements OnInit {
       this.dataSource = new MatTableDataSource(this.purchaseReportResponse);
       setTimeout(() => this.dataSource.paginator = this.paginator);
       // this.dataSource = new MatTableDataSource(this.purchaseReportResponse);
-    });
+      this.spinner.hide();
+    },
+      err => {
+        this.spinner.hide();
+      });
 
   }
 

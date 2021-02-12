@@ -4,9 +4,17 @@
         <h2 class="text-center theme-color font-wight-bold my-4">Reports</h2>
         <div class="row parent">
             <div class="col-md-12 col-12 col-sm-12 col-xl-12 my-2">
-                <mat-form-field style="width: 100% !important">
+                <!-- <mat-form-field style="width: 100% !important">
                     <mat-select placeholder="Report Type">
 
+                    </mat-select>
+                </mat-form-field> -->
+                <mat-form-field style="width: 100% !important;">
+                    <mat-label>Select Target User</mat-label>
+                    <mat-select>
+                        <mat-option *ngFor="let item of reportType;" [value]="item.type">
+                            {{item.title}}
+                        </mat-option>
                     </mat-select>
                 </mat-form-field>
             </div>

@@ -105,6 +105,8 @@ export class GetPriceListComponent implements OnInit {
   brandSearch: any = [];
   subCategoryId: any;
   isActive: boolean = true;
+  providedInputAmount: number = 0;
+  inputQuantityArray: any = [];
 
   constructor(
     public purchaseService: PurchaseService,
@@ -237,6 +239,10 @@ export class GetPriceListComponent implements OnInit {
 
   updateAll() {
     this.checkFinalPrice = true;
+    if (this.updateAllRecordsCount != this.providedInputAmount) {
+      this.toastr.error('Kindly Select Required CheckBoxes !!');
+      return;
+    }
     this.selection.selected.forEach((element) => {
       if (this.checkFinalPrice === false) {
         return;
@@ -675,6 +681,45 @@ export class GetPriceListComponent implements OnInit {
       return a.name.localeCompare(b.name);
     });
     return array;
+  }
+
+  calculateProvidedQuantity(providedInputQuantity, productData) {
+    console.log('eleement', productData);
+    if (Number(providedInputQuantity) > 0) {
+
+      if (this.inputQuantityArray.includes(productData.Id)) {
+        console.log("value exists");
+        console.log('providedInputAmount', this.providedInputAmount);
+        console.log('inputQuantityArray', this.inputQuantityArray);
+        return;
+      }
+
+      else {
+        console.log("does not exist");
+        this.inputQuantityArray.push(productData.Id);
+        this.providedInputAmount++;
+        console.log('providedInputAmount', this.providedInputAmount);
+        console.log('inputQuantityArray', this.inputQuantityArray);
+      }
+
+
+    }
+    else if ((Number(providedInputQuantity) == 0)) {
+      if (this.inputQuantityArray.includes(productData.Id)) {
+        console.log("made to 0 ");
+        this.providedInputAmount--;
+        this.inputQuantityArray = this.inputQuantityArray.filter(item => item !== productData.Id)
+        console.log('providedInputAmount', this.providedInputAmount);
+        console.log('inputQuantityArray', this.inputQuantityArray);
+        return;
+      }
+
+    }
+    else {
+      console.log('providedInputAmount', this.providedInputAmount);
+      console.log('inputQuantityArray', this.inputQuantityArray);
+      return;
+    }
   }
 
   ngOnDestroy() {

@@ -358,9 +358,12 @@ export class ProductWisePurchaseReportComponent implements OnInit {
         this.purchaseService.getEachBrand(category.id, '0').subscribe(data => {
           eachBrandData = data;
           mappedData = this.mapObj(eachBrandData, this.dbData);
+          this.spinner.hide();
+        }, err => {
+          this.spinner.hide();
         });
 
-        this.spinner.hide();
+
       }
       this.loginService.seller_object.categories = this.categorySearch.slice();
       this.multipleCategoriesArray = this.subCategorySearch.slice();
@@ -384,6 +387,7 @@ export class ProductWisePurchaseReportComponent implements OnInit {
 
     if (event.isUserInput) {
       if (event.source.selected) {
+    
         this.subCategoryId = subCategory.id.toString();
         this.subCategoriesArray.push(subCategory.id);
         this.spinner.show();
@@ -399,6 +403,8 @@ export class ProductWisePurchaseReportComponent implements OnInit {
           this.brandSearch = this.anyArray;
           this.multipleBrandArray = this.catchMappedData;
 
+          this.spinner.hide();
+        }, err => {
           this.spinner.hide();
         });
       }
@@ -481,7 +487,7 @@ export class ProductWisePurchaseReportComponent implements OnInit {
   viewPurchaseReport(response) {
 
     this.dialog.open(DialogProductWisePurchaseReportComponent, {
-      height: '600px',
+      height: '380px',
       width: '1200px',
       data: response
     });

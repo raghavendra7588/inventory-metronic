@@ -28,6 +28,10 @@ export class SalesService {
   private INSERT_UPDATE_CATEGORY = environment.ADMIN_BASE_URL + 'Category/InsertUpdate';
   private UPDATE_MOBILE_NUMBER = environment.ADMIN_BASE_URL + '/user/UpdateMobileNumber';
   private UPDATE_CATEGORIES = environment.ADMIN_BASE_URL + '/user/savecategories';
+  private UPDATE_PRICE_DECISION_FACTOR = environment.ADMIN_BASE_URL + '/PriceDecisionFactor/InsertUpdate';
+  private GET_ORDER_LIST = environment.ADMIN_BASE_URL + '/order/GetOrderList';
+  private GET_SALES_ENQUIRY_DATA = environment.ADMIN_BASE_URL + '/sales/getall';
+  private GET_BUSSINESS_SNAPSHOT_DETAILS = environment.ADMIN_BASE_URL + 'DashBoard/GetCount';
 
   constructor(
     private http: HttpClient
@@ -37,7 +41,7 @@ export class SalesService {
 
   getAllAdminUsers(role) {
     const data = { 'role': role };
-    var reqHeader = new HttpHeaders({
+    let reqHeader = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': 'Bearer ' + this.token
     });
@@ -55,7 +59,19 @@ export class SalesService {
     return this.http.post(this.GET_ALL_SELLER_USERS, data, { headers: reqHeader });
   }
 
-  getAllCustomerUsers(role) {
+  getAllCustomerUsers(role, userId) {
+    const data = { 'role': role };
+    let reqHeader = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + this.token,
+      'loginid': userId
+    });
+
+    return this.http.post(this.GET_ALL_CUSTOMER_USERS, data, { headers: reqHeader });
+
+  }
+
+  getAllCustomerUsersByAdmin(role) {
     const data = { 'role': role };
     let reqHeader = new HttpHeaders({
       'Content-Type': 'application/json',
@@ -65,6 +81,7 @@ export class SalesService {
     return this.http.post(this.GET_ALL_CUSTOMER_USERS, data, { headers: reqHeader });
 
   }
+
 
   getAllSalesUsers(role) {
     const data = { 'role': role };
@@ -166,9 +183,14 @@ export class SalesService {
   }
 
   insertUpdateCategory(Category) {
+    let reqHeader = new HttpHeaders({
+      'Content-Type': 'multipart/form-data; boundary=----WebKitFormBoundary7Ml9LCNdQdmdTNBw',
+      'Authorization': 'Bearer ' + this.token
+    });
     let categoryData = Category;
-    // return this.http.post(this.INSERT_UPDATE_CATEGORY, { Category: categoryData });
-    return this.http.post(this.INSERT_UPDATE_CATEGORY, categoryData);
+    console.log('token', this.token);
+
+    return this.http.post(this.INSERT_UPDATE_CATEGORY, Category, { headers: reqHeader });
   }
 
 
@@ -187,5 +209,43 @@ export class SalesService {
     });
     return this.http.post(this.UPDATE_CATEGORIES, categoryData, { headers: reqHeader });
 
+  }
+
+  updateProductMeasurementUnit(productMeasurementUnit) {
+    let reqHeader = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + this.token
+    });
+
+    return this.http.post(this.UPDATE_PRICE_DECISION_FACTOR, productMeasurementUnit, { headers: reqHeader });
+  }
+
+  getOrderList(userId) {
+    let data = { userId: userId };
+    let reqHeader = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + this.token
+    });
+
+    return this.http.post(this.GET_ORDER_LIST, data, { headers: reqHeader });
+  }
+
+
+  getSalesEnquiry(userId) {
+    let data = { userId: userId };
+    let reqHeader = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + this.token
+    });
+    return this.http.post(this.GET_SALES_ENQUIRY_DATA, data, { headers: reqHeader });
+  }
+
+  getBussinessSnapshot(userId) {
+    let reqHeader = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + this.token
+    });
+
+    // return this.http.post(this.GET_BUSSINESS_SNAPSHOT_DETAILS, data, { headers: reqHeader });
   }
 }

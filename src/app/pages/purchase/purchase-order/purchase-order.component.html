@@ -15,7 +15,7 @@
         <div class="col-md-3 col-sm-6 col-6 col-lg-3 col-xl-3">
             <mat-form-field style="width: 100% !important">
                 <input matInput placeholder="GST Number" name="gstType" [(ngModel)]="purchaseOrder.gstNumber"
-                    disabled />
+                readonly />
             </mat-form-field>
         </div>
 
@@ -23,7 +23,7 @@
         <div class="col-md-3 col-sm-6 col-6 col-lg-3 col-xl-3">
             <mat-form-field style="width: 100% !important">
                 <input matInput placeholder="Email" name="email" autocomplete="off" [(ngModel)]="purchaseOrder.email"
-                    disabled />
+                readonly />
             </mat-form-field>
         </div>
 
@@ -36,16 +36,16 @@
     <div class="row">
         <div class="col-md-3 col-sm-6 col-6 col-lg-3 col-xl-3">
             <mat-form-field style="width: 100% !important;">
-                <input matInput placeholder="Order No" name="orderNo" [(ngModel)]="purchaseOrder.orderNo" disabled />
+                <input matInput placeholder="Order No" name="orderNo" [(ngModel)]="purchaseOrder.orderNo" readonly />
             </mat-form-field>
         </div>
         <div class="col-md-3 col-sm-6 col-6 col-lg-3 col-xl-3">
             <mat-form-field style="width: 100% !important;">
                 <mat-label>Order Date</mat-label>
                 <input matInput [matDatepicker]="picker1" [(ngModel)]="purchaseOrder.orderDate" placeholder="From Date"
-                    disabled>
+                readonly>
                 <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
-                <mat-datepicker #picker1></mat-datepicker>
+                <mat-datepicker #picker1 disabled></mat-datepicker>
             </mat-form-field>
 
         </div>
@@ -261,7 +261,7 @@
                         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
                         <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
                     </table>
-                    <mat-paginator [pageSizeOptions]="[7,20,100]" showFirstLastButtons></mat-paginator>
+                    <mat-paginator style="background-color:  #f3f6f9 !important;" [pageSizeOptions]="[7,20,100]" showFirstLastButtons></mat-paginator>
                 </div>
             </div>
 
@@ -280,8 +280,8 @@
                 </div>
             </div>
 
-            <mat-divider class="my-2"></mat-divider>    
-            
+            <mat-divider class="my-2"></mat-divider>
+
             <div class="row">
                 <div class="col-md-3 col-sm-6 col-6 col-lg-3 col-xl-3">
                     <mat-form-field style="width: 100% !important;">
@@ -292,12 +292,12 @@
 
                 <div class="col-md-3 col-sm-6 col-6 col-lg-3 col-xl-3 mt-3">
                     <mat-form-field style="width: 100% !important;">
-                        <input matInput [(ngModel)]="purchaseOrder.itemValue" placeholder="total Item" name="itemValue"
-                            disabled />
+                        <input matInput [(ngModel)]="purchaseOrder.itemValue" placeholder="Total Item" name="itemValue"
+                            readonly />
                     </mat-form-field>
                 </div>
 
-                <div class="col-md-3 col-sm-6 col-6 col-lg-3 col-xl-3 mt-3">
+                <!-- <div class="col-md-3 col-sm-6 col-6 col-lg-3 col-xl-3 mt-3">
                     <mat-form-field style="width: 100% !important;">
                         <input matInput [(ngModel)]="purchaseOrder.taxAmount" placeholder="Tax amount"
                             name="taxAmount" />
@@ -307,12 +307,12 @@
                     <mat-form-field style="width: 100% !important;">
                         <input matInput [(ngModel)]="purchaseOrder.taxable" placeholder="Taxable" name="taxAble" />
                     </mat-form-field>
-                </div>
+                </div> -->
             </div>
 
             <div class="row">
 
-                <div class="col-md-3 col-sm-6 col-6 col-lg-3 col-xl-3">
+                <!-- <div class="col-md-3 col-sm-6 col-6 col-lg-3 col-xl-3">
                     <mat-form-field style="width: 100% !important;">
                         <input matInput [(ngModel)]="purchaseOrder.cessAmount" placeholder="CESS Amount"
                             name="cessAmount" />
@@ -323,9 +323,9 @@
                         <input matInput [(ngModel)]="purchaseOrder.docAmount" placeholder="DOC Amount"
                             name="docAmount" />
                     </mat-form-field>
-                </div>
+                </div> -->
 
-                <div class="col-md-3 col-sm-6 col-6 col-lg-3 col-xl-3">
+                <!-- <div class="col-md-3 col-sm-6 col-6 col-lg-3 col-xl-3">
                     <mat-form-field style="width: 100% !important;">
                         <input matInput [(ngModel)]="purchaseOrder.advanceAmount" placeholder="Advance Amount"
                             name="advanceAmount" />
@@ -336,15 +336,15 @@
                         <input matInput [(ngModel)]="purchaseOrder.advanceLedger" placeholder="Advance Ledger"
                             name="advanceLedger" />
                     </mat-form-field>
-                </div>
+                </div> -->
             </div>
         </div>
 
         <div class="container my-3">
             <div class="row">
                 <div class="col-md-4 col-sm-6 col-6 col-lg-4 col-xl-4">
-                    <button mat-raised-button class="save-button" (click)="savePurchaseOrder()"><span
-                            style="color:white">Place
+                    <button mat-raised-button class="save-button" (click)="savePurchaseOrder()"
+                        [disabled]="isButtonDisabled"><span style="color:white">Place
                             Order</span></button>
                     <button mat-raised-button class="ml-4" color="warn" (click)="clearValues()">Cancel</button>
                 </div>

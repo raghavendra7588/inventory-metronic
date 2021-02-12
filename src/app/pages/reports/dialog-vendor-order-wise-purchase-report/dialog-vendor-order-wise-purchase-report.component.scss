@@ -7,5 +7,14 @@
 }
 
 .make-gold {
-    background-color:#add8e6;
+    background-color: #add8e6;
 }
+
+// ::ng-deep .mat-paginator-page-size-select {
+//     background-color: white;
+// }
+
+.mat-paginator-container {
+    background-color: red;
+}
+

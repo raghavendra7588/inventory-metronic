@@ -20,6 +20,8 @@ export class CustomerUserComponent implements OnInit {
 
   dataSource: any;
   adminUsers: any = [];
+  userRole: string;
+  userId: string;
 
   constructor(
     private salesService: SalesService,
@@ -29,6 +31,8 @@ export class CustomerUserComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.userRole = sessionStorage.getItem('role');
+    this.userId = sessionStorage.getItem('sellerId');
     this.getCustomerUser();
 
     this.emitterService.isAdminCreadtedOrUpdated.subscribe(val => {
@@ -47,15 +51,41 @@ export class CustomerUserComponent implements OnInit {
       }
     );
     let role = 'Customer';
-    this.salesService.getAllCustomerUsers(role).subscribe(res => {
-      console.log('Customer user', res);
-      this.adminUsers = res;
-      this.dataSource = new MatTableDataSource(this.adminUsers);
-      setTimeout(() => this.dataSource.paginator = this.paginator);
-      this.spinner.hide();
-    }, err => {
-      this.spinner.hide();
-    });
+
+    if (this.userRole == 'Admin') {
+
+      this.salesService.getAllCustomerUsersByAdmin(role).subscribe(res => {
+        console.log('Customer user', res);
+        this.adminUsers = res;
+        this.dataSource = new MatTableDataSource(this.adminUsers);
+        setTimeout(() => this.dataSource.paginator = this.paginator);
+        this.spinner.hide();
+      }, err => {
+        this.spinner.hide();
+      });
+    }
+    else {
+      this.salesService.getAllCustomerUsers(role, this.userId).subscribe(res => {
+        console.log('Customer user', res);
+        this.adminUsers = res;
+        this.dataSource = new MatTableDataSource(this.adminUsers);
+        setTimeout(() => this.dataSource.paginator = this.paginator);
+        this.spinner.hide();
+      }, err => {
+        this.spinner.hide();
+      });
+
+    }
+
+    // this.salesService.getAllCustomerUsers(role, this.userId).subscribe(res => {
+    //   console.log('Customer user', res);
+    //   this.adminUsers = res;
+    //   this.dataSource = new MatTableDataSource(this.adminUsers);
+    //   setTimeout(() => this.dataSource.paginator = this.paginator);
+    //   this.spinner.hide();
+    // }, err => {
+    //   this.spinner.hide();
+    // });
   }
 
   applyFilter(filter: string) {

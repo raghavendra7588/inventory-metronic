@@ -4,16 +4,16 @@
         <div class="row">
             <div class="col-md-4 text-center">
                 <h3 class="font-weight-bold orange-icon">Vendor Name</h3>
-                <h4 class="font-weight-bold attractive-green-icon">{{vendorName}}</h4>
+                <h4 class="font-weight-bold">{{vendorName}}</h4>
             </div>
             <div class="col-md-4 text-center">
                 <h3 class="font-weight-bold orange-icon">Seller</h3>
-                <h4 class="font-weight-bold attractive-green-icon">{{sellerName}}</h4>
+                <h4 class="font-weight-bold">{{sellerName}}</h4>
             </div>
 
             <div class="col-md-4 text-center">
                 <h3 class="font-weight-bold orange-icon">Order No</h3>
-                <h4 class="font-weight-bold attractive-green-icon"> {{orderNumber}}</h4>
+                <h4 class="font-weight-bold"> {{orderNumber}}</h4>
             </div>
         </div>
 
@@ -22,7 +22,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12 col-12 col-sm-12 col-lg-12 col-xl-12">
-                <table mat-table [dataSource]="dataSource" class="custom-table">
+                <table mat-table [dataSource]="dataSource" class="custom-dialog-table">
 
                     <ng-container matColumnDef="ProductName">
                         <th mat-header-cell *matHeaderCellDef>Product</th>

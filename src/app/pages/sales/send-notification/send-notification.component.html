@@ -1,0 +1,65 @@
+<div class="card card"
+    style="max-width: 500px !important;height: 355px;background-color: #f3f6f9;border: 1px solid white">
+    <div class="container-fluid">
+        <!-- <h2 class="text-center theme-color font-wight-bold my-4">Reports</h2> -->
+        <div class="row parent">
+            <div class="col-md-12 col-12 col-sm-12 col-xl-12 my-2">
+
+
+                <mat-form-field style="width: 100% !important;">
+                    <mat-label>Send Using</mat-label>
+                    <mat-select>
+                        <mat-option *ngFor="let item of sendUsing;" [value]="item.type">
+                            {{item.title}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="col-md-12 col-12 col-sm-12 col-xl-12 mt-2">
+
+                <mat-form-field style="width: 100% !important;">
+                    <mat-label>Select Target User</mat-label>
+                    <mat-select>
+                        <mat-option *ngFor="let item of selectTargetUser;" [value]="item.type">
+                            {{item.title}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="col-md-12 col-12 col-sm-12 col-xl-12 my-2">
+             
+                <input matInput placeholder="Notification Title">
+            </div>
+
+            <div class="col-md-12 col-12 col-sm-12 col-xl-12 my-2">
+
+                <!-- <mat-form-field style="width: 100%;">
+                    <mat-label>Category</mat-label>
+                    <mat-select placeholder="Category" [(ngModel)]="categoryList">
+                        <mat-select-filter [placeholder]="'Filter'" [displayMember]="'name'" [array]="categorySearch"
+                            (filteredReturn)="loginService.seller_object.categories=$event"></mat-select-filter>
+                        <mat-option value="all" (click)="onCategorySelectAll()">All</mat-option>
+                        <mat-option (onSelectionChange)="onCategoriesChange($event,category)"
+                            *ngFor="let category of loginService.seller_object.categories" [value]="category.id">
+                            {{category.name }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field> -->
+
+                <mat-form-field style="width: 100% !important;">
+                    <mat-label>Seller</mat-label>
+                    <mat-select>
+                        <!--  <mat-option *ngFor="let item of selectTargetUser;" [value]="item.type">
+                            {{item.title}}
+                        </mat-option>-->
+                    </mat-select>
+                </mat-form-field>
+            </div>
+
+            <div class="col-md-12 col-12 col-sm-12 col-xl-12 mt-3">
+                <button mat-raised-button class="width-100 mt-2 save-button"><span style="color:white">
+                        Send</span></button>
+            </div>
+        </div>
+    </div>
+</div>

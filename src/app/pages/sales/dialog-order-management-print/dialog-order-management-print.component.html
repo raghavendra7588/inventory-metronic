@@ -1,0 +1,114 @@
+<div class="container-fluid">
+    <img src="/assets/images/logo1.png" class="mx-auto d-block" height="80px" width="160px" />
+    <mat-divider class="my-2"></mat-divider>
+    <div class="row">
+        <div class="col-md-6 col-12 col-sm-6 col-lg-6 col-xl-6  text-center">
+            <h5 class="orange-icon">Customer</h5>
+            <h5 class="theme-color">{{orderData.name}}</h5>
+            <h5 class="theme-color">{{orderData.address}}</h5>
+            <h5 class="theme-color">{{orderData.city}}</h5>
+            <h5 class="theme-color">Mobile No : {{orderData.primaryMobileNumber}}</h5>
+        </div>
+        <div class="col-md-6 col-12 col-sm-6 col-lg-6 col-xl-6 text-center">
+            <h5 class="orange-icon">Seller</h5>
+            <h5 class="theme-color">{{orderData.sellerName}} (<span>{{orderData.sellerId}}</span>)</h5>
+        </div>
+    </div>
+
+    <div class="row my-3">
+        <div class="col-md-4 col-12 col-sm-12 col-lg-4 col-xl-4 text-center">
+            <h5 class="orange-icon">Delivery Type:
+                <span>
+                    <h5 class="theme-color">{{orderData.deliveryType}}</h5>
+                </span>
+            </h5>
+        </div>
+        <div class="col-md-4 col-12 col-sm-12 col-lg-4 col-xl-4 text-center">
+            <h5 class="orange-icon">Payment Type:
+                <span>
+                    <h5 class="theme-color">{{orderData.paymentType}}</h5>
+                </span>
+            </h5>
+        </div>
+        <div class="col-md-4 col-12 col-sm-12 col-lg-4 col-xl-4 text-center">
+
+            <h5 class="orange-icon">Delivery Upto:
+                <span>
+                    <h5 class="theme-color">{{orderData.deliveryUpto}}</h5>
+                </span>
+            </h5>
+        </div>
+    </div>
+
+    <mat-divider class="my-4"></mat-divider>
+    <h5 class="orange-icon text-center">Order No
+        <span>
+            <h5 class="theme-color">()</h5>
+        </span>
+    </h5>
+    <mat-divider class="my-4"></mat-divider>
+    <div mat-dialog-actions class="my-4">
+        <button mat-raised-button class="save-button"><span class="custom-text-color">Print</span></button>
+
+        <button mat-raised-button mat-dialog-close>Close</button>
+    </div>
+
+    <div class="col-xl-12 col-12 col-md-12 col-sm-12 my-3">
+        <table mat-table [dataSource]="dataSource" class="custom-dialog-table">
+
+            <ng-container matColumnDef="productName">
+                <th mat-header-cell *matHeaderCellDef>Product Name</th>
+                <td mat-cell *matCellDef="let element">{{element.PrdName}}</td>
+                <td mat-footer-cell *matFooterCellDef></td>
+            </ng-container>
+
+            <ng-container matColumnDef="varient">
+                <th mat-header-cell *matHeaderCellDef>Varient</th>
+                <td mat-cell *matCellDef="let element">{{element.ProductName}}</td>
+                <td mat-footer-cell *matFooterCellDef><span class="attractive-green-icon">Total</span></td>
+            </ng-container>
+
+            <ng-container matColumnDef="quantity">
+                <th mat-header-cell *matHeaderCellDef>Quantity</th>
+                <td mat-cell *matCellDef="let element">
+                    {{element.PrdQuantity}}
+                </td>
+                <td mat-footer-cell *matFooterCellDef>
+                    <span class="attractive-green-icon">{{calculateQuantity()}}</span>
+                </td>
+            </ng-container>
+
+
+            <ng-container matColumnDef="mrp">
+                <th mat-header-cell *matHeaderCellDef>MRP</th>
+                <td mat-cell *matCellDef="let element">
+                    {{element.MRP}}
+                </td>
+                <td mat-footer-cell *matFooterCellDef></td>
+            </ng-container>
+
+            <ng-container matColumnDef="discount">
+                <th mat-header-cell *matHeaderCellDef>Discount</th>
+                <td mat-cell *matCellDef="let element">{{element.Discount}}</td>
+                <td mat-footer-cell *matFooterCellDef>
+                    <span class="attractive-green-icon">{{calculateDiscount()}}</span>
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="finalPrice">
+                <th mat-header-cell *matHeaderCellDef>Final Price</th>
+                <td mat-cell *matCellDef="let element">{{element.FinalPrice}}</td>
+                <td mat-footer-cell *matFooterCellDef>
+                    <span class="attractive-green-icon">{{calculateFinalPrice()}}</span>
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
+        </table>
+
+        <mat-paginator class="custom-dialog-paginator" [pageSizeOptions]="[25,50,100]" showFirstLastButtons></mat-paginator>
+    </div>
+
+</div>

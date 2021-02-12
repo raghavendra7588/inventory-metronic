@@ -53,6 +53,7 @@ export class PurchaseOrderComponent implements OnInit {
   strSellerId: string;
   calculatedDiscount: number;
   calculatedFinalPrice: number;
+  isButtonDisabled: boolean = false;
 
   constructor(
     public dialog: MatDialog,
@@ -159,8 +160,14 @@ export class PurchaseOrderComponent implements OnInit {
 
 
   savePurchaseOrder() {
+    this.isButtonDisabled = true;
 
     this.purchaseOrderData.SellerId = this.sellerId;
+    this.purchaseOrderData.TaxAmount = '';
+    this.purchaseOrderData.Taxable = '';
+    this.purchaseOrderData.CESSAmount = '';
+    this.purchaseOrderData.DocAmount = '';
+    this.purchaseOrderData.AdvanceLedger = '';
 
     if (this.vendorId === null || this.vendorId === undefined || this.vendorId === '') {
       this.purchaseOrderData.VendorId = 'NULL';
@@ -310,7 +317,7 @@ export class PurchaseOrderComponent implements OnInit {
     if (this.purchaseOrder.paymentTerms === 'Credit') {
       if (this.grandTotal < this.CreditLimitPerOrder && this.purchaseOrder.paymentTerms === 'Credit') {
         this.purchaseService.savePurchaseOrderMaster(this.purchaseOrderData).subscribe(data => {
-          this.toastr.success('order is placed');
+          this.toastr.success('Order Is Placed');
 
           this.purchaseOrderResponse = data;
           this.openPurchaseOrderPrintDialog();
@@ -326,7 +333,7 @@ export class PurchaseOrderComponent implements OnInit {
     }
     else {
       this.purchaseService.savePurchaseOrderMaster(this.purchaseOrderData).subscribe(data => {
-        this.toastr.success('order is placed');
+        this.toastr.success('Order Is Placed');
         this.purchaseOrderResponse = data;
         this.openPurchaseOrderPrintDialog();
         this.clearValues();

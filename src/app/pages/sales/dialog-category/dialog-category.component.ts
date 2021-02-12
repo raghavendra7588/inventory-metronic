@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import { EmitterService } from 'src/app/shared/emitter.service';
-import { InsertUpdateCategory } from '../sales.model.';
+import { Category } from '../sales.model.';
 import { SalesService } from '../sales.service';
 
 @Component({
@@ -15,7 +15,7 @@ export class DialogCategoryComponent implements OnInit {
 
   categoryResponse: any = [];
 
-  insertUpdateCategory: InsertUpdateCategory = new InsertUpdateCategory();
+  category: Category = new Category();
 
   categoryForm: FormGroup;
 
@@ -24,6 +24,8 @@ export class DialogCategoryComponent implements OnInit {
   fileName: any;
 
   title: string;
+
+  imageUrl: string;
 
   constructor(
     public formBuilder: FormBuilder,
@@ -55,31 +57,23 @@ export class DialogCategoryComponent implements OnInit {
 
     const formData = new FormData();
     if (this.categoryResponse) {
-      formData.append('name', this.insertUpdateCategory.name.toString());
-      formData.append('descriptions', this.insertUpdateCategory.descriptions.toString());
+      formData.append('name', this.category.name.toString());
+      formData.append('descriptions', this.category.descriptions.toString());
 
       //
-      formData.append('imageurl', this.categoryResponse.imageurl);
+      formData.append('imageurl', this.imageUrl);
       //
-      formData.append('isparent', this.insertUpdateCategory.isparent.toString());
-      formData.append('parentid', this.insertUpdateCategory.parentid.toString());
+      // formData.append('isparent', this.category.isparent.toString());
+      formData.append('isparent', '1');
+      formData.append('parentid', this.category.parentid.toString());
 
-      formData.append('id', this.insertUpdateCategory.id.toString());
-      formData.append('IsActive', this.insertUpdateCategory.isactive.toString());
-      formData.append('userid', this.insertUpdateCategory.id.toString());
+      formData.append('id', this.category.id.toString());
+      // formData.append('IsActive', this.category.isactive.toString());
+      formData.append('IsActive', '1');
+      formData.append('userid', this.category.id.toString());
     }
 
-
-    // this.insertUpdateCategory.name = this.categoryResponse.name;
-    // this.insertUpdateCategory.descriptions = this.categoryResponse.descriptions;
-    // this.insertUpdateCategory.isparent = this.categoryResponse.isparent;
-    // this.insertUpdateCategory.imageurl = this.categoryResponse.imageurl;
-    // this.insertUpdateCategory.parentid = this.categoryResponse.parentid;
-    // this.insertUpdateCategory.id = this.categoryResponse.id;
-    // this.insertUpdateCategory.IsActive = this.categoryResponse.isactive;
-    // this.insertUpdateCategory.userid = this.categoryResponse.id;
-
-
+    console.log('formData', formData);
 
     this.salesService.insertUpdateCategory(formData).subscribe(res => {
       this.toastr.success('Successfully !!');
@@ -94,13 +88,14 @@ export class DialogCategoryComponent implements OnInit {
   }
 
   assignValues() {
-    this.insertUpdateCategory.name = this.categoryResponse.name;
-    this.insertUpdateCategory.descriptions = this.categoryResponse.descriptions;
-    this.insertUpdateCategory.isparent = this.categoryResponse.isparent;
-    // this.insertUpdateCategory.imageurl = this.categoryResponse.imageurl;
-    this.insertUpdateCategory.parentid = this.categoryResponse.parentid;
-    this.insertUpdateCategory.id = this.categoryResponse.id;
-    this.insertUpdateCategory.isactive = this.categoryResponse.isactive;
-    this.insertUpdateCategory.userid = this.categoryResponse.id;
+    this.category.name = this.categoryResponse.name;
+    this.category.descriptions = this.categoryResponse.descriptions;
+    this.category.isparent = this.categoryResponse.isparent;
+    this.imageUrl = this.categoryResponse.imageurl;
+    // this.category.imageurl = this.categoryResponse.imageurl;
+    this.category.parentid = this.categoryResponse.parentid;
+    this.category.id = this.categoryResponse.id;
+    this.category.isactive = this.categoryResponse.isactive;
+    this.category.userid = this.categoryResponse.id;
   }
 }

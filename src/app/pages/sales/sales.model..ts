@@ -38,7 +38,15 @@ export class Product {
     description: string;
 }
 
-export class InsertUpdateCategory {
+export class ProductMeasurementUnit {
+    IsActive: string;
+    descriptions: string;
+    id: string;
+    name: string;
+    userid: string;
+}
+
+export class Category {
     name: string;
     descriptions: string;
     imageurl: string;

@@ -1,5 +1,17 @@
 <div class="container">
     <div class="row">
+
+        <div class="col-md-3 col-sm-6 col-6 col-lg-3 col-xl-3">
+            <mat-form-field style="width: 100%;">
+                <mat-select id="vendor_List" [(ngModel)]="purchaseReport.vendorId" placeholder="Vendor List">
+                    <mat-option *ngFor="let item of vendorData" [value]="item.vendorId"
+                        (click)="selectedVendorFromList(item)">
+                        {{item.name}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+
         <div class="col-md-3 col-sm-6 col-6 col-lg-3 col-xl-3">
             <mat-form-field style="width: 100%;">
                 <mat-label>Category</mat-label>
@@ -23,7 +35,7 @@
                 <mat-select #select [(ngModel)]="purchaseReport.subCategoryId">
                     <mat-select-filter [placeholder]="'Filter'" [displayMember]="'name'" [array]="subCategorySearch"
                         (filteredReturn)="multipleCategoriesArray=$event"></mat-select-filter>
-                    <mat-option value="all" (click)="onSubCategorySelectAll()">All</mat-option>
+                    <!-- <mat-option value="all" (click)="onSubCategorySelectAll()">All</mat-option> -->
                     <mat-option (onSelectionChange)="onSubCategoriesChange($event,category)"
                         *ngFor="let category of multipleCategoriesArray" [value]="category.id">
                         {{category.name }}
@@ -46,7 +58,10 @@
             </mat-form-field>
 
         </div>
-        <div class="col-md-3 col-sm-6 col-6 col-lg-3 col-xl-3">
+
+    </div>
+    <div class="row mt-3">
+        <div class="col-md-3 col-sm-3 col-4 col-lg-4 col-xl-3">
             <mat-form-field style="width: 100%;">
                 <mat-label>Product</mat-label>
                 <mat-select [(ngModel)]="purchaseReport.productId">
@@ -60,63 +75,48 @@
                 </mat-select>
             </mat-form-field>
         </div>
-    </div>
-    <div class="row mt-3">
 
-        <div class="col-md-3 col-sm-6 col-6 col-lg-3 col-xl-3">
-            <mat-form-field style="width: 100%;">
-                <mat-select id="vendor_List" [(ngModel)]="purchaseReport.vendorId" placeholder="Vendor List">
-                    <mat-option *ngFor="let item of vendorData" [value]="item.vendorId"
-                        (click)="selectedVendorFromList(item)">
-                        {{item.name}}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
-        </div>
-        <div class="col-md-2 col-sm-6 col-6 col-lg-2 col-xl-2">
+        <div class="col-md-3 col-sm-3 col-4 col-lg-4 col-xl-3">
 
             <mat-form-field style="width: 100%;">
                 <mat-label>Start Date</mat-label>
-                <input matInput [matDatepicker]="picker1" placeholder="From Date" [(ngModel)]="startDate">
+                <input matInput [matDatepicker]="picker1" placeholder="From Date" [(ngModel)]="startDate" readonly>
                 <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
                 <mat-datepicker #picker1></mat-datepicker>
             </mat-form-field>
         </div>
-        <div class="col-md-2 col-sm-6 col-6 col-lg-2 col-xl-2">
+        <div class="col-md-3 col-sm-3 col-4 col-lg-4 col-xl-3">
 
             <mat-form-field style="width: 100%;">
                 <mat-label>End Date</mat-label>
-                <input matInput [matDatepicker]="picker" [(ngModel)]="endDate">
+                <input matInput [matDatepicker]="picker" [(ngModel)]="endDate" readonly>
                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-datepicker #picker></mat-datepicker>
             </mat-form-field>
         </div>
-        <div class="col-md-2 col-sm-6 col-6 col-lg-2 col-xl-2">
+        <div class="col-md-3 col-sm-3 col-4 col-lg-4 col-xl-3">
             <button mat-raised-button color="primary" class="width-100 mt-2 save-button"
                 (click)="searchRecords()">Search</button>
-            <!-- <button mat-raised-button color="primary" class="width-100 mt-2" (click)="searchRecords()">Search</button> -->
-            <!-- <a class="btn btn-primary btn-fixed-height font-weight-bold px-2 px-lg-5 mr-2 mt-2" (click)="searchRecords()">
-                <span [inlineSVG]="'./assets/media/svg/icons/Navigation/Check.svg'" cacheSVG="true"
-                    class="svg-icon svg-icon-lg"></span>
-                <span class="d-none d-md-inline">Search</span>
-            </a> -->
+  
         </div>
-        <div class="col-md-3 col-sm-6 col-6 col-lg-3 col-xl-3">
-
-            <button mat-raised-button style="color:white"  [disabled]="purchaseReportResponse.length===0"
-                class="width-100 mt-2 save-button" (click)="downloadCSV()">Download Report</button>
-        </div>
+      
     </div>
 </div>
 
 <div class="container mb-4">
     <div class="row">
-        <div class="col-md-12 col-sm-12 col-12 col-lg-12 col-xl-12">
+        <div class="col-md-9 col-sm-9 col-6 col-lg-9 col-xl-9">
             <mat-form-field style="width: 100%;">
                 <mat-label>Filter</mat-label>
                 <input matInput (keyup)="applyFilter($event.target.value)">
             </mat-form-field>
         </div>
+        <div class="col-md-3 col-sm-3 col-6 col-lg-3 col-xl-3">
+
+            <button mat-raised-button style="color:white" [disabled]="purchaseReportResponse.length===0"
+                class="width-100 mt-2 save-button" (click)="downloadCSV()">Download Report</button>
+        </div>
+
     </div>
 </div>
 
@@ -197,7 +197,9 @@
                 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                 <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
             </table>
-            <mat-paginator [pageSizeOptions]="[25,50,100]" showFirstLastButtons></mat-paginator>
+            <mat-paginator style="background-color:  #f3f6f9 !important;" [pageSizeOptions]="[25,50,100]"
+                showFirstLastButtons></mat-paginator>
         </div>
     </div>
 </div>
+<ngx-spinner></ngx-spinner>

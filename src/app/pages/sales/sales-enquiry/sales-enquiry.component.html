@@ -9,56 +9,56 @@
     </div>
 
     <div class="row">
-
+        <!-- ['shopName', 'shopKeepersName', 'CategoryName', 'phoneNo', 'city', 'Status', 'name', 'date', 'edit']; -->
         <div class="col-xl-12 col-12 col-md-12 col-sm-12 mb-3">
             <table mat-table [dataSource]="dataSource" class="custom-table">
 
                 <ng-container matColumnDef="shopName">
                     <th mat-header-cell *matHeaderCellDef>Shop Name</th>
-                    <td mat-cell *matCellDef="let element">{{element.id}}</td>
+                    <td mat-cell *matCellDef="let element">{{element.ShopName}}</td>
                 </ng-container>
 
                 <ng-container matColumnDef="shopKeepersName">
                     <th mat-header-cell *matHeaderCellDef>Shop Keepers Name</th>
-                    <td mat-cell *matCellDef="let element">{{element.name}}</td>
+                    <td mat-cell *matCellDef="let element">{{element.ShopKeepersName}}</td>
                 </ng-container>
 
                 <ng-container matColumnDef="CategoryName">
                     <th mat-header-cell *matHeaderCellDef>Category Name</th>
-                    <td mat-cell *matCellDef="let element">{{element.name}}</td>
+                    <td mat-cell *matCellDef="let element">{{element.CategoryName}}</td>
                 </ng-container>
 
                 <ng-container matColumnDef="phoneNo">
                     <th mat-header-cell *matHeaderCellDef>Phone No</th>
-                    <td mat-cell *matCellDef="let element">{{element.emailid}}</td>
+                    <td mat-cell *matCellDef="let element">{{element.PhoneNo}}</td>
                 </ng-container>
 
                 <ng-container matColumnDef="city">
                     <th mat-header-cell *matHeaderCellDef>City</th>
-                    <td mat-cell *matCellDef="let element">{{element.mobilenumber}}</td>
+                    <td mat-cell *matCellDef="let element">{{element.City}}</td>
                 </ng-container>
 
                 <ng-container matColumnDef="Status">
                     <th mat-header-cell *matHeaderCellDef>Status</th>
-                    <td mat-cell *matCellDef="let element">{{element.pincode}}</td>
+                    <td mat-cell *matCellDef="let element">{{element.Status}}</td>
                 </ng-container>
 
                 <ng-container matColumnDef="name">
                     <th mat-header-cell *matHeaderCellDef>Name</th>
-                    <td mat-cell *matCellDef="let element">{{element.state}}</td>
+                    <td mat-cell *matCellDef="let element">{{element.Name}}</td>
                 </ng-container>
 
 
                 <ng-container matColumnDef="date">
                     <th mat-header-cell *matHeaderCellDef>Date</th>
-                    <td mat-cell *matCellDef="let element">{{element.city}}</td>
+                    <td mat-cell *matCellDef="let element">{{element.Date}}</td>
                 </ng-container>
 
 
                 <ng-container matColumnDef="edit">
                     <th mat-header-cell *matHeaderCellDef>Edit</th>
                     <td mat-cell *matCellDef="let element">
-                        <button mat-icon-button>
+                        <button mat-icon-button (click)="editCategory(element)">
                             <mat-icon class="mat-18">edit</mat-icon>
                         </button>
                     </td>
@@ -71,3 +71,4 @@
         </div>
     </div>
 </div>
+<ngx-spinner></ngx-spinner>

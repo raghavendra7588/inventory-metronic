@@ -142,6 +142,15 @@ export class DialogEditUserComponent implements OnInit {
           else if (this.salesService.currentTab == 'Add New Sales Person') {
             this.editUpdateAdmin.role = 'sales';
           }
+          else if (this.salesService.currentTab == 'Add New Back Office') {
+            this.editUpdateAdmin.role = 'backoffice';
+          }
+          else if (this.salesService.currentTab == 'Add New MIS') {
+            this.editUpdateAdmin.role = 'mis';
+          }
+          else if (this.salesService.currentTab == 'Add New Partner') {
+            this.editUpdateAdmin.role = 'partner';
+          }
 
           this.editUpdateAdmin.state = this.editUser.state;
           this.editUpdateAdmin.userid = '1';

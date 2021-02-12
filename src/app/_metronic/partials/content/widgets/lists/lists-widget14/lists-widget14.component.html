@@ -12,7 +12,8 @@
     </div>
   </div>
   <div class="card-header border-0">
-    <h3 class="card-title font-weight-bolder text-dark">Highest Value Products By {{currentlySelectedMenu}}</h3>
+    <h3 class="card-title font-weight-bolder" style="color:  #ff8c00;">Highest Value Products By
+      {{currentlySelectedMenu}}</h3>
   </div>
   <ng-container *ngIf="currentTab === 'lastMonth'">
     <div class="card-body pt-2" *ngFor="let data of highestValueProductsByMonth">
@@ -94,7 +95,7 @@
 
         <div class="d-flex align-items-center py-lg-0 py-2">
           <div class="d-flex flex-column text-right">
-            <span class="text-dark-75 font-weight-bolder font-size-h4">
+            <span class="font-weight-bold font-size-h4 text-warning" style="color:  #ff8c00;">
               {{data.total}}
             </span>
             <span class="text-muted font-size-sm font-weight-bolder">

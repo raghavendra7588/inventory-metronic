@@ -123,7 +123,7 @@ export class DialogContentVendorComponent implements OnInit {
   prevBrand: string;
   prevSubCategory: string;
   prevCategory: string;
-
+  isButtonDisabled: boolean = false;
 
 
   constructor(public purchaseService: PurchaseService,
@@ -146,29 +146,6 @@ export class DialogContentVendorComponent implements OnInit {
     this.loginService.seller_object.categories = sortedData;
     // this.getAllCategoryData();
     this.vendorData = data;
-    this.categorySettings = {
-      singleSelection: false,
-      idField: 'id',
-      textField: 'name',
-      itemsShowLimit: 1,
-      allowSearchFilter: true
-    };
-
-    this.subCategorySettings = {
-      singleSelection: false,
-      idField: 'id',
-      textField: 'name',
-      itemsShowLimit: 1,
-      allowSearchFilter: true
-    };
-
-    this.brandSettings = {
-      singleSelection: false,
-      idField: 'BrandID',
-      textField: 'BrandName',
-      itemsShowLimit: 1,
-      allowSearchFilter: true
-    };
 
     this.getAddressDetails();
     this.getMasterBrandData();
@@ -222,8 +199,8 @@ export class DialogContentVendorComponent implements OnInit {
       accountType: ['']
     });
     this.assignData();
-    this.saveVendorForm.get('country').disable();
-    this.saveVendorForm.get('code').disable();
+    // this.saveVendorForm.get('country').disable();
+    // this.saveVendorForm.get('code').disable();
     this.vendor.registrationDate = new Date();
 
   }
@@ -484,6 +461,7 @@ export class DialogContentVendorComponent implements OnInit {
         },
           err => {
             this.toastr.error('An Error Occured !!');
+            this.spinner.hide();
           });
 
       }
@@ -524,7 +502,7 @@ export class DialogContentVendorComponent implements OnInit {
 
 
         this.selectedSubCategoryIdArray.push(subCategory.id);
-
+        this.spinner.show();
         this.purchaseService.getAllBrand(subCategory.parentid, subCategory.id).subscribe(data => {
           if (this.multipleBrandArray.length < 2 && this.array3 < 1) {
             this.multipleBrandArray = data;
@@ -537,10 +515,11 @@ export class DialogContentVendorComponent implements OnInit {
           this.uniqueBrandNamesArray = this.createUniqueBrandName(this.multipleBrandArray);
           this.anyArray = this.sortUniqueBrandName(this.uniqueBrandNamesArray);
           this.subCategoryNamesArray = this.multipleBrandArray;
-
+          this.spinner.hide();
         },
           err => {
             this.toastr.error('An Error Occured !!');
+            this.spinner.hide();
           });
       }
     }
@@ -673,6 +652,9 @@ export class DialogContentVendorComponent implements OnInit {
 
   saveVendor() {
     const formData = new FormData();
+    this.isButtonDisabled = true;
+    this.vendor.distance = '';
+
     if (this.isImageUploaded) {
       formData.append('File', this.fileData, this.vendor.fileUpload);
       formData.append('FileName', this.vendor.fileUpload);

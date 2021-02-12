@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { EmitterService } from 'src/app/shared/emitter.service';
 import * as _ from 'lodash';
 import { ReportsService } from 'src/app/pages/reports/reports.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-base-tables-widget6',
@@ -10,6 +11,7 @@ import { ReportsService } from 'src/app/pages/reports/reports.service';
 export class BaseTablesWidget6Component implements OnInit {
 
   fastestMovingDataByMonth: any = [];
+
 
   TABS: string[] = [
     'Month',
@@ -20,14 +22,25 @@ export class BaseTablesWidget6Component implements OnInit {
   @Input() cssClass: string;
   strSellerId: string;
 
+  productData$: Observable<any>;
+
   constructor(
     private reportsService: ReportsService,
     private emitterService: EmitterService
-  ) { }
+  ) {
+    this.strSellerId = sessionStorage.getItem('sellerId').toString();
+
+    this.emitterService.isLoggedIn.subscribe(val => {
+      if (val) {
+        this.getFastestMoVingProductsByMonth();
+        // this.getFastestMovingData();
+      }
+    });
+  }
 
   ngOnInit(): void {
     this.currentTab = this.TABS[0];
-    this.strSellerId = sessionStorage.getItem('sellerId').toString();
+    // this.productData$ = this.reportsService.getFastestMovingDataByMonth(this.strSellerId);
     this.getFastestMoVingProductsByMonth();
   }
 
@@ -42,7 +55,19 @@ export class BaseTablesWidget6Component implements OnInit {
       let uniqueRecordsByVendors = _.uniqBy(this.fastestMovingDataByMonth, 'PurchaseOrderItemId');
       this.fastestMovingDataByMonth = uniqueRecordsByVendors;
       setTimeout(() => this.fastestMovingDataByMonth = this.fastestMovingDataByMonth);
-      // console.log('ddata ** ', this.fastestMovingDataByMonth);
+   
     });
   }
+
+  getFastestMovingData() {
+
+    this.reportsService.getFastestMovingDataByMonth(this.strSellerId);
+  }
+  // public displayResponse() {
+  //   alert('called');
+  //   this.getFastestMoVingProductsByMonth();
+  // }
+  // ngAfterViewInit() {
+  //   this.namedElement.nativeElement.click();
+  // }
 }

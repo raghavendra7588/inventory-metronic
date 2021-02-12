@@ -53,7 +53,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       this.router.navigate(['/']);
     }
 
-    this.user.username = '9821163016';
+    this.user.username = '9821163061';
     this.user.password = '987654';
 
 
@@ -137,8 +137,9 @@ export class LoginComponent implements OnInit, OnDestroy {
     },
       error => {
         this.errors = error;
+        console.log('eror', this.errors.error);
         if (this.errors) {
-          this.toastr.error('Logged In Failed !!');
+          this.toastr.error(this.errors.error);
         }
       });
 

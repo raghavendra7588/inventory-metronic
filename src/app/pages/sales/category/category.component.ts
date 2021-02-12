@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
+import { NgxSpinnerService } from 'ngx-spinner';
 import { EmitterService } from 'src/app/shared/emitter.service';
 import { DialogBrandComponent } from '../dialog-brand/dialog-brand.component';
 import { DialogCategoryComponent } from '../dialog-category/dialog-category.component';
@@ -25,13 +26,16 @@ export class CategoryComponent implements OnInit {
   constructor(
     public salesService: SalesService,
     public dialog: MatDialog,
-    public emitterService: EmitterService
+    public emitterService: EmitterService,
+    private spinner: NgxSpinnerService
   ) {
 
     this.emitterService.isAdminCreadtedOrUpdated.subscribe(val => {
       if (val) {
         this.getCategoryData();
       }
+    }, err => {
+      this.spinner.hide();
     });
   }
 
@@ -40,11 +44,22 @@ export class CategoryComponent implements OnInit {
   }
 
   getCategoryData() {
+    this.spinner.show(undefined,
+      {
+        type: "square-jelly-box",
+        size: "medium",
+        color: 'white'
+      }
+    );
     this.salesService.getAllCategoriesData().subscribe(res => {
       this.categoryData = res;
       this.dataSource = new MatTableDataSource(this.categoryData);
       setTimeout(() => this.dataSource.paginator = this.paginator);
-    });
+      this.spinner.hide();
+    }
+      , err => {
+        this.spinner.hide();
+      });
   }
 
   applyFilter(filter: string) {

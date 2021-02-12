@@ -24,6 +24,7 @@ export class AddAddressComponent implements OnInit {
   maxLength = 10;
   maxLengthPinCode = 6;
   copyAddressToggle: boolean = false;
+  isButtonDisabled: boolean = false;
 
   constructor(
     public formBuilder: FormBuilder,
@@ -73,8 +74,8 @@ export class AddAddressComponent implements OnInit {
     this.address.billingName = sessionStorage.getItem('sellerName');
     this.address.shippingName = sessionStorage.getItem('sellerName');
 
-    this.addressForm.get('billing_name').disable();
-    this.addressForm.get('shipping_name').disable();
+    // this.addressForm.get('billing_name').disable();
+    // this.addressForm.get('shipping_name').disable();
 
     this.address.billing_country = 'India';
     this.address.shipping_country = 'India';
@@ -94,6 +95,8 @@ export class AddAddressComponent implements OnInit {
 
 
   onSubmit() {
+    this.isButtonDisabled = true;
+
     if (this.addressData) {
       this.address.id = this.addressData.id;
     }

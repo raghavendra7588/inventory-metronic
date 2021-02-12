@@ -3,6 +3,9 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { EmitterService } from 'src/app/shared/emitter.service';
+import { DialogEditUserComponent } from '../dialog-edit-user/dialog-edit-user.component';
+import { DialogUpdateMobileNumberComponent } from '../dialog-update-mobile-number/dialog-update-mobile-number.component';
 import { SalesService } from '../sales.service';
 
 @Component({
@@ -16,26 +19,43 @@ export class PartnerUserComponent implements OnInit {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
   dataSource: any;
-  adminUsers: any = [];
+  partnerUser: any = [];
 
   constructor(
     private salesService: SalesService,
     public dialog: MatDialog,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    public emitterService: EmitterService
   ) { }
 
   ngOnInit(): void {
-    // this.getSellerUser();
+    this.getSellerUser();
+
+    this.emitterService.isAdminCreadtedOrUpdated.subscribe(val => {
+      if (val) {
+        this.getSellerUser();
+      }
+    }, err => {
+      this.spinner.hide();
+    });
   }
 
   getSellerUser() {
-    let role = 'Seller';
-    this.spinner.show();
+    let role = 'partner';
+    this.spinner.show(undefined,
+      {
+        type: "square-jelly-box",
+        size: "medium",
+        color: 'white'
+      }
+    );
     this.salesService.getAllSellerUsers(role).subscribe(res => {
-      console.log('Seller user', res);
-      this.adminUsers = res;
-      this.dataSource = new MatTableDataSource(this.adminUsers);
+
+      this.partnerUser = res;
+      this.dataSource = new MatTableDataSource(this.partnerUser);
       setTimeout(() => this.dataSource.paginator = this.paginator);
+      this.spinner.hide();
+    }, err => {
       this.spinner.hide();
     });
   }
@@ -46,41 +66,33 @@ export class PartnerUserComponent implements OnInit {
 
   editSellerUser(user) {
     console.log('user', user);
-    this.salesService.currentTab = 'Edit New';
-    // this.dialog.open(DialogEditUserComponent, {
-    //   height: '250px',
-    //   width: '1000px',
-    //   data: user,
-    //   disableClose: true
-    // });
+    this.salesService.currentTab = 'Edit Partner';
+    this.dialog.open(DialogEditUserComponent, {
+      height: '380px',
+      width: '600px',
+      data: user,
+      disableClose: true
+    });
+  }
+
+  openPartnerDialog() {
+    this.salesService.currentTab = 'Add New Partner';
+    this.dialog.open(DialogEditUserComponent, {
+      height: '380px',
+      width: '600px',
+      disableClose: true
+    });
   }
 
   openUpdateMobileDialog(user) {
-    // this.dialog.open(DialogUpdateMobileNumberComponent, {
-    //   height: '240px',
-    //   width: '600px',
-    //   data: user,
-    //   disableClose: true
-    // });
+    this.dialog.open(DialogUpdateMobileNumberComponent, {
+      height: '240px',
+      width: '600px',
+      data: user,
+      disableClose: true
+    });
   }
 
-  openCategoriesDialog(user) {
-    // this.dialog.open(DialogCategoriesMappingComponent, {
-    //   height: '280px',
-    //   width: '600px',
-    //   data: user,
-    //   disableClose: true
-    // });
-  }
-
-  openParentChildMapping(user) {
-    // this.dialog.open(DialogSellerMappingComponent, {
-    //   height: '800px',
-    //   width: '700px',
-    //   data: user,
-    //   disableClose: true
-    // });
-  }
 
   editCategory(element) {
 

@@ -6,6 +6,7 @@ import { PurchaseService } from '../../purchase/purchase.service';
 import { DialogVendorOrderWisePurchaseReportComponent } from '../dialog-vendor-order-wise-purchase-report/dialog-vendor-order-wise-purchase-report.component';
 import * as _ from 'lodash';
 import { MatPaginator } from '@angular/material/paginator';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-vendor-order-wise-purchase-report',
@@ -28,7 +29,8 @@ export class VendorOrderWisePurchaseReportComponent implements OnInit {
 
   constructor(
     public dialog: MatDialog,
-    public purchaseService: PurchaseService) { }
+    public purchaseService: PurchaseService,
+    private spinner: NgxSpinnerService) { }
 
   ngOnInit(): void {
     this.strSellerId = sessionStorage.getItem('sellerId');
@@ -55,10 +57,15 @@ export class VendorOrderWisePurchaseReportComponent implements OnInit {
   }
 
   getVendorData() {
+    this.spinner.show();
     this.purchaseService.getAllVendorData(this.strSellerId).subscribe(data => {
       this.vendorData = data;
       console.log('vendor data purchase reports ', this.vendorData);
-    });
+      this.spinner.hide();
+    },
+      err => {
+        this.spinner.hide();
+      });
   }
 
   convertDate(receivedDate) {
@@ -114,10 +121,16 @@ export class VendorOrderWisePurchaseReportComponent implements OnInit {
   }
 
   purchaseReportAllData() {
+
+    this.spinner.show();
     this.purchaseService.getPurchaseReportData(this.purchaseReport).subscribe(data => {
       this.purchaseReportArray = data;
       this.dataSource = new MatTableDataSource(this.purchaseReportArray);
-    });
+      this.spinner.hide();
+    },
+      err => {
+        this.spinner.hide();
+      });
   }
 
   clearValues() {
