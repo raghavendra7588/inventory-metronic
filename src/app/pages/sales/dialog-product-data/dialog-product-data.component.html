@@ -1,55 +1,88 @@
 <div class="container-fluid">
+
     <div class="row">
         <div class="col-md-7 col-12 col-sm-12 col-xl-7">
 
 
             <div class="row">
                 <div class="col-md-6 col-6 col-sm-6 col-xl-6">
-                    <mat-form-field style="width: 100% !important">
-                        <mat-select placeholder="Category">
 
+                    <mat-form-field style="width: 100% !important">
+                        <mat-select placeholder="Category" [(ngModel)]="product.categoryid">
+                            <mat-option *ngFor="let item of categoriesData;" [value]="item.id"
+                                (click)="selectedCategoryFromList(item)">
+                                {{item.name}}
+                            </mat-option>
                         </mat-select>
                     </mat-form-field>
+
+                    <!-- <mat-form-field style="width: 100% !important">
+                        <mat-select placeholder="Category" [(ngModel)]="product.categoryid">
+
+                        </mat-select>
+                    </mat-form-field> -->
                 </div>
                 <div class="col-md-6 col-6 col-sm-6 col-xl-6">
                     <mat-form-field style="width: 100% !important">
-                        <mat-select placeholder="Sub Category">
-
+                        <mat-select placeholder="Sub Category" [(ngModel)]="product.subcategoryid">
+                            <mat-option *ngFor="let item of subCategoriesData;" [value]="item.id"
+                                (click)="selectedSubCategoryFromList(item)">
+                                {{item.name}}
+                            </mat-option>
                         </mat-select>
                     </mat-form-field>
+
+                    <!-- <mat-form-field style="width: 100% !important">
+                        <mat-select placeholder="Sub Category" [(ngModel)]="product.subcategoryid">
+
+                        </mat-select>
+                    </mat-form-field> -->
                 </div>
             </div>
 
             <div class="row my-2">
                 <div class="col-md-12 col-12 col-sm-12 col-xl-12">
                     <mat-form-field style="width: 100% !important;">
-                        <input matInput placeholder="Name" name="orderNo">
+                        <input matInput placeholder="Name" [(ngModel)]="product.name">
                     </mat-form-field>
                 </div>
             </div>
 
             <div class="row my-2">
                 <div class="col-md-6 col-6 col-sm-6 col-xl-6">
-                    <mat-form-field style="width: 100% !important">
-                        <mat-select placeholder="Category">
 
+                    <mat-form-field style="width: 100% !important">
+                        <mat-select placeholder="Brand" [(ngModel)]="product.brandid">
+                            <mat-option *ngFor="let item of brandsData;" [value]="item.id"
+                                (click)="selectedBrandsFromList(item)">
+                                {{item.name}}
+                            </mat-option>
                         </mat-select>
                     </mat-form-field>
+
+                    <!-- <mat-form-field style="width: 100% !important">
+                        <mat-select placeholder="Brand" [(ngModel)]="product.brandid">
+
+                        </mat-select>
+                    </mat-form-field> -->
+
+
                 </div>
                 <div class="col-md-6 col-6 col-sm-6 col-xl-6 mt-3">
-                    <input type="file" id="file" (change)="selectFile($event)" class="width-100">
+                    <input type="file" id="file" (change)="selectFile($event)" [(ngModel)]="product.imgurl"
+                        class="width-100">
                 </div>
             </div>
 
             <div class="row my-2">
                 <div class="col-md-6 col-6 col-sm-6 col-xl-6">
                     <mat-form-field style="width: 100% !important;">
-                        <textarea placeholder="Description" matInput></textarea>
+                        <textarea placeholder="Description" matInput [(ngModel)]="product.descriptions"></textarea>
                     </mat-form-field>
                 </div>
                 <div class="col-md-6 col-6 col-sm-6 col-xl-6">
                     <mat-form-field style="width: 100% !important;">
-                        <textarea placeholder="Hot Keyword" matInput></textarea>
+                        <textarea placeholder="Hot Keyword" matInput [(ngModel)]="product.hotkeyword"></textarea>
                     </mat-form-field>
                 </div>
             </div>
@@ -57,25 +90,34 @@
 
             <div class="row my-2">
                 <div class="col-md-3 col-6 col-sm-6 col-xl-3">
-                    <mat-form-field style="width: 100% !important">
-                        <mat-select placeholder="Measurement Unit">
+                    <!-- <mat-form-field style="width: 100% !important">
+                        <mat-select placeholder="Measurement Unit" [(ngModel)]="product.measurementUnit">
 
+                        </mat-select>
+                    </mat-form-field> -->
+
+                    <mat-form-field style="width: 100% !important">
+                        <mat-select placeholder="Measurement Unit" [(ngModel)]="product.measurementUnit">
+                            <mat-option *ngFor="let item of productMeasurementData;" [value]="item.id"
+                                (click)="selectectedMeasurementUnit(item)">
+                                {{item.name}}
+                            </mat-option>
                         </mat-select>
                     </mat-form-field>
                 </div>
                 <div class="col-md-3 col-6 col-sm-6 col-xl-3">
                     <mat-form-field style="width: 100% !important;">
-                        <input matInput placeholder="Varient" name="orderNo">
+                        <input matInput placeholder="Varient" [(ngModel)]="product.varient">
                     </mat-form-field>
                 </div>
                 <div class="col-md-3 col-6 col-sm-6 col-xl-3">
                     <mat-form-field style="width: 100% !important;">
-                        <input matInput placeholder="Price" name="orderNo">
+                        <input matInput placeholder="Price" [(ngModel)]="product.price">
                     </mat-form-field>
                 </div>
 
                 <div class="col-md-3 col-6 col-sm-6 col-xl-3">
-                    <button mat-mini-fab class="save-button">
+                    <button mat-mini-fab class="save-button" (click)="addProducts()">
                         <span class="custom-text-color">
                             <mat-icon>add</mat-icon>
                         </span>
@@ -87,34 +129,48 @@
 
         <div class="col-md-5 col-12 col-sm-12 col-xl-5">
 
-            <table mat-table [dataSource]="dataSource" class="custom-table">
+            <table mat-table [dataSource]="dataSource" class="custom-dialog-table">
 
                 <ng-container matColumnDef="measurementUnit">
                     <th mat-header-cell *matHeaderCellDef>Measurement Unit</th>
-                    <td mat-cell *matCellDef="let element">{{element.productId}}</td>
-                    <td mat-footer-cell *matFooterCellDef></td>
+                    <td mat-cell *matCellDef="let element">{{element.pricedecisionfactorname}}</td>
+
                 </ng-container>
 
                 <ng-container matColumnDef="varient">
                     <th mat-header-cell *matHeaderCellDef>Varient</th>
-                    <td mat-cell *matCellDef="let element">{{element.productId}}</td>
-                    <td mat-footer-cell *matFooterCellDef></td>
+                    <td mat-cell *matCellDef="let element">{{element.quantity}}</td>
+
                 </ng-container>
 
                 <ng-container matColumnDef="price">
                     <th mat-header-cell *matHeaderCellDef>Price</th>
-                    <td mat-cell *matCellDef="let element">{{element.productId}}</td>
-                    <td mat-footer-cell *matFooterCellDef></td>
+                    <td mat-cell *matCellDef="let element">{{element.price}}</td>
+
                 </ng-container>
                 <ng-container matColumnDef="edit">
                     <th mat-header-cell *matHeaderCellDef>Edit</th>
-                    <td mat-cell *matCellDef="let element">{{element.productId}}</td>
-                    <td mat-footer-cell *matFooterCellDef></td>
+                    <td mat-cell *matCellDef="let element">
+
+                        <span>
+
+                            <button mat-icon-button (click)="editProduct(element)">
+                                <mat-icon class="mat-18">edit</mat-icon>
+                            </button>
+
+                        </span>
+                        <span>
+                            <button mat-icon-button (click)="deleteProduct(element)">
+                                <mat-icon class="mat-18">delete</mat-icon>
+                            </button>
+                        </span>
+                    </td>
+
                 </ng-container>
 
                 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                 <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-                <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
+
             </table>
             <mat-paginator [pageSizeOptions]="[7,20,100]" showFirstLastButtons></mat-paginator>
         </div>

@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { env } from 'process';
 import { environment } from 'src/environments/environment';
@@ -32,6 +32,8 @@ export class SalesService {
   private GET_ORDER_LIST = environment.ADMIN_BASE_URL + '/order/GetOrderList';
   private GET_SALES_ENQUIRY_DATA = environment.ADMIN_BASE_URL + '/sales/getall';
   private GET_BUSSINESS_SNAPSHOT_DETAILS = environment.ADMIN_BASE_URL + 'DashBoard/GetCount';
+  private BRAND_INSERT_UPDATE = environment.ADMIN_BASE_URL + '/Brand/InsertUpdate';
+
 
   constructor(
     private http: HttpClient
@@ -110,6 +112,15 @@ export class SalesService {
     return this.http.post(this.GET_ALL_CATEGORIES_DATA, data, { headers: reqHeader });
   }
 
+  getCategoriesData(parentid) {
+    let data = { parentid: parentid }
+    let reqHeader = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + this.token
+    });
+    return this.http.post(this.GET_ALL_CATEGORIES_DATA, data, { headers: reqHeader });
+  }
+
   getParentChildMappingBrand(id) {
     const data = { userid: id.toString() + '-' + 'child' };
     let reqHeader = new HttpHeaders({
@@ -127,6 +138,16 @@ export class SalesService {
       'Authorization': 'Bearer ' + this.token
     });
     return this.http.post(this.GET_ALL_CATEGORIES_DATA, data, { headers: reqHeader });
+  }
+
+
+  getAllCategories(parentid, userid) {
+    const req = { 'parentid': parentid, userid: userid };
+    let reqHeader = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + this.token
+    });
+    return this.http.post(this.GET_ALL_CATEGORIES_DATA, req, { headers: reqHeader });
   }
 
 
@@ -183,16 +204,21 @@ export class SalesService {
   }
 
   insertUpdateCategory(Category) {
+
     let reqHeader = new HttpHeaders({
-      'Content-Type': 'multipart/form-data; boundary=----WebKitFormBoundary7Ml9LCNdQdmdTNBw',
       'Authorization': 'Bearer ' + this.token
     });
-    let categoryData = Category;
-    console.log('token', this.token);
 
     return this.http.post(this.INSERT_UPDATE_CATEGORY, Category, { headers: reqHeader });
   }
 
+
+  insertUpdateBrand(Brand) {
+    let reqHeader = new HttpHeaders({
+      'Authorization': 'Bearer ' + this.token
+    });
+    return this.http.post(this.BRAND_INSERT_UPDATE, Brand, { headers: reqHeader });
+  }
 
   updateMobileNumber(mobileNumberData) {
     let reqHeader = new HttpHeaders({
@@ -241,11 +267,17 @@ export class SalesService {
   }
 
   getBussinessSnapshot(userId) {
-    let reqHeader = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + this.token
-    });
-
-    // return this.http.post(this.GET_BUSSINESS_SNAPSHOT_DETAILS, data, { headers: reqHeader });
+    let headers = new HttpHeaders();
+    headers = headers.set('Content-Type', 'application/json');
+    return this.http.post(this.GET_BUSSINESS_SNAPSHOT_DETAILS + '?' + 'userId=' + userId.toString(), { headers: headers });
   }
+
+  getSellerUsers(role) {
+    let data = { role: role };
+    let headers = new HttpHeaders();
+    headers = headers.set('Content-Type', 'application/json');
+    return this.http.post(this.GET_ALL_SELLER_USERS, data, { headers: headers });
+  }
+
+
 }

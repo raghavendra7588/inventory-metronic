@@ -2,6 +2,8 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { EmitterService } from 'src/app/shared/emitter.service';
 import { DialogSubCategoryComponent } from '../dialog-sub-category/dialog-sub-category.component';
 import { SalesService } from '../sales.service';
 
@@ -20,8 +22,19 @@ export class SubCategoryComponent implements OnInit {
 
   constructor(
     public salesService: SalesService,
-    public dialog: MatDialog
-  ) { }
+    public dialog: MatDialog,
+    public emitterService: EmitterService,
+    private spinner: NgxSpinnerService
+  ) {
+    this.emitterService.isAdminCreadtedOrUpdated.subscribe(val => {
+      if (val) {
+        this.getAllSubCategoriesData();
+      }
+    }, err => {
+      this.spinner.hide();
+    });
+
+  }
 
   ngOnInit(): void {
     this.getAllSubCategoriesData();
@@ -32,6 +45,7 @@ export class SubCategoryComponent implements OnInit {
   }
 
   editCategory(res) {
+    this.salesService.currentTab = 'Edit SubCategory';
     this.dialog.open(DialogSubCategoryComponent, {
       height: '370px',
       width: '600px',
@@ -41,6 +55,7 @@ export class SubCategoryComponent implements OnInit {
   }
 
   openSubCategory() {
+    this.salesService.currentTab = 'Add New Category';
     this.dialog.open(DialogSubCategoryComponent, {
       height: '370px',
       width: '600px',

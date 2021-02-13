@@ -24,6 +24,7 @@ export class ListsWidget14Component implements OnInit {
   highestValueProductsByLastMonth: any = [];
   currentTab: string = 'currentMonth';
   currentlySelectedMenu: string = 'Current Month';
+  role: string;
 
   constructor(
     private reportsService: ReportsService,
@@ -40,6 +41,7 @@ export class ListsWidget14Component implements OnInit {
   }
 
   ngOnInit(): void {
+    this.role = sessionStorage.getItem('role');
     if (!this.rowNumber) {
       this.rowNumber = 5;
     }
@@ -53,6 +55,9 @@ export class ListsWidget14Component implements OnInit {
 
 
   getHighestValueProductsByMonthData() {
+    if (this.role == 'Admin') {
+      this.monthData.sellerId = '2';
+    }
     this.reportsService.getHighestValueProductByMonth(this.monthData).subscribe(res => {
       this.highestValueProductsByMonth = res;
     });

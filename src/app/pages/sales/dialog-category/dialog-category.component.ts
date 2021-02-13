@@ -26,6 +26,7 @@ export class DialogCategoryComponent implements OnInit {
   title: string;
 
   imageUrl: string;
+  isImageSelected: boolean = false;
 
   constructor(
     public formBuilder: FormBuilder,
@@ -57,32 +58,57 @@ export class DialogCategoryComponent implements OnInit {
 
     const formData = new FormData();
     if (this.categoryResponse) {
-      formData.append('name', this.category.name.toString());
-      formData.append('descriptions', this.category.descriptions.toString());
 
-      //
-      formData.append('imageurl', this.imageUrl);
-      //
-      // formData.append('isparent', this.category.isparent.toString());
-      formData.append('isparent', '1');
-      formData.append('parentid', this.category.parentid.toString());
 
-      formData.append('id', this.category.id.toString());
-      // formData.append('IsActive', this.category.isactive.toString());
-      formData.append('IsActive', '1');
-      formData.append('userid', this.category.id.toString());
+      let Category = {
+        "name": this.category.name.toString(), "descriptions": this.category.descriptions.toString(),
+        "imageurl": this.imageUrl.toString(), "isparent": "1",
+        "parentid": "0",
+        "id": "0",
+        "IsActive": "1",
+        "userid": "1"
+      };
+    
+
+      if (this.isImageSelected) {
+        formData.append('uploadedFiles', this.fileData, this.fileName);
+      }
+
+      formData.append('Category', JSON.stringify(Category));
+
+
+      console.log('this.fileData', this.fileData);
+      console.log('this.fileName', this.fileName);
     }
+    else {
 
-    console.log('formData', formData);
+      let Category = {
+        "name": this.category.name.toString(), "descriptions": this.category.descriptions.toString(),
+        "imageurl": "", "isparent": "1",
+        "parentid": "0",
+        "id": "0",
+        "IsActive": "1",
+        "userid": "1"
+      };
+
+      if (this.isImageSelected) {
+        formData.append('uploadedFiles', this.fileData, this.fileName);
+      }
+
+      formData.append('Category', JSON.stringify(Category));
+
+    }
+  
 
     this.salesService.insertUpdateCategory(formData).subscribe(res => {
-      this.toastr.success('Successfully !!');
+      this.toastr.success('Completed Successfully !!');
       this.emitterService.isAdminCreadtedOrUpdated.emit(true);
+      this.dialogRef.close();
     });
   }
 
   selectFile(e) {
-    console.log(e);
+    this.isImageSelected = true;
     this.fileData = <File>e.target.files[0];
     this.fileName = e.target.files[0].name;
   }

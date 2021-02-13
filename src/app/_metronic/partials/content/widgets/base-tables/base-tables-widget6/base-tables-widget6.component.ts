@@ -11,7 +11,7 @@ import { Observable } from 'rxjs';
 export class BaseTablesWidget6Component implements OnInit {
 
   fastestMovingDataByMonth: any = [];
-
+  role: string;
 
   TABS: string[] = [
     'Month',
@@ -29,6 +29,7 @@ export class BaseTablesWidget6Component implements OnInit {
     private emitterService: EmitterService
   ) {
     this.strSellerId = sessionStorage.getItem('sellerId').toString();
+    this.role = sessionStorage.getItem('role');
 
     this.emitterService.isLoggedIn.subscribe(val => {
       if (val) {
@@ -42,6 +43,7 @@ export class BaseTablesWidget6Component implements OnInit {
     this.currentTab = this.TABS[0];
     // this.productData$ = this.reportsService.getFastestMovingDataByMonth(this.strSellerId);
     this.getFastestMoVingProductsByMonth();
+  
   }
 
   setCurrentTab(tab: string) {
@@ -49,13 +51,16 @@ export class BaseTablesWidget6Component implements OnInit {
   }
 
   getFastestMoVingProductsByMonth() {
+    if (this.role == 'Admin') {
+      this.strSellerId = '2';
+    }
     this.reportsService.getFastestMovingDataByMonth(this.strSellerId).subscribe(res => {
       this.fastestMovingDataByMonth = res;
 
       let uniqueRecordsByVendors = _.uniqBy(this.fastestMovingDataByMonth, 'PurchaseOrderItemId');
       this.fastestMovingDataByMonth = uniqueRecordsByVendors;
       setTimeout(() => this.fastestMovingDataByMonth = this.fastestMovingDataByMonth);
-   
+
     });
   }
 

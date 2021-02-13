@@ -49,8 +49,8 @@ export class ProductComponent implements OnInit {
 
   editCategory(res) {
     this.dialog.open(DialogProductDataComponent, {
-      height: '270px',
-      width: '600px',
+      height: '500px',
+      width: '1000px',
       data: res,
       disableClose: true
     });
@@ -58,7 +58,7 @@ export class ProductComponent implements OnInit {
 
   openProductDialog() {
     this.dialog.open(DialogProductDataComponent, {
-      height: '490px',
+      height: '500px',
       width: '1000px',
       disableClose: true
     });
@@ -78,7 +78,7 @@ export class ProductComponent implements OnInit {
       this.productData = res;
       this.dataSource = new MatTableDataSource(this.productData);
       setTimeout(() => this.dataSource.paginator = this.paginator);
-
+      this.spinner.hide();
     }
       , err => {
         this.spinner.hide();

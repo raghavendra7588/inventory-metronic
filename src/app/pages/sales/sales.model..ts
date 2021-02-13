@@ -27,16 +27,35 @@ export class EditUser {
 
 
 export class SubCategory {
-    parentCategory: string;
     name: string;
-    description: string;
-    image: any;
+    descriptions: string;
+    imageurl: string;
+    isparent: string;
+    parentid: string;
+    id: string;
+    isactive: string;
+    userid: string;
+    parentCategory: string;
 }
 
 export class Product {
+    varients: any;
+    categoryid: string;
+    subcategoryid: string;
+    brandid: string;
     name: string;
-    description: string;
+    imgurl: string;
+    descriptions: string;
+    price: string;
+    varient: string;
+    measurementUnit: string;
+    hotkeyword: string;
+    id: string;
+    IsActive: string;
+    userid: string;
 }
+
+
 
 export class ProductMeasurementUnit {
     IsActive: string;
@@ -54,6 +73,17 @@ export class Category {
     parentid: string;
     id: string;
     isactive: string;
+    userid: string;
+}
+
+export class Brand {
+    name: string;
+    descriptions: string;
+    imageurl: string;
+    // isparent: string;
+    // parentid: string;
+    id: string;
+    IsActive: string;
     userid: string;
 }
 

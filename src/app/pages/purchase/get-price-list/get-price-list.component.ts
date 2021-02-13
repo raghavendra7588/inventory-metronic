@@ -240,7 +240,7 @@ export class GetPriceListComponent implements OnInit {
   updateAll() {
     this.checkFinalPrice = true;
     if (this.updateAllRecordsCount != this.providedInputAmount) {
-      this.toastr.error('Kindly Select Required CheckBoxes !!');
+      this.toastr.error('Kindly Select Required CheckBoxes');
       return;
     }
     this.selection.selected.forEach((element) => {
