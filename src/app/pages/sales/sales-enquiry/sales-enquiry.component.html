@@ -1,15 +1,25 @@
 <div class="container-fluid my-5">
     <div class="row">
-        <div class="col-md-12 col-12 col-sm-12 col-xl-12">
+        <div class="col-md-6 col-6 col-sm-6 col-xl-6">
             <mat-form-field style="width: 100%;">
                 <mat-label>Search</mat-label>
                 <input matInput (keyup)="applyFilter($event.target.value)">
             </mat-form-field>
         </div>
+        <div class="col-md-3 col-6 col-sm-6 col-xl-3 col-lg-3">
+            <button mat-raised-button class="width-100 mt-2 save-button" 
+                [ngClass]="!isDataLoaded ? 'opacity' : 'noOpacity'" (click)="openCategoryDialog()"><span
+                    style="color:white">Add New</span></button>
+        </div>
+        <div class="col-md-3 col-6 col-sm-6 col-xl-3 col-lg-3">
+            <button mat-raised-button class="width-100 mt-2 save-button" [disabled]="!isDataLoaded"
+                [ngClass]="!isDataLoaded ? 'opacity' : 'noOpacity'" (click)="downloadTheReport()"><span
+                    style="color:white">Download</span></button>
+        </div>
     </div>
 
     <div class="row">
-        <!-- ['shopName', 'shopKeepersName', 'CategoryName', 'phoneNo', 'city', 'Status', 'name', 'date', 'edit']; -->
+
         <div class="col-xl-12 col-12 col-md-12 col-sm-12 mb-3">
             <table mat-table [dataSource]="dataSource" class="custom-table">
 
@@ -67,7 +77,8 @@
                 <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
                 <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
             </table>
-            <mat-paginator [pageSizeOptions]="[25,50,100]" showFirstLastButtons></mat-paginator>
+            <mat-paginator style="background-color:  #f3f6f9 !important;" [pageSizeOptions]="[25,50,100]"
+                showFirstLastButtons></mat-paginator>
         </div>
     </div>
 </div>

@@ -1,16 +1,17 @@
 <div class="container-fluid">
 
     <div class="row">
-
-        <mat-form-field style="width: 100% !important">
-            <mat-select placeholder="Seller">
-                <mat-select-filter [placeholder]="'Seller'" [displayMember]="'SellerNameCode'" [array]="sellerData"
-                    (filteredReturn)="filteredSellerData =$event"></mat-select-filter>
-                <mat-option *ngFor="let item of filteredSellerData" [value]="item">
-                    {{item.SellerNameCode}}
-                </mat-option>
-            </mat-select>
-        </mat-form-field>
+        <div class="col-md-3 col-6 col-sm-3 col-xl-3">
+            <mat-form-field style="width: 100% !important">
+                <mat-select placeholder="Seller">
+                    <mat-select-filter [placeholder]="'Seller'" [displayMember]="'SellerNameCode'" [array]="sellerData"
+                        (filteredReturn)="filteredSellerData =$event"></mat-select-filter>
+                    <mat-option *ngFor="let item of filteredSellerData" [value]="item">
+                        {{item.SellerNameCode}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
     </div>
     <div class="col-md-3 col-6 col-sm-3 col-xl-3">
 

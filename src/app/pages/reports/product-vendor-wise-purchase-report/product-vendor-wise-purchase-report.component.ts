@@ -118,6 +118,7 @@ export class ProductVendorWisePurchaseReportComponent implements OnInit {
   particularCategoryArray: any = [];
 
   categoryOriginalArray: any = [];
+  isVendorSelected: boolean = false;
 
   constructor(public dialog: MatDialog,
     public loginService: LoginService,
@@ -175,6 +176,7 @@ export class ProductVendorWisePurchaseReportComponent implements OnInit {
   }
 
   selectedVendorFromList(item) {
+    this.isVendorSelected = true;
     this.purchaseReport.categoryId = '';
     this.loginService.seller_object.categories = this.categoryOriginalArray;
     this.vendorId = item.vendorId;
@@ -276,19 +278,23 @@ export class ProductVendorWisePurchaseReportComponent implements OnInit {
         this.spinner.show();
         this.purchaseService.getAllSubCategories(category.id).subscribe(data => {
           orderedSubCategoriesData = this.sortArrayInAscendingOrder(data);
+          console.log('sub category data', orderedSubCategoriesData);
+          if (this.isVendorSelected) {
+            let particularSubCategoryArray: any = [];
+            orderedSubCategoriesData.filter(item => {
+              if (this.numSubcategoryIdArray.includes(Number(item.id))) {
+
+                particularSubCategoryArray.push(item);
+              }
+            });
+            console.log('particularSubCategoryArray', particularSubCategoryArray);
+            this.multipleCategoriesArray = particularSubCategoryArray;
+          }
+          else {
+            this.multipleCategoriesArray = orderedSubCategoriesData;
+          }
 
 
-          let particularSubCategoryArray: any = [];
-          orderedSubCategoriesData.filter(item => {
-
-
-            if (this.numSubcategoryIdArray.includes(Number(item.id))) {
-
-              particularSubCategoryArray.push(item);
-            }
-          });
-          console.log('particularSubCategoryArray', particularSubCategoryArray);
-          this.multipleCategoriesArray = particularSubCategoryArray;
           this.subCategorySearch = this.multipleCategoriesArray;
 
           this.anyArray = [];
@@ -339,22 +345,29 @@ export class ProductVendorWisePurchaseReportComponent implements OnInit {
           this.catchMappedData = this.mapObj(this.multipleBrandArray, this.dbData);
           this.multipleBrandArray = this.catchMappedData;
 
+          if (this.isVendorSelected) {
+            this.catchMappedData.filter(data => {
+
+              if (this.numBrandIdArray.includes(Number(data.BrandID))) {
+                filteredBrandDataArray.push(data);
+              }
+            });
+            console.log('filteredBrandDataArray', filteredBrandDataArray);
+
+            this.uniqueBrandNamesArray = this.createUniqueBrandName(filteredBrandDataArray);
+            this.anyArray = this.sortUniqueBrandName(this.uniqueBrandNamesArray);
+            console.log('brand data received', this.anyArray);
+            this.brandSearch = this.anyArray;
+            this.multipleBrandArray = this.catchMappedData;
+          }
+          else {
+            this.uniqueBrandNamesArray = this.createUniqueBrandName(this.catchMappedData);
+            this.anyArray = this.sortUniqueBrandName(this.uniqueBrandNamesArray);
+            this.brandSearch = this.anyArray;
+            this.multipleBrandArray = this.catchMappedData;
+          }
 
 
-          this.catchMappedData.filter(data => {
-
-            if (this.numBrandIdArray.includes(Number(data.BrandID))) {
-              filteredBrandDataArray.push(data);
-            }
-          });
-          console.log('filteredBrandDataArray', filteredBrandDataArray);
-
-          this.uniqueBrandNamesArray = this.createUniqueBrandName(filteredBrandDataArray);
-          this.anyArray = this.sortUniqueBrandName(this.uniqueBrandNamesArray);
-          console.log('brand data received', this.anyArray);
-          this.brandSearch = this.anyArray;
-
-          this.multipleBrandArray = this.catchMappedData;
           this.spinner.hide();
           this.finalProductNameArray = [];
           this.purchaseReport.brandId = '';
@@ -546,8 +559,13 @@ export class ProductVendorWisePurchaseReportComponent implements OnInit {
       console.log('3 got result', this.purchaseReportResponse);
       this.dataSource = new MatTableDataSource(this.purchaseReportResponse);
       setTimeout(() => this.dataSource.paginator = this.paginator);
-      // this.dataSource = new MatTableDataSource(this.purchaseReportResponse);
+
       this.spinner.hide();
+
+      this.purchaseReport.vendorId = '';
+      this.isVendorSelected = false;
+      this.purchaseReport.categoryId = '';
+      this.purchaseReport.subCategoryId = '';
     },
       err => {
         this.spinner.hide();

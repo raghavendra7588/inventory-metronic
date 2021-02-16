@@ -53,6 +53,23 @@ export class Product {
     id: string;
     IsActive: string;
     userid: string;
+    categoryname: string;
+    subcategoryname: string;
+    brandname: string;
+    MRP: string;
+    Discount: string;
+    vendorCode: string;
+    FinalPrice: string;
+    PriceDecisionFactorName: string;
+    Quantity: string;
+    Unit: string;
+    ImageVersion: string;
+    mappingid: string;
+    brandImageUrl: string;
+    outOfStockFlag: string;
+    outOfStockMessage: string;
+    languageCode: string;
+    productDetails: any;
 }
 
 
@@ -148,4 +165,51 @@ export class EditCategory {
     userid: string;
     username: string;
     vendorcode: string;
+}
+
+export class OrderSalesReport {
+    reportType: string;
+    sellerName: string;
+    startDate: string;
+    endDate: string;
+}
+
+export class DocumentData {
+    userName: string;
+    documentType: string;
+    userId: string;
+    userRole: string;
+    file: any;
+}
+
+export class SendNotification {
+    notificationBody: string;
+    notificationTitle: string;
+    notifyId: string;
+    pincode: string;
+    sendusing: string;
+    userType: string;
+    vendorCode: string;
+    vendorCode2: any;
+    sellerCode: string;
+}
+
+export class SalesEnquiry {
+    Address: string;
+    Area: string;
+    City: string;
+    CategoryName: string;
+    Date: string;
+    IsActive: string;
+    Name: string;
+    PhoneNo: string;
+    Pincode: string;
+    ShopKeepersName: string;
+    ShopName: string;
+    State: string;
+    Status: string;
+    categories: any;
+    categoriestext: string;
+    id: string;
+    userid: string;
 }

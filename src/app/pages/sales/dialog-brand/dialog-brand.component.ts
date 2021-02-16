@@ -49,7 +49,7 @@ export class DialogBrandComponent implements OnInit {
   }
 
   onSubmit() {
-    const formData = new FormData();
+    let formData = new FormData();
 
     if (this.brandsRespone) {
 
@@ -116,5 +116,26 @@ export class DialogBrandComponent implements OnInit {
     this.brand.id = this.brandsRespone.id;
     this.brand.IsActive = this.brandsRespone.isactive;
     this.brand.userid = this.brandsRespone.id;
+  }
+
+  deleteBrandsData() {
+
+    let deleteFormData = new FormData();
+    
+    let Brand = {
+      "name": this.brand.name.toString(),
+      "descriptions": this.brand.descriptions.toString(),
+      "imageurl": this.imageUrl.toString(),
+      "id": this.brandsRespone.id.toString(),
+      "IsActive": "0",
+    };
+
+    deleteFormData.append('brand', JSON.stringify(Brand));
+
+    this.salesService.deleteBrand(deleteFormData).subscribe(res => {
+      this.toastr.error('Deleted Successfully !!');
+      this.emitterService.isAdminCreadtedOrUpdated.emit(true);
+      this.dialogRef.close();
+    });
   }
 }

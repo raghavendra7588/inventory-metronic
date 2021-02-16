@@ -68,7 +68,7 @@ export class DialogCategoryComponent implements OnInit {
         "IsActive": "1",
         "userid": "1"
       };
-    
+
 
       if (this.isImageSelected) {
         formData.append('uploadedFiles', this.fileData, this.fileName);
@@ -98,7 +98,7 @@ export class DialogCategoryComponent implements OnInit {
       formData.append('Category', JSON.stringify(Category));
 
     }
-  
+
 
     this.salesService.insertUpdateCategory(formData).subscribe(res => {
       this.toastr.success('Completed Successfully !!');
@@ -123,5 +123,28 @@ export class DialogCategoryComponent implements OnInit {
     this.category.id = this.categoryResponse.id;
     this.category.isactive = this.categoryResponse.isactive;
     this.category.userid = this.categoryResponse.id;
+  }
+
+  deleteCategoryData() {
+    let deleteFormData = new FormData();
+
+  
+    let Category = {
+      "name": this.category.name.toString(),
+      "descriptions": this.category.descriptions.toString(),
+      "imageurl": this.imageUrl.toString(),
+      "isparent": "1",
+      "parentid": "0",
+      "id": "0",
+      "IsActive": "0",
+    };
+
+    deleteFormData.append('Category', JSON.stringify(Category));
+    this.salesService.deleteSubCategories(deleteFormData).subscribe(res => {
+      this.toastr.error('Deleted Successfully !!');
+      this.emitterService.isDeleted.emit(true);
+      this.dialogRef.close();
+
+    });
   }
 }

@@ -84,6 +84,7 @@ import { DialogOrderManagementComponent } from './dialog-order-management/dialog
 import { DialogOrderManagementPrintComponent } from './dialog-order-management-print/dialog-order-management-print.component';
 import { DialogSalesEnquiryComponent } from './dialog-sales-enquiry/dialog-sales-enquiry.component';
 import { SendNotificationComponent } from './send-notification/send-notification.component';
+import { DialogViewUserComponent } from './dialog-view-user/dialog-view-user.component';
 
 
 
@@ -124,7 +125,8 @@ import { SendNotificationComponent } from './send-notification/send-notification
     DialogOrderManagementPrintComponent,
     DialogSalesEnquiryComponent,
     DialogSalesEnquiryComponent,
-    SendNotificationComponent
+    SendNotificationComponent,
+    DialogViewUserComponent
   ],
   imports: [
     CommonModule,
@@ -308,7 +310,8 @@ import { SendNotificationComponent } from './send-notification/send-notification
     DocumentComponent,
     SalesEnquiryComponent,
     DialogOrderManagementComponent,
-    SendNotificationComponent
+    SendNotificationComponent,
+    DialogViewUserComponent
   ],
   providers: [
     SalesService
@@ -325,7 +328,8 @@ import { SendNotificationComponent } from './send-notification/send-notification
     DialogProductDataComponent,
     DialogOrderManagementComponent,
     DialogOrderManagementPrintComponent,
-    DialogSalesEnquiryComponent
+    DialogSalesEnquiryComponent,
+    DialogViewUserComponent
   ],
 })
 export class SalesModule { }

@@ -80,6 +80,9 @@ export class PriceListComponent implements OnInit {
   subCategorySearch: any = [];
   brandSearch: any = [];
 
+  providedInputAmount: number = 0;
+  inputQuantityArray: any = [];
+
   constructor(
     public dialog: MatDialog,
     public loginService: LoginService,
@@ -142,6 +145,12 @@ export class PriceListComponent implements OnInit {
   logSelection() {
     this.isPriceValid = true;
     this.isMultipleAmount = true;
+
+    if (this.updateAllRecordsCount != this.providedInputAmount) {
+      this.toastr.error('Kindly Select Required CheckBoxes');
+      return;
+    }
+
     this.selection.selected.forEach((element) => {
       this.updateAllArray.push(element);
       this.multipleEntriesArray.push(element);
@@ -151,6 +160,7 @@ export class PriceListComponent implements OnInit {
     this.updateAllRecordsCount = this.updateAllArray.length;
     this.multipleEntriesArray = [];
     this.updateAllArray = [];
+    this.updateAllRecordsCount = 0;
   }
 
   getBrandsMasterData() {
@@ -345,7 +355,7 @@ export class PriceListComponent implements OnInit {
         this.spinner.show();
         this.dataSource = [];
         this.brandArray.push(product.ProductID);
-       
+
         let filteredBrandArray = this.multipleBrandArray.filter(function (item) {
           return item.BrandName.trim() === product.BrandName;
         });
@@ -444,7 +454,7 @@ export class PriceListComponent implements OnInit {
 
 
   postMultipleInsertion(elements) {
-    
+
     elements.forEach(element => {
       console.log('single One', element)
       this.priceList = new PriceList();
@@ -494,11 +504,13 @@ export class PriceListComponent implements OnInit {
         this.updateAllArray = [];
         this.multipleEntriesArray = [];
         this.toastr.success('Price List Saved');
+        this.updateAllRecordsCount = 0;
       },
         err => {
           this.toastr.error('An Error Occured !!');
           this.spinner.hide();
         });
+        this.updateAllRecordsCount = 0;
     }
     else {
       this.toastr.error('Please Check Buying Price, Discount and Final Price');
@@ -548,5 +560,42 @@ export class PriceListComponent implements OnInit {
     return array;
   }
 
+  calculateProvidedQuantity(providedInputQuantity, productData) {
+    console.log('eleement', productData);
+    if (Number(providedInputQuantity) > 0) {
 
+      if (this.inputQuantityArray.includes(productData.Id)) {
+        console.log("value exists");
+        console.log('providedInputAmount', this.providedInputAmount);
+        console.log('inputQuantityArray', this.inputQuantityArray);
+        return;
+      }
+
+      else {
+        console.log("does not exist");
+        this.inputQuantityArray.push(productData.Id);
+        this.providedInputAmount++;
+        console.log('providedInputAmount', this.providedInputAmount);
+        console.log('inputQuantityArray', this.inputQuantityArray);
+      }
+
+
+    }
+    else if ((Number(providedInputQuantity) == 0)) {
+      if (this.inputQuantityArray.includes(productData.Id)) {
+        console.log("made to 0 ");
+        this.providedInputAmount--;
+        this.inputQuantityArray = this.inputQuantityArray.filter(item => item !== productData.Id)
+        console.log('providedInputAmount', this.providedInputAmount);
+        console.log('inputQuantityArray', this.inputQuantityArray);
+        return;
+      }
+
+    }
+    else {
+      console.log('providedInputAmount', this.providedInputAmount);
+      console.log('inputQuantityArray', this.inputQuantityArray);
+      return;
+    }
+  }
 }

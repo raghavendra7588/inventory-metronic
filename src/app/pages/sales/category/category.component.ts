@@ -9,6 +9,7 @@ import { DialogCategoryComponent } from '../dialog-category/dialog-category.comp
 import { DialogProductComponent } from '../dialog-product/dialog-product.component';
 import { DialogSubCategoryComponent } from '../dialog-sub-category/dialog-sub-category.component';
 import { SalesService } from '../sales.service';
+import { ExportToCsv } from 'export-to-csv';
 
 @Component({
   selector: 'app-category',
@@ -22,6 +23,7 @@ export class CategoryComponent implements OnInit {
   displayedColumns = ['name', 'descriptions', 'image', 'edit'];
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   dataSource: any;
+  isDataLoaded: boolean = false;
 
   constructor(
     public salesService: SalesService,
@@ -31,6 +33,14 @@ export class CategoryComponent implements OnInit {
   ) {
 
     this.emitterService.isAdminCreadtedOrUpdated.subscribe(val => {
+      if (val) {
+        this.getCategoryData();
+      }
+    }, err => {
+      this.spinner.hide();
+    });
+
+    this.emitterService.isDeleted.subscribe(val => {
       if (val) {
         this.getCategoryData();
       }
@@ -56,6 +66,7 @@ export class CategoryComponent implements OnInit {
       this.dataSource = new MatTableDataSource(this.categoryData);
       setTimeout(() => this.dataSource.paginator = this.paginator);
       this.spinner.hide();
+      this.isDataLoaded = true;
     }
       , err => {
         this.spinner.hide();
@@ -86,5 +97,46 @@ export class CategoryComponent implements OnInit {
   }
 
 
+  downloadTheReport() {
+    const options = {
+      fieldSeparator: ',',
+      quoteStrings: '"',
+      decimalSeparator: '.',
+      showLabels: true,
+      showTitle: true,
+      title: 'Customer Data',
+      useTextFile: false,
+      useBom: true,
+      useKeysAsHeaders: true
+    };
 
+    const csvExporter = new ExportToCsv(options);
+    if (this.isDataLoaded) {
+      let requiredResponse = this.formatResponse(this.categoryData);
+      csvExporter.generateCsv(requiredResponse);
+    }
+
+  }
+
+  formatResponse(array) {
+    let formattedResponse: any = [];
+    let j = 1;
+    for (let i = 0; i < array.length; i++) {
+
+      let item = {
+        Number: j,
+        id: array[i].id,
+        name: array[i].name,
+        brandname:array[i].brandname,
+        categoryname:array[i].categoryname,
+
+        subcategoryname:array[i].subcategoryname,
+        descriptions:array[i].descriptions,
+        imgurl:array[i].imgurl
+      }
+      j++;
+      formattedResponse.push(item);
+    }
+    return formattedResponse;
+  }
 }

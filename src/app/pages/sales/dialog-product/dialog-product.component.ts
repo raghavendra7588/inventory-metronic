@@ -71,7 +71,7 @@ export class DialogProductComponent implements OnInit {
       this.product.id = '0';
 
       this.salesService.updateProductMeasurementUnit(this.product).subscribe(res => {
-        console.log('res', res);
+
         this.toastr.success('Inserted Successfully !!');
         this.emitterService.isAdminCreadtedOrUpdated.emit(true);
         this.dialogRef.close();
@@ -93,4 +93,28 @@ export class DialogProductComponent implements OnInit {
 
   }
 
+
+  deleteProductMeasurementUnitData() {
+    this.spinner.show(undefined,
+      {
+        type: "square-jelly-box",
+        size: "medium",
+        color: 'white'
+      }
+    );
+
+    this.product.userid = '1';
+    this.product.IsActive = '0';
+
+    this.salesService.deleteProductUnitData(this.product).subscribe(res => {
+      this.toastr.error('Deleted Successfully !!');
+      this.emitterService.isDeleted.emit(true);
+      this.dialogRef.close();
+      this.spinner.hide();
+    }, err => {
+      this.spinner.hide();
+    });
+  }
 }
+
+

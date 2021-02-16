@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
+import { NgxSpinnerService } from 'ngx-spinner';
 import { LoginService } from 'src/app/modules/auth/login.service';
 import { EmitterService } from 'src/app/shared/emitter.service';
 import { AddAddressComponent } from '../add-address/add-address.component';
@@ -26,7 +27,8 @@ export class AddressDetailsComponent implements OnInit {
     public purchaseService: PurchaseService,
     public dialog: MatDialog,
     public emitterService: EmitterService,
-    public loginService: LoginService
+    public loginService: LoginService,
+    private spinner: NgxSpinnerService
   ) { }
 
   ngOnInit(): void {
@@ -41,10 +43,14 @@ export class AddressDetailsComponent implements OnInit {
 
 
   getAddressDetails() {
+    this.spinner.show();
     this.purchaseService.getAddressData().subscribe(data => {
       this.getAddress = data;
       this.dataSource = new MatTableDataSource(this.getAddress);
       setTimeout(() => this.dataSource.paginator = this.paginator);
+      this.spinner.hide();
+    }, err => {
+      this.spinner.hide();
     });
   }
 

@@ -12,6 +12,7 @@ export class SalesService {
   public showGeneralEditDialog: boolean;
 
   BASE_URL = 'http://203.112.144.38/AdminApi/UploadedFiles/';
+  BASE_URL_DOCUMENTS = 'https://3intellects.co.in/uat_AdminApi';
 
   private GET_ALL_ADMIN_USERS = environment.ADMIN_BASE_URL + '/user/getall';
   private GET_ALL_SELLER_USERS = environment.ADMIN_BASE_URL + '/user/getall';
@@ -33,7 +34,15 @@ export class SalesService {
   private GET_SALES_ENQUIRY_DATA = environment.ADMIN_BASE_URL + '/sales/getall';
   private GET_BUSSINESS_SNAPSHOT_DETAILS = environment.ADMIN_BASE_URL + 'DashBoard/GetCount';
   private BRAND_INSERT_UPDATE = environment.ADMIN_BASE_URL + '/Brand/InsertUpdate';
-
+  private INSERT_PRODUCTS = environment.ADMIN_BASE_URL + '/Product/InsertUpdate';
+  private DELETE_PRODUCTS = environment.ADMIN_BASE_URL + '/Product/InsertUpdate';
+  private DELETE_PRODUCT_MEASUREMENT_UNIT = environment.ADMIN_BASE_URL + '/PriceDecisionFactor/InsertUpdate';
+  private DELETE_SUBCATEGORIES = environment.ADMIN_BASE_URL + '/Category/InsertUpdate';
+  private INSERT_UPDATE_ORDER = environment.ADMIN_BASE_URL + '/order/InsertUpdate';
+  private INSERT_DOCUMENT = environment.ADMIN_BASE_URL + '/UploadFiles/UploadFile';
+  private GET_DOCUMENT_BY_ID = environment.ADMIN_BASE_URL + '/UploadFiles/GetUploadedFileById';
+  private SEND_NOTIFICATION = environment.ADMIN_BASE_URL + 'Notification/SendBulkNotification';
+  private INSERT_UPDATE_SALES_ENQUIRY = environment.ADMIN_BASE_URL + '/sales/InsertUpdate';
 
   constructor(
     private http: HttpClient
@@ -151,6 +160,16 @@ export class SalesService {
   }
 
 
+  getAllSubCategories(parentid) {
+    const req = { 'parentid': parentid };
+    let reqHeader = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + this.token
+    });
+    return this.http.post(this.GET_ALL_CATEGORIES_DATA, req, { headers: reqHeader });
+  }
+
+
   getProductMeasureMentUnit() {
     const data = {};
     let reqHeader = new HttpHeaders({
@@ -212,12 +231,63 @@ export class SalesService {
     return this.http.post(this.INSERT_UPDATE_CATEGORY, Category, { headers: reqHeader });
   }
 
+  deleteSubCategories(subCategory) {
+    let reqHeader = new HttpHeaders({
+      'Authorization': 'Bearer ' + this.token
+    });
+
+    return this.http.post(this.DELETE_SUBCATEGORIES, subCategory, { headers: reqHeader });
+
+  }
+
+  sendNotification(notification) {
+    let reqHeader = new HttpHeaders({
+      'Authorization': 'Bearer ' + this.token
+    });
+    return this.http.post(this.SEND_NOTIFICATION, notification, { headers: reqHeader });
+  }
 
   insertUpdateBrand(Brand) {
     let reqHeader = new HttpHeaders({
       'Authorization': 'Bearer ' + this.token
     });
     return this.http.post(this.BRAND_INSERT_UPDATE, Brand, { headers: reqHeader });
+  }
+
+  deleteBrand(Brand) {
+    let reqHeader = new HttpHeaders({
+      'Authorization': 'Bearer ' + this.token
+    });
+    return this.http.post(this.BRAND_INSERT_UPDATE, Brand, { headers: reqHeader });
+  }
+
+  deleteProductUnitData(productUnitData) {
+    let reqHeader = new HttpHeaders({
+      'Authorization': 'Bearer ' + this.token
+    });
+    return this.http.post(this.DELETE_PRODUCT_MEASUREMENT_UNIT, productUnitData, { headers: reqHeader });
+  }
+
+
+  insertUpdateProducts(products) {
+    let reqHeader = new HttpHeaders({
+      'Authorization': 'Bearer ' + this.token
+    });
+    return this.http.post(this.INSERT_PRODUCTS, products, { headers: reqHeader });
+  }
+
+  insertProducts(products) {
+    let reqHeader = new HttpHeaders({
+      'Authorization': 'Bearer ' + this.token
+    });
+    return this.http.post(this.INSERT_PRODUCTS, products, { headers: reqHeader });
+  }
+
+  deleteProducts(products) {
+    let reqHeader = new HttpHeaders({
+      'Authorization': 'Bearer ' + this.token
+    });
+    return this.http.post(this.DELETE_PRODUCTS, products, { headers: reqHeader });
   }
 
   updateMobileNumber(mobileNumberData) {
@@ -279,5 +349,35 @@ export class SalesService {
     return this.http.post(this.GET_ALL_SELLER_USERS, data, { headers: headers });
   }
 
+  updateOrders(order) {
+    let headers = new HttpHeaders();
+    let reqHeader = new HttpHeaders({
+      'Authorization': 'Bearer ' + this.token
+    });
+
+    return this.http.post(this.INSERT_UPDATE_ORDER, order, { headers: reqHeader });
+  }
+
+  uploadDocuments(document) {
+    let headers = new HttpHeaders();
+    let reqHeader = new HttpHeaders({
+      'Authorization': 'Bearer ' + this.token
+    });
+
+    return this.http.post(this.INSERT_DOCUMENT, document, { headers: reqHeader });
+  }
+
+
+  getDocumentsById(id) {
+    return this.http.get(this.GET_DOCUMENT_BY_ID + '/' + id);
+  }
+
+
+  insertUpdateSalesEnquiry(enquiry) {
+    let headers = new HttpHeaders();
+    headers = headers.set('Content-Type', 'application/json');
+
+    return this.http.post(this.INSERT_UPDATE_SALES_ENQUIRY, enquiry, { headers: headers });
+  }
 
 }

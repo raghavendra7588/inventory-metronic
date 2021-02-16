@@ -6,6 +6,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { EmitterService } from 'src/app/shared/emitter.service';
 import { DialogProductComponent } from '../dialog-product/dialog-product.component';
 import { SalesService } from '../sales.service';
+import { ExportToCsv } from 'export-to-csv';
 
 @Component({
   selector: 'app-product-measurement-unit',
@@ -19,6 +20,7 @@ export class ProductMeasurementUnitComponent implements OnInit {
   dataSource: any;
 
   productMeasurementData: any = [];
+  isDataLoaded: boolean = false;
 
   constructor(
     public salesService: SalesService,
@@ -31,6 +33,14 @@ export class ProductMeasurementUnitComponent implements OnInit {
     this.getProductMeasurementUnitData();
 
     this.emitterService.isAdminCreadtedOrUpdated.subscribe(val => {
+      if (val) {
+        this.getProductMeasurementUnitData();
+      }
+    }, err => {
+      this.spinner.hide();
+    });
+
+    this.emitterService.isDeleted.subscribe(val => {
       if (val) {
         this.getProductMeasurementUnitData();
       }
@@ -78,10 +88,49 @@ export class ProductMeasurementUnitComponent implements OnInit {
       this.dataSource = new MatTableDataSource(this.productMeasurementData);
       setTimeout(() => this.dataSource.paginator = this.paginator);
       this.spinner.hide();
+      this.isDataLoaded = true;
     },
       res => {
         this.spinner.hide();
       });
+  }
+
+  downloadTheReport() {
+    const options = {
+      fieldSeparator: ',',
+      quoteStrings: '"',
+      decimalSeparator: '.',
+      showLabels: true,
+      showTitle: true,
+      title: 'Customer Data',
+      useTextFile: false,
+      useBom: true,
+      useKeysAsHeaders: true
+    };
+
+    const csvExporter = new ExportToCsv(options);
+    if (this.isDataLoaded) {
+      let requiredResponse = this.formatResponse(this.productMeasurementData);
+      csvExporter.generateCsv(requiredResponse);
+    }
+
+  }
+
+  formatResponse(array) {
+    let formattedResponse: any = [];
+    let j = 1;
+    for (let i = 0; i < array.length; i++) {
+
+      let item = {
+        Number: j,
+        id: array[i].id,
+        name: array[i].name,
+        descriptions:array[i].descriptions
+      }
+      j++;
+      formattedResponse.push(item);
+    }
+    return formattedResponse;
   }
 
 }

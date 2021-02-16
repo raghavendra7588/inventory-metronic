@@ -24,6 +24,8 @@ export class DialogOrderManagementComponent implements OnInit {
 
   deliveryStatus: any = [];
   deliverySlot: any = [];
+  selectStatus: string;
+  deliverySlotTiming: string;
 
   constructor(
     private dialogRef: MatDialogRef<DialogOrderManagementComponent>,
@@ -34,6 +36,7 @@ export class DialogOrderManagementComponent implements OnInit {
     private spinner: NgxSpinnerService
   ) {
     this.orderData = data;
+    this.assignValues();
     console.log('order data', this.orderData);
     this.dataSource = new MatTableDataSource(this.orderData.orderDetails);
     setTimeout(() => this.dataSource.paginator = this.paginator);
@@ -85,5 +88,40 @@ export class DialogOrderManagementComponent implements OnInit {
 
   applyFilter(filter: string) {
     this.dataSource.filter = filter.trim().toLowerCase();
+  }
+
+  onSubmit() {
+    let formData = new FormData();
+
+    let Order = {
+      "name": this.orderData.name.toString(),
+      "orderid": this.orderData.orderid.toString(),
+      "status": this.selectStatus.toString(),
+      "deliveryUpto": this.orderData.deliveryUpto.toString(),
+      "deliveryType": this.orderData.deliveryType.toString(),
+      "userId": "1",
+      "paymentType": this.orderData.paymentType.toString(),
+      "sellerId": this.orderData.paymentType.toString(),
+      "cartId": this.orderData.cartid.toString(),
+      "deliveredDate": "",
+      "sellerName": this.orderData.sellerName.toString(),
+      "deliverySlot": this.deliverySlotTiming.toString(),
+      "deliveredBy": "",
+      "IsActive": "1"
+    }
+
+    formData.append('Order', JSON.stringify(Order));
+    console.log('order ', Order);
+    this.salesService.updateOrders(formData).subscribe(res => {
+      this.toastr.success('Updated Successfully !!');
+      this.emitterService.isAdminCreadtedOrUpdated.emit(true);
+      this.dialogRef.close();
+    });
+
+  }
+
+  assignValues() {
+    this.selectStatus = this.orderData.status;
+    this.deliverySlotTiming = this.orderData.deliverySlot;
   }
 }

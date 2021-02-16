@@ -15,7 +15,7 @@
         <div class="col-md-3 col-sm-6 col-6 col-lg-3 col-xl-3">
             <mat-form-field style="width: 100% !important">
                 <input matInput placeholder="GST Number" name="gstType" [(ngModel)]="purchaseOrder.gstNumber"
-                readonly />
+                    readonly />
             </mat-form-field>
         </div>
 
@@ -23,7 +23,7 @@
         <div class="col-md-3 col-sm-6 col-6 col-lg-3 col-xl-3">
             <mat-form-field style="width: 100% !important">
                 <input matInput placeholder="Email" name="email" autocomplete="off" [(ngModel)]="purchaseOrder.email"
-                readonly />
+                    readonly />
             </mat-form-field>
         </div>
 
@@ -43,7 +43,7 @@
             <mat-form-field style="width: 100% !important;">
                 <mat-label>Order Date</mat-label>
                 <input matInput [matDatepicker]="picker1" [(ngModel)]="purchaseOrder.orderDate" placeholder="From Date"
-                readonly>
+                    readonly>
                 <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
                 <mat-datepicker #picker1 disabled></mat-datepicker>
             </mat-form-field>
@@ -178,9 +178,6 @@
                     List</span></button>
             <div>
 
-                <!-- <button mat-raised-button class="save-button" (click)="openDialog()"><span style="color: white;">Go to Price
-                List</span></button> -->
-
             </div>
 
         </div>
@@ -261,7 +258,8 @@
                         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
                         <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
                     </table>
-                    <mat-paginator style="background-color:  #f3f6f9 !important;" [pageSizeOptions]="[7,20,100]" showFirstLastButtons></mat-paginator>
+                    <mat-paginator style="background-color:  #f3f6f9 !important;" [pageSizeOptions]="[7,20,100]"
+                        showFirstLastButtons></mat-paginator>
                 </div>
             </div>
 

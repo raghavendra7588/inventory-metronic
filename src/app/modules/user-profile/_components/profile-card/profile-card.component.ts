@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { AuthService, UserModel } from '../../../auth';
 
@@ -15,8 +16,11 @@ export class ProfileCardComponent implements OnInit {
   role: string;
   city: string;
 
-  constructor(public userService: AuthService) {
+  constructor(
+    public userService: AuthService,
+    private router: Router) {
     this.user$ = this.userService.currentUserSubject.asObservable();
+      this.router.navigate(['/user-profile/addAddress']);
   }
 
   ngOnInit(): void { 

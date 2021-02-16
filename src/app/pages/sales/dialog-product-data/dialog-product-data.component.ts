@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
@@ -36,6 +36,11 @@ export class DialogProductDataComponent implements OnInit {
   selectedProductMeasurementUnit: any;
   customProductMeasurementUnit: any = [];
 
+  productForm: FormGroup;
+  receivedProductData: any = [];
+  categoryName: string;
+  isButtonDisabled: boolean = false;
+
   constructor(
     public formBuilder: FormBuilder,
     private dialogRef: MatDialogRef<DialogProductDataComponent>,
@@ -44,11 +49,34 @@ export class DialogProductDataComponent implements OnInit {
     public toastr: ToastrService,
     public salesService: SalesService,
     public spinner: NgxSpinnerService
-  ) { }
+  ) {
+
+    this.productForm = this.formBuilder.group({
+
+      categoryid: [''],
+      subcategoryid: [''],
+      name: [''],
+
+      imgurl: [''],
+      brandid: [''],
+      descriptions: [''],
+      hotkeyword: [''],
+
+      measurementUnit: [''],
+      varient: [''],
+      price: [''],
+    });
+    this.receivedProductData = data;
+    console.log('receivedProductData', this.receivedProductData);
+
+  }
 
   ngOnInit(): void {
+    if (this.receivedProductData) {
+      this.assignValues();
+    }
     this.getCategoryData();
-    this.getAllSubCategoriesData();
+    // this.getAllSubCategoriesData();
     this.getBrandsData();
     this.getProductMeasurementUnitData();
   }
@@ -105,6 +133,7 @@ export class DialogProductDataComponent implements OnInit {
     this.salesService.getBrandsData().subscribe(res => {
       console.log('brands data', res);
       this.brandsData = res;
+      this.spinner.hide();
     }, err => {
       this.spinner.hide();
     });
@@ -129,6 +158,22 @@ export class DialogProductDataComponent implements OnInit {
 
   selectedCategoryFromList(res) {
     console.log('cat', res);
+    let parentid = res.id;
+    this.spinner.show(undefined,
+      {
+        type: "square-jelly-box",
+        size: "medium",
+        color: 'white'
+      }
+    );
+    this.salesService.getAllSubCategoriesData(parentid).subscribe(res => {
+      console.log('sub cat data', res);
+      this.subCategoriesData = res;
+      this.spinner.hide();
+    }, err => {
+      this.spinner.hide();
+    });
+
   }
 
   selectedSubCategoryFromList(res) {
@@ -146,32 +191,57 @@ export class DialogProductDataComponent implements OnInit {
   }
 
   addProducts() {
-    let product = {
-      id: "0",
-      pricedecisionfactorid: this.selectedProductMeasurementUnit.id.toString(),
-      quantity: this.product.varient.toString(),
-      price: this.product.price.toString(),
-      isActive: "True",
-      pricedecisionfactorname: this.selectedProductMeasurementUnit.name
-    }
-    this.customProductMeasurementUnit.push(product);
-    this.dataSource = new MatTableDataSource(this.customProductMeasurementUnit);
-    setTimeout(() => this.dataSource.paginator = this.paginator);
+    console.log('this.product.measurementUnit', this.product.measurementUnit);
 
-    this.product.varient = '';
-    this.product.measurementUnit = '';
-    this.product.price = '';
+    const index = this.customProductMeasurementUnit.findIndex((o) => Number(o.pricedecisionfactorid) === Number(this.product.measurementUnit));
+    if (index === -1) {             // not exists
+
+      let product = {
+        id: "0",
+        pricedecisionfactorid: this.product.measurementUnit.toString(),
+        quantity: this.product.varient.toString(),
+        price: this.product.price.toString(),
+        isActive: "True",
+        pricedecisionfactorname: this.selectedProductMeasurementUnit.name
+      }
+      console.log('not exists');
+      this.customProductMeasurementUnit.push(product);
+      this.dataSource = new MatTableDataSource(this.customProductMeasurementUnit);
+      setTimeout(() => this.dataSource.paginator = this.paginator);
+
+      this.product.varient = '';
+      this.product.measurementUnit = '';
+      this.product.price = '';
+    }
+    else {
+      console.log('exists');       // exists
+      for (let i = 0; i < this.customProductMeasurementUnit.length; i++) {
+        if (Number(this.customProductMeasurementUnit[i].pricedecisionfactorid) === Number(this.product.measurementUnit)) {
+
+          this.customProductMeasurementUnit[i].pricedecisionfactorid = this.product.measurementUnit.toString();
+          this.customProductMeasurementUnit[i].quantity = this.product.varient.toString();
+          this.customProductMeasurementUnit[i].price = this.product.price.toString();
+
+        }
+      }
+
+      this.product.varient = '';
+      this.product.measurementUnit = '';
+      this.product.price = '';
+    }
+
+
   }
 
   editProduct(response) {
-    alert('edit clicked');
+
     this.product.varient = response.quantity;
     this.product.measurementUnit = response.pricedecisionfactorid;
     this.product.price = response.price;
   }
 
   deleteProduct(response) {
-    alert('delete clicked');
+
     console.log('deleted ', response);
 
     this.customProductMeasurementUnit = this.customProductMeasurementUnit.filter(item =>
@@ -185,4 +255,161 @@ export class DialogProductDataComponent implements OnInit {
     setTimeout(() => this.dataSource.paginator = this.paginator);
   }
 
+  onSubmit() {
+    this.isButtonDisabled = true;
+    const formData = new FormData();
+
+
+
+    if (this.receivedProductData) {
+
+
+      let product = {
+        "id": this.receivedProductData.id.toString(),
+        "productid": "",
+        "categoryid": this.product.categoryid.toString(),
+        "categoryname": this.receivedProductData.categoryname,
+        "subcategoryid": this.product.subcategoryid.toString(),
+        "subcategoryname": this.receivedProductData.subcategoryname.toString(),
+        "brandid": this.product.brandid.toString(),
+        "brandname": this.receivedProductData.brandname.toString(),
+        "name": this.product.name.toString(),
+        "imgurl": this.imageUrl,
+        "descriptions": this.product.descriptions.toString(),
+        "hotkeyword": this.product.hotkeyword.toString(),
+        "userid": "1",
+        "isactive": "True",
+        "MRP": '',
+        "Discount": '',
+        "vendorCode": '',
+        "FinalPrice": '',
+        "PriceDecisionFactorName": '',
+        "Quantity": '',
+        "Unit": '',
+        "ImageVersion": '',
+        "mappingid": '',
+        "brandImageUrl": '',
+        "outOfStockFlag": '',
+        "outOfStockMessage": '',
+        "languageCode": '',
+        "productDetails": [],
+        "varients": this.customProductMeasurementUnit,
+        "IsActive": "1"
+      }
+
+
+      if (this.isImageSelected) {
+        formData.append('uploadedFiles', this.fileData, this.fileName);
+      }
+
+      formData.append('product', JSON.stringify(product));
+      console.log('products', product);
+
+
+
+    }
+    else {
+
+      let product = {
+        "varients": this.customProductMeasurementUnit,
+        "categoryid": this.product.categoryid.toString(),
+        "subcategoryid": this.product.subcategoryid.toString(),
+        "brandid": this.product.brandid.toString(),
+        "name": this.product.name.toString(),
+        "imgurl": "",
+        "descriptions": this.product.descriptions.toString(),
+        "hotkeyword": this.product.hotkeyword.toString(),
+        "id": "0",
+        "IsActive": "1",
+        "userid": "1"
+      }
+      if (this.isImageSelected) {
+        formData.append('uploadedFiles', this.fileData, this.fileName);
+      }
+
+      formData.append('product', JSON.stringify(product));
+      console.log('products', product);
+
+    }
+    this.salesService.insertProducts(formData).subscribe(res => {
+      this.toastr.success('Completed Successfully !!');
+      this.emitterService.isAdminCreadtedOrUpdated.emit(true);
+      this.dialogRef.close();
+    });
+
+  }
+
+  assignValues() {
+    this.product.name = this.receivedProductData.name;
+    this.product.descriptions = this.receivedProductData.descriptions;
+
+    this.product.categoryid = this.receivedProductData.categoryid;
+    this.product.subcategoryid = this.receivedProductData.subcategoryid;
+    this.product.brandid = this.receivedProductData.brandid;
+
+    this.product.hotkeyword = this.receivedProductData.hotkeyword;
+    this.imageUrl = this.receivedProductData.imgurl;
+
+    this.customProductMeasurementUnit = this.receivedProductData.varients;
+    if (this.customProductMeasurementUnit) {
+      this.dataSource = new MatTableDataSource(this.customProductMeasurementUnit);
+      setTimeout(() => this.dataSource.paginator = this.paginator);
+    }
+  }
+
+
+
+  deleteProductData() {
+    let product = {
+      "id": this.receivedProductData.id.toString(),
+      "productid": "",
+      "categoryid": this.product.categoryid.toString(),
+      "categoryname": this.receivedProductData.categoryname,
+      "subcategoryid": this.product.subcategoryid.toString(),
+      "subcategoryname": this.receivedProductData.subcategoryname.toString(),
+      "brandid": this.product.brandid.toString(),
+      "brandname": this.receivedProductData.brandname.toString(),
+      "name": this.product.name.toString(),
+      "imgurl": this.imageUrl,
+      "descriptions": this.product.descriptions.toString(),
+      "hotkeyword": this.product.hotkeyword.toString(),
+      "userid": "1",
+      "isactive": "True",
+      "MRP": '',
+      "Discount": '',
+      "vendorCode": '',
+      "FinalPrice": '',
+      "PriceDecisionFactorName": '',
+      "Quantity": '',
+      "Unit": '',
+      "ImageVersion": '',
+      "mappingid": '',
+      "brandImageUrl": '',
+      "outOfStockFlag": '',
+      "outOfStockMessage": '',
+      "languageCode": '',
+      "productDetails": [],
+      "varients": this.customProductMeasurementUnit,
+      "IsActive": "0"
+    }
+
+    this.isButtonDisabled = true;
+    const formData = new FormData();
+
+    formData.append('product', JSON.stringify(product));
+    this.spinner.show(undefined,
+      {
+        type: "square-jelly-box",
+        size: "medium",
+        color: 'white'
+      }
+    );
+    this.salesService.deleteProducts(formData).subscribe(res => {
+      this.toastr.error('Deleted Successfully !!');
+      this.emitterService.isAdminCreadtedOrUpdated.emit(true);
+      this.dialogRef.close();
+    }, err => {
+      this.spinner.hide();
+    });
+  }
 }

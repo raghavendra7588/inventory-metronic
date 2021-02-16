@@ -56,7 +56,7 @@ export class DialogSubCategoryComponent implements OnInit {
   }
 
   onSubmit() {
-    const formData = new FormData();
+    let formData = new FormData();
     if (this.subCategoryResponse) {
 
 
@@ -144,6 +144,29 @@ export class DialogSubCategoryComponent implements OnInit {
     console.log('selected cat', res);
     this.selectedCategory = res;
     console.log('current category', this.subCategory.parentCategory);
+  }
+
+  deleteSubCategory() {
+    let deleteFormData = new FormData();
+
+    let Category = {
+      "name": this.subCategory.name.toString(),
+      "descriptions": this.subCategory.descriptions.toString(),
+      "imageurl": '',
+      "isparent": "False",
+      "parentid": this.subCategory.parentCategory.toString(),
+      "id": this.subCategory.id.toString(),
+      "IsActive": "0",
+    };
+
+    deleteFormData.append('Category', JSON.stringify(Category));
+    this.salesService.deleteSubCategories(deleteFormData).subscribe(res => {
+      this.toastr.error('Deleted Successfully !!');
+      this.emitterService.isDeleted.emit(true);
+      this.dialogRef.close();
+
+    });
+
   }
 
 }

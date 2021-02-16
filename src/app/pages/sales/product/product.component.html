@@ -1,21 +1,28 @@
 <div class="container-fluid my-5">
     <div class="row">
 
-        <div class="col-md-9 col-6 col-sm-6 col-xl-9">
+        <div class="col-md-6 col-6 col-sm-6 col-xl-6">
             <mat-form-field style="width: 100%;">
                 <mat-label>Search</mat-label>
                 <input matInput (keyup)="applyFilter($event.target.value)">
             </mat-form-field>
         </div>
+
         <div class="col-md-3 col-6 col-sm-6 col-xl-3">
             <button mat-raised-button class="width-100 mt-2 save-button" (click)="openProductDialog()"><span
                     style="color:white">Add
                     New</span></button>
         </div>
+
+
+        <div class="col-md-3 col-6 col-sm-6 col-xl-3">
+            <button mat-raised-button class="width-100 mt-2 save-button" (click)="downloadTheReport()"><span
+                    style="color:white">Download</span></button>
+        </div>
     </div>
 
     <div class="row mt-3">
-        <div class="col-xl-12 col-12 col-md-12 col-sm-12 mb-3">
+        <div class="col-xl-12 col-12 col-md-12 col-sm-12 mb-3" *ngIf="role==='Admin'">
             <table mat-table [dataSource]="dataSource" class="custom-table">
 
                 <ng-container matColumnDef="product">
@@ -58,7 +65,47 @@
                 <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
             </table>
 
-            <mat-paginator style="background-color:  #f3f6f9 !important;" [pageSizeOptions]="[25,50,100]" showFirstLastButtons></mat-paginator>
+            <mat-paginator style="background-color:  #f3f6f9 !important;" [pageSizeOptions]="[25,50,100]"
+                showFirstLastButtons></mat-paginator>
+        </div>
+
+        <div class="col-xl-12 col-12 col-md-12 col-sm-12 mb-3" *ngIf="role!=='Admin'">
+            <table mat-table [dataSource]="dataSource" class="custom-table">
+
+                <ng-container matColumnDef="product">
+                    <th mat-header-cell *matHeaderCellDef>Product</th>
+                    <td mat-cell *matCellDef="let element">{{element.name}}</td>
+                </ng-container>
+                <ng-container matColumnDef="brand">
+                    <th mat-header-cell *matHeaderCellDef>Brand</th>
+                    <td mat-cell *matCellDef="let element">{{element.brandname}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="category">
+                    <th mat-header-cell *matHeaderCellDef>Category</th>
+                    <td mat-cell *matCellDef="let element">{{element.categoryname}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="subCategory">
+                    <th mat-header-cell *matHeaderCellDef>Sub Category</th>
+                    <td mat-cell *matCellDef="let element">{{element.subcategoryname}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="image">
+                    <th mat-header-cell *matHeaderCellDef>Image</th>
+                    <td mat-cell *matCellDef="let element">
+                        <a [href]="salesService.BASE_URL+element.imageurl" target="_blank">
+                            <img [src]="salesService.BASE_URL+element.imageurl" height="50px" width="60px" /></a>
+                    </td>
+                </ng-container>
+
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+
+            <mat-paginator style="background-color:  #f3f6f9 !important;" [pageSizeOptions]="[25,50,100]"
+                showFirstLastButtons></mat-paginator>
         </div>
     </div>
 </div>

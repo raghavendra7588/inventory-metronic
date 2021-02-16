@@ -1,65 +1,141 @@
-<div class="card card"
-    style="max-width: 500px !important;height: 355px;background-color: #f3f6f9;border: 1px solid white">
-    <div class="container-fluid">
-        <!-- <h2 class="text-center theme-color font-wight-bold my-4">Reports</h2> -->
-        <div class="row parent">
-            <div class="col-md-12 col-12 col-sm-12 col-xl-12 my-2">
+<form [formGroup]="notificationForm" (ngSubmit)="sendNotificationToUser()">
 
 
-                <mat-form-field style="width: 100% !important;">
-                    <mat-label>Send Using</mat-label>
-                    <mat-select>
-                        <mat-option *ngFor="let item of sendUsing;" [value]="item.type">
-                            {{item.title}}
-                        </mat-option>
-                    </mat-select>
-                </mat-form-field>
-            </div>
-            <div class="col-md-12 col-12 col-sm-12 col-xl-12 mt-2">
+    <div class="card card"
+        style="max-width: 500px !important;height: 355px;background-color: #f3f6f9;border: 1px solid white">
+        <div class="container-fluid">
 
-                <mat-form-field style="width: 100% !important;">
-                    <mat-label>Select Target User</mat-label>
-                    <mat-select>
-                        <mat-option *ngFor="let item of selectTargetUser;" [value]="item.type">
-                            {{item.title}}
-                        </mat-option>
-                    </mat-select>
-                </mat-form-field>
-            </div>
-            <div class="col-md-12 col-12 col-sm-12 col-xl-12 my-2">
-             
-                <input matInput placeholder="Notification Title">
-            </div>
+            <div class="row parent">
+                <div class="col-md-12 col-12 col-sm-12 col-xl-12 my-2">
 
-            <div class="col-md-12 col-12 col-sm-12 col-xl-12 my-2">
 
-                <!-- <mat-form-field style="width: 100%;">
-                    <mat-label>Category</mat-label>
-                    <mat-select placeholder="Category" [(ngModel)]="categoryList">
-                        <mat-select-filter [placeholder]="'Filter'" [displayMember]="'name'" [array]="categorySearch"
-                            (filteredReturn)="loginService.seller_object.categories=$event"></mat-select-filter>
-                        <mat-option value="all" (click)="onCategorySelectAll()">All</mat-option>
-                        <mat-option (onSelectionChange)="onCategoriesChange($event,category)"
-                            *ngFor="let category of loginService.seller_object.categories" [value]="category.id">
-                            {{category.name }}
-                        </mat-option>
-                    </mat-select>
-                </mat-form-field> -->
+                    <mat-form-field style="width: 100% !important;">
 
-                <mat-form-field style="width: 100% !important;">
-                    <mat-label>Seller</mat-label>
-                    <mat-select>
-                        <!--  <mat-option *ngFor="let item of selectTargetUser;" [value]="item.type">
-                            {{item.title}}
-                        </mat-option>-->
-                    </mat-select>
-                </mat-form-field>
-            </div>
+                        <mat-select placeholder="Send Using" [(ngModel)]="sendNotification.sendusing"
+                            formControlName="sendusing">
+                            <mat-option *ngFor="let item of sendUsing;" [value]="item.title"
+                                (click)="selectedSendUsing(item)">
+                                {{item.title}}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error
+                            *ngIf="notificationForm.controls.sendusing.touched && notificationForm.controls.sendusing.invalid">
+                            <span *ngIf="notificationForm.controls.sendusing.errors.required">this field is
+                                mandatory.</span>
+                        </mat-error>
 
-            <div class="col-md-12 col-12 col-sm-12 col-xl-12 mt-3">
-                <button mat-raised-button class="width-100 mt-2 save-button"><span style="color:white">
-                        Send</span></button>
+                        <!-- <mat-error
+                            *ngIf="notificationForm.controls.sendusing.touched && notificationForm.controls.sendusing.invalid">
+                            <span *ngIf="notificationForm.controls.sendusing.errors.required">This field is
+                                mandatory.</span>
+                        </mat-error> -->
+                    </mat-form-field>
+                </div>
+                <div class="col-md-12 col-12 col-sm-12 col-xl-12 mt-2">
+
+                    <mat-form-field style="width: 100% !important;">
+
+                        <mat-select [(ngModel)]="sendNotification.userType" formControlName="userType"
+                            placeholder="Select Target User">
+                            <mat-option *ngFor="let item of selectTargetUser;" [value]="item.title"
+                                (click)="selectedTargetUser(item)">
+                                {{item.title}}
+                            </mat-option>
+                        </mat-select>
+                        <!-- <mat-error
+                            *ngIf="notificationForm.controls.userType.touched && notificationForm.controls.userType.invalid">
+                            <span *ngIf="notificationForm.controls.userType.errors.required">This field is mandatory.</span>
+                        </mat-error> -->
+
+                        <mat-error
+                            *ngIf="notificationForm.controls.userType.touched && notificationForm.controls.userType.invalid">
+                            <span *ngIf="notificationForm.controls.userType.errors.required">This field is
+                                mandatory.</span>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-12 col-12 col-sm-12 col-xl-12 my-2">
+                    <mat-form-field style="width: 100%;">
+                        <input matInput [(ngModel)]="sendNotification.notificationTitle"
+                            formControlName="notificationTitle" name="notificationTitle"
+                            placeholder="Notification Title">
+                        <!-- <mat-error
+                            *ngIf="notificationForm.controls.notificationTitle.touched && notificationForm.controls.notificationTitle.invalid">
+                            <span *ngIf="notificationForm.controls.notificationTitle.errors.required">This field is mandatory.</span>
+                        </mat-error> -->
+
+                        <mat-error
+                            *ngIf="notificationForm.controls.notificationTitle.touched && notificationForm.controls.notificationTitle.invalid">
+                            <span *ngIf="notificationForm.controls.notificationTitle.errors.required">This field is
+                                mandatory.</span>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+
+                <div class="col-md-12 col-12 col-sm-12 col-xl-12 my-2">
+
+                    <mat-form-field style="width: 100% !important;">
+                        <textarea placeholder="Notification Body" formControlName="notificationBody" matInput
+                            name="notificationBody" [(ngModel)]="sendNotification.notificationBody"></textarea>
+                        <!-- <mat-error
+                            *ngIf="notificationForm.controls.notificationBody.touched && notificationForm.controls.notificationBody.invalid">
+                            <span *ngIf="notificationForm.controls.notificationBody.errors.required">This field is mandatory.</span>
+                        </mat-error> -->
+                        <mat-error
+                            *ngIf="notificationForm.controls.notificationBody.touched && notificationForm.controls.notificationBody.invalid">
+                            <span *ngIf="notificationForm.controls.notificationBody.errors.required">This field is
+                                mandatory.</span>
+                        </mat-error>
+                    </mat-form-field>
+
+                </div>
+
+                <div class="col-md-12 col-12 col-sm-12 col-xl-12 my-2">
+
+                    <mat-form-field style="width: 100%;">
+
+                        <mat-select placeholder="Seller" [(ngModel)]="sendNotification.sellerCode"
+                            formControlName="sellerCode" multiple>
+                            <mat-option (onSelectionChange)="onSellerChange($event,seller)"
+                                *ngFor="let seller of sellerData" [value]="seller.SellerNameCode">
+                                {{seller.SellerNameCode }}
+                            </mat-option>
+                        </mat-select>
+                        <!-- <mat-error
+                            *ngIf="notificationForm.controls.sellerCode.touched && notificationForm.controls.sellerCode.invalid">
+                            <span *ngIf="notificationForm.controls.sellerCode.errors.required">This field is mandatory.</span>
+                        </mat-error> -->
+
+                        <mat-error
+                            *ngIf="notificationForm.controls.sellerCode.touched && notificationForm.controls.sellerCode.invalid">
+                            <span *ngIf="notificationForm.controls.sellerCode.errors.required">This field is
+                                mandatory.</span>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-12 col-12 col-sm-12 col-xl-12 my-2" *ngIf="isPincode">
+                    <mat-form-field style="width: 100%;">
+                        <input matInput [(ngModel)]="sendNotification.pincode" formControlName="pincode" name="pinCode"
+                            placeholder="Pin Code">
+                        <!-- <mat-error
+                            *ngIf="notificationForm.controls.pincode.touched && notificationForm.controls.pincode.invalid">
+                            <span *ngIf="notificationForm.controls.pincode.errors.required">This field is mandatory.</span>
+                        </mat-error> -->
+                        <mat-error
+                            *ngIf="notificationForm.controls.pincode.touched && notificationForm.controls.pincode.invalid">
+                            <span *ngIf="notificationForm.controls.pincode.errors.required">This field is
+                                mandatory.</span>
+                        </mat-error>
+
+                    </mat-form-field>
+                </div>
+
+                <div class="col-md-12 col-12 col-sm-12 col-xl-12 mt-3">
+                    <button mat-raised-button class="width-100 mt-2 save-button"><span style="color:white">
+                            Send</span></button>
+                </div>
             </div>
         </div>
     </div>
-</div>
+</form>
+<ngx-spinner></ngx-spinner>

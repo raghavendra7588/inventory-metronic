@@ -92,6 +92,8 @@ export class DialogEditUserComponent implements OnInit {
         this.toastr.success('Updated Successfully !!');
         this.emitterService.isAdminCreadtedOrUpdated.emit(true);
         this.dialogRef.close();
+      }, err => {
+          this.spinner.hide();
       });
     }
 
@@ -192,5 +194,65 @@ export class DialogEditUserComponent implements OnInit {
     this.editUser.role = this.userData.role;
     this.editUser.userid = this.userData.id;
   }
+
+  deleteUser() {
+    this.editUpdateAdmin.address = this.editUser.address;
+    this.editUpdateAdmin.city = this.editUser.city;
+    this.editUpdateAdmin.emailid = this.editUser.emailid;
+    this.editUpdateAdmin.id = this.userData.id;
+    this.editUpdateAdmin.mobilenumber = this.editUser.mobilenumber;
+    this.editUpdateAdmin.name = this.editUser.name;
+    this.editUpdateAdmin.password = this.editUser.password;
+    this.editUpdateAdmin.pincode = this.editUser.pincode;
+    this.editUpdateAdmin.state = this.editUser.state;
+
+    if (this.role == 'Admin') {
+      this.editUpdateAdmin.userid = "1";
+      this.editUpdateAdmin.role = "Admin"
+      this.editUpdateAdmin.IsActive = "0";
+    }
+
+    else if (this.role == 'Seller') {
+      this.editUpdateAdmin.role = 'Seller';
+      this.editUpdateAdmin.userid = "1";
+      this.editUpdateAdmin.IsActive = "0";
+    }
+    else if (this.role == 'Customer') {
+      this.editUpdateAdmin.role = 'Customer';
+      this.editUpdateAdmin.userid = "1";
+      this.editUpdateAdmin.IsActive = "0";
+    }
+    else if (this.role == 'sales') {
+      this.editUpdateAdmin.role = 'sales';
+      this.editUpdateAdmin.userid = "1";
+      this.editUpdateAdmin.IsActive = "0";
+    }
+    else if (this.role == 'backoffice') {
+      this.editUpdateAdmin.role = 'backoffice';
+      this.editUpdateAdmin.userid = "1";
+      this.editUpdateAdmin.IsActive = "0";
+    }
+    else if (this.role == 'mis') {
+      this.editUpdateAdmin.role = 'mis';
+      this.editUpdateAdmin.userid = "1";
+      this.editUpdateAdmin.IsActive = "0";
+    }
+    else if (this.role == 'partner') {
+      this.editUpdateAdmin.role = 'partner';
+      this.editUpdateAdmin.userid = "1";
+      this.editUpdateAdmin.IsActive = "0";
+    }
+
+    this.salesService.editAdminUser(this.editUpdateAdmin).subscribe(res => {
+      this.toastr.error('Deleted Successfully !!');
+      this.emitterService.isAdminCreadtedOrUpdated.emit(true);
+      this.dialogRef.close();
+      this.spinner.hide();
+    },
+      err => {
+        this.spinner.hide();
+      });
+  }
+
 
 }

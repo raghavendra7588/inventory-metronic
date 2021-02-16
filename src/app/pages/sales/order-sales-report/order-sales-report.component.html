@@ -4,14 +4,10 @@
         <h2 class="text-center theme-color font-wight-bold my-4">Reports</h2>
         <div class="row parent">
             <div class="col-md-12 col-12 col-sm-12 col-xl-12 my-2">
-                <!-- <mat-form-field style="width: 100% !important">
-                    <mat-select placeholder="Report Type">
 
-                    </mat-select>
-                </mat-form-field> -->
                 <mat-form-field style="width: 100% !important;">
                     <mat-label>Select Target User</mat-label>
-                    <mat-select>
+                    <mat-select [(ngModel)]="orderSalesReport.reportType">
                         <mat-option *ngFor="let item of reportType;" [value]="item.type">
                             {{item.title}}
                         </mat-option>
@@ -21,15 +17,20 @@
             <div class="col-md-12 col-12 col-sm-12 col-xl-12 mt-2">
 
                 <mat-form-field style="width: 100% !important">
-                    <mat-select placeholder="Seller Name">
-
+                    <mat-select placeholder="Seller" [(ngModel)]="orderSalesReport.sellerName">
+                        <mat-select-filter [placeholder]="'Seller'" [displayMember]="'SellerNameCode'"
+                            [array]="sellerData" (filteredReturn)="filteredSellerData =$event"></mat-select-filter>
+                        <mat-option *ngFor="let item of filteredSellerData" [value]="item">
+                            {{item.SellerNameCode}}
+                        </mat-option>
                     </mat-select>
                 </mat-form-field>
             </div>
             <div class="col-md-12 col-12 col-sm-12 col-xl-12 my-2">
                 <mat-form-field style="width: 100% !important;">
                     <mat-label>Start Date</mat-label>
-                    <input matInput [matDatepicker]="picker1" placeholder="Start Date">
+                    <input matInput [matDatepicker]="picker1" placeholder="Start Date"
+                        [(ngModel)]="orderSalesReport.startDate">
                     <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
                     <mat-datepicker #picker1></mat-datepicker>
                 </mat-form-field>
@@ -38,14 +39,15 @@
             <div class="col-md-12 col-12 col-sm-12 col-xl-12 my-2">
                 <mat-form-field style="width: 100% !important;">
                     <mat-label>End Date</mat-label>
-                    <input matInput [matDatepicker]="picker" autocomplete="off">
+                    <input matInput [matDatepicker]="picker" autocomplete="off" [(ngModel)]="orderSalesReport.endDate">
                     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                     <mat-datepicker #picker></mat-datepicker>
                 </mat-form-field>
             </div>
 
             <div class="col-md-12 col-12 col-sm-12 col-xl-12 mt-3">
-                <button mat-raised-button class="width-100 mt-2 save-button"><span style="color:white">
+                <button mat-raised-button class="width-100 mt-2 save-button" (click)="fetchReport()"><span
+                        style="color:white">
                         Download</span></button>
             </div>
         </div>

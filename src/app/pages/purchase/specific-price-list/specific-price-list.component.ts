@@ -7,6 +7,7 @@ import { MatSelect } from '@angular/material/select';
 import { MatTableDataSource } from '@angular/material/table';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
+import { Subscription } from 'rxjs';
 import { LoginService } from 'src/app/modules/auth/login.service';
 import { EmitterService } from 'src/app/shared/emitter.service';
 import { PriceList } from '../purchase.model';
@@ -101,6 +102,11 @@ export class SpecificPriceListComponent implements OnInit {
 
 
   sortedCategory: any = [];
+  providedInputAmount: number = 0;
+
+  inputQuantityArray: any = [];
+  emitterSubscription: Subscription;
+
   constructor(
     public dialog: MatDialog,
     public loginService: LoginService,
@@ -109,6 +115,12 @@ export class SpecificPriceListComponent implements OnInit {
     public toastr: ToastrService,
     private cdr: ChangeDetectorRef,
     private spinner: NgxSpinnerService) {
+    this.emitterService.isPriceListUpdated.subscribe(val => {
+      if (val) {
+        this.updateAllRecordsCount = 0;
+        this.emitterSubscription.unsubscribe();
+      }
+    });
   }
 
   ngOnInit() {
@@ -125,38 +137,6 @@ export class SpecificPriceListComponent implements OnInit {
     this.getPriceListData();
     this.getBrandsMasterData();
     this.getVendorData();
-
-    this.categorySettings = {
-      singleSelection: false,
-      idField: 'id',
-      textField: 'name',
-      selectAllText: 'All',
-      unSelectAllText: 'All',
-      itemsShowLimit: 1,
-      enableCheckAll: true,
-      allowSearchFilter: true,
-
-    };
-
-    this.subCategorySettings = {
-      singleSelection: true,
-      idField: 'id',
-      textField: 'name',
-      selectAllText: 'Select All',
-      unSelectAllText: 'UnSelect All',
-      itemsShowLimit: 1,
-      allowSearchFilter: true
-    };
-
-    this.brandSettings = {
-      singleSelection: true,
-      idField: 'BrandID',
-      textField: 'BrandName',
-      selectAllText: 'Select All',
-      unSelectAllText: 'UnSelect All',
-      allowSearchFilter: true,
-      itemsShowLimit: 1
-    };
 
 
   }
@@ -259,6 +239,11 @@ export class SpecificPriceListComponent implements OnInit {
   logSelection() {
     this.isPriceValid = true;
     this.isMultipleAmount = true;
+    if (this.updateAllRecordsCount != this.providedInputAmount) {
+      this.toastr.error('Kindly Select Required CheckBoxes');
+      return;
+    }
+
     this.selection.selected.forEach((element) => {
       this.updateAllArray.push(element);
       this.multipleEntriesArray.push(element);
@@ -268,6 +253,7 @@ export class SpecificPriceListComponent implements OnInit {
     this.updateAllRecordsCount = this.updateAllArray.length;
     this.multipleEntriesArray = [];
     this.updateAllArray = [];
+    this.updateAllRecordsCount = 0;
   }
 
   getBrandsMasterData() {
@@ -284,14 +270,6 @@ export class SpecificPriceListComponent implements OnInit {
         });
     }, 400);
   }
-
-  // openDialog() {
-  //   this.dialog.open(DialogContentPriceListComponent, {
-  //     height: '600px',
-  //     width: '800px',
-  //   });
-  // }
-
 
 
   onCategorySelectAll() {
@@ -556,7 +534,10 @@ export class SpecificPriceListComponent implements OnInit {
       this.priceList.quantity = element.Quantity;
       this.priceList.ProductVarientId = element.ProductVarientId;
       this.purchaseService.savePriceListMaster(this.priceList).subscribe(data => {
-        this.toastr.success('price list updated');
+        this.toastr.success('Price List Updated');
+               
+        this.inputQuantityArray = [];
+        this.providedInputAmount = 0;
       },
         err => {
           this.toastr.error('An Error Occured !!');
@@ -584,10 +565,13 @@ export class SpecificPriceListComponent implements OnInit {
       let isPriceValid = (Number(this.priceList.buyingPrice) - Number(this.priceList.discount)) === Number(this.priceList.finalPrice);
       if (isPriceValid) {
         this.purchaseService.savePriceListMaster(this.priceList).subscribe(data => {
-          this.toastr.success('price list saved');
+          this.toastr.success('Price List Saved');
           this.priceList.buyingPrice = 0;
           this.priceList.discount = 0;
           this.priceList.finalPrice = 0;
+
+          this.inputQuantityArray = [];
+          this.providedInputAmount = 0;
         },
           err => {
             this.toastr.error('An Error Occured !!');
@@ -654,18 +638,25 @@ export class SpecificPriceListComponent implements OnInit {
         this.priceList.buyingPrice = 0;
         this.priceList.discount = 0;
         this.priceList.finalPrice = 0;
+        // this.emitterService.isPriceListUpdated.emit(true);
+        this.updateAllRecordsCount = 0;
         this.updateAllArray = [];
         this.multipleEntriesArray = [];
+        
+        this.inputQuantityArray = [];
+        this.providedInputAmount = 0;
       },
         err => {
           this.toastr.error('An Error Occured !!');
           this.spinner.hide();
         });
+
     }
     else {
       this.toastr.error('Please Check Buying Price, Discount and Final Price');
       this.multipleEntriesArray = [];
     }
+    this.updateAllRecordsCount = 0;
   }
 
   mapObj(apiData, ownDbData) {
@@ -708,5 +699,47 @@ export class SpecificPriceListComponent implements OnInit {
     });
     return array;
   }
+
+
+  calculateProvidedQuantity(providedInputQuantity, productData) {
+    console.log('eleement', productData);
+    if (Number(providedInputQuantity) > 0) {
+
+      if (this.inputQuantityArray.includes(productData.Id)) {
+        console.log("value exists");
+        console.log('providedInputAmount', this.providedInputAmount);
+        console.log('inputQuantityArray', this.inputQuantityArray);
+        return;
+      }
+
+      else {
+        console.log("does not exist");
+        this.inputQuantityArray.push(productData.Id);
+        this.providedInputAmount++;
+        console.log('providedInputAmount', this.providedInputAmount);
+        console.log('inputQuantityArray', this.inputQuantityArray);
+        return;
+      }
+
+
+    }
+    else if ((Number(providedInputQuantity) == 0)) {
+      if (this.inputQuantityArray.includes(productData.Id)) {
+        console.log("made to 0 ");
+        this.providedInputAmount--;
+        this.inputQuantityArray = this.inputQuantityArray.filter(item => item !== productData.Id)
+        console.log('providedInputAmount', this.providedInputAmount);
+        console.log('inputQuantityArray', this.inputQuantityArray);
+        return;
+      }
+
+    }
+    else {
+      console.log('providedInputAmount', this.providedInputAmount);
+      console.log('inputQuantityArray', this.inputQuantityArray);
+      return;
+    }
+  }
+
 
 }

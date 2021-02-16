@@ -62,7 +62,8 @@
         <div mat-dialog-actions class="mt-2">
             <button mat-raised-button [ngClass]="!subCategoryForm.valid? 'opacity' : 'noOpacity'" class="save-button"
                 [disabled]="!subCategoryForm.valid"><span class="custom-text-color">Save</span></button>
-            <button mat-raised-button mat-dialog-close color="warn">Delete</button>
+            <button mat-raised-button (click)="deleteSubCategory()" color="warn">Delete</button>
             <button mat-raised-button mat-dialog-close>Close</button>
         </div>
     </div>
+</form>

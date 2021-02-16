@@ -7,6 +7,7 @@ import { EmitterService } from 'src/app/shared/emitter.service';
 import { DialogOrderManagementPrintComponent } from '../dialog-order-management-print/dialog-order-management-print.component';
 import { DialogOrderManagementComponent } from '../dialog-order-management/dialog-order-management.component';
 import { SalesService } from '../sales.service';
+import { ExportToCsv } from 'export-to-csv';
 
 @Component({
   selector: 'app-order-management',
@@ -20,6 +21,12 @@ export class OrderManagementComponent implements OnInit {
   dataSource: any;
   strSellerId: string;
   orderData: any = [];
+  isDataLoaded: boolean = false;
+  @ViewChild(MatPaginator) set matPaginator(mp: MatPaginator) {
+    this.paginator = mp;
+    this.setDataSourceAttributes();
+  }
+
 
   constructor(
     public salesService: SalesService,
@@ -68,6 +75,7 @@ export class OrderManagementComponent implements OnInit {
       this.dataSource = new MatTableDataSource(this.orderData);
       setTimeout(() => this.dataSource.paginator = this.paginator);
       this.spinner.hide();
+      this.isDataLoaded = true;
     },
       err => {
         this.spinner.hide();
@@ -92,5 +100,54 @@ export class OrderManagementComponent implements OnInit {
       data: order,
       disableClose: true
     });
+  }
+
+  downloadTheReport() {
+    const options = {
+      fieldSeparator: ',',
+      quoteStrings: '"',
+      decimalSeparator: '.',
+      showLabels: true,
+      showTitle: true,
+      title: 'Customer Data',
+      useTextFile: false,
+      useBom: true,
+      useKeysAsHeaders: true
+    };
+
+    const csvExporter = new ExportToCsv(options);
+    if (this.isDataLoaded) {
+      let requiredResponse = this.formatResponse(this.orderData);
+      csvExporter.generateCsv(requiredResponse);
+    }
+
+  }
+  setDataSourceAttributes() {
+    // this.dataSource.paginator = this.paginator;
+    if (Array.isArray(this.dataSource) && this.dataSource.length) {
+      setTimeout(() => this.dataSource.paginator = this.paginator);
+    }
+  }
+
+
+  formatResponse(array) {
+    let formattedResponse: any = [];
+    let j = 1;
+    for (let i = 0; i < array.length; i++) {
+
+      let item = {
+        Number: j,
+        sellerId: array[i].sellerId,
+        sellerName: array[i].sellerName,
+        customerName:array[i].customerName,
+        status:array[i].status,
+        orderDate: array[i].orderDate,
+        deliveryUpto:array[i].deliveryUpto,
+        deliveryType:array[i].deliveryType,
+      }
+      j++;
+      formattedResponse.push(item);
+    }
+    return formattedResponse;
   }
 }

@@ -38,6 +38,8 @@ export class LoginComponent implements OnInit, OnDestroy {
   isLoggedInCheck: boolean = false;
   errors: any;
 
+  isButtonDisabled: boolean = false;
+  
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
@@ -134,6 +136,8 @@ export class LoginComponent implements OnInit, OnDestroy {
       this.emitterService.isLoggedIn.emit(true);
       this.emitterService.isLoggedInSuccessful.emit(true);
       this.isLoggedInCheck = true;
+      this.isButtonDisabled = true;
+
     },
       error => {
         this.errors = error;

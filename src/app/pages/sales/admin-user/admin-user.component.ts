@@ -8,6 +8,7 @@ import { DialogUpdateMobileNumberComponent } from '../dialog-update-mobile-numbe
 import { SalesService } from '../sales.service';
 import { NgxSpinnerService } from "ngx-spinner";
 import { EmitterService } from 'src/app/shared/emitter.service';
+import { ExportToCsv } from 'export-to-csv';
 
 @Component({
   selector: 'app-admin-user',
@@ -22,6 +23,16 @@ export class AdminUserComponent implements OnInit {
   dataSource: any;
   adminUsers: any = [];
 
+  sellerName: string;
+  isDataLoaded: boolean = false;
+
+  @ViewChild(MatPaginator) set matPaginator(mp: MatPaginator) {
+    this.paginator = mp;
+    this.setDataSourceAttributes();
+  }
+
+
+
   constructor(
     public salesService: SalesService,
     public dialog: MatDialog,
@@ -31,6 +42,7 @@ export class AdminUserComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.sellerName = sessionStorage.getItem('sellerName');
     this.getAdminUser();
     this.emitterService.isAdminCreadtedOrUpdated.subscribe(val => {
       if (val) {
@@ -54,7 +66,14 @@ export class AdminUserComponent implements OnInit {
       this.dataSource = new MatTableDataSource(this.adminUsers);
       setTimeout(() => this.dataSource.paginator = this.paginator);
       this.spinner.hide();
+      this.isDataLoaded = true;
     });
+  }  
+  setDataSourceAttributes() {
+    // this.dataSource.paginator = this.paginator;
+    if (Array.isArray(this.dataSource) && this.dataSource.length) {
+      setTimeout(() => this.dataSource.paginator = this.paginator);
+    }
   }
 
   applyFilter(filter: string) {
@@ -90,7 +109,41 @@ export class AdminUserComponent implements OnInit {
     });
   }
 
+  downloadTheReport() {
+    const options = {
+      fieldSeparator: ',',
+      quoteStrings: '"',
+      decimalSeparator: '.',
+      showLabels: true,
+      showTitle: true,
+      title: this.sellerName.toString(),
+      useTextFile: false,
+      useBom: true,
+      useKeysAsHeaders: true
+    };
 
+    const csvExporter = new ExportToCsv(options);
+    if (this.isDataLoaded) {
+      let requiredResponse = this.formatResponse(this.adminUsers);
+      csvExporter.generateCsv(requiredResponse);
+    }
+
+  }
+  formatResponse(array) {
+    let formattedResponse: any = [];
+    for (let i = 0; i < array.length; i++) {
+      let item = {
+        name: array[i].name,
+        emailid: array[i].emailid,
+        mobilenumber: array[i].mobilenumber,
+        pincode: array[i].pincode,
+        state: array[i].state,
+        city: array[i].city
+      }
+      formattedResponse.push(item);
+    }
+    return formattedResponse;
+  }
 
 }
 

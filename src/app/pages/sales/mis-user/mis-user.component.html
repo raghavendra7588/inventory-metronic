@@ -1,6 +1,7 @@
 <div class="container-fluid my-5">
+
     <div class="row">
-        <div class="col-md-9 col-6 col-sm-6 col-xl-9">
+        <div class="col-md-6 col-4 col-sm-4 col-xl-6 col-lg-6">
             <mat-form-field style="width: 100%;">
                 <mat-label>Search</mat-label>
                 <input matInput (keyup)="applyFilter($event.target.value)">
@@ -10,10 +11,15 @@
             <button mat-raised-button class="width-100 mt-2 save-button" (click)="openMisDialog()"><span style="color:white">Add
                     New</span></button>
         </div>
+        <div class="col-md-3 col-6 col-sm-6 col-xl-3 col-lg-3">
+            <button mat-raised-button class="width-100 mt-2 save-button" [disabled]="!isDataLoaded"
+                [ngClass]="!isDataLoaded ? 'opacity' : 'noOpacity'" (click)="downloadTheReport()"><span
+                    style="color:white">Download</span></button>
+        </div>
     </div>
 
     <div class="row mt-3">
-        <div class="col-xl-12 col-12 col-md-12 col-sm-12 mb-3">
+        <div class="col-xl-12 col-12 col-md-12 col-sm-12 mb-3" *ngIf="role == 'Admin'">
             <table mat-table [dataSource]="dataSource" class="custom-table">
 
                 <ng-container matColumnDef="name">
@@ -66,7 +72,61 @@
                 <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
             </table>
 
-            <mat-paginator [pageSizeOptions]="[25,50,100]" showFirstLastButtons></mat-paginator>
+            <mat-paginator style="background-color:  #f3f6f9 !important;" [pageSizeOptions]="[25,50,100]" showFirstLastButtons></mat-paginator>
+        </div>
+
+        <div class="col-xl-12 col-12 col-md-12 col-sm-12 mb-3" *ngIf="role != 'Admin'">
+            <table mat-table [dataSource]="dataSource" class="custom-table">
+
+                <ng-container matColumnDef="name">
+                    <th mat-header-cell *matHeaderCellDef>Name</th>
+                    <td mat-cell *matCellDef="let element">{{element.name}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="emailID">
+                    <th mat-header-cell *matHeaderCellDef>Email ID</th>
+                    <td mat-cell *matCellDef="let element">{{element.emailid}}</td>
+                </ng-container>
+                <ng-container matColumnDef="mobile">
+                    <th mat-header-cell *matHeaderCellDef>Mobile</th>
+                    <td mat-cell *matCellDef="let element">
+                        {{element.mobilenumber}} 
+                </ng-container>
+
+                <ng-container matColumnDef="pincode">
+                    <th mat-header-cell *matHeaderCellDef>Pin Code</th>
+                    <td mat-cell *matCellDef="let element">
+                        {{element.pincode}}
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="state">
+                    <th mat-header-cell *matHeaderCellDef>State</th>
+                    <td mat-cell *matCellDef="let element">
+                        {{element.state}}
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="city">
+                    <th mat-header-cell *matHeaderCellDef>City</th>
+                    <td mat-cell *matCellDef="let element">
+                        {{element.city}}
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="edit">
+                    <th mat-header-cell *matHeaderCellDef>Edit</th>
+                    <td mat-cell *matCellDef="let element">
+                        <button mat-icon-button (click)="viewUser(element)">
+                            <mat-icon class="mat-18">remove_red_eye</mat-icon>
+                        </button>
+                    </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+
+            <mat-paginator style="background-color:  #f3f6f9 !important;" [pageSizeOptions]="[25,50,100]" showFirstLastButtons></mat-paginator>
         </div>
     </div>
 </div>

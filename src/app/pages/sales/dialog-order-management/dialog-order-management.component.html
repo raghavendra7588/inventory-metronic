@@ -6,7 +6,7 @@
                 <div class="col-md-12 col-12 col-sm-12 col-lg-12 col-xl-12">
                     <h5 class="orange-icon">Customer Name:
                         <span>
-                            <h5 class="theme-color">{{orderData.customerName}}</h5>
+                            <h5 class="black-color-text">{{orderData.customerName}}</h5>
                         </span>
                     </h5>
                 </div>
@@ -16,7 +16,7 @@
                 <div class="col-md-12 col-12 col-sm-12 col-lg-12 col-xl-12">
                     <h5 class="orange-icon">Seller Name:
                         <span>
-                            <h5 class="theme-color">{{orderData.sellerName}}</h5>
+                            <h5 class="black-color-text">{{orderData.sellerName}}</h5>
                         </span>
                     </h5>
                 </div>
@@ -26,7 +26,7 @@
                 <div class="col-md-12 col-12 col-sm-12 col-lg-12 col-xl-12">
                     <h5 class="orange-icon">Order Status:
                         <span>
-                            <h5 class="theme-color">{{orderData.status}}</h5>
+                            <h5 class="black-color-text">{{orderData.status}}</h5>
                         </span>
                     </h5>
                 </div>
@@ -36,7 +36,7 @@
                 <div class="col-md-12 col-12 col-sm-12 col-lg-12 col-xl-12">
                     <h5 class="orange-icon">Order DateTime:
                         <span>
-                            <h5 class="theme-color">{{orderData.orderDate}}</h5>
+                            <h5 class="black-color-text">{{orderData.orderDate}}</h5>
                         </span>
                     </h5>
                 </div>
@@ -48,7 +48,7 @@
                 <div class="col-md-12 col-12 col-sm-12 col-lg-12 col-xl-12">
                     <h5 class="orange-icon">Customer Mobile no:
                         <span>
-                            <h5 class="theme-color">{{orderData.primaryMobileNumber}}</h5>
+                            <h5 class="black-color-text">{{orderData.primaryMobileNumber}}</h5>
                         </span>
                     </h5>
                 </div>
@@ -57,7 +57,7 @@
                 <div class="col-md-12 col-12 col-sm-12 col-lg-12 col-xl-12">
                     <h5 class="orange-icon">Payment Type:
                         <span>
-                            <h5 class="theme-color">{{orderData.paymentType}}</h5>
+                            <h5 class="black-color-text">{{orderData.paymentType}}</h5>
                         </span>
                     </h5>
                 </div>
@@ -66,7 +66,7 @@
                 <div class="col-md-12 col-12 col-sm-12 col-lg-12 col-xl-12">
                     <h5 class="orange-icon">Total Amount:
                         <span>
-                            <h5 class="theme-color">{{orderData.totalAmount}}</h5>
+                            <h5 class="black-color-text">{{orderData.totalAmount}}</h5>
                         </span>
                     </h5>
                 </div>
@@ -78,7 +78,7 @@
                 <div class="col-md-12 col-12 col-sm-12 col-lg-12 col-xl-12">
                     <h5 class="orange-icon">Delivery Type:
                         <span>
-                            <h5 class="theme-color">{{orderData.deliveryType}}</h5>
+                            <h5 class="black-color-text">{{orderData.deliveryType}}</h5>
                         </span>
                     </h5>
                 </div>
@@ -87,7 +87,7 @@
                 <div class="col-md-12 col-12 col-sm-12 col-lg-12 col-xl-12">
                     <h5 class="orange-icon">Delivery Upto:
                         <span>
-                            <h5 class="theme-color">{{orderData.deliveryUpto}}</h5>
+                            <h5 class="black-color-text">{{orderData.deliveryUpto}}</h5>
                         </span>
                     </h5>
                 </div>
@@ -96,7 +96,7 @@
                 <div class="col-md-12 col-12 col-sm-12 col-lg-12 col-xl-12">
                     <h5 class="orange-icon">Total Quantity:
                         <span>
-                            <h5 class="theme-color">{{totalOrderedQuantity}}</h5>
+                            <h5 class="black-color-text">{{totalOrderedQuantity}}</h5>
                         </span>
                     </h5>
                 </div>
@@ -107,9 +107,8 @@
             <div class="row">
                 <div class="col-md-6 col-6 col-sm-6 col-lg-6 col-xl-6">
                     <mat-form-field style="width: 100% !important;">
-                        <mat-label>Delivery Status</mat-label>
-                        <mat-select>
-                            <mat-option *ngFor="let item of deliveryStatus;" [value]="item.type">
+                        <mat-select [(ngModel)]="selectStatus" placeholder="Delivery Status">
+                            <mat-option *ngFor="let item of deliveryStatus;" [value]="item.title">
                                 {{item.title}}
                             </mat-option>
                         </mat-select>
@@ -117,9 +116,8 @@
                 </div>
                 <div class="col-md-6 col-6 col-sm-6 col-lg-6 col-xl-6">
                     <mat-form-field style="width: 100% !important;">
-                        <mat-label>Delivery Slot</mat-label>
-                        <mat-select>
-                            <mat-option *ngFor="let item of deliverySlot;" [value]="item.type">
+                        <mat-select [(ngModel)]="deliverySlotTiming" placeholder="Delivery Slot">
+                            <mat-option *ngFor="let item of deliverySlot;" [value]="item.title">
                                 {{item.title}}
                             </mat-option>
                         </mat-select>
@@ -134,16 +132,18 @@
 
 
     <div mat-dialog-actions class="my-4">
-        <!-- <button mat-raised-button [ngClass]="!editUserForm.valid? 'opacity' : 'noOpacity'" class="save-button"
-            [disabled]="!editUserForm.valid" (click)="onSubmit()"><span class="custom-text-color">Save</span></button> -->
 
-        <button mat-raised-button class="save-button"><span class="custom-text-color">Save</span></button>
+
+        <button mat-raised-button class="save-button"
+            [ngClass]="!selectStatus ||!deliverySlotTiming? 'opacity' : 'noOpacity'" class="save-button"
+            [disabled]="!selectStatus ||!deliverySlotTiming " (click)="onSubmit()"><span
+                class="custom-text-color">Save</span></button>
 
         <button mat-raised-button mat-dialog-close>Close</button>
     </div>
 
     <mat-divider class="my-4"></mat-divider>
-    <h5 class="theme-color text-center">Order Details</h5>
+    <h5 class="orange-icon text-center">Order Details</h5>
     <mat-divider class="my-4"></mat-divider>
 
     <div class="row my-4">
@@ -160,7 +160,7 @@
 
 
     <div class="col-xl-12 col-12 col-md-12 col-sm-12 my-3">
-        <table mat-table [dataSource]="dataSource" class="custom-table">
+        <table mat-table [dataSource]="dataSource" class="custom-dialog-table">
 
             <ng-container matColumnDef="productName">
                 <th mat-header-cell *matHeaderCellDef>Product Name</th>

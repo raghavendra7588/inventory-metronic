@@ -27,7 +27,7 @@
 
         <ul class="breadcrumb breadcrumb-transparent breadcrumb-dot font-weight-bold my-2 p-0">
           <li class="breadcrumb-item" *ngFor="let bc of breadcrumbs$ | async" routerLinkActive="active">
-            <a [routerLink]="bc.linkPath" class="text-muted">
+            <a class="text-muted">
               {{ bc.linkText }}
             </a>
           </li>
