@@ -26,6 +26,7 @@ export class DialogOrderManagementComponent implements OnInit {
   deliverySlot: any = [];
   selectStatus: string;
   deliverySlotTiming: string;
+  strSellerId: string;
 
   constructor(
     private dialogRef: MatDialogRef<DialogOrderManagementComponent>,
@@ -45,7 +46,7 @@ export class DialogOrderManagementComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
+    this.strSellerId = sessionStorage.getItem('sellerId');
     this.deliveryStatus = [
       {
         id: 0, title: 'Select Status'
@@ -99,9 +100,9 @@ export class DialogOrderManagementComponent implements OnInit {
       "status": this.selectStatus.toString(),
       "deliveryUpto": this.orderData.deliveryUpto.toString(),
       "deliveryType": this.orderData.deliveryType.toString(),
-      "userId": "1",
+      "userId": this.strSellerId,
       "paymentType": this.orderData.paymentType.toString(),
-      "sellerId": this.orderData.paymentType.toString(),
+      "sellerId": this.orderData.sellerId.toString(),
       "cartId": this.orderData.cartid.toString(),
       "deliveredDate": "",
       "sellerName": this.orderData.sellerName.toString(),

@@ -61,7 +61,8 @@ export class CategoryComponent implements OnInit {
         color: 'white'
       }
     );
-    this.salesService.getAllCategoriesData().subscribe(res => {
+    let parentid = '0';
+    this.salesService.getCategoriesData(parentid).subscribe(res => {
       this.categoryData = res;
       this.dataSource = new MatTableDataSource(this.categoryData);
       setTimeout(() => this.dataSource.paginator = this.paginator);
@@ -127,12 +128,12 @@ export class CategoryComponent implements OnInit {
         Number: j,
         id: array[i].id,
         name: array[i].name,
-        brandname:array[i].brandname,
-        categoryname:array[i].categoryname,
+        brandname: array[i].brandname,
+        categoryname: array[i].categoryname,
 
-        subcategoryname:array[i].subcategoryname,
-        descriptions:array[i].descriptions,
-        imgurl:array[i].imgurl
+        subcategoryname: array[i].subcategoryname,
+        descriptions: array[i].descriptions,
+        imgurl: array[i].imgurl
       }
       j++;
       formattedResponse.push(item);

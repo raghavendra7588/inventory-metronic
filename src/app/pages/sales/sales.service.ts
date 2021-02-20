@@ -11,8 +11,9 @@ export class SalesService {
   public currentTab: string = '';
   public showGeneralEditDialog: boolean;
 
-  BASE_URL = 'http://203.112.144.38/AdminApi/UploadedFiles/';
-  BASE_URL_DOCUMENTS = 'https://3intellects.co.in/uat_AdminApi';
+  // BASE_URL = 'http://203.112.144.38/AdminApi/UploadedFiles/';
+  BASE_URL = 'https://3intellects.co.in/UAT_AdminApi/UploadedFiles/';
+  BASE_URL_DOCUMENTS = 'https://3intellects.co.in/uat_AdminApi/uploadDocuments/';
 
   private GET_ALL_ADMIN_USERS = environment.ADMIN_BASE_URL + '/user/getall';
   private GET_ALL_SELLER_USERS = environment.ADMIN_BASE_URL + '/user/getall';

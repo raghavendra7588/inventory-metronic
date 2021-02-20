@@ -165,7 +165,7 @@ export class SendNotificationComponent implements OnInit {
     this.selectedSendUsingStr = res.title;
     if (res.title == 'Pin Code') {
       this.isPincode = true;
-
+      this.sendNotification.vendorCode2 = '';
     }
     else {
       this.isPincode = false;

@@ -65,7 +65,7 @@
         <div class="col-md-3 col-6 col-sm-3 col-xl-3">
             <button mat-raised-button style="color: white;" color="warn"
                 [ngClass]="updateAllRecordsCount===0 ? 'opacity' : 'noOpacity'" [disabled]="updateAllRecordsCount===0"
-                (click)="logSelection()" class="width-100 mt-2">Remove
+                (click)="logDeleteSelection()" class="width-100 mt-2">Remove
                 All
                 (<span>{{updateAllRecordsCount === 0 ? 0 : updateAllRecordsCount}}</span>)</button>
         </div>

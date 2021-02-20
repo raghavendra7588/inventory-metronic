@@ -1,4 +1,4 @@
-<form [formGroup]="subCategoryForm" (ngSubmit)="onSubmit()">
+<form [formGroup]="subCategoryForm">
     <div class="container-fluid">
         <h2 class="text-center font-weight-bold theme-color">{{salesService.currentTab}}</h2>
 
@@ -61,7 +61,8 @@
         </div>
         <div mat-dialog-actions class="mt-2">
             <button mat-raised-button [ngClass]="!subCategoryForm.valid? 'opacity' : 'noOpacity'" class="save-button"
-                [disabled]="!subCategoryForm.valid"><span class="custom-text-color">Save</span></button>
+                [disabled]="!subCategoryForm.valid" (click)="onSubmit()"><span
+                    class="custom-text-color">Save</span></button>
             <button mat-raised-button (click)="deleteSubCategory()" color="warn">Delete</button>
             <button mat-raised-button mat-dialog-close>Close</button>
         </div>

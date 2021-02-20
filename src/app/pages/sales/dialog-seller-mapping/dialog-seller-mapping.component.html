@@ -15,7 +15,7 @@
             <div class="col-md-12 col-sm-12 col-12 col-xl-12 cutomHeight">
                 <mat-selection-list (selectionChange)="selectionChange($event.option)" name="selectionID"
                     formControlName="mappingID">
-                    <input matInput type="text" formControlName="searchResult" (keypress)="filterListCareUnit($event.target.value)">
+                    <!-- <input matInput type="text" formControlName="searchResult" (keypress)="filterListCareUnit($event.target.value)"> -->
                     <mat-list-option *ngFor="let shoe of parentChildMappingData" [value]="shoe.Child_UserID"
                         (click)="updateParentChildMapping($event,shoe)">
                         {{shoe.Name}}

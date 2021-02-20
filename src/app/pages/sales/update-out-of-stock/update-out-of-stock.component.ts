@@ -57,6 +57,7 @@ export class UpdateOutOfStockComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.role = sessionStorage.getItem('role');
     this.strSellerID = sessionStorage.getItem('sellerId');
 
     this.getSellerUsers();
@@ -75,11 +76,16 @@ export class UpdateOutOfStockComponent implements OnInit {
       }
     );
     let currentRole = '';
-    // if (this.role == 'Admin') {
     currentRole = 'Seller';
-    // }
+
     this.salesService.getSellerUsers(currentRole).subscribe(res => {
       this.sellerData = res;
+      console.log('current role', this.role);
+      if (this.role == 'Seller') {
+        console.log('current role **', this.role);
+        this.filterSellerData(this.sellerData);
+        this.categoriesData = JSON.parse(sessionStorage.getItem('categories'));
+      }
       this.filteredSellerData = this.sellerData.slice();
       if (Array.isArray(this.sellerData) && this.sellerData.length) {
         this.spinner.hide();
@@ -88,6 +94,17 @@ export class UpdateOutOfStockComponent implements OnInit {
       this.spinner.hide();
     });
     this.filteredSellerData = this.sellerData.slice();
+  }
+
+  filterSellerData(arr) {
+    let particularSellerArr = [];
+    arr.filter(item => {
+      if (Number(item.id) == Number(this.strSellerID)) {
+        particularSellerArr.push(item);
+      }
+    });
+    console.log('particularSellerArr', particularSellerArr);
+    this.sellerData = particularSellerArr;
   }
 
 

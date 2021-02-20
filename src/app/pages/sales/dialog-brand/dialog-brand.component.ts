@@ -15,6 +15,7 @@ import { SalesService } from '../sales.service';
 export class DialogBrandComponent implements OnInit {
   brandsRespone: any = [];
   brand: Brand = new Brand();
+  strSellerId: string;
 
   brandForm: FormGroup;
   filename: string = null;
@@ -43,6 +44,8 @@ export class DialogBrandComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.strSellerId = sessionStorage.getItem('sellerId');
+
     if (this.brandsRespone) {
       this.assignValues();
     }
@@ -60,7 +63,7 @@ export class DialogBrandComponent implements OnInit {
         "imageurl": this.imageUrl.toString(),
         "id": this.brandsRespone.id.toString(),
         "IsActive": "1",
-        "userid": "1"
+        "userid": this.strSellerId
       };
 
 
@@ -82,7 +85,7 @@ export class DialogBrandComponent implements OnInit {
         "imageurl": '',
         "id": '0',
         "IsActive": "1",
-        "userid": "1"
+        "userid": this.strSellerId
       };
 
       if (this.isImageSelected) {
@@ -121,7 +124,7 @@ export class DialogBrandComponent implements OnInit {
   deleteBrandsData() {
 
     let deleteFormData = new FormData();
-    
+
     let Brand = {
       "name": this.brand.name.toString(),
       "descriptions": this.brand.descriptions.toString(),

@@ -16,7 +16,7 @@ export class DialogCategoryComponent implements OnInit {
   categoryResponse: any = [];
 
   category: Category = new Category();
-
+  strSellerId: string;
   categoryForm: FormGroup;
 
   filename: string = null;
@@ -49,6 +49,7 @@ export class DialogCategoryComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.strSellerId = sessionStorage.getItem('sellerId');
     if (this.categoryResponse) {
       this.assignValues();
     }
@@ -66,7 +67,7 @@ export class DialogCategoryComponent implements OnInit {
         "parentid": "0",
         "id": "0",
         "IsActive": "1",
-        "userid": "1"
+        "userid": this.strSellerId
       };
 
 
@@ -88,7 +89,7 @@ export class DialogCategoryComponent implements OnInit {
         "parentid": "0",
         "id": "0",
         "IsActive": "1",
-        "userid": "1"
+        "userid": this.strSellerId
       };
 
       if (this.isImageSelected) {
@@ -128,14 +129,14 @@ export class DialogCategoryComponent implements OnInit {
   deleteCategoryData() {
     let deleteFormData = new FormData();
 
-  
+
     let Category = {
       "name": this.category.name.toString(),
       "descriptions": this.category.descriptions.toString(),
       "imageurl": this.imageUrl.toString(),
-      "isparent": "1",
+      "isparent": "True",
       "parentid": "0",
-      "id": "0",
+      "id": this.category.id.toString(),
       "IsActive": "0",
     };
 

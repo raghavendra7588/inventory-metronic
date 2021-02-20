@@ -70,6 +70,8 @@ export class UnMappedProductsComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.role = sessionStorage.getItem('role');
+    this.strSellerID = sessionStorage.getItem('sellerId');
     this.getSellerUsers();
   }
 
@@ -93,6 +95,13 @@ export class UnMappedProductsComponent implements OnInit {
     // }
     this.salesService.getSellerUsers(currentRole).subscribe(res => {
       this.sellerData = res;
+      console.log('current role', this.role);
+      if (this.role == 'Seller') {
+        console.log('current role **', this.role);
+        this.filterSellerData(this.sellerData);
+        this.categoriesData = JSON.parse(sessionStorage.getItem('categories'));
+      }
+
       this.filteredSellerData = this.sellerData.slice();
       if (Array.isArray(this.sellerData) && this.sellerData.length) {
         this.spinner.hide();
@@ -103,12 +112,27 @@ export class UnMappedProductsComponent implements OnInit {
     this.filteredSellerData = this.sellerData.slice();
   }
 
+  filterSellerData(arr) {
+    let particularSellerArr = [];
+    arr.filter(item => {
+      if (Number(item.id) == Number(this.strSellerID)) {
+        particularSellerArr.push(item);
+      }
+    });
+    console.log('particularSellerArr', particularSellerArr);
+    this.sellerData = particularSellerArr;
+  }
 
   onSellerChange(event, res) {
     console.log('res', res);
     this.categoriesData = res.categories;
-
-
+    this.spinner.show(undefined,
+      {
+        type: "square-jelly-box",
+        size: "medium",
+        color: 'white'
+      }
+    );
     this.sellerData = res.id;
     this.selectedSellerID = res.id;
     console.log('sellerData', this.sellerData);
@@ -120,7 +144,11 @@ export class UnMappedProductsComponent implements OnInit {
       console.log('unMappedProductData', this.unMappedProductData);
       this.dataSource = new MatTableDataSource(this.unMappedProductData);
       setTimeout(() => this.dataSource.paginator = this.paginator);
-    });
+      this.spinner.hide();
+    },
+      err => {
+        this.spinner.hide();
+      });
   }
 
   selectedCategoryFromList(res) {
@@ -268,7 +296,8 @@ export class UnMappedProductsComponent implements OnInit {
       this.saveUnMappedProducts.Quantity = element.Quantity;
       this.saveUnMappedProducts.SellerId = element.SellerId;
       this.saveUnMappedProducts.SubCategoryID = element.SubCategoryID;
-
+      this.saveUnMappedProducts.userid = this.strSellerID;
+      
       let isPriceValid = (Number(this.saveUnMappedProducts.ProductPrice) - Number(this.saveUnMappedProducts.Discount)) === Number(this.saveUnMappedProducts.FinalPrice);
       if (isPriceValid) {
         // this.multipleEntries.push(this.saveUnMappedProducts);
@@ -301,6 +330,7 @@ export class UnMappedProductsComponent implements OnInit {
             console.log('unMappedProductData', this.unMappedProductData);
             this.dataSource = new MatTableDataSource(this.unMappedProductData);
             setTimeout(() => this.dataSource.paginator = this.paginator);
+            this.spinner.hide();
           });
           this.spinner.hide();
         },
@@ -344,6 +374,7 @@ export class UnMappedProductsComponent implements OnInit {
     this.saveUnMappedProducts.Quantity = element.Quantity;
     this.saveUnMappedProducts.SellerId = element.SellerId;
     this.saveUnMappedProducts.SubCategoryID = element.SubCategoryID;
+    this.saveUnMappedProducts.userid = this.strSellerID;
 
     let toastrMsg = this.saveUnMappedProducts.Name + ' ' + this.saveUnMappedProducts.Quantity + ' ' + 'Added Into Your List';
     let isPriceValid = (Number(this.saveUnMappedProducts.ProductPrice) - Number(this.saveUnMappedProducts.Discount)) === Number(this.saveUnMappedProducts.FinalPrice);
@@ -365,6 +396,7 @@ export class UnMappedProductsComponent implements OnInit {
           console.log('unMappedProductData', this.unMappedProductData);
           this.dataSource = new MatTableDataSource(this.unMappedProductData);
           setTimeout(() => this.dataSource.paginator = this.paginator);
+          this.spinner.hide();
         });
         this.spinner.hide();
       },

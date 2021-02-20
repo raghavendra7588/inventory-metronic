@@ -16,6 +16,7 @@ export class DialogSubCategoryComponent implements OnInit {
   subCategoryResponse: any = [];
   subCategory: SubCategory = new SubCategory();
   subCategoryForm: FormGroup;
+  strSellerId: string;
 
   categoriesResponse: any = [];
   selectedCategory: any;
@@ -48,6 +49,7 @@ export class DialogSubCategoryComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.strSellerId = sessionStorage.getItem('sellerId');
     this.getAllCategoriesData();
 
     if (this.subCategoryResponse) {
@@ -68,7 +70,7 @@ export class DialogSubCategoryComponent implements OnInit {
         "parentid": this.subCategory.parentCategory.toString(),
         "id": this.subCategory.id.toString(),
         "IsActive": "1",
-        "userid": "1"
+        "userid": this.strSellerId
       };
 
 
@@ -92,7 +94,7 @@ export class DialogSubCategoryComponent implements OnInit {
         "parentid": this.subCategory.parentCategory.toString(),
         "id": '0',
         "IsActive": "1",
-        "userid": "1"
+        "userid": this.strSellerId
       };
 
       if (this.isImageSelected) {
@@ -152,7 +154,7 @@ export class DialogSubCategoryComponent implements OnInit {
     let Category = {
       "name": this.subCategory.name.toString(),
       "descriptions": this.subCategory.descriptions.toString(),
-      "imageurl": '',
+      "imageurl": this.imageUrl,
       "isparent": "False",
       "parentid": this.subCategory.parentCategory.toString(),
       "id": this.subCategory.id.toString(),

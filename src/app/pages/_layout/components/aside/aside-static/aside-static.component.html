@@ -434,7 +434,7 @@
 
       <li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover"
         routerLinkActive="menu-item-open"
-        *ngIf="role==='Admin' || role==='Seller' ||role==='Backoffice' ||role==='sales' || role==='Partner'|| role==='MIS'">
+        *ngIf="role==='Admin' || role==='Seller' ||role==='Backoffice' ||role==='sales' || role==='Partner'|| role==='mis'">
         <a class="menu-link menu-toggle" routerLinkActive="active">
           <span [inlineSVG]="'./assets/media/svg/icons/Media/Equalizer.svg'" cacheSVG="true"
             class="svg-icon menu-icon colorize-blue"></span>
@@ -451,7 +451,7 @@
             </li>
 
             <li class="menu-item" routerLinkActive="menu-item-active" aria-haspopup="true" data-menu-toggle="hover"
-              *ngIf="role==='MIS' || role==='Admin' || role==='Seller'">
+              *ngIf="role==='mis' || role==='Admin' || role==='Seller'">
               <a class="menu-link" routerLink="/sales/reports/orderSalesReport" routerLinkActive="active">
                 <i class="menu-bullet menu-bullet-dot">
                   <span></span>
@@ -539,14 +539,14 @@
 
       <li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover"
         routerLinkActive="menu-item-open" *ngIf="role==='Admin'">
-        <a class="menu-link menu-toggle" routerLink="/sales/sendNotification"  routerLinkActive="active">
+        <a class="menu-link menu-toggle" routerLink="/sales/sendNotification" routerLinkActive="active">
           <span [inlineSVG]="'./assets/media/svg/icons/Communication/Mail-notification.svg'" cacheSVG="true"
             class="svg-icon menu-icon colorize-yellow"></span>
           <span class="menu-text">Send Notification</span>
 
         </a>
         <div class="menu-submenu">
-          
+
           <ul class="menu-subnav">
             <li class="menu-item menu-item-parent" aria-haspopup="true">
               <span class="menu-link">

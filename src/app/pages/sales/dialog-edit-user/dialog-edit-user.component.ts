@@ -22,7 +22,7 @@ export class DialogEditUserComponent implements OnInit {
   editUpdateAdmin: EditUpdateAdmin = new EditUpdateAdmin();
 
   userData: any = [];
-
+  strSellerId: string;
   maxLengthPinCode = 6;
   maxLengthPhone = 10;
   hide = true;
@@ -49,7 +49,8 @@ export class DialogEditUserComponent implements OnInit {
       state: ['', [Validators.required]],
       city: [''],
     });
-
+    this.strSellerId = sessionStorage.getItem('sellerId');
+    this.role = sessionStorage.getItem('role');
     this.userData = data;
     console.log('edit user', this.userData);
 
@@ -72,7 +73,7 @@ export class DialogEditUserComponent implements OnInit {
 
     if (this.userData) {
       this.editUpdateAdmin.IsActive = '1';
-      this.editUpdateAdmin.userid = '1';
+      this.editUpdateAdmin.userid = this.strSellerId;
 
       this.editUpdateAdmin.address = this.editUser.address;
       this.editUpdateAdmin.city = this.editUser.city;
@@ -93,7 +94,7 @@ export class DialogEditUserComponent implements OnInit {
         this.emitterService.isAdminCreadtedOrUpdated.emit(true);
         this.dialogRef.close();
       }, err => {
-          this.spinner.hide();
+        this.spinner.hide();
       });
     }
 
@@ -155,7 +156,7 @@ export class DialogEditUserComponent implements OnInit {
           }
 
           this.editUpdateAdmin.state = this.editUser.state;
-          this.editUpdateAdmin.userid = '1';
+          this.editUpdateAdmin.userid = this.strSellerId;
 
           console.log('edit update admin user', this.editUpdateAdmin);
 
@@ -207,14 +208,14 @@ export class DialogEditUserComponent implements OnInit {
     this.editUpdateAdmin.state = this.editUser.state;
 
     if (this.role == 'Admin') {
-      this.editUpdateAdmin.userid = "1";
+      this.editUpdateAdmin.userid = this.strSellerId;
       this.editUpdateAdmin.role = "Admin"
       this.editUpdateAdmin.IsActive = "0";
     }
 
     else if (this.role == 'Seller') {
       this.editUpdateAdmin.role = 'Seller';
-      this.editUpdateAdmin.userid = "1";
+      this.editUpdateAdmin.userid = this.strSellerId;
       this.editUpdateAdmin.IsActive = "0";
     }
     else if (this.role == 'Customer') {
@@ -224,22 +225,22 @@ export class DialogEditUserComponent implements OnInit {
     }
     else if (this.role == 'sales') {
       this.editUpdateAdmin.role = 'sales';
-      this.editUpdateAdmin.userid = "1";
+      this.editUpdateAdmin.userid = this.strSellerId;
       this.editUpdateAdmin.IsActive = "0";
     }
     else if (this.role == 'backoffice') {
       this.editUpdateAdmin.role = 'backoffice';
-      this.editUpdateAdmin.userid = "1";
+      this.editUpdateAdmin.userid = this.strSellerId;
       this.editUpdateAdmin.IsActive = "0";
     }
     else if (this.role == 'mis') {
       this.editUpdateAdmin.role = 'mis';
-      this.editUpdateAdmin.userid = "1";
+      this.editUpdateAdmin.userid = this.strSellerId;
       this.editUpdateAdmin.IsActive = "0";
     }
     else if (this.role == 'partner') {
       this.editUpdateAdmin.role = 'partner';
-      this.editUpdateAdmin.userid = "1";
+      this.editUpdateAdmin.userid = this.strSellerId;
       this.editUpdateAdmin.IsActive = "0";
     }
 

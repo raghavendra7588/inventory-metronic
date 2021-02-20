@@ -19,9 +19,9 @@ export class DialogProductDataComponent implements OnInit {
   subCategoriesData: any = [];
   brandsData: any = [];
   productMeasurementData: any = [];
-
+  strSellerId: string;
   product: Product = new Product();
-
+  role: string;
   displayedColumns = ['measurementUnit', 'varient', 'price', 'edit'];
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   dataSource: any;
@@ -72,6 +72,8 @@ export class DialogProductDataComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.strSellerId = sessionStorage.getItem('sellerId');
+
     if (this.receivedProductData) {
       this.assignValues();
     }
@@ -79,6 +81,8 @@ export class DialogProductDataComponent implements OnInit {
     // this.getAllSubCategoriesData();
     this.getBrandsData();
     this.getProductMeasurementUnitData();
+    this.role = sessionStorage.getItem('role');
+
   }
 
   selectFile(e) {
@@ -100,6 +104,10 @@ export class DialogProductDataComponent implements OnInit {
     this.salesService.getAllCategories(parentid, userid).subscribe(res => {
       console.log('cat data', res);
       this.categoriesData = res;
+
+      if (this.role == 'Seller') {
+        this.categoriesData = JSON.parse(sessionStorage.getItem('categories'));
+      }
     }, err => {
       this.spinner.hide();
     });
@@ -277,7 +285,7 @@ export class DialogProductDataComponent implements OnInit {
         "imgurl": this.imageUrl,
         "descriptions": this.product.descriptions.toString(),
         "hotkeyword": this.product.hotkeyword.toString(),
-        "userid": "1",
+        "userid": this.strSellerId,
         "isactive": "True",
         "MRP": '',
         "Discount": '',
@@ -321,7 +329,7 @@ export class DialogProductDataComponent implements OnInit {
         "hotkeyword": this.product.hotkeyword.toString(),
         "id": "0",
         "IsActive": "1",
-        "userid": "1"
+        "userid": this.strSellerId
       }
       if (this.isImageSelected) {
         formData.append('uploadedFiles', this.fileData, this.fileName);
@@ -373,12 +381,12 @@ export class DialogProductDataComponent implements OnInit {
       "imgurl": this.imageUrl,
       "descriptions": this.product.descriptions.toString(),
       "hotkeyword": this.product.hotkeyword.toString(),
-      "userid": "1",
+      "userid": '',
       "isactive": "True",
-      "MRP": '',
-      "Discount": '',
+      "MRP": null,
+      "Discount": null,
       "vendorCode": '',
-      "FinalPrice": '',
+      "FinalPrice": null,
       "PriceDecisionFactorName": '',
       "Quantity": '',
       "Unit": '',
@@ -387,10 +395,10 @@ export class DialogProductDataComponent implements OnInit {
       "brandImageUrl": '',
       "outOfStockFlag": '',
       "outOfStockMessage": '',
-      "languageCode": '',
+      "languageCode": 'En',
       "productDetails": [],
       "varients": this.customProductMeasurementUnit,
-      "IsActive": "0"
+      "IsActive": "1"
     }
 
     this.isButtonDisabled = true;

@@ -40,6 +40,8 @@ export class OrderSalesReportComponent implements OnInit {
   seller: any;
 
   maxDate: any;
+  strSellerId: string;
+
 
   constructor(
     public salesService: SalesService,
@@ -52,6 +54,7 @@ export class OrderSalesReportComponent implements OnInit {
 
   ngOnInit(): void {
     this.maxDate = new Date();
+    this.strSellerId = sessionStorage.getItem('sellerId');
     this.reportType = [
       {
         id: 0, title: 'Order', name: 'O'
@@ -78,17 +81,32 @@ export class OrderSalesReportComponent implements OnInit {
         color: 'white'
       }
     );
-    if (this.role == 'Admin') {
-      this.role = 'Seller';
+    let currentRole: string;
+    if (this.role == 'Admin' || this.role == 'mis') {
+      currentRole = 'Seller';
     }
-    this.salesService.getSellerUsers(this.role).subscribe(res => {
+    this.salesService.getSellerUsers(currentRole).subscribe(res => {
       this.sellerData = res;
+      if (this.role == 'Seller') {
+        this.filterSellerData(this.sellerData);
+      }
       this.filteredSellerData = this.sellerData.slice();
       this.spinner.hide();
     }, err => {
       this.spinner.hide();
     });
     this.filteredSellerData = this.sellerData.slice();
+  }
+
+  filterSellerData(arr) {
+    let particularSellerArr = [];
+    arr.filter(item => {
+      if (Number(item.id) == Number(this.strSellerId)) {
+        particularSellerArr.push(item);
+      }
+    });
+    console.log('particularSellerArr', particularSellerArr);
+    this.sellerData = particularSellerArr;
   }
 
   fetchReport() {

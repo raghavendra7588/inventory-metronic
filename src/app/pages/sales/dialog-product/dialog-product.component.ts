@@ -18,6 +18,7 @@ export class DialogProductComponent implements OnInit {
   product: ProductMeasurementUnit = new ProductMeasurementUnit();
 
   productForm: FormGroup;
+  strSellerId: string;
 
   constructor(
     public formBuilder: FormBuilder,
@@ -39,14 +40,16 @@ export class DialogProductComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.strSellerId = sessionStorage.getItem('sellerId');
     if (this.categoryResponse) {
       this.assignValues();
     }
+
   }
 
   onSubmit() {
     if (this.categoryResponse) {
-      this.product.userid = '1';
+      this.product.userid = this.strSellerId;
       this.product.IsActive = '1';
       this.spinner.show(undefined,
         {
@@ -66,7 +69,7 @@ export class DialogProductComponent implements OnInit {
       });
     }
     else {
-      this.product.userid = '1';
+      this.product.userid = this.strSellerId;
       this.product.IsActive = '1';
       this.product.id = '0';
 
@@ -103,9 +106,9 @@ export class DialogProductComponent implements OnInit {
       }
     );
 
-    this.product.userid = '1';
+    this.product.userid = this.strSellerId;
     this.product.IsActive = '0';
-
+    console.log('product', this.product);
     this.salesService.deleteProductUnitData(this.product).subscribe(res => {
       this.toastr.error('Deleted Successfully !!');
       this.emitterService.isDeleted.emit(true);

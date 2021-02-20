@@ -4,7 +4,7 @@
     <div class="card card"
         style="max-width: 500px !important;height: 355px;background-color: #f3f6f9;border: 1px solid white">
         <div class="container-fluid">
-
+            <!-- <h3 class="text-center font-weight-bold theme-color">Send Notification to User</h3> -->
             <div class="row parent">
                 <div class="col-md-12 col-12 col-sm-12 col-xl-12 my-2">
 
@@ -24,11 +24,6 @@
                                 mandatory.</span>
                         </mat-error>
 
-                        <!-- <mat-error
-                            *ngIf="notificationForm.controls.sendusing.touched && notificationForm.controls.sendusing.invalid">
-                            <span *ngIf="notificationForm.controls.sendusing.errors.required">This field is
-                                mandatory.</span>
-                        </mat-error> -->
                     </mat-form-field>
                 </div>
                 <div class="col-md-12 col-12 col-sm-12 col-xl-12 mt-2">
@@ -42,10 +37,6 @@
                                 {{item.title}}
                             </mat-option>
                         </mat-select>
-                        <!-- <mat-error
-                            *ngIf="notificationForm.controls.userType.touched && notificationForm.controls.userType.invalid">
-                            <span *ngIf="notificationForm.controls.userType.errors.required">This field is mandatory.</span>
-                        </mat-error> -->
 
                         <mat-error
                             *ngIf="notificationForm.controls.userType.touched && notificationForm.controls.userType.invalid">
@@ -59,11 +50,6 @@
                         <input matInput [(ngModel)]="sendNotification.notificationTitle"
                             formControlName="notificationTitle" name="notificationTitle"
                             placeholder="Notification Title">
-                        <!-- <mat-error
-                            *ngIf="notificationForm.controls.notificationTitle.touched && notificationForm.controls.notificationTitle.invalid">
-                            <span *ngIf="notificationForm.controls.notificationTitle.errors.required">This field is mandatory.</span>
-                        </mat-error> -->
-
                         <mat-error
                             *ngIf="notificationForm.controls.notificationTitle.touched && notificationForm.controls.notificationTitle.invalid">
                             <span *ngIf="notificationForm.controls.notificationTitle.errors.required">This field is
@@ -77,10 +63,6 @@
                     <mat-form-field style="width: 100% !important;">
                         <textarea placeholder="Notification Body" formControlName="notificationBody" matInput
                             name="notificationBody" [(ngModel)]="sendNotification.notificationBody"></textarea>
-                        <!-- <mat-error
-                            *ngIf="notificationForm.controls.notificationBody.touched && notificationForm.controls.notificationBody.invalid">
-                            <span *ngIf="notificationForm.controls.notificationBody.errors.required">This field is mandatory.</span>
-                        </mat-error> -->
                         <mat-error
                             *ngIf="notificationForm.controls.notificationBody.touched && notificationForm.controls.notificationBody.invalid">
                             <span *ngIf="notificationForm.controls.notificationBody.errors.required">This field is
@@ -90,7 +72,7 @@
 
                 </div>
 
-                <div class="col-md-12 col-12 col-sm-12 col-xl-12 my-2">
+                <div class="col-md-12 col-12 col-sm-12 col-xl-12 my-2" *ngIf="!isPincode">
 
                     <mat-form-field style="width: 100%;">
 
@@ -101,10 +83,6 @@
                                 {{seller.SellerNameCode }}
                             </mat-option>
                         </mat-select>
-                        <!-- <mat-error
-                            *ngIf="notificationForm.controls.sellerCode.touched && notificationForm.controls.sellerCode.invalid">
-                            <span *ngIf="notificationForm.controls.sellerCode.errors.required">This field is mandatory.</span>
-                        </mat-error> -->
 
                         <mat-error
                             *ngIf="notificationForm.controls.sellerCode.touched && notificationForm.controls.sellerCode.invalid">
@@ -117,10 +95,7 @@
                     <mat-form-field style="width: 100%;">
                         <input matInput [(ngModel)]="sendNotification.pincode" formControlName="pincode" name="pinCode"
                             placeholder="Pin Code">
-                        <!-- <mat-error
-                            *ngIf="notificationForm.controls.pincode.touched && notificationForm.controls.pincode.invalid">
-                            <span *ngIf="notificationForm.controls.pincode.errors.required">This field is mandatory.</span>
-                        </mat-error> -->
+
                         <mat-error
                             *ngIf="notificationForm.controls.pincode.touched && notificationForm.controls.pincode.invalid">
                             <span *ngIf="notificationForm.controls.pincode.errors.required">This field is

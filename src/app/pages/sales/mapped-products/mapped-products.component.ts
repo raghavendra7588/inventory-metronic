@@ -77,6 +77,7 @@ export class MappedProductsComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.role = sessionStorage.getItem('role');
     this.strSellerID = sessionStorage.getItem('sellerId');
     this.getSellerUsers();
   }
@@ -101,6 +102,13 @@ export class MappedProductsComponent implements OnInit {
     // }
     this.salesService.getSellerUsers(currentRole).subscribe(res => {
       this.sellerData = res;
+      console.log('current role', this.role);
+      if (this.role == 'Seller') {
+        console.log('current role **', this.role);
+        this.filterSellerData(this.sellerData);
+        this.categoriesData = JSON.parse(sessionStorage.getItem('categories'));
+      }
+
       this.filteredSellerData = this.sellerData.slice();
       if (Array.isArray(this.sellerData) && this.sellerData.length) {
         this.spinner.hide();
@@ -139,6 +147,17 @@ export class MappedProductsComponent implements OnInit {
     });
   }
 
+  filterSellerData(arr) {
+    let particularSellerArr = [];
+    arr.filter(item => {
+      if (Number(item.id) == Number(this.strSellerID)) {
+        particularSellerArr.push(item);
+      }
+    });
+    console.log('particularSellerArr', particularSellerArr);
+    this.sellerData = particularSellerArr;
+  }
+
   selectedCategoryFromList(res) {
     console.log('cat seelcted', res);
     this.categoryID = res.id;
@@ -153,6 +172,8 @@ export class MappedProductsComponent implements OnInit {
 
     this.salesService.getCategoriesData(this.categoryID).subscribe(res => {
       this.subCategoriesData = res;
+
+
       this.spinner.hide();
     }, res => {
       this.spinner.hide();
@@ -315,12 +336,12 @@ export class MappedProductsComponent implements OnInit {
           this.updateAllRecordsCount = 0;
 
           let unmapppedData = { SellerId: this.sellerData, CategoryId: '0', SubCategoryId: '0' };
-
+          this.saveUnMappedProducts = new SaveMappedProducts();
           this.salesService.getMappedProducts(unmapppedData).subscribe(res => {
             this.unMappedProductData = res;
-  
-              this.spinner.hide();
-          
+
+            this.spinner.hide();
+
             console.log('unMappedProductData', this.unMappedProductData);
             this.dataSource = new MatTableDataSource(this.unMappedProductData);
             setTimeout(() => this.dataSource.paginator = this.paginator);
@@ -386,7 +407,7 @@ export class MappedProductsComponent implements OnInit {
       this.salesService.saveUnmappedProducts(this.saveUnMappedProducts).subscribe(data => {
         this.toastr.success('Product Price, Discount and Final Price is Updated !!');
         let unmapppedData = { SellerId: this.sellerData, CategoryId: '0', SubCategoryId: '0' };
-
+        this.saveUnMappedProducts = new SaveMappedProducts();
         this.salesService.getMappedProducts(unmapppedData).subscribe(res => {
           this.unMappedProductData = res;
           console.log('MappedProductData', this.unMappedProductData);
@@ -434,6 +455,7 @@ export class MappedProductsComponent implements OnInit {
     let toastrMsg = this.saveUnMappedProducts.Name + ' ' + this.saveUnMappedProducts.Quantity + ' ' + 'Deleted From List';
     this.salesService.saveUnmappedProducts(this.saveUnMappedProducts).subscribe(data => {
       this.toastr.error(toastrMsg);
+      this.saveUnMappedProducts = new SaveMappedProducts();
       let unmapppedData = { SellerId: this.sellerData, CategoryId: '0', SubCategoryId: '0' };
 
       this.salesService.getMappedProducts(unmapppedData).subscribe(res => {
@@ -492,6 +514,7 @@ export class MappedProductsComponent implements OnInit {
       this.saveUnMappedProducts.OutofStockFlag = false;
       this.saveUnMappedProducts.OutofStockMsg = 'This product is currently out of stock. Please check later.';
       this.saveUnMappedProducts.userid = this.strSellerID;
+      this.saveUnMappedProducts.IsActive = '0';
       let isPriceValid = (Number(this.saveUnMappedProducts.ProductPrice) - Number(this.saveUnMappedProducts.Discount)) === Number(this.saveUnMappedProducts.FinalPrice);
       if (isPriceValid) {
         this.spinner.show(undefined,
@@ -523,10 +546,11 @@ export class MappedProductsComponent implements OnInit {
             console.log('unMappedProductData', this.unMappedProductData);
             this.dataSource = new MatTableDataSource(this.unMappedProductData);
             setTimeout(() => this.dataSource.paginator = this.paginator);
+            this.spinner.hide();
           }, err => {
             this.spinner.hide();
           });
-          
+
         },
           err => {
             this.toastr.error('An Error Occured !!');

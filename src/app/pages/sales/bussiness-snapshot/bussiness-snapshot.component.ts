@@ -42,6 +42,9 @@ export class BussinessSnapshotComponent implements OnInit {
     if (this.role === 'Admin') {
       this.userID = '0';
     }
+    if (this.role === 'Seller') {
+      this.userID = sessionStorage.getItem('sellerId');
+    }
     this.spinner.show(undefined,
       {
         type: 'square-spin',

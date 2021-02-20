@@ -17,7 +17,8 @@ export class DialogSalesEnquiryComponent implements OnInit {
   salesEnquiry: SalesEnquiry = new SalesEnquiry();
 
   enquiryForm: FormGroup;
-
+  strSellerId: string;
+  role: string;
   enquiryFormData: any = [];
   categoriesData: any = [];
   statusData: any = [];
@@ -31,6 +32,8 @@ export class DialogSalesEnquiryComponent implements OnInit {
     private spinner: NgxSpinnerService,
     public formBuilder: FormBuilder
   ) {
+    this.strSellerId = sessionStorage.getItem('sellerId');
+    this.role = sessionStorage.getItem('role');
     this.enquiryFormData = data;
     console.log('enquiryFormData', this.enquiryFormData);
 
@@ -95,7 +98,7 @@ export class DialogSalesEnquiryComponent implements OnInit {
         Status: this.salesEnquiry.Status.toString(),
         categories: uniqueCategoryID,
         id: this.salesEnquiry.id.toString(),
-        userid: '1'
+        userid: this.strSellerId
       }
       this.spinner.show(undefined,
         {
@@ -127,7 +130,7 @@ export class DialogSalesEnquiryComponent implements OnInit {
         State: this.salesEnquiry.State.toString(),
         Status: this.salesEnquiry.Status.toString(),
         categories: uniqueCategoryID,
-        userid: '1'
+        userid: this.strSellerId
       };
 
       console.log('req editEnquiryForm', editEnquiryForm);

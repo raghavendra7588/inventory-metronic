@@ -1,4 +1,4 @@
-<form [formGroup]="categoryForm" (ngSubmit)="onSubmit()">
+<form [formGroup]="categoryForm">
     <div class="container-fluid">
         <h3 class="text-center font-weight-bold theme-color">{{salesService.currentTab}}</h3>
         <div class="row">
@@ -33,7 +33,8 @@
         </div>
         <div mat-dialog-actions class="mt-2">
             <button mat-raised-button [ngClass]="!categoryForm.valid? 'opacity' : 'noOpacity'" class="save-button"
-                [disabled]="!categoryForm.valid"><span class="custom-text-color">Save</span></button>
+                [disabled]="!categoryForm.valid" (click)="onSubmit()"><span
+                    class="custom-text-color">Save</span></button>
             <button mat-raised-button (click)="deleteCategoryData()" color="warn">Delete</button>
             <button mat-raised-button mat-dialog-close>Close</button>
         </div>
