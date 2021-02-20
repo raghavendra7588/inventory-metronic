@@ -1,33 +1,49 @@
-<div class="card card" style="max-width: 500px !important;height: 355px;background-color: #f3f6f9;border: 1px solid white">
+<div class="card card"
+    style="max-width: 500px !important;height: 355px;background-color: #f3f6f9;border: 1px solid white">
     <div class="container-fluid">
-        <h2 class="text-center theme-color font-wight-bold my-4">Download / Upload Product Seller Mapping</h2>
+        <h3 class="text-center theme-color font-wight-bold my-4">Download / Upload Product Seller Mapping</h3>
         <div class="row parent">
             <div class="col-md-12 col-12 col-sm-12 col-xl-12 my-2">
                 <mat-form-field style="width: 100% !important">
-                    <mat-select placeholder="Download Type">
-
+                    <mat-select placeholder="Download Type" [(ngModel)]="type">
+                        <mat-option *ngFor="let item of allType;" [value]="item.title"
+                            (click)="selectedDownloadType(item)">
+                            {{item.name}}
+                        </mat-option>
                     </mat-select>
                 </mat-form-field>
             </div>
             <div class="col-md-12 col-12 col-sm-12 col-xl-12 mt-2">
 
                 <mat-form-field style="width: 100% !important">
-                    <mat-select placeholder="Seller Name">
-
+                    <mat-select placeholder="Seller" [(ngModel)]="seller">
+                        <mat-select-filter [placeholder]="'Seller'" [displayMember]="'SellerNameCode'"
+                            [array]="sellerData" (filteredReturn)="filteredSellerData =$event"></mat-select-filter>
+                        <mat-option *ngFor="let item of filteredSellerData" [value]="item.id"
+                            (onSelectionChange)="onSellerChange($event,item)">
+                            {{item.SellerNameCode}}
+                        </mat-option>
                     </mat-select>
                 </mat-form-field>
             </div>
             <div class="col-md-12 col-12 col-sm-12 col-xl-12 my-2">
-                <button mat-raised-button class="width-100 mt-2 save-button"><span style="color:white">
+                <button mat-raised-button class="width-100 mt-2 save-button"
+                    [ngClass]="!seller || !type ? 'opacity' : 'noOpacity'" [disabled]="!seller || !type"
+                    (click)="downloadCsv()"><span style="color:white">
                         Download</span></button>
             </div>
             <div class="col-md-12 col-12 col-sm-12 col-xl-12 mt-3">
-                <input type="file" id="file" (change)="selectFile($event)" class="width-100">
+                <input type="file" id="file" [(ngModel)]="uploadedFileName" (change)="selectFile($event)"
+                    class="width-100">
             </div>
             <div class="col-md-12 col-12 col-sm-12 col-xl-12 my-2">
-                <button mat-raised-button class="width-100 mt-2 save-button"><span style="color:white">
+                <button mat-raised-button class="width-100 mt-2 save-button" (click)="uploadCsv()"
+                    [disabled]="!seller || !type|| !uploadedFileName"
+                    [ngClass]="!seller || !type || !uploadedFileName? 'opacity' : 'noOpacity'"><span
+                        style="color:white">
                         Update</span></button>
             </div>
         </div>
     </div>
 </div>
+<ngx-spinner></ngx-spinner>

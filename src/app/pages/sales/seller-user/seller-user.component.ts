@@ -138,14 +138,7 @@ export class SellerUserComponent implements OnInit {
     });
   }
 
-  openParentChildMapping(user) {
-    this.dialog.open(DialogSellerMappingComponent, {
-      height: '800px',
-      width: '700px',
-      data: user,
-      disableClose: true
-    });
-  }
+
 
   one() {
     alert('1st clicked ');
@@ -193,7 +186,7 @@ export class SellerUserComponent implements OnInit {
     let formattedResponse: any = [];
     let j = 1;
     for (let i = 0; i < array.length; i++) {
- 
+
       let item = {
         Number: j,
         id: array[i].id,
@@ -220,5 +213,26 @@ export class SellerUserComponent implements OnInit {
       formattedResponse.push(item);
     }
     return formattedResponse;
+  }
+
+
+  openMappingDialog(res) {
+    this.salesService.currentTab = 'Child Seller mapping';
+    this.dialog.open(DialogSellerMappingComponent, {
+      height: '450px',
+      width: '600px',
+      data: res,
+      disableClose: true
+    });
+  }
+
+  openSellerDialog(res) {
+    this.salesService.currentTab = 'Seller Mapping';
+    this.dialog.open(DialogSellerMappingComponent, {
+      height: '450px',
+      width: '600px',
+      data: res,
+      disableClose: true
+    });
   }
 }

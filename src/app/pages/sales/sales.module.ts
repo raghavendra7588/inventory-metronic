@@ -45,7 +45,7 @@ import { NgxPrintModule } from 'ngx-print';
 import { NgxSpinnerModule } from "ngx-spinner";
 import { MatSelectFilterModule } from 'mat-select-filter';
 import { InlineSVGModule } from 'ng-inline-svg';
-
+import { FileSaverModule } from 'ngx-filesaver';
 
 import { AdminUserComponent } from './admin-user/admin-user.component';
 import { SellerUserComponent } from './seller-user/seller-user.component';
@@ -176,6 +176,7 @@ import { DialogViewUserComponent } from './dialog-view-user/dialog-view-user.com
     NgxSpinnerModule,
     InlineSVGModule,
     InlineSVGModule.forRoot(),
+    FileSaverModule,
     RouterModule.forChild([
       {
         path: 'user/admin',

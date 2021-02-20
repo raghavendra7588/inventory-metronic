@@ -1,10 +1,12 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder, FormControl } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { Observable, of } from 'rxjs';
 import { debounceTime, startWith, switchMap } from 'rxjs/operators';
 import { EmitterService } from 'src/app/shared/emitter.service';
+import { ParentChildMapping } from '../sales.model.';
 import { SalesService } from '../sales.service';
 
 @Component({
@@ -13,14 +15,20 @@ import { SalesService } from '../sales.service';
   styleUrls: ['./dialog-seller-mapping.component.scss']
 })
 export class DialogSellerMappingComponent implements OnInit {
+  mappingForm: FormGroup;
 
   userData: any = [];
   userID: any;
   parentChildMappingData: any = [];
+  strSellerID: string;
 
   search = new FormControl();
   shoesControl = new FormControl();
   products$: Observable<any>;
+  selectionList: any;
+
+  parentChildMapping: ParentChildMapping = new ParentChildMapping();
+  insertRes: any = [];
 
   constructor(
     public formBuilder: FormBuilder,
@@ -28,14 +36,47 @@ export class DialogSellerMappingComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any,
     public emitterService: EmitterService,
     public toastr: ToastrService,
-    private salesService: SalesService
+    public salesService: SalesService,
+    private spinner: NgxSpinnerService,
   ) {
+
+
+    this.mappingForm = this.formBuilder.group({
+      mappingID: [''],
+      searchResult: ['']
+    });
+
     this.userData = data;
     console.log('edit', this.userData);
-    this.userID = this.userData.id;
-    this.getParentChildMappingData(this.userData.id);
-    // this.getProductsUsingAsyncPipe(this.userData.id);
+
+
+    if (this.salesService.currentTab == 'Sub Category Mapping') {
+      // backoffice
+      console.log('user id', this.userData.id);
+      this.userID = this.userData.id + '-sub';
+      this.getParentChildMappingData(this.userID);
+    }
+
+    if (this.salesService.currentTab == 'Child Seller mapping') {
+      this.userID = this.userData.id + '-child';
+      this.getParentChildMappingData(this.userID);
+    }
+    if (this.salesService.currentTab == 'Seller Mapping') {
+      //seller mapping (seller tab)
+      this.userID = this.userData.id + '-seller';
+      this.getParentChildMappingData(this.userID);
+    }
+    if (this.salesService.currentTab == 'child Seller Mapping') {
+      //sales partner
+      this.userID = this.userData.id + '-child';
+      this.getParentChildMappingData(this.userData.id);
+    }
+
   }
+  ngOnInit(): void {
+    this.strSellerID = sessionStorage.getItem('sellerId');
+  }
+
 
   $search = this.search.valueChanges.pipe(
     startWith(null),
@@ -52,25 +93,125 @@ export class DialogSellerMappingComponent implements OnInit {
 
 
   selectionChange(option: any) {
+    console.log(option);
     let value = this.shoesControl.value || [];
     if (option.selected) value.push(option.value);
     else value = value.filter((x: any) => x != option.value);
     this.shoesControl.setValue(value);
   }
 
-  ngOnInit(): void {
-  }
 
   getParentChildMappingData(id) {
+    this.spinner.show(undefined,
+      {
+        type: 'square-spin',
+        size: 'medium',
+        color: 'white'
+      }
+    );
     this.salesService.getParentChildMappingBrand(id).subscribe(res => {
       console.log('child mapping', res);
       this.parentChildMappingData = res;
-      
+      this.checkMapping(this.parentChildMappingData);
+      this.spinner.hide();
+    },
+      err => {
+        this.spinner.hide();
+      });
+  }
+
+
+  checkMapping(arr) {
+
+    let isMappingTrue: any = [];
+    for (let i = 0; i < arr.length; i++) {
+      if (arr[i].isActive == 'true') {
+        isMappingTrue.push(arr[i].Child_UserID.toString());
+      }
+    }
+    console.log('isMappingTrue', isMappingTrue);
+    // this.selectionList = isMappingTrue;
+    this.mappingForm.controls.mappingID.setValue(isMappingTrue);
+  }
+
+  updateParentChildMapping(event, res) {
+    console.log('selected res', res);
+    this.parentChildMapping.Child_UserID = res.Child_UserID;
+    this.parentChildMapping.Name = res.Name;
+
+    if (this.salesService.currentTab == 'Sub Category Mapping') {
+      // backoffice
+      this.parentChildMapping.Parent_UserID = res.Parent_UserID + '-sub-sub';
+    }
+    if (this.salesService.currentTab == 'Child seller Mapping') {
+      //sales
+      this.parentChildMapping.Parent_UserID = res.Parent_UserID + '-child';
+    }
+
+    if (this.salesService.currentTab == 'Child Seller mapping') {
+      console.log('seller tab');
+      this.parentChildMapping.Parent_UserID = res.Parent_UserID + '-child';
+    }
+    if (this.salesService.currentTab == 'Seller Mapping') {
+      //seller mapping (seller tab)
+      this.parentChildMapping.Parent_UserID = res.Parent_UserID + '-seller';
+    }
+    if (this.salesService.currentTab == 'child Seller Mapping') {
+      //sales partner
+      this.parentChildMapping.Parent_UserID = res.Parent_UserID + '-child';
+    }
+
+    if (res.isActive == 'true') {
+      this.parentChildMapping.isCheckbox = false;
+      this.parentChildMapping.isActive = 'false';
+    }
+    else {
+      this.parentChildMapping.isCheckbox = true;
+      this.parentChildMapping.isActive = 'true';
+    }
+
+    this.parentChildMapping.userid = this.strSellerID;
+
+    console.log(' this.parentChildMapping', this.parentChildMapping);
+    this.spinner.show(undefined,
+      {
+        type: "square-jelly-box",
+        size: "medium",
+        color: 'white'
+      }
+    );
+    this.salesService.insertParentChildMapping(this.parentChildMapping).subscribe(res => {
+      this.insertRes = res;
+      if (this.insertRes == 'ok') {
+        this.toastr.success('Updated Successfully !!');
+        this.getParentChildMappingData(this.userID);
+        this.spinner.hide();
+      } else {
+        this.spinner.hide();
+      }
+    }, err => {
+      console.log(err);
+      this.toastr.error(err.error);
+      this.spinner.hide();
     });
   }
 
-  getProductsUsingAsyncPipe(id) {
-    this.products$ = this.salesService.getParentChildMappingBrand(id);
-    // this.search = this.products$;
+  filterListCareUnit(val) {
+    let prevParentChildMappingData = this.parentChildMappingData;
+    let storeParentChildMappingData = this.parentChildMappingData;
+    let finalResult: any;
+    if (val.length > 0) {
+      // finalResult = storeParentChildMappingData.filter((item) => ((item.Name).trim()).toLowerCase().startsWith(((val).trim()).toLowerCase()));
+      finalResult = storeParentChildMappingData.filter((item) => item.Name.toLowerCase().includes(val.toLowerCase()));
+      // tem.name.toLowerCase().includes(value.toLowerCase()
+    }
+    else {
+      console.log('inside the else');
+      finalResult = prevParentChildMappingData;
+    }
+    console.log(val);
+    this.parentChildMappingData = finalResult;
+    return [...this.parentChildMappingData];
+    // this.listCareUnits = this.listCareUnits.filter((unit) => unit.label.indexOf(val) > -1);
   }
 }

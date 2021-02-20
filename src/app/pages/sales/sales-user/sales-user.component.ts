@@ -9,6 +9,7 @@ import { DialogUpdateMobileNumberComponent } from '../dialog-update-mobile-numbe
 import { DialogViewUserComponent } from '../dialog-view-user/dialog-view-user.component';
 import { SalesService } from '../sales.service';
 import { ExportToCsv } from 'export-to-csv';
+import { DialogSellerMappingComponent } from '../dialog-seller-mapping/dialog-seller-mapping.component';
 
 @Component({
   selector: 'app-sales-user',
@@ -39,6 +40,7 @@ export class SalesUserComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.role = sessionStorage.getItem('role');
     this.getSalesUser();
     this.emitterService.isAdminCreadtedOrUpdated.subscribe(val => {
       if (val) {
@@ -122,10 +124,10 @@ export class SalesUserComponent implements OnInit {
       data: user,
       disableClose: true
     });
-    
+
   }
 
-  
+
   downloadTheReport() {
     const options = {
       fieldSeparator: ',',
@@ -165,5 +167,15 @@ export class SalesUserComponent implements OnInit {
       formattedResponse.push(item);
     }
     return formattedResponse;
+  }
+
+  openMappingDialog(res) {
+    this.salesService.currentTab = 'Child seller Mapping';
+    this.dialog.open(DialogSellerMappingComponent, {
+      height: '450px',
+      width: '600px',
+      data: res,
+      disableClose: true
+    });
   }
 }

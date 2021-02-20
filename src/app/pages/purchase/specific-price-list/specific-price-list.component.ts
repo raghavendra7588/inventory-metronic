@@ -462,7 +462,7 @@ export class SpecificPriceListComponent implements OnInit {
           this.multipleBrandArray = this.catchMappedData;
 
           console.log('sub this.catchMappedData', this.catchMappedData);
-
+          console.log('this.numBrandIdArray', this.numBrandIdArray);
 
 
           this.catchMappedData.filter(data => {
@@ -471,6 +471,15 @@ export class SpecificPriceListComponent implements OnInit {
               filteredBrandDataArray.push(data);
             }
           });
+
+          // this.catchMappedData.filter(data => {
+
+          //   if (this.numBrandIdArray.includes(Number(data.BrandId))) {
+          //     filteredBrandDataArray.push(data);
+          //   }
+          // });
+
+
           console.log('filteredBrandDataArray', filteredBrandDataArray);
 
           this.uniqueBrandNamesArray = this.createUniqueBrandName(filteredBrandDataArray);
@@ -500,11 +509,17 @@ export class SpecificPriceListComponent implements OnInit {
         this.spinner.show();
         this.dataSource = [];
         this.brandArray.push(product.ProductID);
-
+        console.log('this.multipleBrandArray', this.multipleBrandArray);
+        console.log('product', product);
         let filteredBrandArray = this.multipleBrandArray.filter(function (item) {
           return item.BrandName.trim() === product.BrandName;
         });
+        // let filteredBrandArray = this.multipleBrandArray.filter(function (item) {
+        //   return item.Name.trim() === product.BrandName;
+        // });
+
         this.finalBrandArray = filteredBrandArray;
+        console.log('finalBrandArray', this.finalBrandArray);
 
         this.dataSource = [];
         this.dataSource = new MatTableDataSource(this.finalBrandArray);
@@ -535,7 +550,7 @@ export class SpecificPriceListComponent implements OnInit {
       this.priceList.ProductVarientId = element.ProductVarientId;
       this.purchaseService.savePriceListMaster(this.priceList).subscribe(data => {
         this.toastr.success('Price List Updated');
-               
+
         this.inputQuantityArray = [];
         this.providedInputAmount = 0;
       },
@@ -642,7 +657,7 @@ export class SpecificPriceListComponent implements OnInit {
         this.updateAllRecordsCount = 0;
         this.updateAllArray = [];
         this.multipleEntriesArray = [];
-        
+
         this.inputQuantityArray = [];
         this.providedInputAmount = 0;
       },
@@ -686,6 +701,18 @@ export class SpecificPriceListComponent implements OnInit {
     }
     return sortedArray;
   }
+  // createUniqueBrandName(array: any) {
+  //   console.log('arrray', array);
+  //   let sortedArray: Array<any> = [];
+  //   for (let i = 0; i < array.length; i++) {
+  //     if ((sortedArray.findIndex(p => p.BrandName.trim() == array[i].Name.trim())) == -1) {
+  //       var item = { BrandName: array[i].Name.trim(), SubCategoryID: array[i].SubCategoryId, BrandID: array[i].BrandId }
+  //       sortedArray.push(item);
+  //     }
+  //   }
+  //   return sortedArray;
+  // }
+
   sortUniqueBrandName(array) {
     array.sort((a, b) => {
       return a.BrandName.localeCompare(b.BrandName);

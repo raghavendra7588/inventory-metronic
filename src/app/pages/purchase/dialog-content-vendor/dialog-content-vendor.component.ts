@@ -357,7 +357,7 @@ export class DialogContentVendorComponent implements OnInit {
     this.selectedSubCategoryIdArray.push(event.id);
 
 
-    this.purchaseService.getAllBrand(data[0].parentid, event.id).subscribe(data => {
+    this.purchaseService.getAllBrandData(data[0].parentid, event.id).subscribe(data => {
       if (this.multipleBrandArray.length === 0) {
         this.multipleBrandArray = data;
       }
@@ -560,6 +560,8 @@ export class DialogContentVendorComponent implements OnInit {
 
 
         this.selectedBrandIdArray.push(product.BrandID);
+        console.log('selected product',product);
+        console.log('selectedBrandIdArray',this.selectedBrandIdArray);
 
         if (this.finalBrandArray.length === 0) {
           let filteredBrandArray = this.multipleBrandArray.filter(function (item) {
@@ -1091,15 +1093,27 @@ export class DialogContentVendorComponent implements OnInit {
   }
 
   createUniqueBrandName(array: any) {
+    console.log('arrray', array);
     let sortedArray: Array<any> = [];
     for (let i = 0; i < array.length; i++) {
-      if ((sortedArray.findIndex(p => p.BrandName.trim() == array[i].BrandName.trim())) == -1) {
-        var item = { BrandName: array[i].BrandName.trim(), SubCategoryID: array[i].SubCategoryID, BrandID: array[i].BrandID }
+      if ((sortedArray.findIndex(p => p.BrandName.trim() == array[i].Name.trim())) == -1) {
+        var item = { BrandName: array[i].Name.trim(), SubCategoryID: array[i].SubCategoryID, BrandID: array[i].BrandID }
         sortedArray.push(item);
       }
     }
     return sortedArray;
   }
+
+  // createUniqueBrandName(array: any) {
+  //   let sortedArray: Array<any> = [];
+  //   for (let i = 0; i < array.length; i++) {
+  //     if ((sortedArray.findIndex(p => p.BrandName.trim() == array[i].BrandName.trim())) == -1) {
+  //       var item = { BrandName: array[i].BrandName.trim(), SubCategoryID: array[i].SubCategoryID, BrandID: array[i].BrandID }
+  //       sortedArray.push(item);
+  //     }
+  //   }
+  //   return sortedArray;
+  // }
   sortUniqueBrandName(array) {
     array.sort((a, b) => {
       return a.BrandName.localeCompare(b.BrandName);

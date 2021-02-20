@@ -9,6 +9,7 @@ import { DialogUpdateMobileNumberComponent } from '../dialog-update-mobile-numbe
 import { DialogViewUserComponent } from '../dialog-view-user/dialog-view-user.component';
 import { SalesService } from '../sales.service';
 import { ExportToCsv } from 'export-to-csv';
+import { DialogSellerMappingComponent } from '../dialog-seller-mapping/dialog-seller-mapping.component';
 
 @Component({
   selector: 'app-back-office-user',
@@ -74,7 +75,7 @@ export class BackOfficeUserComponent implements OnInit {
       this.adminUsers = res;
       this.dataSource = new MatTableDataSource(this.adminUsers);
       setTimeout(() => this.dataSource.paginator = this.paginator);
-      this.isDataLoaded = false;
+      this.isDataLoaded = true;
       this.spinner.hide();
     });
   }
@@ -177,4 +178,14 @@ export class BackOfficeUserComponent implements OnInit {
     return formattedResponse;
   }
 
+
+  openMappingDialog(res) {
+    this.salesService.currentTab = 'Sub Category Mapping';
+    this.dialog.open(DialogSellerMappingComponent, {
+      height: '450px',
+      width: '600px',
+      data: res,
+      disableClose: true
+    });
+  }
 }

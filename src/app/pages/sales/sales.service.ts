@@ -43,6 +43,13 @@ export class SalesService {
   private GET_DOCUMENT_BY_ID = environment.ADMIN_BASE_URL + '/UploadFiles/GetUploadedFileById';
   private SEND_NOTIFICATION = environment.ADMIN_BASE_URL + 'Notification/SendBulkNotification';
   private INSERT_UPDATE_SALES_ENQUIRY = environment.ADMIN_BASE_URL + '/sales/InsertUpdate';
+  private GET_UNMAPPED_PRODUCT_DATA = environment.ADMIN_BASE_URL + '/ProductSellerMapping/getalleditunmaped';
+  private SAVE_UNMAPPED_PRODUCTS = environment.ADMIN_BASE_URL + '/ProductSellerMapping/InsertUpdate2';
+  private GET_MAPPED_PRODUCT_DATA = environment.ADMIN_BASE_URL + '/ProductSellerMapping/getalledit';
+  private DOWNLOAD_BULK_PRODUCT_SELLING_DATA = environment.ADMIN_BASE_URL + 'ProductSellerMapping/GetCSV';
+  private UPLOAD_BULK_PRODUCT_CSV = environment.ADMIN_BASE_URL + '/ProductSellerMapping/UploadCSV';
+  private DOWNLOAD_ORDER_SALES_REPORT = environment.ADMIN_BASE_URL + 'ProductSellerMapping/Getreport';
+  private PARENT_CHILD_MAPPING = environment.ADMIN_BASE_URL + '/Brand/InsertParentChildMapping';
 
   constructor(
     private http: HttpClient
@@ -131,7 +138,7 @@ export class SalesService {
   }
 
   getParentChildMappingBrand(id) {
-    const data = { userid: id.toString() + '-' + 'child' };
+    const data = { userid: id.toString() };
     let reqHeader = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': 'Bearer ' + this.token
@@ -378,6 +385,56 @@ export class SalesService {
     headers = headers.set('Content-Type', 'application/json');
 
     return this.http.post(this.INSERT_UPDATE_SALES_ENQUIRY, enquiry, { headers: headers });
+  }
+
+  getUnmappedProductData(req) {
+    let headers = new HttpHeaders();
+    headers = headers.set('Content-Type', 'application/json');
+    return this.http.post(this.GET_UNMAPPED_PRODUCT_DATA, req, { headers: headers });
+  }
+
+  saveUnmappedProducts(products) {
+    let reqHeader = new HttpHeaders({
+      'Authorization': 'Bearer ' + this.token
+    });
+    return this.http.post(this.SAVE_UNMAPPED_PRODUCTS, products, { headers: reqHeader });
+  }
+
+  getMappedProducts(req) {
+    let headers = new HttpHeaders();
+    headers = headers.set('Content-Type', 'application/json');
+    return this.http.post(this.GET_MAPPED_PRODUCT_DATA, req, { headers: headers });
+  }
+
+
+  insertParentChildMapping(req) {
+    let reqHeader = new HttpHeaders({
+      'Authorization': 'Bearer ' + this.token
+    });
+    return this.http.post(this.PARENT_CHILD_MAPPING, req, { headers: reqHeader });
+  }
+
+  downloadProductCsv(sellerId, type) {
+    // let headers = new HttpHeaders();
+    // headers = headers.set('Content-Type', 'text/csv');
+    let reqHeader = new HttpHeaders({
+      'Authorization': 'Bearer ' + this.token
+    });
+    return this.http.get(this.DOWNLOAD_BULK_PRODUCT_SELLING_DATA + '?SellerID=' + sellerId + '|' + type, { headers: reqHeader });
+  }
+
+  uploadBulkProductsCsv(file) {
+    let headers = new HttpHeaders();
+    let reqHeader = new HttpHeaders({
+      'Authorization': 'Bearer ' + this.token
+    });
+    return this.http.post(this.UPLOAD_BULK_PRODUCT_CSV, file, { headers: reqHeader });
+  }
+
+
+  downloadOrderSalesReport(order) {
+
+    return this.http.get(this.DOWNLOAD_ORDER_SALES_REPORT + '?Data=' + order.sellerName + '||' + order.reportType + '||' + order.startDate + '||' + order.endDate);
   }
 
 }

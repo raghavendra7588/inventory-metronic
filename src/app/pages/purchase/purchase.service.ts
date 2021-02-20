@@ -26,6 +26,7 @@ export class PurchaseService {
   private SAVE_VENDOR_MASTER = environment.BASE_URL + 'api/Vendor';
   private GET_SUBCATEGORIES = environment.ADMIN_BASE_URL + 'Category/getall';
   private GET_BRANDS = environment.ADMIN_BASE_URL + 'ProductSellerMapping/getalledit';
+  private GET_BRANDS_DATA = environment.ADMIN_BASE_URL + 'Product/GetAllProductList';
   private GET_ALL_VENDOR_DATA = environment.BASE_URL + 'api/Vendor';
   private SAVE_ADDRESS_MASTER = environment.BASE_URL + 'api/address';
   private SAVE_PRICE_LIST = environment.BASE_URL + 'api/PriceList';
@@ -83,6 +84,15 @@ export class PurchaseService {
       'Authorization': 'Bearer ' + this.token
     });
     return this.http.post(this.GET_BRANDS, data, { headers: reqHeader });
+  }
+
+  getAllBrandData(parenetid: any, SubCategoryId: string) {
+    const data = { "SellerId": this.sellerId, "CategoryId": parenetid, "SubCategoryId": SubCategoryId }
+    let reqHeader = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + this.token
+    });
+    return this.http.post(this.GET_BRANDS_DATA, data, { headers: reqHeader });
   }
 
   getEveryBrand() {

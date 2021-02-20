@@ -9,6 +9,7 @@ import { DialogUpdateMobileNumberComponent } from '../dialog-update-mobile-numbe
 import { DialogViewUserComponent } from '../dialog-view-user/dialog-view-user.component';
 import { SalesService } from '../sales.service';
 import { ExportToCsv } from 'export-to-csv';
+import { DialogSellerMappingComponent } from '../dialog-seller-mapping/dialog-seller-mapping.component';
 
 
 @Component({
@@ -132,7 +133,7 @@ export class PartnerUserComponent implements OnInit {
       data: user,
       disableClose: true
     });
-    
+
   }
 
   downloadTheReport() {
@@ -175,5 +176,16 @@ export class PartnerUserComponent implements OnInit {
       formattedResponse.push(item);
     }
     return formattedResponse;
+  }
+
+
+  openMappingDialog(res) {
+    this.salesService.currentTab = 'child Seller Mapping';
+    this.dialog.open(DialogSellerMappingComponent, {
+      height: '450px',
+      width: '600px',
+      data: res,
+      disableClose: true
+    });
   }
 }

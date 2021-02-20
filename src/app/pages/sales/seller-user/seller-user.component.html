@@ -1,5 +1,5 @@
 <div class="container-fluid my-5">
- 
+
     <div class="row">
         <div class="col-md-6 col-4 col-sm-4 col-xl-6 col-lg-6">
             <mat-form-field style="width: 100%;">
@@ -82,15 +82,10 @@
                                 (click)="openParentChildMapping(element)" role="img" aria-hidden="true">mapping
                             </mat-icon> -->
                             <span>
-                                <mat-icon mattooltip="Map Patner and Sales" (click)="one()" role="img"
-                                    aria-hidden="true">
-                                    how_to_reg
-                                </mat-icon>
+                                <mat-icon (click)="openSellerDialog(element)">how_to_reg</mat-icon>
                             </span>
                             <span>
-                                <mat-icon mattooltip="Map Child Saller" (click)="two()" role="img" aria-hidden="true">
-                                    person_add
-                                </mat-icon>
+                                <mat-icon (click)="openMappingDialog(element)">person_add</mat-icon>
                             </span>
 
 

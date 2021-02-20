@@ -562,10 +562,10 @@ export class ProductVendorWisePurchaseReportComponent implements OnInit {
 
       this.spinner.hide();
 
-      this.purchaseReport.vendorId = '';
+      // this.purchaseReport.vendorId = '';
       this.isVendorSelected = false;
-      this.purchaseReport.categoryId = '';
-      this.purchaseReport.subCategoryId = '';
+      // this.purchaseReport.categoryId = '';
+      // this.purchaseReport.subCategoryId = '';
     },
       err => {
         this.spinner.hide();

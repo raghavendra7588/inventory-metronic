@@ -172,6 +172,8 @@ export class OrderSalesReport {
     sellerName: string;
     startDate: string;
     endDate: string;
+    startingDate: string;
+    endingDate: string;
 }
 
 export class DocumentData {
@@ -211,5 +213,83 @@ export class SalesEnquiry {
     categories: any;
     categoriestext: string;
     id: string;
+    userid: string;
+}
+
+export class UnmappedProducts {
+    sellerId: string;
+    categoryId: string;
+    subCategoryId: string;
+    brandId: string;
+}
+
+export class SaveUnMappedProducts {
+    AvailableQuantity: string;
+    BrandID: number;
+    BrandName: string;
+    Discount: string;
+    FinalPrice: string;
+    Id: string;
+    IsActive: number;
+    MRP: string;
+    Name: string;
+    ProductID: number;
+    ProductPrice: string;
+    ProductVarientId: number;
+    Quantity: string;
+    SellerId: number;
+    SubCategoryID: number;
+    userid: string;
+}
+
+export class SaveMappedProducts {
+    AvailableQuantity: string;
+    BrandID: number;
+    BrandName: string;
+    Discount: string;
+    FinalPrice: string;
+    Id: string;
+    IsActive: any;
+    MRP: string;
+    Name: string;
+    ProductID: number;
+    ProductPrice: string;
+    ProductVarientId: number;
+    Quantity: string;
+    SellerId: number;
+    SubCategoryID: number;
+    userid: string;
+    OutofStockFlag: boolean;
+    OutofStockMsg: string;
+}
+
+export class UpdateOutOfStockMessage {
+
+    AvailableQuantity: number;
+    BrandID: number;
+    BrandName: string;
+    Discount: number;
+    FinalPrice: number;
+    Id: number;
+    IsActive: any;
+    MRP: number;
+    Name: string;
+    OutofStockFlag: any;
+    OutofStockMsg: string;
+    ProductID: number;
+    ProductPrice: number;
+    ProductVarientId: number;
+    Quantity: string;
+    SellerId: number;
+    SubCategoryID: number;
+    userid: string;
+}
+
+export class ParentChildMapping {
+    Child_UserID: string;
+    Name: string;
+    Parent_UserID: string;
+    isActive: string;
+    isCheckbox: boolean;
     userid: string;
 }
