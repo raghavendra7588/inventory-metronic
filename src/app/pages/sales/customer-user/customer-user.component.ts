@@ -27,7 +27,7 @@ export class CustomerUserComponent implements OnInit {
   userId: string;
   role: string;
   isDataLoaded: boolean = false;
- 
+
 
   constructor(
     private salesService: SalesService,
@@ -40,7 +40,7 @@ export class CustomerUserComponent implements OnInit {
       this.displayedColumns = ['totalSeller', 'totalOrder', 'totalAmount', 'name', 'email', 'mobile', 'pinCode', 'state', 'city', 'edit'];
     }
     else {
-      this.displayedColumns = ['totalSeller', 'totalOrder', 'totalAmount', 'name', 'email', 'mobile', 'pinCode', 'state', 'city', 'edit'];
+      this.displayedColumns = ['name', 'email', 'mobile', 'pinCode', 'state', 'city', 'edit'];
     }
   }
 
@@ -206,7 +206,7 @@ export class CustomerUserComponent implements OnInit {
         vendorcode: array[i].vendorcode,
         TotalAmount: array[i].TotalAmount,
         TotalOrder: array[i].TotalOrder,
-        
+
         TotalSeller: array[i].TotalSeller
       }
       j++;

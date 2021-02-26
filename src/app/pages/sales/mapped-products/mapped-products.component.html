@@ -65,12 +65,12 @@
         <div class="col-md-3 col-6 col-sm-3 col-xl-3">
             <button mat-raised-button style="color: white;" color="warn"
                 [ngClass]="updateAllRecordsCount===0 ? 'opacity' : 'noOpacity'" [disabled]="updateAllRecordsCount===0"
-                (click)="logDeleteSelection()" class="width-100 mt-2">Remove
+                (click)="openModal(template)" class="width-100 mt-2">Remove
                 All
                 (<span>{{updateAllRecordsCount === 0 ? 0 : updateAllRecordsCount}}</span>)</button>
         </div>
     </div>
-
+ 
 
     <div class="row">
         <div class="col-xl-12 col-12 col-md-12 col-sm-12 mb-3">
@@ -161,7 +161,7 @@
                 <ng-container matColumnDef="delete">
                     <th mat-header-cell *matHeaderCellDef>Delete</th>
                     <td mat-cell *matCellDef="let element">
-                        <button mat-icon-button (click)="deleteProduct(element)">
+                        <button mat-icon-button (click)="openDeleteModal(templateDelete,element)">
                             <mat-icon style="color:  red !important;">delete</mat-icon>
                         </button>
                     </td>
@@ -181,3 +181,19 @@
     </div>
 </div>
 <ngx-spinner></ngx-spinner>
+
+<ng-template #template>
+    <div class="modal-body text-center">
+        <p>Do you want to Delete Multiple?</p>
+        <button type="button" class="btn btn-danger" (click)="confirm()">Yes</button>
+        <button type="button" class="btn btn-primary" (click)="decline()">No</button>
+    </div>
+</ng-template>
+
+<ng-template #templateDelete>
+    <div class="modal-body text-center">
+        <p>Do you want to Delete?</p>
+        <button type="button" class="btn btn-danger" (click)="confirmDelete()">Yes</button>
+        <button type="button" class="btn btn-primary" (click)="declineDelete()">No</button>
+    </div>
+</ng-template>

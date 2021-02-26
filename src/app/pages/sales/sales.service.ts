@@ -13,7 +13,9 @@ export class SalesService {
 
   // BASE_URL = 'http://203.112.144.38/AdminApi/UploadedFiles/';
   BASE_URL = 'https://3intellects.co.in/UAT_AdminApi/UploadedFiles/';
-  BASE_URL_DOCUMENTS = 'https://3intellects.co.in/uat_AdminApi/uploadDocuments/';
+  BASE_URL_DOCUMENTS = 'https://3intellects.co.in/uat_AdminApi';
+
+  ADMIN_BASE_URL = 'https://3intellects.co.in/uat_AdminApi/api/';
 
   private GET_ALL_ADMIN_USERS = environment.ADMIN_BASE_URL + '/user/getall';
   private GET_ALL_SELLER_USERS = environment.ADMIN_BASE_URL + '/user/getall';
@@ -77,6 +79,18 @@ export class SalesService {
     });
     return this.http.post(this.GET_ALL_SELLER_USERS, data, { headers: reqHeader });
   }
+
+  getSellerUsersData(role, loginid) {
+    const data = { 'role': role };
+
+    let reqHeader = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + this.token,
+      'loginid': loginid
+    });
+    return this.http.post(this.GET_ALL_SELLER_USERS, data, { headers: reqHeader });
+  }
+
 
   getAllCustomerUsers(role, userId) {
     const data = { 'role': role };

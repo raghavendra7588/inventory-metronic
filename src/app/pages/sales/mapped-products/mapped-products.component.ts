@@ -1,10 +1,11 @@
 import { SelectionModel } from '@angular/cdk/collections';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { MatCheckbox } from '@angular/material/checkbox';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSelect } from '@angular/material/select';
 import { MatTableDataSource } from '@angular/material/table';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { EmitterService } from 'src/app/shared/emitter.service';
@@ -68,12 +69,19 @@ export class MappedProductsComponent implements OnInit {
   selectedSubCategoyId: string;
   counter: number = 1;
 
+  modalRef: BsModalRef;
+  message: string;
+
+  deleteModalRef: BsModalRef;
+  particularProduct: any;
+
   constructor(
     public salesService: SalesService,
     public dialog: MatDialog,
     public spinner: NgxSpinnerService,
     public emitterService: EmitterService,
-    public toastr: ToastrService
+    public toastr: ToastrService,
+    private modalService: BsModalService
   ) { }
 
   ngOnInit(): void {
@@ -451,7 +459,13 @@ export class MappedProductsComponent implements OnInit {
     this.saveUnMappedProducts.OutofStockFlag = false;
     this.saveUnMappedProducts.OutofStockMsg = 'This product is currently out of stock. Please check later.';
     this.saveUnMappedProducts.userid = this.strSellerID;
-
+    this.spinner.show(undefined,
+      {
+        type: "square-jelly-box",
+        size: "medium",
+        color: 'white'
+      }
+    );
     let toastrMsg = this.saveUnMappedProducts.Name + ' ' + this.saveUnMappedProducts.Quantity + ' ' + 'Deleted From List';
     this.salesService.saveUnmappedProducts(this.saveUnMappedProducts).subscribe(data => {
       this.toastr.error(toastrMsg);
@@ -463,8 +477,9 @@ export class MappedProductsComponent implements OnInit {
         console.log('MappedProductData', this.unMappedProductData);
         this.dataSource = new MatTableDataSource(this.unMappedProductData);
         setTimeout(() => this.dataSource.paginator = this.paginator);
+        this.spinner.hide();
       });
-      this.spinner.hide();
+     
     },
       err => {
         this.toastr.error('An Error Occured !!');
@@ -593,4 +608,33 @@ export class MappedProductsComponent implements OnInit {
     return array
   }
 
+
+  openModal(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template, { class: 'modal-sm' });
+  }
+
+  confirm(): void {
+    this.message = 'Confirmed!';
+    this.logDeleteSelection();
+    this.modalRef.hide();
+  }
+
+  decline(): void {
+    this.message = 'Declined!';
+    this.modalRef.hide();
+  }
+
+  openDeleteModal(template: TemplateRef<any>, product) {
+    this.deleteModalRef = this.modalService.show(template, { class: 'modal-sm' });
+    this.particularProduct = product;
+  }
+
+  confirmDelete(): void {
+    this.deleteProduct(this.particularProduct);
+    this.deleteModalRef.hide();
+  }
+
+  declineDelete(): void {
+    this.deleteModalRef.hide();
+  }
 }

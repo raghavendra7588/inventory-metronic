@@ -19,7 +19,7 @@ import { SalesService } from '../sales.service';
 })
 export class UpdateOutOfStockComponent implements OnInit {
 
-  // displayedColumns = ['id', 'brand', 'product', 'quantity', 'price', 'discount', 'finalPrice', 'outOfStockMsg', 'isOutOfStock']; 
+ 
   displayedColumns = ['id', 'brand', 'product', 'quantity', 'price', 'discount', 'finalPrice', 'outOfStockMsg', 'action'];
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   dataSource: any;
@@ -160,7 +160,7 @@ export class UpdateOutOfStockComponent implements OnInit {
     this.updateOutOfStockMessage.ProductPrice = element.ProductPrice;
     this.updateOutOfStockMessage.ProductVarientId = element.ProductVarientId;
     this.updateOutOfStockMessage.Quantity = element.Quantity;
-    this.updateOutOfStockMessage.SellerId = this.selectedSellerID;
+    this.updateOutOfStockMessage.SellerId = Number(this.selectedSellerID);
     this.updateOutOfStockMessage.SubCategoryID = element.SubCategoryID;
     this.updateOutOfStockMessage.userid = this.strSellerID
     console.log('this.updateOutOfStockMessage', this.updateOutOfStockMessage);

@@ -1,4 +1,4 @@
-<form [formGroup]="enquiryForm" (ngSubmit)="onSubmit()">
+<form [formGroup]="enquiryForm">
 
     <div class="container-fluid">
         <h3 class="text-center font-weight-bold theme-color">{{salesService.currentTab}}</h3>
@@ -8,7 +8,7 @@
                     <input matInput placeholder="Shop Name" [(ngModel)]="salesEnquiry.ShopName"
                         formControlName="ShopName" />
                     <mat-error *ngIf="enquiryForm.controls.ShopName.touched && enquiryForm.controls.ShopName.invalid">
-                        <span *ngIf="enquiryForm.controls.ShopName.errors.required">ShopName is
+                        <span *ngIf="enquiryForm.controls.ShopName.errors.required">Shop Name is
                             mandatory.</span>
                     </mat-error>
                 </mat-form-field>
@@ -29,7 +29,7 @@
             <div class="col-md-6 col-6 col-sm-6 col-xl-6 col-lg-6">
                 <mat-form-field style="width: 100% !important;">
                     <input matInput placeholder="Mobile Number" [(ngModel)]="salesEnquiry.PhoneNo"
-                        formControlName="PhoneNo" appNumber />
+                        formControlName="PhoneNo" [maxLength]="maxLengthPhone" appNumber />
                     <mat-error *ngIf="enquiryForm.controls.PhoneNo.touched && enquiryForm.controls.PhoneNo.invalid">
                         <span *ngIf="enquiryForm.controls.PhoneNo.errors.required">Mobile Number is
                             mandatory.</span>
@@ -84,8 +84,8 @@
             </div>
             <div class="col-md-6 col-6 col-sm-6 col-xl-6 col-lg-6">
                 <mat-form-field style="width: 100% !important;">
-                    <input matInput placeholder="PinCode" [(ngModel)]="salesEnquiry.Pincode"
-                        formControlName="Pincode" />
+                    <input matInput placeholder="PinCode" [(ngModel)]="salesEnquiry.Pincode" formControlName="Pincode"
+                        [maxLength]="maxLengthPinCode" appNumber />
                     <mat-error *ngIf="enquiryForm.controls.Pincode.touched && enquiryForm.controls.Pincode.invalid">
                         <span *ngIf="enquiryForm.controls.Pincode.errors.required">Pincode is
                             mandatory.</span>
@@ -125,10 +125,20 @@
             </div>
         </div>
         <div mat-dialog-actions class="mt-2">
-            <button mat-raised-button class="save-button"><span class="custom-text-color">Save</span></button>
+            <button mat-raised-button class="save-button" (click)="onSubmit()"><span
+                    class="custom-text-color">Save</span></button>
+            <button mat-raised-button color="warn" *ngIf="isEditMode" (click)="openModal(template)">Delete</button>
             <button mat-raised-button mat-dialog-close>Close</button>
         </div>
 
     </div>
 
 </form>
+
+<ng-template #template>
+    <div class="modal-body text-center">
+        <p>Do you want to Delete?</p>
+        <button type="button" class="btn btn-danger" (click)="confirm()">Yes</button>
+        <button type="button" class="btn btn-primary" (click)="decline()">No</button>
+    </div>
+</ng-template>

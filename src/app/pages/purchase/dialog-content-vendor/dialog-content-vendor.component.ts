@@ -503,7 +503,7 @@ export class DialogContentVendorComponent implements OnInit {
 
         this.selectedSubCategoryIdArray.push(subCategory.id);
         this.spinner.show();
-        this.purchaseService.getAllBrand(subCategory.parentid, subCategory.id).subscribe(data => {
+        this.purchaseService.getAllBrandData(subCategory.parentid, subCategory.id).subscribe(data => {
           if (this.multipleBrandArray.length < 2 && this.array3 < 1) {
             this.multipleBrandArray = data;
           }

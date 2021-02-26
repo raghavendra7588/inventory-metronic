@@ -119,7 +119,7 @@
                 </div>
             </div>
 
-            <div class="col-md-5 col-12 col-sm-12 col-xl-5">
+            <div class="col-md-5 col-12 col-sm-12 col-xl-5" *ngIf="role == 'Admin'">
 
                 <table mat-table [dataSource]="dataSource" class="custom-dialog-table">
 
@@ -166,14 +166,96 @@
                 </table>
                 <mat-paginator [pageSizeOptions]="[7,20,100]" showFirstLastButtons></mat-paginator>
             </div>
+
+
+            <div class="col-md-5 col-12 col-sm-12 col-xl-5" *ngIf="role == 'backoffice'">
+
+                <table mat-table [dataSource]="dataSource" class="custom-dialog-table">
+
+                    <ng-container matColumnDef="measurementUnit">
+                        <th mat-header-cell *matHeaderCellDef>Measurement Unit</th>
+                        <td mat-cell *matCellDef="let element">{{element.pricedecisionfactorname}}</td>
+
+                    </ng-container>
+
+                    <ng-container matColumnDef="varient">
+                        <th mat-header-cell *matHeaderCellDef>Varient</th>
+                        <td mat-cell *matCellDef="let element">{{element.quantity}}</td>
+
+                    </ng-container>
+
+                    <ng-container matColumnDef="price">
+                        <th mat-header-cell *matHeaderCellDef>Price</th>
+                        <td mat-cell *matCellDef="let element">{{element.price}}</td>
+
+                    </ng-container>
+                    <ng-container matColumnDef="edit">
+                        <th mat-header-cell *matHeaderCellDef>Edit</th>
+                        <td mat-cell *matCellDef="let element">
+                            <span>
+                                <button mat-icon-button (click)="editProduct(element)">
+                                    <mat-icon class="mat-18">edit</mat-icon>
+                                </button>
+                            </span>
+                        </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+                </table>
+                <mat-paginator [pageSizeOptions]="[7,20,100]" showFirstLastButtons></mat-paginator>
+            </div>
+
+            <div class="col-md-5 col-12 col-sm-12 col-xl-5" *ngIf="role == 'Seller'">
+
+                <table mat-table [dataSource]="dataSource" class="custom-dialog-table">
+
+                    <ng-container matColumnDef="measurementUnit">
+                        <th mat-header-cell *matHeaderCellDef>Measurement Unit</th>
+                        <td mat-cell *matCellDef="let element">{{element.pricedecisionfactorname}}</td>
+
+                    </ng-container>
+
+                    <ng-container matColumnDef="varient">
+                        <th mat-header-cell *matHeaderCellDef>Varient</th>
+                        <td mat-cell *matCellDef="let element">{{element.quantity}}</td>
+
+                    </ng-container>
+
+                    <ng-container matColumnDef="price">
+                        <th mat-header-cell *matHeaderCellDef>Price</th>
+                        <td mat-cell *matCellDef="let element">{{element.price}}</td>
+
+                    </ng-container>
+
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+                </table>
+                <mat-paginator [pageSizeOptions]="[7,20,100]" showFirstLastButtons></mat-paginator>
+            </div>
         </div>
 
         <div mat-dialog-actions class="mt-5">
 
             <button mat-raised-button class="save-button" [disabled]="!productForm.valid || isButtonDisabled"><span
                     class="custom-text-color">Save</span></button>
-            <button mat-raised-button color="warn" (click)="deleteProductData()">Delete</button>
+            <ng-container *ngIf="isEditMode">
+                <button mat-raised-button color="warn" (click)="openModal(template)"
+                    *ngIf="role==='Admin' ||role==='backoffice'">Delete</button>
+            </ng-container>
+
             <button mat-raised-button mat-dialog-close>Close</button>
         </div>
     </div>
 </form>
+
+<ng-template #template>
+    <div class="modal-body text-center">
+        <p>Do you want to Delete?</p>
+        <button type="button" class="btn btn-danger" (click)="confirm()">Yes</button>
+        <button type="button" class="btn btn-primary" (click)="decline()">No</button>
+    </div>
+</ng-template>

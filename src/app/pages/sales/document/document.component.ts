@@ -56,6 +56,8 @@ export class DocumentComponent implements OnInit {
     this.setDataSourceAttributes();
   }
   isAdmin: boolean = false;
+  particularSellerId: string;
+  particularSellerName: string;
 
   constructor(
     public salesService: SalesService,
@@ -65,14 +67,14 @@ export class DocumentComponent implements OnInit {
     public toastr: ToastrService,
   ) {
     this.role = sessionStorage.getItem('role');
-    console.log('current role', this.role);
-    if (this.role == 'Admin') {
-      this.isAdmin = true;
-    }
     this.strSellerId = sessionStorage.getItem('sellerId');
-    this.getDocumentList(this.strSellerId);
-    this.getSellerUsers();
+    console.log('current role', this.role);
+    if (this.role == 'Admin' || this.role == 'backoffice') {
+      this.isAdmin = true;
+      this.getSellerUsers();
+    }
 
+    this.getDocumentList(this.strSellerId);
     this.emitterService.isAdminCreadtedOrUpdated.subscribe(val => {
       if (val) {
         this.getDocumentList(this.strSellerId);
@@ -110,18 +112,17 @@ export class DocumentComponent implements OnInit {
         color: 'white'
       }
     );
-    if (this.role == 'Admin') {
-      this.role = 'Seller';
+    let currentRole: string;
+    if (this.role == 'Admin' || this.role == 'backoffice') {
+      currentRole = 'Seller';
     }
-    this.salesService.getSellerUsers(this.role).subscribe(res => {
+    this.salesService.getSellerUsers(currentRole).subscribe(res => {
       this.sellerData = res;
       this.filteredSellerData = this.sellerData.slice();
-
-      if (Array.isArray(this.sellerData) && this.sellerData.length) {
-        this.spinner.hide();
-      }
-
-
+      // if (Array.isArray(this.sellerData) && this.sellerData.length) {
+      //   this.spinner.hide();
+      // }
+      this.spinner.hide();
     }, err => {
       this.spinner.hide();
     });
@@ -137,20 +138,30 @@ export class DocumentComponent implements OnInit {
     this.isFileUploaded = true;
   }
 
+  onSellerChange(event, res) {
+    this.particularSellerId = res.id;
+    this.particularSellerName = res.SellerNameCode;
+    console.log('this.particularSellerId', this.particularSellerId);
+  }
+
 
   onDocumentSubmit() {
     const formData = new FormData();
     this.isClickedOnce = true;
     formData.append('File', this.fileData, this.fileName);
     formData.append('documentType', this.document.documentType);
-    formData.append('userId', this.strSellerId);
 
-    if (this.role == 'Admin') {
-      formData.append('userName', this.document.userName);
+    console.log('inside upload role', this.role)
+    if (this.role == 'Admin' || this.role == 'backoffice') {
+      formData.append('userName', this.particularSellerName);
+      formData.append('userId', this.particularSellerId);
     }
-    if (this.role == 'Seller') {
+
+
+    if (this.role == 'Seller' || this.role == 'sales' || this.role == 'partner' || this.role == 'backoffice') {
       let shopName = sessionStorage.getItem('sellerName');
       formData.append('userName', shopName);
+      formData.append('userId', this.strSellerId);
     }
 
     formData.append('userRole', this.role);
@@ -167,6 +178,7 @@ export class DocumentComponent implements OnInit {
       this.emitterService.isAdminCreadtedOrUpdated.emit(true);
       this.toastr.success('File Uploaded Successfully');
       this.isFileUploaded = false;
+      this.isClickedOnce = false;
       this.selectedDocument = '';
       this.fileName = '';
 

@@ -33,7 +33,7 @@ export class SellerUserComponent implements OnInit {
   role: string;
   isAdmin: boolean = false;
   isDataLoaded: boolean = false;
-
+  strSellerId: string;
 
 
   constructor(
@@ -43,6 +43,7 @@ export class SellerUserComponent implements OnInit {
     public emitterService: EmitterService
   ) {
     this.role = sessionStorage.getItem('role');
+    this.strSellerId = sessionStorage.getItem('sellerId');
 
     if (this.role == 'Admin') {
       this.isAdmin = true;
@@ -52,7 +53,8 @@ export class SellerUserComponent implements OnInit {
       this.getSellerUser();
     }
     else {
-      this.displayedColumns = ['vendorCode', 'totalCustomer', 'totalProduct', 'totalOrder', 'name', 'email', 'mobile', 'categories', 'edit'];
+      // this.displayedColumns = ['vendorCode', 'totalCustomer', 'totalProduct', 'totalOrder', 'name', 'email', 'mobile', 'categories', 'edit'];
+      this.displayedColumns = ['vendorCode', 'totalCustomer', 'totalProduct', 'totalOrder', 'name', 'email', 'mobile', 'edit'];
       this.getSellerUser();
       this.isAdmin = false;
     }
@@ -69,28 +71,56 @@ export class SellerUserComponent implements OnInit {
 
   }
   setDataSourceAttributes() {
-    // this.dataSource.paginator = this.paginator;
     if (Array.isArray(this.dataSource) && this.dataSource.length) {
       setTimeout(() => this.dataSource.paginator = this.paginator);
     }
   }
   getSellerUser() {
     let role = 'Seller';
-    this.spinner.show();
-    this.salesService.getAllSellerUsers(role).subscribe(res => {
-      console.log('Seller user', res);
-      this.adminUsers = res;
-      this.isDataLoaded = true;
-      this.dataSource = new MatTableDataSource(this.adminUsers);
-      setTimeout(() => this.dataSource.paginator = this.paginator);
-      if (Array.isArray(this.dataSource) && this.dataSource.length) {
-        setTimeout(() => this.dataSource.paginator = this.paginator);
+    this.spinner.show(undefined,
+      {
+        type: 'square-spin',
+        size: 'medium',
+        color: 'white'
       }
+    );
 
-      this.spinner.hide();
-    }, err => {
-      this.spinner.hide();
-    });
+    if (this.role == 'Admin') {
+      this.salesService.getAllSellerUsers(role).subscribe(res => {
+        console.log('Seller user', res);
+        this.adminUsers = res;
+        this.isDataLoaded = true;
+        this.dataSource = new MatTableDataSource(this.adminUsers);
+        setTimeout(() => this.dataSource.paginator = this.paginator);
+        if (Array.isArray(this.dataSource) && this.dataSource.length) {
+          setTimeout(() => this.dataSource.paginator = this.paginator);
+        }
+
+        this.spinner.hide();
+      }, err => {
+        this.spinner.hide();
+      });
+
+    }
+
+    if (this.role == 'partner' || this.role == 'sales' || this.role == 'Seller') {
+      this.salesService.getSellerUsersData(role, this.strSellerId).subscribe(res => {
+        console.log('Seller user', res);
+        this.adminUsers = res;
+        this.isDataLoaded = true;
+        this.dataSource = new MatTableDataSource(this.adminUsers);
+        setTimeout(() => this.dataSource.paginator = this.paginator);
+        if (Array.isArray(this.dataSource) && this.dataSource.length) {
+          setTimeout(() => this.dataSource.paginator = this.paginator);
+        }
+
+        this.spinner.hide();
+      }, err => {
+        this.spinner.hide();
+      });
+    }
+
+
   }
 
   applyFilter(filter: string) {
@@ -137,17 +167,6 @@ export class SellerUserComponent implements OnInit {
       disableClose: true
     });
   }
-
-
-
-  one() {
-    alert('1st clicked ');
-  }
-
-  two() {
-    alert('2nd clicked ');
-  }
-
 
   viewUser(user) {
 

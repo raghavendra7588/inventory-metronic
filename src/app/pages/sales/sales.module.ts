@@ -85,7 +85,9 @@ import { DialogOrderManagementPrintComponent } from './dialog-order-management-p
 import { DialogSalesEnquiryComponent } from './dialog-sales-enquiry/dialog-sales-enquiry.component';
 import { SendNotificationComponent } from './send-notification/send-notification.component';
 import { DialogViewUserComponent } from './dialog-view-user/dialog-view-user.component';
+import { FormatImgUrlPipe } from './format-img-url.pipe';
 
+import { ModalModule } from 'ngx-bootstrap/modal';
 
 
 @NgModule({
@@ -126,7 +128,8 @@ import { DialogViewUserComponent } from './dialog-view-user/dialog-view-user.com
     DialogSalesEnquiryComponent,
     DialogSalesEnquiryComponent,
     SendNotificationComponent,
-    DialogViewUserComponent
+    DialogViewUserComponent,
+    FormatImgUrlPipe
   ],
   imports: [
     CommonModule,
@@ -175,6 +178,7 @@ import { DialogViewUserComponent } from './dialog-view-user/dialog-view-user.com
     ToastrModule.forRoot(),
     NgxSpinnerModule,
     InlineSVGModule,
+    ModalModule.forRoot(),
     InlineSVGModule.forRoot(),
     FileSaverModule,
     RouterModule.forChild([

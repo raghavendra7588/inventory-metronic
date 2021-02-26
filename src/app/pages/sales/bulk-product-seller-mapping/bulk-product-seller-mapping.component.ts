@@ -45,8 +45,8 @@ export class BulkProductSellerMappingComponent implements OnInit {
     this.getSellerUsers();
     this.allType = [
       { id: 0, name: 'All Product', title: 'A' },
-      { id: 1, name: 'Only Mapped Product', title: 'U' },
-      { id: 2, name: 'Only UnMapped Product', title: 'M' }
+      { id: 1, name: 'Only Mapped Product', title: 'M' },
+      { id: 2, name: 'Only UnMapped Product', title: 'U' }
     ];
   }
 
@@ -70,9 +70,7 @@ export class BulkProductSellerMappingComponent implements OnInit {
       }
     );
     let currentRole = '';
-    // if (this.role == 'Admin') {
     currentRole = 'Seller';
-    // }
     this.salesService.getSellerUsers(currentRole).subscribe(res => {
       this.sellerData = res;
       this.filteredSellerData = this.sellerData.slice();
@@ -93,22 +91,9 @@ export class BulkProductSellerMappingComponent implements OnInit {
 
 
   downloadCsv() {
-    this.salesService.downloadProductCsv(this.seller, this.type).subscribe(res => {
-      this.csvData = res;
-      console.log('csv file', res);
-    },
-      err => {
-        this.toastr.error('An Error Occured');
-      });
-
-    // let myBlob = new Blob([this.csvData], { type: 'application/vnd.oasis.opendocument.spreadsheet' });
-    // let downloadUrl = URL.createObjectURL(myBlob);
-
-    // let a = document.createElement('a');
-    // a.href = downloadUrl;
-    // a.download = 'report.csv';
-
-    // a.click();
+    let objData = this.seller + '|' + this.type;
+    console.log('objData', objData);
+    let newWindow = window.open(this.salesService.ADMIN_BASE_URL + 'ProductSellerMapping/GetCSV?SellerID=' + objData, '_blank');
   }
 
   onDown(type: string, fromRemote: boolean, res: any) {
@@ -129,7 +114,7 @@ export class BulkProductSellerMappingComponent implements OnInit {
     formData.append('UserId', this.strSellerID);
 
     this.salesService.uploadBulkProductsCsv(formData).subscribe(res => {
-        this.toastr.success('Uploaded Successfully !!');
+      this.toastr.success('Uploaded Successfully !!');
     });
   }
 }

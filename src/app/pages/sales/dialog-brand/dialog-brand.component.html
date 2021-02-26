@@ -33,7 +33,15 @@
         <div mat-dialog-actions class="mt-2">
             <button mat-raised-button [ngClass]="!brandForm.valid? 'opacity' : 'noOpacity'" class="save-button"
                 [disabled]="!brandForm.valid" (click)="onSubmit()"><span class="custom-text-color">Save</span></button>
-            <button mat-raised-button color="warn" (click)="deleteBrandsData()">Delete</button>
+            <button mat-raised-button color="warn" *ngIf="isEditMode" (click)="openModal(template)">Delete</button>
             <button mat-raised-button mat-dialog-close>Close</button>
         </div>
     </div>
+
+    <ng-template #template>
+        <div class="modal-body text-center">
+            <p>Do you want to Delete?</p>
+            <button type="button" class="btn btn-danger" (click)="confirm()">Yes</button>
+            <button type="button" class="btn btn-primary" (click)="decline()">No</button>
+        </div>
+    </ng-template>

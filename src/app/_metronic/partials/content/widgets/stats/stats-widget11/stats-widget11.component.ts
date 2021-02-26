@@ -6,6 +6,7 @@ import { Subscription } from 'rxjs';
 import * as moment from 'moment';
 import { MonthData } from 'src/app/pages/reports/reports.model';
 import { ReportsService } from 'src/app/pages/reports/reports.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 
 @Component({
@@ -59,7 +60,8 @@ export class StatsWidget11Component implements OnInit {
   constructor(
     private layout: LayoutService,
     private reportsService: ReportsService,
-    private emitterService: EmitterService) {
+    private emitterService: EmitterService,
+    private spinner: NgxSpinnerService) {
 
     let startOfMonth = moment().clone().startOf('month').format("DD/MM/YYYY");
     this.monthData.startDateOfMonth = startOfMonth;
@@ -471,6 +473,7 @@ export class StatsWidget11Component implements OnInit {
 
 
   getPurchaseAmountByPerWeek(sellerId) {
+    this.spinner.show();
     this.reportsService.getPurchaseValueByWeek(sellerId).subscribe(res => {
 
       this.purchaseAmountByWeek = res;
@@ -481,10 +484,14 @@ export class StatsWidget11Component implements OnInit {
 
 
       this.emitterService.isPurchaseWeekLoaded.emit(true);
+      this.spinner.hide();
+    }, err => {
+      this.spinner.hide();
     });
   }
 
   getPurchaseAmountByVendors(sellerId) {
+    this.spinner.show();
     this.reportsService.getPurchaseValueByWeekByVendor(sellerId).subscribe(res => {
 
       this.VendorsByWeekly = res;
@@ -495,11 +502,14 @@ export class StatsWidget11Component implements OnInit {
       this.totalVendorsByWeekly = this.VendorsByWeekly.length;
 
       this.seriesVendorsByWeekly = this.calculateVendorsByWeek(this.VendorsByWeekly);
-
+      this.spinner.hide();
+    }, err => {
+      this.spinner.hide();
     });
   }
 
   getPurchaseMonthDataByMonth() {
+    this.spinner.show();
     this.reportsService.getPurchaseAmountByMonth(this.monthData).subscribe(res => {
       // console.log('MontHDATA', res);
       this.purchaseAmountByMonth = res;
@@ -508,12 +518,14 @@ export class StatsWidget11Component implements OnInit {
 
       this.totalPurchaseAmountByMonth = this.calculatePurchaseAmountByMonth(this.purchaseAmountByMonth);
 
+    }, err => {
+      this.spinner.hide();
     });
   }
 
 
   getPurchaseAmountByMonthByVendors() {
-
+    this.spinner.show();
 
     this.reportsService.getPurchaseAmountByMonthPerVendor(this.monthData).subscribe(res => {
 
@@ -524,6 +536,9 @@ export class StatsWidget11Component implements OnInit {
 
       this.totalVendorsByMonthly = this.VendorsByMonthly.length;
       this.seriesVendorsByMonthly = this.calculateVendorsByMonth(this.totalVendorsByMonthly);
+      this.spinner.hide();
+    }, err => {
+      this.spinner.hide();
     });
   }
 

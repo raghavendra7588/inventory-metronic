@@ -23,6 +23,7 @@ export class DialogOrderManagementPrintComponent implements OnInit {
   totalOrderedQuantity: number;
   totalDiscount: number;
   totalFinalPrice: number;
+  orderNo: string;
 
   constructor(
     private dialogRef: MatDialogRef<DialogOrderManagementPrintComponent>,
@@ -35,6 +36,8 @@ export class DialogOrderManagementPrintComponent implements OnInit {
 
     this.orderData = data;
     console.log('order data', this.orderData);
+    this.orderNo = this.orderData.orderid;
+    console.log('this.orderNo', this.orderNo);
     this.calculateTotalQuantity(this.orderData.orderDetails);
     this.dataSource = new MatTableDataSource(this.orderData.orderDetails);
     setTimeout(() => this.dataSource.paginator = this.paginator);

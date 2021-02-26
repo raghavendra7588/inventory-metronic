@@ -33,7 +33,10 @@
                         Download</span></button>
             </div>
             <div class="col-md-12 col-12 col-sm-12 col-xl-12 mt-3">
-                <input type="file" id="file" [(ngModel)]="uploadedFileName" (change)="selectFile($event)"
+                <!-- <input type="file" id="file" [(ngModel)]="uploadedFileName" (change)="selectFile($event)"
+                    class="width-100"> -->
+
+                    <input type="file" id="file" (change)="selectFile($event)"
                     class="width-100">
             </div>
             <div class="col-md-12 col-12 col-sm-12 col-xl-12 my-2">

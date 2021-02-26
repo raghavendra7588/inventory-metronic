@@ -27,7 +27,7 @@ export class OrderManagementComponent implements OnInit {
     this.setDataSourceAttributes();
   }
 
-
+  
   constructor(
     public salesService: SalesService,
     public dialog: MatDialog,

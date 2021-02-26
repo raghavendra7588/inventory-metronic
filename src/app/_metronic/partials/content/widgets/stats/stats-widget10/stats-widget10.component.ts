@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { NgxSpinnerService } from 'ngx-spinner';
 import { ReportsService } from 'src/app/pages/reports/reports.service';
 import { LayoutService } from '../../../../../core';
 
@@ -38,7 +39,8 @@ export class StatsWidget10Component implements OnInit {
 
   constructor(
     private layout: LayoutService,
-    private reportsService: ReportsService) { }
+    private reportsService: ReportsService,
+    private spinner: NgxSpinnerService) { }
 
   loadLayoutView() {
     this.fontFamily = this.layout.getProp('js.fontFamily');
@@ -384,6 +386,7 @@ export class StatsWidget10Component implements OnInit {
 
 
   getDashBoardSalesRelatedData() {
+    this.spinner.show();
     this.reportsService.getDashBoardSales(this.strUserId).subscribe(res => {
       this.salesData = res;
       console.log('sales data', res[1]);
@@ -402,6 +405,9 @@ export class StatsWidget10Component implements OnInit {
       this.weeklySeriesData(this.weeklySales);
       this.monthlySeriesData(this.monthlySales);
       this.yearlySeriesData(this.yearlySales);
+      this.spinner.hide();
+    }, err => {
+      this.spinner.hide();
     });
   }
 

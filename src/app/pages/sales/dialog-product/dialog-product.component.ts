@@ -1,6 +1,7 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, TemplateRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { EmitterService } from 'src/app/shared/emitter.service';
@@ -20,6 +21,11 @@ export class DialogProductComponent implements OnInit {
   productForm: FormGroup;
   strSellerId: string;
 
+  modalRef: BsModalRef;
+  message: string;
+  isEditMode: boolean = false;
+
+
   constructor(
     public formBuilder: FormBuilder,
     private dialogRef: MatDialogRef<DialogProductComponent>,
@@ -27,7 +33,8 @@ export class DialogProductComponent implements OnInit {
     public emitterService: EmitterService,
     public toastr: ToastrService,
     public salesService: SalesService,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private modalService: BsModalService
   ) {
 
     this.productForm = this.formBuilder.group({
@@ -88,6 +95,7 @@ export class DialogProductComponent implements OnInit {
   }
 
   assignValues() {
+    this.isEditMode = true;
     this.product.IsActive = this.categoryResponse.isactive;
     this.product.descriptions = this.categoryResponse.descriptions;
     this.product.id = this.categoryResponse.id;
@@ -117,6 +125,21 @@ export class DialogProductComponent implements OnInit {
     }, err => {
       this.spinner.hide();
     });
+  }
+
+  openModal(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template, { class: 'modal-sm' });
+  }
+
+  confirm(): void {
+    this.message = 'Confirmed!';
+    this.deleteProductMeasurementUnitData();
+    this.modalRef.hide();
+  }
+
+  decline(): void {
+    this.message = 'Declined!';
+    this.modalRef.hide();
   }
 }
 

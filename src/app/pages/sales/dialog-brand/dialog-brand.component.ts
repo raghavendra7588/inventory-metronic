@@ -1,6 +1,7 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, TemplateRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { ToastrService } from 'ngx-toastr';
 import { EmitterService } from 'src/app/shared/emitter.service';
 import { Brand } from '../sales.model.';
@@ -25,13 +26,18 @@ export class DialogBrandComponent implements OnInit {
   imageUrl: string;
   isImageSelected: boolean = false;
 
+  modalRef: BsModalRef;
+  message: string;
+  isEditMode: boolean = false;
+
   constructor(
     public formBuilder: FormBuilder,
     private dialogRef: MatDialogRef<DialogBrandComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     public emitterService: EmitterService,
     public toastr: ToastrService,
-    public salesService: SalesService
+    public salesService: SalesService,
+    private modalService: BsModalService
   ) {
 
     this.brandForm = this.formBuilder.group({
@@ -113,6 +119,7 @@ export class DialogBrandComponent implements OnInit {
 
 
   assignValues() {
+    this.isEditMode = true;
     this.brand.name = this.brandsRespone.name;
     this.brand.descriptions = this.brandsRespone.descriptions;
     this.imageUrl = this.brandsRespone.imageurl;
@@ -140,5 +147,21 @@ export class DialogBrandComponent implements OnInit {
       this.emitterService.isAdminCreadtedOrUpdated.emit(true);
       this.dialogRef.close();
     });
+  }
+
+
+  openModal(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template, { class: 'modal-sm' });
+  }
+
+  confirm(): void {
+    this.message = 'Confirmed!';
+    this.deleteBrandsData();
+    this.modalRef.hide();
+  }
+
+  decline(): void {
+    this.message = 'Declined!';
+    this.modalRef.hide();
   }
 }

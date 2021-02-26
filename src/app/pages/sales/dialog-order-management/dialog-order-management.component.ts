@@ -27,6 +27,7 @@ export class DialogOrderManagementComponent implements OnInit {
   selectStatus: string;
   deliverySlotTiming: string;
   strSellerId: string;
+  orderNo: string;
 
   constructor(
     private dialogRef: MatDialogRef<DialogOrderManagementComponent>,
@@ -39,6 +40,7 @@ export class DialogOrderManagementComponent implements OnInit {
     this.orderData = data;
     this.assignValues();
     console.log('order data', this.orderData);
+    this.orderNo = this.orderData.orderid;
     this.dataSource = new MatTableDataSource(this.orderData.orderDetails);
     setTimeout(() => this.dataSource.paginator = this.paginator);
 

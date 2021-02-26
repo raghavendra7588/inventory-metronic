@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { NgxSpinnerService } from 'ngx-spinner';
 import { ReportsService } from 'src/app/pages/reports/reports.service';
 import { LayoutService } from '../../../../../core';
 
@@ -29,7 +30,8 @@ export class MixedWidget4Component implements OnInit {
 
   constructor(
     private layout: LayoutService,
-    private reportsService: ReportsService) {
+    private reportsService: ReportsService,
+    private spinner: NgxSpinnerService) {
     this.fontFamily = this.layout.getProp('js.fontFamily');
     this.colorsGrayGray500 = this.layout.getProp('js.colors.gray.gray500');
     this.colorsGrayGray200 = this.layout.getProp('js.colors.gray.gray200');
@@ -46,6 +48,7 @@ export class MixedWidget4Component implements OnInit {
   }
 
   getDashBoardSalesRelatedData() {
+    this.spinner.show();
     this.reportsService.getDashBoardSales(this.strUserId).subscribe(res => {
       this.salesData = res;
       console.log('sales data', res[1]);
@@ -58,6 +61,10 @@ export class MixedWidget4Component implements OnInit {
       console.log('this.monthlySales', this.monthlySales);
       console.log('this.yearlySales', this.yearlySales);
       console.log('this.totalSales', this.totalSales);
+      this.spinner.hide();
+    }, err => {
+
+      this.spinner.hide();
     });
   }
 

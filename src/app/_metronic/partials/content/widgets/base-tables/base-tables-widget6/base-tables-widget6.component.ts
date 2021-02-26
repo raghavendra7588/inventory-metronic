@@ -3,6 +3,7 @@ import { EmitterService } from 'src/app/shared/emitter.service';
 import * as _ from 'lodash';
 import { ReportsService } from 'src/app/pages/reports/reports.service';
 import { Observable } from 'rxjs';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-base-tables-widget6',
@@ -26,7 +27,8 @@ export class BaseTablesWidget6Component implements OnInit {
 
   constructor(
     private reportsService: ReportsService,
-    private emitterService: EmitterService
+    private emitterService: EmitterService,
+    private spinner: NgxSpinnerService
   ) {
     this.strSellerId = sessionStorage.getItem('sellerId').toString();
     this.role = sessionStorage.getItem('role');
@@ -43,7 +45,7 @@ export class BaseTablesWidget6Component implements OnInit {
     this.currentTab = this.TABS[0];
     // this.productData$ = this.reportsService.getFastestMovingDataByMonth(this.strSellerId);
     this.getFastestMoVingProductsByMonth();
-  
+
   }
 
   setCurrentTab(tab: string) {
@@ -54,13 +56,16 @@ export class BaseTablesWidget6Component implements OnInit {
     if (this.role == 'Admin') {
       this.strSellerId = '2';
     }
+    this.spinner.show();
     this.reportsService.getFastestMovingDataByMonth(this.strSellerId).subscribe(res => {
       this.fastestMovingDataByMonth = res;
 
       let uniqueRecordsByVendors = _.uniqBy(this.fastestMovingDataByMonth, 'PurchaseOrderItemId');
       this.fastestMovingDataByMonth = uniqueRecordsByVendors;
       setTimeout(() => this.fastestMovingDataByMonth = this.fastestMovingDataByMonth);
-
+      this.spinner.hide();
+    }, err => {
+      this.spinner.hide();
     });
   }
 

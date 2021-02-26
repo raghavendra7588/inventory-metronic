@@ -42,7 +42,7 @@ export class BussinessSnapshotComponent implements OnInit {
     if (this.role === 'Admin') {
       this.userID = '0';
     }
-    if (this.role === 'Seller') {
+    if (this.role === 'Seller' || this.role === 'partner' || this.role == 'sales') {
       this.userID = sessionStorage.getItem('sellerId');
     }
     this.spinner.show(undefined,

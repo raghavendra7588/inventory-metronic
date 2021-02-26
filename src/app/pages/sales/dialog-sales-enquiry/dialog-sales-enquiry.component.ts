@@ -1,6 +1,7 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, TemplateRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { EmitterService } from 'src/app/shared/emitter.service';
@@ -23,6 +24,13 @@ export class DialogSalesEnquiryComponent implements OnInit {
   categoriesData: any = [];
   statusData: any = [];
 
+  maxLengthPinCode = 6;
+  maxLengthPhone = 10;
+
+  modalRef: BsModalRef;
+  message: string;
+  isEditMode: boolean = false;
+
   constructor(
     private dialogRef: MatDialogRef<DialogSalesEnquiryComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -30,7 +38,8 @@ export class DialogSalesEnquiryComponent implements OnInit {
     public toastr: ToastrService,
     public salesService: SalesService,
     private spinner: NgxSpinnerService,
-    public formBuilder: FormBuilder
+    public formBuilder: FormBuilder,
+    private modalService: BsModalService
   ) {
     this.strSellerId = sessionStorage.getItem('sellerId');
     this.role = sessionStorage.getItem('role');
@@ -153,7 +162,7 @@ export class DialogSalesEnquiryComponent implements OnInit {
   }
 
   assignValues() {
-
+    this.isEditMode = true;
     this.salesEnquiry.Address = this.enquiryFormData.Address;
     this.salesEnquiry.Area = this.enquiryFormData.Area;
     this.salesEnquiry.CategoryName = this.enquiryFormData.CategoryName;
@@ -185,10 +194,71 @@ export class DialogSalesEnquiryComponent implements OnInit {
   }
 
   getSubCategoriesData() {
+    this.spinner.show(undefined,
+      {
+        type: "square-jelly-box",
+        size: "medium",
+        color: 'white'
+      }
+    );
     this.salesService.getAllCategoriesData().subscribe(res => {
       this.categoriesData = res;
+      this.spinner.hide();
+    }, err => {
+      this.spinner.hide();
     });
   }
 
+  deleteEnquiry() {
+    let uniqueCategoryID = [...new Set(this.salesEnquiry.categoriestext)];
+
+    let editEnquiryForm = {
+      Address: this.salesEnquiry.Address.toString(),
+      Area: this.salesEnquiry.Area.toString(),
+      City: this.salesEnquiry.City.toString(),
+      IsActive: "0",
+      PhoneNo: this.salesEnquiry.PhoneNo.toString(),
+      Pincode: this.salesEnquiry.Pincode.toString(),
+      ShopKeepersName: this.salesEnquiry.ShopKeepersName.toString(),
+      ShopName: this.salesEnquiry.ShopName.toString(),
+      State: this.salesEnquiry.State.toString(),
+      Status: this.salesEnquiry.Status.toString(),
+      categories: uniqueCategoryID,
+      id: this.salesEnquiry.id.toString(),
+      userid: this.strSellerId
+    }
+    this.spinner.show(undefined,
+      {
+        type: "square-jelly-box",
+        size: "medium",
+        color: 'white'
+      }
+    );
+    console.log('req editEnquiryForm', editEnquiryForm);
+    this.salesService.insertUpdateSalesEnquiry(editEnquiryForm).subscribe(res => {
+      this.toastr.success('Updated Successfully !!');
+      this.emitterService.isAdminCreadtedOrUpdated.emit(true);
+      this.spinner.hide();
+      this.dialogRef.close();
+    }, err => {
+      this.spinner.hide();
+    });
+  }
+
+
+  openModal(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template, {class: 'modal-sm'});
+  }
+ 
+  confirm(): void {
+    this.message = 'Confirmed!';
+    this.deleteEnquiry();
+    this.modalRef.hide();
+  }
+ 
+  decline(): void {
+    this.message = 'Declined!';
+    this.modalRef.hide();
+  }
 
 }

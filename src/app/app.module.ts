@@ -25,6 +25,7 @@ import { MatSelectFilterModule } from 'mat-select-filter';
 import { ReportsService } from './pages/reports/reports.service';
 import { ToastrModule } from 'ngx-toastr';
 import { ReportsModule } from './pages/reports/reports.module';
+import { ModalModule } from 'ngx-bootstrap/modal';
 
 function appInitializer(authService: AuthService) {
   return () => {
@@ -55,7 +56,8 @@ function appInitializer(authService: AuthService) {
     // #fake-end#
     AppRoutingModule,
     InlineSVGModule.forRoot(),
-    ToastrModule.forRoot(), 
+    ToastrModule.forRoot(),
+    ModalModule.forRoot(),
     ReportsModule,
     NgbModule
   ],
@@ -77,7 +79,7 @@ function appInitializer(authService: AuthService) {
           json: () => import('highlight.js/lib/languages/json')
         },
       },
-      
+
     },
     EmitterService,
     ReportsService

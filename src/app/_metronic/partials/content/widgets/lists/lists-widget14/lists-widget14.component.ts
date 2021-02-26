@@ -7,6 +7,7 @@ import * as _ from 'lodash';
 import * as moment from 'moment';
 import { MonthData } from 'src/app/pages/reports/reports.model';
 import { ReportsService } from 'src/app/pages/reports/reports.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-lists-widget14',
@@ -28,7 +29,8 @@ export class ListsWidget14Component implements OnInit {
 
   constructor(
     private reportsService: ReportsService,
-    private emitterService: EmitterService
+    private emitterService: EmitterService,
+    private spinner: NgxSpinnerService
   ) {
 
     let startOfMonth = moment().clone().startOf('month').format("DD/MM/YYYY");
@@ -53,13 +55,16 @@ export class ListsWidget14Component implements OnInit {
   }
 
 
-
   getHighestValueProductsByMonthData() {
     if (this.role == 'Admin') {
       this.monthData.sellerId = '2';
     }
+    this.spinner.show();
     this.reportsService.getHighestValueProductByMonth(this.monthData).subscribe(res => {
       this.highestValueProductsByMonth = res;
+      this.spinner.hide();
+    }, err => {
+      this.spinner.hide();
     });
   }
 
@@ -67,6 +72,8 @@ export class ListsWidget14Component implements OnInit {
     this.reportsService.getHighestValueProductByLastMonth(this.monthData).subscribe(res => {
       this.highestValueProductsByLastMonth = res;
       // console.log('^^^^^^^^ last month', res);
+    }, err => {
+      this.spinner.hide();
     });
   }
 

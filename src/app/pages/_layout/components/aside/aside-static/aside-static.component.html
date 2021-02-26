@@ -172,7 +172,7 @@
       </li>
 
       <li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover"
-        routerLinkActive="menu-item-open" *ngIf="role==='Admin' || role==='Seller' ||role==='sales'||role==='Partner'">
+        routerLinkActive="menu-item-open" *ngIf="role==='Admin' || role==='Seller' ||role==='sales'||role==='partner'">
         <a class="menu-link menu-toggle" routerLinkActive="active">
           <span [inlineSVG]="'./assets/media/svg/icons/General/User.svg'" cacheSVG="true"
             class="svg-icon menu-icon colorize-ornage"></span>
@@ -200,7 +200,7 @@
             </li>
 
             <li class="menu-item menu-item-submenu" routerLinkActive="menu-item-open" aria-haspopup="true"
-              data-menu-toggle="hover" *ngIf="role==='Admin' || role==='sales' || role==='Partner'">
+              data-menu-toggle="hover" *ngIf="role==='Admin' || role==='sales' || role==='partner'">
               <a class="menu-link menu-toggle" routerLinkActive="active" routerLink="/sales/user/seller">
                 <i class="menu-bullet menu-bullet-dot">
                   <span></span>
@@ -267,7 +267,7 @@
       </li>
 
       <li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover"
-        routerLinkActive="menu-item-open" *ngIf="role==='Admin' || role==='Seller' ||role==='Backoffice'">
+        routerLinkActive="menu-item-open" *ngIf="role==='Admin' || role==='Seller' ||role==='backoffice'">
         <a class="menu-link menu-toggle" routerLinkActive="active">
           <span [inlineSVG]="'./assets/media/svg/icons/Clothes/Crown.svg'" cacheSVG="true"
             class="svg-icon menu-icon colorize-blue"></span>
@@ -305,7 +305,7 @@
             </li>
 
             <li class="menu-item" routerLinkActive="menu-item-active" aria-haspopup="true" data-menu-toggle="hover"
-              *ngIf="role==='Admin' || role==='Backoffice'">
+              *ngIf="role==='Admin' || role==='backoffice'">
               <a class="menu-link" routerLinkActive="active"
                 routerLink="/sales/masterManagement/productMeasurementUnit">
                 <i class="menu-bullet menu-bullet-dot">
@@ -316,7 +316,7 @@
             </li>
 
             <li class="menu-item" routerLinkActive="menu-item-active" aria-haspopup="true" data-menu-toggle="hover"
-              *ngIf="role==='Admin' || role==='Backoffice'">
+              *ngIf="role==='Admin' || role==='backoffice'">
               <a class="menu-link" routerLinkActive="active" routerLink="/sales/masterManagement/brand">
                 <i class="menu-bullet menu-bullet-dot">
                   <span></span>
@@ -326,7 +326,7 @@
             </li>
 
             <li class="menu-item" routerLinkActive="menu-item-active" aria-haspopup="true" data-menu-toggle="hover"
-              *ngIf="role==='Admin' || role==='Backoffice' || role==='Seller'">
+              *ngIf="role==='Admin' || role==='backoffice' || role==='Seller'">
               <a class="menu-link" routerLinkActive="active" routerLink="/sales/masterManagement/product">
                 <i class="menu-bullet menu-bullet-dot">
                   <span></span>
@@ -339,7 +339,7 @@
       </li>
 
       <li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover"
-        routerLinkActive="menu-item-open" *ngIf="role==='Admin' || role==='Seller' ||role==='Backoffice'">
+        routerLinkActive="menu-item-open" *ngIf="role==='Admin' || role==='Seller' ||role==='backoffice'">
         <a class="menu-link menu-toggle" routerLinkActive="active">
           <span [inlineSVG]="'./assets/media/svg/icons/Text/Bullet-list.svg'" cacheSVG="true"
             class="svg-icon menu-icon colorize-blue-color"></span>
@@ -367,7 +367,7 @@
             </li>
 
             <li class="menu-item" routerLinkActive="menu-item-active" aria-haspopup="true" data-menu-toggle="hover"
-              *ngIf="role==='Seller' ||role==='Admin' || role==='Backoffice'">
+              *ngIf="role==='Seller' ||role==='Admin' || role==='backoffice'">
               <a class="menu-link" routerLink="/sales/productManagement/mappedProduct" routerLinkActive="active">
                 <i class="menu-bullet menu-bullet-dot">
                   <span></span>
@@ -377,7 +377,7 @@
             </li>
 
             <li class="menu-item" routerLinkActive="menu-item-active" aria-haspopup="true" data-menu-toggle="hover"
-              *ngIf="role==='Seller' ||role==='Admin' || role==='Backoffice'">
+              *ngIf="role==='Seller' ||role==='Admin' || role==='backoffice'">
               <a class="menu-link" routerLink="/sales/productManagement/unMappedProduct" routerLinkActive="active">
                 <i class="menu-bullet menu-bullet-dot">
                   <span></span>
@@ -387,7 +387,7 @@
             </li>
 
             <li class="menu-item" routerLinkActive="menu-item-active" aria-haspopup="true" data-menu-toggle="hover"
-              *ngIf="role==='Seller' ||role==='Admin' || role==='Backoffice'">
+              *ngIf="role==='Seller' ||role==='Admin' || role==='backoffice'">
               <a class="menu-link" routerLink="/sales/productManagement/updateOutOfStock" routerLinkActive="active">
                 <i class="menu-bullet menu-bullet-dot">
                   <span></span>
@@ -434,7 +434,7 @@
 
       <li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover"
         routerLinkActive="menu-item-open"
-        *ngIf="role==='Admin' || role==='Seller' ||role==='Backoffice' ||role==='sales' || role==='Partner'|| role==='mis'">
+        *ngIf="role==='Admin' || role==='Seller' ||role==='backoffice' ||role==='sales' || role==='partner'|| role==='mis'">
         <a class="menu-link menu-toggle" routerLinkActive="active">
           <span [inlineSVG]="'./assets/media/svg/icons/Media/Equalizer.svg'" cacheSVG="true"
             class="svg-icon menu-icon colorize-blue"></span>
@@ -461,7 +461,7 @@
             </li>
 
             <li class="menu-item" routerLinkActive="menu-item-active" aria-haspopup="true" data-menu-toggle="hover"
-              *ngIf="role==='Admin' || role==='sales' || role==='Partner' || role==='Seller'">
+              *ngIf="role==='Admin' || role==='sales' || role==='partner' || role==='Seller'">
               <a class="menu-link" routerLink="/sales/reports/bussinessSnapshot" routerLinkActive="active">
                 <i class="menu-bullet menu-bullet-dot">
                   <span></span>
@@ -512,7 +512,7 @@
 
       <li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover"
         routerLinkActive="menu-item-open"
-        *ngIf="role==='Admin' || role==='Partner' ||role==='Seller' || role==='sales'|| role==='Backoffice'">
+        *ngIf="role==='Admin' || role==='partner' ||role==='Seller' || role==='sales'|| role==='backoffice'">
         <a class="menu-link menu-toggle" routerLinkActive="active">
           <span [inlineSVG]="'./assets/media/svg/icons/Files/Selected-file.svg'" cacheSVG="true"
             class="svg-icon menu-icon colorize-blue-color"></span>

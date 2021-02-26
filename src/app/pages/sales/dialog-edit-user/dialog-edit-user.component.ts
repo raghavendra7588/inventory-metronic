@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Inject, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Inject, OnInit, Output, TemplateRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
@@ -7,6 +7,7 @@ import { DialogUpdateMobileNumberComponent } from '../dialog-update-mobile-numbe
 import { EditUpdateAdmin, EditUser, ValidateAdminUser } from '../sales.model.';
 import { SalesService } from '../sales.service';
 import { NgxSpinnerService } from "ngx-spinner";
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'app-dialog-edit-user',
@@ -30,6 +31,10 @@ export class DialogEditUserComponent implements OnInit {
 
   @Output() closeDialog: EventEmitter<boolean> = new EventEmitter<boolean>();
 
+  modalRef: BsModalRef;
+  message: string;
+  isEditMode: boolean = false;
+
   constructor(
     public formBuilder: FormBuilder,
     private dialogRef: MatDialogRef<DialogUpdateMobileNumberComponent>,
@@ -37,7 +42,8 @@ export class DialogEditUserComponent implements OnInit {
     public emitterService: EmitterService,
     public toastr: ToastrService,
     public salesService: SalesService,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private modalService: BsModalService
   ) {
     this.editUserForm = this.formBuilder.group({
       name: ['', [Validators.required]],
@@ -181,6 +187,7 @@ export class DialogEditUserComponent implements OnInit {
 
 
   assignValues() {
+    this.isEditMode = true;
     this.editUser.name = this.userData.name;
     this.editUser.emailid = this.userData.emailid;
     this.editUser.mobilenumber = this.userData.mobilenumber;
@@ -243,7 +250,13 @@ export class DialogEditUserComponent implements OnInit {
       this.editUpdateAdmin.userid = this.strSellerId;
       this.editUpdateAdmin.IsActive = "0";
     }
-
+    this.spinner.show(undefined,
+      {
+        type: 'square-spin',
+        size: 'medium',
+        color: 'white'
+      }
+    );
     this.salesService.editAdminUser(this.editUpdateAdmin).subscribe(res => {
       this.toastr.error('Deleted Successfully !!');
       this.emitterService.isAdminCreadtedOrUpdated.emit(true);
@@ -255,5 +268,20 @@ export class DialogEditUserComponent implements OnInit {
       });
   }
 
+
+  openModal(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template, { class: 'modal-sm' });
+  }
+
+  confirm(): void {
+    this.message = 'Confirmed!';
+    this.deleteUser();
+    this.modalRef.hide();
+  }
+
+  decline(): void {
+    this.message = 'Declined!';
+    this.modalRef.hide();
+  }
 
 }

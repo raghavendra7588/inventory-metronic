@@ -4,48 +4,48 @@
     <div class="row">
         <div class="col-md-6 col-12 col-sm-6 col-lg-6 col-xl-6  text-center">
             <h5 class="orange-icon">Customer</h5>
-            <h5 class="theme-color">{{orderData.name}}</h5>
-            <h5 class="theme-color">{{orderData.address}}</h5>
-            <h5 class="theme-color">{{orderData.city}}</h5>
-            <h5 class="theme-color">Mobile No : {{orderData.primaryMobileNumber}}</h5>
+            <h5>{{orderData.name}}</h5>
+            <h5>{{orderData.address}}</h5>
+            <h5>{{orderData.city}}</h5>
+            <h5>Mobile No : {{orderData.primaryMobileNumber}}</h5>
         </div>
         <div class="col-md-6 col-12 col-sm-6 col-lg-6 col-xl-6 text-center">
             <h5 class="orange-icon">Seller</h5>
-            <h5 class="theme-color">{{orderData.sellerName}} (<span>{{orderData.sellerId}}</span>)</h5>
+            <h5>{{orderData.sellerName}} (<span>{{orderData.sellerId}}</span>)</h5>
         </div>
     </div>
 
     <div class="row my-3">
         <div class="col-md-4 col-12 col-sm-12 col-lg-4 col-xl-4 text-center">
-            <h5 class="orange-icon">Delivery Type:
-                <span>
-                    <h5 class="theme-color">{{orderData.deliveryType}}</h5>
-                </span>
-            </h5>
+            <h5 class="orange-icon">Delivery Type: </h5>
+            <span>
+                <h5>{{orderData.deliveryType}}</h5>
+            </span>
+
         </div>
         <div class="col-md-4 col-12 col-sm-12 col-lg-4 col-xl-4 text-center">
-            <h5 class="orange-icon">Payment Type:
-                <span>
-                    <h5 class="theme-color">{{orderData.paymentType}}</h5>
-                </span>
-            </h5>
+            <h5 class="orange-icon">Payment Type:</h5>
+            <span>
+                <h5>{{orderData.paymentType}}</h5>
+            </span>
+
         </div>
         <div class="col-md-4 col-12 col-sm-12 col-lg-4 col-xl-4 text-center">
 
-            <h5 class="orange-icon">Delivery Upto:
-                <span>
-                    <h5 class="theme-color">{{orderData.deliveryUpto}}</h5>
-                </span>
-            </h5>
+            <h5 class="orange-icon">Delivery Upto: </h5>
+            <span>
+                <h5>{{orderData.deliverySlot}}</h5>
+            </span>
+
         </div>
     </div>
 
     <mat-divider class="my-4"></mat-divider>
-    <h5 class="orange-icon text-center">Order No
-        <span>
-            <h5 class="theme-color">()</h5>
-        </span>
-    </h5>
+    <h5 class="orange-icon text-center">Order No</h5>
+    <span class="text-center">
+        <h5>({{orderNo| slice:-5}})</h5>
+    </span>
+
     <mat-divider class="my-4"></mat-divider>
     <div mat-dialog-actions class="my-4">
         <button mat-raised-button class="save-button"><span class="custom-text-color">Print</span></button>
@@ -108,7 +108,7 @@
             <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
         </table>
 
-        <mat-paginator class="custom-dialog-paginator" [pageSizeOptions]="[25,50,100]" showFirstLastButtons></mat-paginator>
+        <mat-paginator [pageSizeOptions]="[25,50,100]" showFirstLastButtons></mat-paginator>
     </div>
 
 </div>

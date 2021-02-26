@@ -1,6 +1,7 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, TemplateRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { ToastrService } from 'ngx-toastr';
 import { EmitterService } from 'src/app/shared/emitter.service';
 import { SubCategory } from '../sales.model.';
@@ -29,13 +30,19 @@ export class DialogSubCategoryComponent implements OnInit {
   imageUrl: string;
   isImageSelected: boolean = false;
 
+  modalRef: BsModalRef;
+  message: string;
+
+	isEditMode: boolean = false;
+
   constructor(
     public formBuilder: FormBuilder,
     private dialogRef: MatDialogRef<DialogSubCategoryComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     public emitterService: EmitterService,
     public toastr: ToastrService,
-    public salesService: SalesService
+    public salesService: SalesService,
+    private modalService: BsModalService
   ) {
 
     this.subCategoryForm = this.formBuilder.group({
@@ -122,6 +129,7 @@ export class DialogSubCategoryComponent implements OnInit {
 
 
   assignValues() {
+    this.isEditMode = true;
     this.subCategory.name = this.subCategoryResponse.name;
     this.subCategory.descriptions = this.subCategoryResponse.descriptions;
     this.subCategory.isparent = this.subCategoryResponse.isparent;
@@ -170,5 +178,21 @@ export class DialogSubCategoryComponent implements OnInit {
     });
 
   }
+
+  openModal(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template, { class: 'modal-sm' });
+  }
+
+  confirm(): void {
+    this.message = 'Confirmed!';
+    this.deleteSubCategory();
+    this.modalRef.hide();
+  }
+
+  decline(): void {
+    this.message = 'Declined!';
+    this.modalRef.hide();
+  }
+
 
 }

@@ -105,21 +105,6 @@
 
             <table mat-table [dataSource]="dataSource" class="custom-table">
 
-                <ng-container matColumnDef="totalSeller">
-                    <th mat-header-cell *matHeaderCellDef>Tot Seller</th>
-                    <td mat-cell *matCellDef="let element">{{element.TotalSeller}}</td>
-                </ng-container>
-
-                <ng-container matColumnDef="totalOrder">
-                    <th mat-header-cell *matHeaderCellDef>Tot Order</th>
-                    <td mat-cell *matCellDef="let element">{{element.TotalOrder}}</td>
-                </ng-container>
-
-                <ng-container matColumnDef="totalAmount">
-                    <th mat-header-cell *matHeaderCellDef>Tot Amt</th>
-                    <td mat-cell *matCellDef="let element">{{element.TotalAmount}}</td>
-                </ng-container>
-
                 <ng-container matColumnDef="name">
                     <th mat-header-cell *matHeaderCellDef>Name</th>
                     <td mat-cell *matCellDef="let element">{{element.name}}</td>

@@ -1,8 +1,9 @@
-import { Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { Component, Inject, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { EmitterService } from 'src/app/shared/emitter.service';
@@ -22,7 +23,8 @@ export class DialogProductDataComponent implements OnInit {
   strSellerId: string;
   product: Product = new Product();
   role: string;
-  displayedColumns = ['measurementUnit', 'varient', 'price', 'edit'];
+  // displayedColumns = ['measurementUnit', 'varient', 'price', 'edit'];
+  displayedColumns: any;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   dataSource: any;
 
@@ -41,6 +43,10 @@ export class DialogProductDataComponent implements OnInit {
   categoryName: string;
   isButtonDisabled: boolean = false;
 
+  modalRef: BsModalRef;
+  message: string;
+  isEditMode: boolean = false;
+
   constructor(
     public formBuilder: FormBuilder,
     private dialogRef: MatDialogRef<DialogProductDataComponent>,
@@ -48,8 +54,11 @@ export class DialogProductDataComponent implements OnInit {
     public emitterService: EmitterService,
     public toastr: ToastrService,
     public salesService: SalesService,
-    public spinner: NgxSpinnerService
+    public spinner: NgxSpinnerService,
+    private modalService: BsModalService
   ) {
+    this.strSellerId = sessionStorage.getItem('sellerId');
+    this.role = sessionStorage.getItem('role');
 
     this.productForm = this.formBuilder.group({
 
@@ -69,20 +78,26 @@ export class DialogProductDataComponent implements OnInit {
     this.receivedProductData = data;
     console.log('receivedProductData', this.receivedProductData);
 
+    if (this.role == 'Admin') {
+      this.displayedColumns = ['measurementUnit', 'varient', 'price', 'edit'];
+    }
+    else if (this.role == 'backoffice') {
+      this.displayedColumns = ['measurementUnit', 'varient', 'price', 'edit'];
+    }
+    else if (this.role == 'Seller') {
+      this.displayedColumns = ['measurementUnit', 'varient', 'price'];
+    }
   }
 
   ngOnInit(): void {
-    this.strSellerId = sessionStorage.getItem('sellerId');
 
     if (this.receivedProductData) {
       this.assignValues();
     }
     this.getCategoryData();
-    // this.getAllSubCategoriesData();
+    this.getAllSubCategoriesData();
     this.getBrandsData();
     this.getProductMeasurementUnitData();
-    this.role = sessionStorage.getItem('role');
-
   }
 
   selectFile(e) {
@@ -348,6 +363,7 @@ export class DialogProductDataComponent implements OnInit {
   }
 
   assignValues() {
+    this.isEditMode = true;
     this.product.name = this.receivedProductData.name;
     this.product.descriptions = this.receivedProductData.descriptions;
 
@@ -398,7 +414,7 @@ export class DialogProductDataComponent implements OnInit {
       "languageCode": 'En',
       "productDetails": [],
       "varients": this.customProductMeasurementUnit,
-      "IsActive": "1"
+      "IsActive": "0"
     }
 
     this.isButtonDisabled = true;
@@ -419,5 +435,20 @@ export class DialogProductDataComponent implements OnInit {
     }, err => {
       this.spinner.hide();
     });
+  }
+
+  openModal(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template, { class: 'modal-sm' });
+  }
+
+  confirm(): void {
+    this.message = 'Confirmed!';
+    this.deleteProductData();
+    this.modalRef.hide();
+  }
+
+  decline(): void {
+    this.message = 'Declined!';
+    this.modalRef.hide();
   }
 }

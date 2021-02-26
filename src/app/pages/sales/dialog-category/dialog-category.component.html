@@ -35,8 +35,17 @@
             <button mat-raised-button [ngClass]="!categoryForm.valid? 'opacity' : 'noOpacity'" class="save-button"
                 [disabled]="!categoryForm.valid" (click)="onSubmit()"><span
                     class="custom-text-color">Save</span></button>
-            <button mat-raised-button (click)="deleteCategoryData()" color="warn">Delete</button>
+            <button mat-raised-button *ngIf="isEditMode" (click)="openModal(template)" color="warn">Delete</button>
             <button mat-raised-button mat-dialog-close>Close</button>
         </div>
     </div>
+  
 </form>
+
+<ng-template #template>
+    <div class="modal-body text-center">
+        <p>Do you want Delete?</p>
+        <button type="button" class="btn btn-danger" (click)="confirm()">Yes</button>
+        <button type="button" class="btn btn-primary" (click)="decline()">No</button>
+    </div>
+</ng-template>

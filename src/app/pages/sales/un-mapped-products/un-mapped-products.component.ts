@@ -61,6 +61,7 @@ export class UnMappedProductsComponent implements OnInit {
   inputQuantityArray: any = [];
   counter: number = 1;
 
+
   constructor(
     public salesService: SalesService,
     public dialog: MatDialog,
@@ -297,7 +298,7 @@ export class UnMappedProductsComponent implements OnInit {
       this.saveUnMappedProducts.SellerId = element.SellerId;
       this.saveUnMappedProducts.SubCategoryID = element.SubCategoryID;
       this.saveUnMappedProducts.userid = this.strSellerID;
-      
+
       let isPriceValid = (Number(this.saveUnMappedProducts.ProductPrice) - Number(this.saveUnMappedProducts.Discount)) === Number(this.saveUnMappedProducts.FinalPrice);
       if (isPriceValid) {
         // this.multipleEntries.push(this.saveUnMappedProducts);
@@ -432,4 +433,5 @@ export class UnMappedProductsComponent implements OnInit {
     });
     return array
   }
+
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
@@ -7,6 +7,7 @@ import { EmitterService } from 'src/app/shared/emitter.service';
 import { DialogProductDataComponent } from '../dialog-product-data/dialog-product-data.component';
 import { SalesService } from '../sales.service';
 import { ExportToCsv } from 'export-to-csv';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'app-product',
@@ -24,7 +25,6 @@ export class ProductComponent implements OnInit {
     this.setDataSourceAttributes();
   }
 
-
   strSellerId: string;
   productData: any = [];
   isDataLoaded: boolean = false;
@@ -35,15 +35,15 @@ export class ProductComponent implements OnInit {
     public salesService: SalesService,
     public dialog: MatDialog,
     public emitterService: EmitterService,
-    private spinner: NgxSpinnerService
-
+    private spinner: NgxSpinnerService,
+    private modalService: BsModalService
   ) {
     this.role = sessionStorage.getItem('role');
   }
 
   ngOnInit(): void {
     this.strSellerId = sessionStorage.getItem('sellerId');
-    if (this.role == 'Admin') {
+    if (this.role == 'Admin' || this.role == 'backoffice') {
       this.displayedColumns = ['product', 'brand', 'category', 'subCategory', 'image', 'edit'];
     }
     else {
@@ -152,4 +152,6 @@ export class ProductComponent implements OnInit {
     }
     return formattedResponse;
   }
+
+
 }

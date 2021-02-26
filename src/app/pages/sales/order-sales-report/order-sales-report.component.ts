@@ -64,13 +64,16 @@ export class OrderSalesReportComponent implements OnInit {
       },
       {
         id: 2, title: 'Customer', name: 'C'
-      },
-      {
-        id: 3, title: 'Sales Enquiry', name: 'E'
-      },
+      }
     ];
 
     this.getSellerUsers();
+    if (this.role == 'Admin') {
+      this.reportType.push(
+        {
+          id: 3, title: 'Sales Enquiry', name: 'E'
+        });
+    }
   }
 
   getSellerUsers() {
@@ -124,10 +127,21 @@ export class OrderSalesReportComponent implements OnInit {
 
     console.log('orderSalesReport', this.orderSalesReport);
 
-    this.salesService.downloadOrderSalesReport(this.orderSalesReport).subscribe(res => {
-      console.log('order sales', res);
-      alert('got res');
-    });
+    // this.salesService.downloadOrderSalesReport(this.orderSalesReport).subscribe(res => {
+    //   console.log('order sales', res);
+    //   alert('got res');
+    // });
+
+
+    // let objData = this.seller + '|' + this.type;
+    // console.log('objData', objData);
+    // let newWindow = window.open(this.salesService.ADMIN_BASE_URL + 'ProductSellerMapping/GetCSV?SellerID=' + objData, '_blank');
+
+    let objData = this.orderSalesReport.sellerName + '||' + this.orderSalesReport.reportType + '||' + startDate + '||' + endDate;
+    // var objData = sellerID + '||' + this.reportname + '||' + this.getDateFormat(this.startdate.value) + '||' + this.getDateFormat(this.enddate.value);
+    var newWindow = window.open(this.salesService.ADMIN_BASE_URL + '/ProductSellerMapping/Getreport?Data='
+      + objData, '_blank', '');
+
   }
 
 
