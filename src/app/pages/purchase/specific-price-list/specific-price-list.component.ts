@@ -10,6 +10,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
 import { LoginService } from 'src/app/modules/auth/login.service';
 import { EmitterService } from 'src/app/shared/emitter.service';
+import { SalesService } from '../../sales/sales.service';
 import { PriceList } from '../purchase.model';
 import { PurchaseService } from '../purchase.service';
 
@@ -106,6 +107,8 @@ export class SpecificPriceListComponent implements OnInit {
 
   inputQuantityArray: any = [];
   emitterSubscription: Subscription;
+  allBrandsData: any = [];
+  tempMultipleBrandArray: any = [];
 
   constructor(
     public dialog: MatDialog,
@@ -114,7 +117,8 @@ export class SpecificPriceListComponent implements OnInit {
     public emitterService: EmitterService,
     public toastr: ToastrService,
     private cdr: ChangeDetectorRef,
-    private spinner: NgxSpinnerService) {
+    private spinner: NgxSpinnerService,
+    private salesService: SalesService) {
     this.emitterService.isPriceListUpdated.subscribe(val => {
       if (val) {
         this.updateAllRecordsCount = 0;
@@ -137,7 +141,6 @@ export class SpecificPriceListComponent implements OnInit {
     this.getPriceListData();
     this.getBrandsMasterData();
     this.getVendorData();
-
 
   }
 
@@ -456,7 +459,7 @@ export class SpecificPriceListComponent implements OnInit {
         this.subCategoriesArray.push(subCategory.id);
         this.spinner.show();
         this.purchaseService.getAllBrand(subCategory.parentid, subCategory.id).subscribe(data => {
-
+          console.log('brand data', data);
           this.multipleBrandArray = data;
           this.catchMappedData = this.mapObj(this.multipleBrandArray, this.dbData);
           this.multipleBrandArray = this.catchMappedData;
@@ -471,14 +474,6 @@ export class SpecificPriceListComponent implements OnInit {
               filteredBrandDataArray.push(data);
             }
           });
-
-          // this.catchMappedData.filter(data => {
-
-          //   if (this.numBrandIdArray.includes(Number(data.BrandId))) {
-          //     filteredBrandDataArray.push(data);
-          //   }
-          // });
-
 
           console.log('filteredBrandDataArray', filteredBrandDataArray);
 
@@ -502,6 +497,7 @@ export class SpecificPriceListComponent implements OnInit {
 
 
   }
+
 
   onProductChange(event, product: any) {
     if (event.isUserInput) {
@@ -548,6 +544,9 @@ export class SpecificPriceListComponent implements OnInit {
       this.priceList.availableQuantity = element.AvailableQuantity;
       this.priceList.quantity = element.Quantity;
       this.priceList.ProductVarientId = element.ProductVarientId;
+      this.priceList.CategoryId = Number(element.CategoryID);
+      console.log('price list', this.priceList);
+
       this.purchaseService.savePriceListMaster(this.priceList).subscribe(data => {
         this.toastr.success('Price List Updated');
 
@@ -577,6 +576,10 @@ export class SpecificPriceListComponent implements OnInit {
       this.priceList.availableQuantity = element.AvailableQuantity;
       this.priceList.quantity = element.Quantity;
       this.priceList.ProductVarientId = element.ProductVarientId;
+
+      this.priceList.CategoryId = Number(element.CategoryID);
+      console.log('price list', this.priceList);
+
       let isPriceValid = (Number(this.priceList.buyingPrice) - Number(this.priceList.discount)) === Number(this.priceList.finalPrice);
       if (isPriceValid) {
         this.purchaseService.savePriceListMaster(this.priceList).subscribe(data => {
@@ -626,6 +629,8 @@ export class SpecificPriceListComponent implements OnInit {
       this.priceList.availableQuantity = element.AvailableQuantity;
       this.priceList.quantity = element.Quantity;
       this.priceList.ProductVarientId = element.ProductVarientId;
+      this.priceList.CategoryId = Number(element.CategoryID);
+      console.log('price list', this.priceList);
 
       this.isPriceValid = (Number(this.priceList.buyingPrice) - Number(this.priceList.discount)) === Number(this.priceList.finalPrice);
       if (this.isPriceValid) {

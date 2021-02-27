@@ -3,6 +3,9 @@ import {
   ChangeDetectionStrategy,
   OnDestroy,
   OnInit,
+  AfterViewInit,
+  ElementRef,
+  ViewChild,
 } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -16,6 +19,7 @@ import { locale as deLang } from './modules/i18n/vocabs/de';
 import { locale as frLang } from './modules/i18n/vocabs/fr';
 import { SplashScreenService } from './_metronic/partials/layout/splash-screen/splash-screen.service';
 import { TableExtendedService } from './_metronic/shared/crud-table';
+import { EmitterService } from './shared/emitter.service';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -24,14 +28,17 @@ import { TableExtendedService } from './_metronic/shared/crud-table';
   styleUrls: ['./app.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AppComponent implements OnInit, OnDestroy {
+export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
+  
   private unsubscribe: Subscription[] = []; // Read more: => https://brianflove.com/2016/12/11/anguar-2-unsubscribe-observables/
+  @ViewChild('el') testElement: ElementRef; 
 
   constructor(
     private translationService: TranslationService,
     private splashScreenService: SplashScreenService,
     private router: Router,
-    private tableService: TableExtendedService
+    private tableService: TableExtendedService,
+    private emitterService: EmitterService
   ) {
     // register translations
     this.translationService.loadTranslations(
@@ -42,6 +49,13 @@ export class AppComponent implements OnInit, OnDestroy {
       deLang,
       frLang
     );
+    this.emitterService.isLoggedIn.subscribe(val => {
+      if (val) {
+        setTimeout(() => {
+          this.doSomething();
+        }, 7000);
+      }
+    });
   }
 
   ngOnInit() {
@@ -62,6 +76,18 @@ export class AppComponent implements OnInit, OnDestroy {
       }
     });
     this.unsubscribe.push(routerSubscription);
+  }
+
+  doSomething() {
+    console.log('click event app compo');
+  }
+
+  ngAfterViewInit() {
+    setTimeout(() => {
+      this.doSomething();
+      this.testElement.nativeElement.onmouseenter = () => console.log('mouse enter')
+    }, 7000);
+
   }
 
   ngOnDestroy() {

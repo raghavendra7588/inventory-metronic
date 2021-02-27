@@ -21,6 +21,8 @@ export class DialogCategoriesMappingComponent implements OnInit {
 
   editCategory: EditCategory = new EditCategory();
   changedCategory: any = [];
+  strSellerId: string;
+
 
   constructor(
     public formBuilder: FormBuilder,
@@ -31,6 +33,7 @@ export class DialogCategoriesMappingComponent implements OnInit {
     private salesService: SalesService,
     private spinner: NgxSpinnerService
   ) {
+    this.strSellerId = sessionStorage.getItem('sellerId');
     this.userData = data;
     console.log('edit', this.userData);
   }
@@ -88,7 +91,7 @@ export class DialogCategoriesMappingComponent implements OnInit {
     this.editCategory.role = this.userData.role;
     this.editCategory.state = this.userData.state;
     this.editCategory.token = this.userData.token;
-    this.editCategory.userid = this.userData.userid;
+    this.editCategory.userid = this.strSellerId;
     this.editCategory.username = this.userData.username;
     this.editCategory.vendorcode = this.userData.vendorcode;
     console.log(this.editCategory);

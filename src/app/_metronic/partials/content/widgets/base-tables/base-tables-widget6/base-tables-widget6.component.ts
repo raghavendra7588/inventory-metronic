@@ -1,15 +1,15 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { EmitterService } from 'src/app/shared/emitter.service';
 import * as _ from 'lodash';
 import { ReportsService } from 'src/app/pages/reports/reports.service';
-import { Observable } from 'rxjs';
+import { fromEvent, Observable, Subscription } from 'rxjs';
 import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-base-tables-widget6',
   templateUrl: './base-tables-widget6.component.html',
 })
-export class BaseTablesWidget6Component implements OnInit {
+export class BaseTablesWidget6Component implements OnInit, AfterViewInit, OnDestroy {
 
   fastestMovingDataByMonth: any = [];
   role: string;
@@ -24,6 +24,9 @@ export class BaseTablesWidget6Component implements OnInit {
   strSellerId: string;
 
   productData$: Observable<any>;
+  @ViewChild('loginButton', { static: false }) loginButton;
+  @ViewChild('el', { static: false }) el: ElementRef;
+  clickedElement: Subscription = new Subscription();
 
   constructor(
     private reportsService: ReportsService,
@@ -36,9 +39,20 @@ export class BaseTablesWidget6Component implements OnInit {
     this.emitterService.isLoggedIn.subscribe(val => {
       if (val) {
         this.getFastestMoVingProductsByMonth();
-        // this.getFastestMovingData();
+
+        setTimeout(() => {
+          this.clickedElement = fromEvent(this.el.nativeElement, 'click').subscribe(() => alert('element clicked in table '));
+        }, 7000);
+   
       }
     });
+
+    setTimeout(() => {
+      this.clickedElement = fromEvent(this.el.nativeElement, 'click').subscribe(() => alert('element clicked'));
+    }, 7000);
+    // this.el.nativeElement.on('click', () => {
+    //   alert("test");
+    // });
   }
 
   ngOnInit(): void {
@@ -47,6 +61,7 @@ export class BaseTablesWidget6Component implements OnInit {
     this.getFastestMoVingProductsByMonth();
 
   }
+
 
   setCurrentTab(tab: string) {
     this.currentTab = tab;
@@ -73,11 +88,16 @@ export class BaseTablesWidget6Component implements OnInit {
 
     this.reportsService.getFastestMovingDataByMonth(this.strSellerId);
   }
-  // public displayResponse() {
-  //   alert('called');
-  //   this.getFastestMoVingProductsByMonth();
-  // }
-  // ngAfterViewInit() {
-  //   this.namedElement.nativeElement.click();
-  // }
+
+
+
+  ngAfterViewInit() {
+    setTimeout(() => {
+      this.clickedElement = fromEvent(this.el.nativeElement, 'click').subscribe(() => console.log('element clicked in table '));
+    }, 7000);
+  }
+
+  ngOnDestroy() {
+    this.clickedElement.unsubscribe();
+  }
 }

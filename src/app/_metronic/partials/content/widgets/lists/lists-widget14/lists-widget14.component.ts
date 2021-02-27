@@ -8,6 +8,7 @@ import * as moment from 'moment';
 import { MonthData } from 'src/app/pages/reports/reports.model';
 import { ReportsService } from 'src/app/pages/reports/reports.service';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-lists-widget14',
@@ -26,6 +27,8 @@ export class ListsWidget14Component implements OnInit {
   currentTab: string = 'currentMonth';
   currentlySelectedMenu: string = 'Current Month';
   role: string;
+
+  productData: Observable<any>;
 
   constructor(
     private reportsService: ReportsService,
@@ -52,6 +55,8 @@ export class ListsWidget14Component implements OnInit {
 
     this.getHighestValueProductsByMonthData();
     this.getHighestValueProductsByLastMonthData();
+
+    this.productData = this.reportsService.getHighestValueProductByMonth(this.monthData);
   }
 
 

@@ -72,7 +72,7 @@ export class DialogCategoryComponent implements OnInit {
         "name": this.category.name.toString(), "descriptions": this.category.descriptions.toString(),
         "imageurl": this.imageUrl.toString(), "isparent": "1",
         "parentid": "0",
-        "id": "0",
+        "id": this.categoryResponse.id,
         "IsActive": "1",
         "userid": this.strSellerId
       };

@@ -396,6 +396,9 @@ export class PriceListComponent implements OnInit {
       this.priceList.availableQuantity = element.AvailableQuantity;
       this.priceList.quantity = element.Quantity;
       this.priceList.ProductVarientId = element.ProductVarientId;
+      this.priceList.CategoryId = Number(element.CategoryID);
+      console.log('price list', this.priceList);
+
       this.purchaseService.savePriceListMaster(this.priceList).subscribe(data => {
         this.toastr.success('Price List Updated');
       },
@@ -422,6 +425,9 @@ export class PriceListComponent implements OnInit {
       this.priceList.availableQuantity = element.AvailableQuantity;
       this.priceList.quantity = element.Quantity;
       this.priceList.ProductVarientId = element.ProductVarientId;
+      this.priceList.CategoryId = Number(element.CategoryID);
+      console.log('price list', this.priceList);
+
       let isPriceValid = (Number(this.priceList.buyingPrice) - Number(this.priceList.discount)) === Number(this.priceList.finalPrice);
       if (isPriceValid) {
         this.purchaseService.savePriceListMaster(this.priceList).subscribe(data => {
@@ -473,6 +479,8 @@ export class PriceListComponent implements OnInit {
       this.priceList.availableQuantity = element.AvailableQuantity;
       this.priceList.quantity = element.Quantity;
       this.priceList.ProductVarientId = element.ProductVarientId;
+      this.priceList.CategoryId = Number(element.CategoryID);
+      console.log('price list', this.priceList);
 
       this.isPriceValid = (Number(this.priceList.buyingPrice) - Number(this.priceList.discount)) === Number(this.priceList.finalPrice);
       if (this.isPriceValid) {
@@ -510,7 +518,7 @@ export class PriceListComponent implements OnInit {
           this.toastr.error('An Error Occured !!');
           this.spinner.hide();
         });
-        this.updateAllRecordsCount = 0;
+      this.updateAllRecordsCount = 0;
     }
     else {
       this.toastr.error('Please Check Buying Price, Discount and Final Price');

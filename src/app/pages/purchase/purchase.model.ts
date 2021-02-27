@@ -101,7 +101,7 @@ export class CustomProductList {
     priceListId?: number;
     sellerId?: number;
     productId?: number;
-    categoryId?: number;
+    CategoryId?: number;
     subCategoryId?: number;
     brandId?: number;
     ProductPrice?: number;
@@ -119,7 +119,7 @@ export class PriceList {
     priceListId?: number;
     sellerId?: number;
     productId?: number;
-    categoryId?: number;
+    CategoryId?: number;
     subCategoryId?: number;
     brandId?: number;
     buyingPrice?: number;
@@ -175,7 +175,6 @@ export class customPriceList {
     priceListId?: number;
     sellerId?: number;
     productId?: number;
-    categoryId?: number;
     subCategoryId?: number;
     brandId?: number;
     buyingPrice?: number;
@@ -187,6 +186,7 @@ export class customPriceList {
     ProductVarientId?: number;
     BrandName?: string;
     Name?: string;
+    CategoryId?: number;
 }
 
 export class PurchaseReport {

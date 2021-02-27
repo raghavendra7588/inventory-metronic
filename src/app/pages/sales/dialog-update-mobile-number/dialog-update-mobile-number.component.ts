@@ -22,6 +22,7 @@ export class DialogUpdateMobileNumberComponent implements OnInit {
   maxLengthMobileNumber = 10;
   validateResponse: any;
   newMobileNumber: string;
+  strSellerId: string;
 
   constructor(
     public formBuilder: FormBuilder,
@@ -37,7 +38,7 @@ export class DialogUpdateMobileNumberComponent implements OnInit {
       mobilenumber: ['', [Validators.required]],
       emailid: [''],
     });
-
+    this.strSellerId = sessionStorage.getItem('sellerId');
     this.userData = data;
     console.log('edit', this.userData);
 
@@ -65,7 +66,7 @@ export class DialogUpdateMobileNumberComponent implements OnInit {
 
     let data = { emailid: 'XXXXXX@x123.com', mobilenumber: this.newMobileNumber.toString() };
     console.log('updateMobileNumber', data);
-    
+
     this.salesService.updateContactNumber(data).subscribe(res => {
       this.validateResponse = res;
 
@@ -76,7 +77,7 @@ export class DialogUpdateMobileNumberComponent implements OnInit {
           id: this.userData.id.toString(),
           mobilenumber: this.userData.mobilenumber.toString(),
           newmobilenumber: this.newMobileNumber.toString(),
-          userid: "1"
+          userid: this.strSellerId.toString()
         }
 
         console.log('newMobileNumber', newMobileNumber);
@@ -104,6 +105,6 @@ export class DialogUpdateMobileNumberComponent implements OnInit {
     this.updateNewMobileNumber.id = this.userData.id;
     this.updateNewMobileNumber.mobilenumber = this.userData.mobilenumber;
     this.updateNewMobileNumber.newmobilenumber = this.newMobileNumber;
-    this.updateNewMobileNumber.userid = '1';
+    this.updateNewMobileNumber.userid = this.strSellerId;
   }
 }

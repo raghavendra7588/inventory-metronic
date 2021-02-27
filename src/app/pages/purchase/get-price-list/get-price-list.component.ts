@@ -616,7 +616,9 @@ export class GetPriceListComponent implements OnInit {
       this.customPriceList.ProductVarientId = element.ProductVarientId;
       this.customPriceList.BrandName = element.BrandName;
       this.customPriceList.Name = element.Name;
+      this.customPriceList.CategoryId = Number(element.CategoryID);
 
+      console.log('customPriceList list', this.customPriceList);
       this.isMultipleAmount = true;
 
       this.customPriceList.finalPrice = Number(element.FinalPrice) * Number(element.AvailableQuantity);
