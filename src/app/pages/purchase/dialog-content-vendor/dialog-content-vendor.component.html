@@ -46,7 +46,7 @@
                     <mat-select placeholder="Category" [(ngModel)]="vendor.category" formControlName="category"
                         multiple>
                         <mat-option (onSelectionChange)="onCategoriesChange($event,category)"
-                            *ngFor="let category of loginService.seller_object.categories" [value]="category.name">
+                            *ngFor="let category of loginService.seller_object.categories" [value]="category.id">
                             {{category.name }}
                         </mat-option>
                     </mat-select>
@@ -71,7 +71,7 @@
                     <mat-label>Brand</mat-label>
                     <mat-select #BrandSelect formControlName="brand" [(ngModel)]="vendor.brand" multiple>
                         <mat-option (onSelectionChange)="onProductChange($event,brand)" *ngFor="let brand of anyArray"
-                            [value]="brand.BrandName">
+                            [value]="brand.BrandID">
                             {{brand.BrandName}}
                         </mat-option>
                     </mat-select>

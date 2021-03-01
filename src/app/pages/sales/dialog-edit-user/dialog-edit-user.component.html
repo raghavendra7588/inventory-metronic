@@ -8,8 +8,8 @@
                 <mat-form-field style="width: 100%;">
                     <input matInput placeholder="Name" formControlName="name" [(ngModel)]="editUser.name">
                     <mat-error
-                        *ngIf="editUserForm.controls.mobilenumber.touched && editUserForm.controls.mobilenumber.invalid">
-                        <span *ngIf="editUserForm.controls.mobilenumber.errors.required">Name is
+                        *ngIf="editUserForm.controls.name.touched && editUserForm.controls.name.invalid">
+                        <span *ngIf="editUserForm.controls.name.errors.required">Name is
                             mandatory.</span>
                     </mat-error>
                 </mat-form-field>
@@ -19,16 +19,38 @@
         <div class="row my-2">
 
 
-            <div class="col-md-4 col-sm-4 col-4 col-xl-4">
+            <div class="col-md-4 col-sm-4 col-4 col-xl-4" *ngIf="!isEditMode">
                 <mat-form-field style="width: 100%;">
                     <input matInput placeholder="Email ID" formControlName="emailid" [(ngModel)]="editUser.emailid">
                 </mat-form-field>
             </div>
 
-            <div class="col-md-4 col-sm-4 col-4 col-xl-4">
+
+            <div class="col-md-4 col-sm-4 col-4 col-xl-4" *ngIf="isEditMode">
+                <mat-form-field style="width: 100%;">
+                    <input matInput placeholder="Email ID" formControlName="emailid" [(ngModel)]="editUser.emailid"
+                        readonly>
+                </mat-form-field>
+            </div>
+
+            <div class="col-md-4 col-sm-4 col-4 col-xl-4" *ngIf="!isEditMode">
                 <mat-form-field style="width: 100%;">
                     <input matInput placeholder="Mobile Number" [maxLength]="maxLengthPhone"
                         formControlName="mobilenumber" [(ngModel)]="editUser.mobilenumber" appNumber>
+                    <mat-error
+                        *ngIf="editUserForm.controls.mobilenumber.touched && editUserForm.controls.mobilenumber.invalid">
+                        <span *ngIf="editUserForm.controls.mobilenumber.errors.required">Mobile Number is
+                            mandatory.</span>
+                    </mat-error>
+                </mat-form-field>
+            </div>
+
+
+
+            <div class="col-md-4 col-sm-4 col-4 col-xl-4" *ngIf="isEditMode">
+                <mat-form-field style="width: 100%;">
+                    <input matInput placeholder="Mobile Number" [maxLength]="maxLengthPhone"
+                        formControlName="mobilenumber" [(ngModel)]="editUser.mobilenumber" appNumber readonly>
                     <mat-error
                         *ngIf="editUserForm.controls.mobilenumber.touched && editUserForm.controls.mobilenumber.invalid">
                         <span *ngIf="editUserForm.controls.mobilenumber.errors.required">Mobile Number is

@@ -129,6 +129,7 @@ export class PriceList {
     availableQuantity?: number;
     quantity?: number;
     ProductVarientId?: number;
+    vendorId?: number;
 }
 
 

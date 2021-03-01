@@ -81,7 +81,7 @@ export class AdminUserComponent implements OnInit {
   }
 
   editAdminUser(user) {
-    this.salesService.currentTab = 'Edit New Admin';
+    this.salesService.currentTab = 'Edit Admin';
     this.dialog.open(DialogEditUserComponent, {
       height: '380px',
       width: '600px',

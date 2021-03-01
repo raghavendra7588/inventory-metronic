@@ -53,6 +53,8 @@ export class SalesService {
   private UPLOAD_BULK_PRODUCT_CSV = environment.ADMIN_BASE_URL + '/ProductSellerMapping/UploadCSV';
   private DOWNLOAD_ORDER_SALES_REPORT = environment.ADMIN_BASE_URL + 'ProductSellerMapping/Getreport';
   private PARENT_CHILD_MAPPING = environment.ADMIN_BASE_URL + '/Brand/InsertParentChildMapping';
+ 
+
 
   constructor(
     private http: HttpClient
@@ -451,5 +453,7 @@ export class SalesService {
 
     return this.http.get(this.DOWNLOAD_ORDER_SALES_REPORT + '?Data=' + order.sellerName + '||' + order.reportType + '||' + order.startDate + '||' + order.endDate);
   }
+
+
 
 }

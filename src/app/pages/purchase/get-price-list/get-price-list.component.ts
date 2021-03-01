@@ -107,7 +107,7 @@ export class GetPriceListComponent implements OnInit {
   isActive: boolean = true;
   providedInputAmount: number = 0;
   inputQuantityArray: any = [];
-
+  brands: any;
   constructor(
     public purchaseService: PurchaseService,
     public loginService: LoginService,
@@ -123,7 +123,7 @@ export class GetPriceListComponent implements OnInit {
     this.receivedVendorId = data;
     console.log('received vendor id', this.receivedVendorId);
 
-
+    console.log('this.purchaseService.selectedVendorIdForPurchaseOrder', this.purchaseService.selectedVendorIdForPurchaseOrder);
   }
 
   ngOnInit(): void {
@@ -239,10 +239,10 @@ export class GetPriceListComponent implements OnInit {
 
   updateAll() {
     this.checkFinalPrice = true;
-    if (this.updateAllRecordsCount != this.providedInputAmount) {
-      this.toastr.error('Kindly Select Required CheckBoxes');
-      return;
-    }
+    // if (this.updateAllRecordsCount != this.providedInputAmount) {
+    //   this.toastr.error('Kindly Select Required CheckBoxes');
+    //   return;
+    // }
     this.selection.selected.forEach((element) => {
       if (this.checkFinalPrice === false) {
         return;
@@ -432,6 +432,7 @@ export class GetPriceListComponent implements OnInit {
     if (event.isUserInput) {
       let catchMappedCategoryData: any = [];
       if (event.source.selected) {
+        this.brands = '';
         this.categoryId = category.id.toString();
         this.categoriesArray.push(category.id);
         this.purchaseService.getAllSubCategories(category.id).subscribe(data => {
@@ -496,13 +497,24 @@ export class GetPriceListComponent implements OnInit {
               filteredBrandDataArray.push(data);
             }
           });
-
+          console.log('filteredBrandDataArray **', filteredBrandDataArray);
           this.uniqueBrandNamesArray = this.createUniqueBrandName(filteredBrandDataArray);
           this.anyArray = this.sortUniqueBrandName(this.uniqueBrandNamesArray);
           this.brandSearch = this.anyArray;
           this.multipleBrandArray = this.catchMappedData;
+          console.log('this.receivedVendorId &', this.receivedVendorId);
+          let onlyVendorSpecificProducts = [];
+          //  filteredBrandDataArray.filter(function (item) {
+          //       return Number(item.OutofStockMsg) == Number(this.receivedVendorId);
+          //     });
+          filteredBrandDataArray.filter(data => {
 
-          this.dataSource = new MatTableDataSource(filteredBrandDataArray);
+            if (Number(data.OutofStockMsg) == Number(this.receivedVendorId)) {
+              onlyVendorSpecificProducts.push(data);
+            }
+          });
+          console.log('onlyVendorSpecificProducts', onlyVendorSpecificProducts);
+          this.dataSource = new MatTableDataSource(onlyVendorSpecificProducts);
           this.dataSource.paginator = this.paginator;
 
           this.particularCategoryArray = this.categorySearch.slice();
@@ -574,6 +586,7 @@ export class GetPriceListComponent implements OnInit {
   getPriceListData() {
     this.purchaseService.getAllPriceListData(this.sellerId).subscribe(data => {
       this.dbData = data;
+      console.log('our own data', this.dbData);
     },
       err => {
         this.toastr.error('An Error Occured !!');
@@ -592,6 +605,12 @@ export class GetPriceListComponent implements OnInit {
           apiData[i].ProductPrice = ownDbData[j].BuyingPrice;
           apiData[i].Discount = ownDbData[j].Discount;
           apiData[i].FinalPrice = ownDbData[j].FinalPrice;
+          if (ownDbData[j].VendorId == undefined || ownDbData[j].VendorId == null) {
+            apiData[i].OutofStockMsg = 0;
+          } else {
+            apiData[i].OutofStockMsg = ownDbData[j].VendorId;
+          }
+
           exisitingRecords.push(apiData[i]);
         }
       }
@@ -667,6 +686,7 @@ export class GetPriceListComponent implements OnInit {
 
 
   sendPurchaseOrder() {
+    console.log('this.finalPurchaseOrderArray', this.finalPurchaseOrderArray);
     this.emitterService.sendPurchaseOrder.emit(this.finalPurchaseOrderArray);
     this.dialogRef.close();
   }

@@ -7,7 +7,7 @@
                 <mat-select placeholder="Category" [(ngModel)]="categoryList">
                     <mat-select-filter [placeholder]="'Filter'" [displayMember]="'name'" [array]="categorySearch"
                         (filteredReturn)="particularCategoryArray=$event"></mat-select-filter>
-                    <mat-option value="all" (click)="onCategorySelectAll()">All</mat-option>
+                    <!-- <mat-option value="all" (click)="onCategorySelectAll()">All</mat-option> -->
                     <mat-option (onSelectionChange)="onCategoriesChange($event,category)"
                         *ngFor="let category of particularCategoryArray" [value]="category.id">
                         {{category.name }}
@@ -22,7 +22,7 @@
                 <mat-select #select>
                     <mat-select-filter [placeholder]="'Filter'" [displayMember]="'name'" [array]="subCategorySearch"
                         (filteredReturn)="multipleCategoriesArray=$event"></mat-select-filter>
-                    <mat-option value="all" (click)="onSubCategorySelectAll()">All</mat-option>
+                    <!-- <mat-option value="all" (click)="onSubCategorySelectAll()">All</mat-option> -->
                     <mat-option (onSelectionChange)="onSubCategoriesChange($event,category)"
                         *ngFor="let category of multipleCategoriesArray" [value]="category.id">
                         {{category.name }}
@@ -34,10 +34,10 @@
         <div class="col-md-4 col-sm-6 col-6 col-lg-4 col-xl-4">
             <mat-form-field style="width: 100%;">
                 <mat-label>Brand</mat-label>
-                <mat-select #BrandSelect>
+                <mat-select #BrandSelect [(ngModel)]="brands">
                     <mat-select-filter [placeholder]="'Filter'" [displayMember]="'name'" [array]="brandSearch"
                         (filteredReturn)="anyArray=$event"></mat-select-filter>
-                    <mat-option value="all" (click)="onBrandSelectAll()">All</mat-option>
+                    <!-- <mat-option value="all" (click)="onBrandSelectAll()">All</mat-option> -->
                     <mat-option (onSelectionChange)="onProductChange($event,brand)" *ngFor="let brand of anyArray"
                         [value]="brand.BrandName">
                         {{brand.BrandName}}
@@ -131,8 +131,7 @@
                     <th mat-header-cell *matHeaderCellDef>Purchase Count</th>
                     <td mat-cell *matCellDef="let element">
                         <mat-form-field floatLabel="never" style="width:40px;">
-                            <input matInput placeholder="amount" [(ngModel)]="element.AvailableQuantity"
-                                (focusout)="calculateProvidedQuantity(element.AvailableQuantity,element)">
+                            <input matInput placeholder="amount" [(ngModel)]="element.AvailableQuantity">
                         </mat-form-field>
                     </td>
                 </ng-container>
@@ -148,7 +147,7 @@
 
 
 
-
+<!-- (focusout)="calculateProvidedQuantity(element.AvailableQuantity,element)" -->
 <div class="container">
     <div class="row">
         <div class="col-md-12">

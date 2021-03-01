@@ -1,4 +1,5 @@
 import { SelectionModel } from '@angular/cdk/collections';
+import { ThrowStmt } from '@angular/compiler';
 import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { MatCheckbox } from '@angular/material/checkbox';
 import { MatDialog } from '@angular/material/dialog';
@@ -181,8 +182,9 @@ export class SpecificPriceListComponent implements OnInit {
     this.particularCategoryArray = [];
     this.categorySearch = [];
     this.categoryArrayData = [];
+    this.vendorId = 0;
     this.vendorId = item.vendorId;
-
+    console.log('selected vendor ID', this.vendorId);
 
     this.multipleCategoriesArray = [];
     this.anyArray = [];
@@ -545,6 +547,7 @@ export class SpecificPriceListComponent implements OnInit {
       this.priceList.quantity = element.Quantity;
       this.priceList.ProductVarientId = element.ProductVarientId;
       this.priceList.CategoryId = Number(element.CategoryID);
+      this.priceList.vendorId = Number(this.vendorId);
       console.log('price list', this.priceList);
 
       this.purchaseService.savePriceListMaster(this.priceList).subscribe(data => {
@@ -578,6 +581,7 @@ export class SpecificPriceListComponent implements OnInit {
       this.priceList.ProductVarientId = element.ProductVarientId;
 
       this.priceList.CategoryId = Number(element.CategoryID);
+      this.priceList.vendorId = Number(this.vendorId);
       console.log('price list', this.priceList);
 
       let isPriceValid = (Number(this.priceList.buyingPrice) - Number(this.priceList.discount)) === Number(this.priceList.finalPrice);
@@ -630,6 +634,7 @@ export class SpecificPriceListComponent implements OnInit {
       this.priceList.quantity = element.Quantity;
       this.priceList.ProductVarientId = element.ProductVarientId;
       this.priceList.CategoryId = Number(element.CategoryID);
+      this.priceList.vendorId = Number(this.vendorId);
       console.log('price list', this.priceList);
 
       this.isPriceValid = (Number(this.priceList.buyingPrice) - Number(this.priceList.discount)) === Number(this.priceList.finalPrice);

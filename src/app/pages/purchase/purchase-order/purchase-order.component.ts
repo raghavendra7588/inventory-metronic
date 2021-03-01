@@ -124,6 +124,8 @@ export class PurchaseOrderComponent implements OnInit {
 
   selectedVendorFromList(item) {
     this.vendorId = item.vendorId;
+    this.purchaseService.selectedVendorIdForPurchaseOrder = 0;
+    this.purchaseService.selectedVendorIdForPurchaseOrder = Number(this.vendorId);
     this.purchaseOrder.email = item.email;
     this.purchaseOrder.gstNumber = item.gst;
     this.purchaseOrder.vendorName = item.name;

@@ -128,6 +128,15 @@ export class DialogContentVendorComponent implements OnInit {
   allBrandsData: any = [];
   tempMultipleBrandArray = [];
 
+  allParentBrandData: any = [];
+  intPrevSubCategoryArray: any = [];
+  brandStringArray: any;
+  copyMultipleBrandArray: any = [];
+
+  categoryStringArray: any = [];
+  subCategoryStringArray: any = [];
+
+
   constructor(
     public purchaseService: PurchaseService,
     public loginService: LoginService,
@@ -155,6 +164,8 @@ export class DialogContentVendorComponent implements OnInit {
     this.getMasterBrandData();
     this.getVendorData();
 
+    this.getAllParentData();
+
     this.vendor.code = 'GVV';
     if (this.vendorData) {
 
@@ -165,8 +176,65 @@ export class DialogContentVendorComponent implements OnInit {
       this.prevSubCategory = this.vendorData.subCategory
       this.prevCategory = this.vendorData.category;
 
-    }
+      // console.log('prevCategory', this.prevCategory);
+      // console.log('prevSubCategory', this.prevSubCategory);
+      // console.log('prevBrand', this.prevBrand);
 
+
+
+
+
+      this.intPrevSubCategoryArray = this.prevSubCategory.replace(/[, ]+$/, '').split(',').map(Number);
+      // console.log('intPrevSubCategoryArray', this.intPrevSubCategoryArray);
+
+      this.categoryStringArray = (this.prevCategory.replace(/\s*,\s*/g, ',')).split(',');
+      this.subCategoryStringArray = (this.prevSubCategory.replace(/\s*,\s*/g, ',')).split(',');
+      this.brandStringArray = (this.prevBrand.replace(/\s*,\s*/g, ',')).split(',');
+
+      this.vendor.category = this.categoryStringArray;
+      this.vendor.subCategory = this.subCategoryStringArray;
+      this.vendor.brand = this.brandStringArray;
+
+      this.selectedCategoryIdArray = this.categoryStringArray;
+      this.selectedSubCategoryIdArray = this.subCategoryStringArray;
+      this.selectedBrandIdArray = this.brandStringArray;
+
+      // console.log('selectedCategoryIdArray', this.selectedCategoryIdArray);
+      // console.log('selectedSubCategoryIdArray', this.selectedSubCategoryIdArray);
+      // console.log('preselectedBrandIdArrayvBrand', this.selectedBrandIdArray);
+
+
+      // call sub category
+      this.spinner.show();
+      for (let i = 0; i < this.categoryStringArray.length; i++) {
+        console.log('inside for loop', this.categoryStringArray[i]);
+        this.purchaseService.getAllSubCategories(this.categoryStringArray[i]).subscribe(data => {
+
+          if (this.multipleCategoriesArray.length === 0) {
+            this.multipleCategoriesArray = data;
+            this.multipleCategoriesArray = this.sortSubCategoryArrayInAscendingOrder(this.multipleCategoriesArray);
+          }
+          else {
+            this.categoriesArray2 = data;
+            this.categoriesArray3 = [...this.multipleCategoriesArray, ...this.categoriesArray2];
+            this.multipleCategoriesArray = this.categoriesArray3;
+            this.multipleCategoriesArray = this.sortSubCategoryArrayInAscendingOrder(this.multipleCategoriesArray);
+          }
+          console.log('sub Category array ', this.multipleCategoriesArray);
+          this.spinner.hide();
+        },
+          err => {
+            this.toastr.error('An Error Occured !!');
+            this.spinner.hide();
+          });
+      }
+
+
+      console.log('prevCategory', this.categoryStringArray);
+      console.log('prevSubCategory', this.subCategoryStringArray);
+      console.log('prevBrand', this.brandStringArray);
+    }
+    this.allBrandsDataByCategoryAndSubcategoryID();
     this.saveVendorForm = this.formBuilder.group({
       Name: ['', [Validators.required]],
       code: [''],
@@ -232,7 +300,7 @@ export class DialogContentVendorComponent implements OnInit {
     this.isImageUploaded = false;
 
     this.vendor.Country = 'India';
-    this.getAllBrandsData();
+    // this.getAllBrandsData();
 
   }
 
@@ -373,6 +441,7 @@ export class DialogContentVendorComponent implements OnInit {
       this.uniqueBrandNamesArray = this.createUniqueBrandName(this.multipleBrandArray);
       this.anyArray = this.sortUniqueBrandName(this.uniqueBrandNamesArray);
       this.subCategoryNamesArray = this.multipleBrandArray;
+
     },
       err => {
         this.toastr.error('An Error Occured !!');
@@ -440,27 +509,31 @@ export class DialogContentVendorComponent implements OnInit {
 
 
   onCategoriesChange(event, category: any) {
-
+    // console.log('this.vendor.category', this.vendor.category);
     this.categoryId = category.id;
-
-    this.selectedCategoryIdArray.push(category.id);
 
 
 
     if (event.isUserInput) {
       if (event.source.selected) {
-        this.categoriesArray.push(category.id);
+        console.log('this.selectedCategoryIdArray in edit', this.selectedCategoryIdArray);
+        this.selectedCategoryIdArray.push(category.id);
+
+        console.log('this.selectedCategoryIdArray in edit', this.selectedCategoryIdArray);
         this.spinner.show();
         this.purchaseService.getAllSubCategories(category.id).subscribe(data => {
 
           if (this.multipleCategoriesArray.length === 0) {
             this.multipleCategoriesArray = data;
+            this.multipleCategoriesArray = this.sortSubCategoryArrayInAscendingOrder(this.multipleCategoriesArray);
           }
           else {
             this.categoriesArray2 = data;
             this.categoriesArray3 = [...this.multipleCategoriesArray, ...this.categoriesArray2];
             this.multipleCategoriesArray = this.categoriesArray3;
+            this.multipleCategoriesArray = this.sortSubCategoryArrayInAscendingOrder(this.multipleCategoriesArray);
           }
+          console.log('sub Category array ', this.multipleCategoriesArray);
           this.spinner.hide();
         },
           err => {
@@ -474,11 +547,11 @@ export class DialogContentVendorComponent implements OnInit {
     if (!event.source.selected) {
 
       let newCategoriesArr = this.multipleCategoriesArray.filter(function (item) {
-
         return Number(item.parentid) !== Number(category.id);
       });
 
       this.multipleCategoriesArray = newCategoriesArr;
+
       const index = this.categoriesArray.indexOf(category.id);
       if (index > -1) {
         this.categoriesArray.splice(index, 1);
@@ -495,138 +568,181 @@ export class DialogContentVendorComponent implements OnInit {
       }
 
       this.selectedCategoryIdArray = uniqueCategoryIdArray;
+      console.log('this.selectedCategoryIdArray unselected', this.selectedCategoryIdArray);
+      if (this.multipleCategoriesArray.length === 0) {
+        this.anyArray = [];
+      }
+      // console.log('this.vendor.category unselect', this.vendor.category);
 
+      let removedBrands = this.anyArray.filter(function (item) {
+        return Number(item.CategoryID) !== Number(category.id);
+      });
+      this.anyArray = removedBrands;
 
+      let result = this.multipleCategoriesArray.map(a => a.id);
+      console.log('after cat deselect ', result);
+
+      let extractedBrandID = this.anyArray.map(b => b.BrandID);
+      console.log('after brand select', extractedBrandID);
+
+      let filteredSubCategoryArray = result.filter(value => this.selectedSubCategoryIdArray.includes(value));
+      let filteredBrandArray = extractedBrandID.filter(value => this.selectedBrandIdArray.includes(value));
+
+      this.selectedSubCategoryIdArray = filteredSubCategoryArray;
+      console.log('removed unnecssary ele', this.selectedSubCategoryIdArray);
+
+      this.selectedBrandIdArray = filteredBrandArray;
+      console.log('unncessary brand id ', filteredBrandArray);
+      this.vendor.subCategory = this.selectedSubCategoryIdArray;
+      this.vendor.brand = this.selectedBrandIdArray;
     }
+  }
+
+  getAllParentData() {
+    this.spinner.show();
+    this.purchaseService.getAllBrandData('0', '0').subscribe(data => {
+      // console.log('getAllParentData', data);
+      this.allParentBrandData = data;
+      this.spinner.hide();
+    }, err => {
+      this.spinner.hide();
+    });
   }
 
   onSubCategoriesChange(event, subCategory: any) {
     if (event.isUserInput) {
       if (event.source.selected) {
+        // console.log('subCategory', subCategory);
+        // console.log('this.vendor.subCategory ', this.vendor.subCategory);
+        let combinedResponse = [];
+        let finalBrandResponse = [];
+        let selectedBrands: any = [];
 
-
+        console.log('this.selectedSubCategoryIdArray in edit', this.selectedSubCategoryIdArray);
         this.selectedSubCategoryIdArray.push(subCategory.id);
-        this.spinner.show();
-        this.purchaseService.getAllBrandData(subCategory.parentid, subCategory.id).subscribe(data => {
-          // this.purchaseService.getAllBrand(subCategory.parentid, subCategory.id).subscribe(data => {
-
-          if (this.multipleBrandArray.length < 2 && this.array3 < 1) {
-            this.multipleBrandArray = data;
-          }
-          else {
-            this.array2 = data;
-            this.array3 = [...this.multipleBrandArray, ...this.array2];
-            this.multipleBrandArray = this.array3;
-          }
-          let combinedResponse = [];
-          let finalBrandResponse = [];
+        console.log('this.selectedSubCategoryIdArray in edit', this.selectedSubCategoryIdArray);
 
 
 
-          let tempBrandArray = this.createCustomBrandData(this.multipleBrandArray, this.allBrandsData);
+        // console.log('this.allbrands Data', this.allBrandsData);
+        if (this.vendorData) {
 
 
-          if (this.tempMultipleBrandArray.length < 2) {
-            finalBrandResponse = tempBrandArray;
-            this.tempMultipleBrandArray = finalBrandResponse;
-          }
-          else {
-            combinedResponse = tempBrandArray;
-            finalBrandResponse = [...this.tempMultipleBrandArray, ...combinedResponse];
-            this.tempMultipleBrandArray = finalBrandResponse;
-          }
-
-          this.multipleBrandArray = this.tempMultipleBrandArray;
+          this.multipleBrandArray = this.copyMultipleBrandArray;
+          // console.log('this.multipleBrandArray edit mode &&&&', this.multipleBrandArray);
 
 
 
-          this.uniqueBrandNamesArray = this.createUniqueBrandName(this.tempMultipleBrandArray);
-          this.anyArray = this.sortUniqueBrandName(this.uniqueBrandNamesArray);
-          console.log('any array', this.anyArray);
-          this.subCategoryNamesArray = this.multipleBrandArray;
-          this.spinner.hide();
-        },
-          err => {
-            this.toastr.error('An Error Occured !!');
-            this.spinner.hide();
+          selectedBrands = this.allBrandsData.filter(function (item) {
+            return Number(item.SubCategoryID) == Number(subCategory.id) && Number(item.CategoryID) == Number(subCategory.parentid);
           });
 
-      }
-
-
-
-    }
-    if (!event.source.selected) {
-
-      console.log('this.multipleBrandArray', this.multipleBrandArray);
-
-      let newArr = this.multipleBrandArray.filter(function (item) {
-        return Number(item.SubCategoryID) != Number(subCategory.id);
-      });
-
-      this.multipleBrandArray = newArr;
-      this.tempMultipleBrandArray = newArr;
-     
-
-      this.uniqueBrandNamesArray = this.createUniqueBrandName(this.multipleBrandArray);
-      this.anyArray = this.sortUniqueBrandName(this.uniqueBrandNamesArray);
-      console.log('sub category deselected anyArray', this.anyArray);
-      const index = this.subCategoriesArray.indexOf(subCategory.id);
-      if (index > -1) {
-        this.subCategoriesArray.splice(index, 1);
-      }
-
-
-      let uniqueSubCategoryIdArray = [...new Set(this.selectedSubCategoryIdArray)];
-
-
-      const indexx = uniqueSubCategoryIdArray.indexOf(subCategory.id);
-
-      if (indexx > -1) {
-        uniqueSubCategoryIdArray.splice(indexx, 1);
-      }
-
-      this.selectedSubCategoryIdArray = uniqueSubCategoryIdArray;
-    }
-  }
-
-
-  createCustomBrandData(allProductList, allBrandList) {
-    console.log('allProductList', allProductList);
-    console.log('allBrandList', allBrandList);
-
-    let customBrandArray = [];
-    let brandObj: any;
-
-    for (let i = 0; i < allProductList.length; i++) {
-      for (let j = 0; j < allBrandList.length; j++) {
-
-        if (Number(allProductList[i].BrandId) == Number(allBrandList[j].id)) {
-
-          brandObj = {
-            BrandName: allBrandList[j].name,
-            BrandID: allProductList[i].BrandId,
-            SubCategoryID: allProductList[i].SubCategoryId
-          }
-          customBrandArray.push(brandObj);
+          // console.log('selectedBrands edit mode &&&&', selectedBrands);
+          combinedResponse = [...this.multipleBrandArray, ...selectedBrands];
+          this.multipleBrandArray = combinedResponse;
         }
 
+        else {
+          selectedBrands = this.allBrandsData.filter(function (item) {
+            return Number(item.SubCategoryID) == Number(subCategory.id) && Number(item.CategoryID) == Number(subCategory.parentid);
+          });
+          // console.log('selectedBrands edit mode &&&&', selectedBrands);
+
+          if (this.tempMultipleBrandArray.length < 2) {
+            this.tempMultipleBrandArray = selectedBrands;
+            this.multipleBrandArray = this.tempMultipleBrandArray;
+          }
+          else {
+            combinedResponse = selectedBrands;
+            finalBrandResponse = [...this.tempMultipleBrandArray, ...combinedResponse];
+            this.tempMultipleBrandArray = finalBrandResponse;
+            this.multipleBrandArray = this.tempMultipleBrandArray;
+          }
+
+        }
+
+
+        this.uniqueBrandNamesArray = this.createUniqueBrandName(this.multipleBrandArray);
+        this.anyArray = this.sortUniqueBrandName(this.uniqueBrandNamesArray);
+        // console.log('any array', this.anyArray);
+        this.subCategoryNamesArray = this.multipleBrandArray;
+
+      }
+
+
+
+
+      if (!event.source.selected) {
+
+        // console.log('REMOVE 1st this.multipleBrandArray', this.multipleBrandArray);
+
+        let newArr = this.multipleBrandArray.filter(function (item) {
+          return Number(item.SubCategoryID) != Number(subCategory.id);
+        });
+
+        this.multipleBrandArray = newArr;
+        this.tempMultipleBrandArray = newArr;
+        this.copyMultipleBrandArray = newArr;
+        console.log('REMOVE 2nd this.multipleBrandArray', this.multipleBrandArray);
+
+        this.uniqueBrandNamesArray = this.createUniqueBrandName(this.multipleBrandArray);
+        this.anyArray = this.sortUniqueBrandName(this.uniqueBrandNamesArray);
+        if (this.anyArray.length == 0) {
+          this.multipleBrandArray = [];
+        }
+
+        // console.log('sub category deselected anyArray', this.anyArray);
+        // const index = this.subCategoriesArray.indexOf(subCategory.id);
+        // if (index > -1) {
+        //   this.subCategoriesArray.splice(index, 1);
+        // }
+
+
+        let uniqueSubCategoryIdArray = [...new Set(this.selectedSubCategoryIdArray)];
+
+
+        const indexx = uniqueSubCategoryIdArray.indexOf(subCategory.id);
+
+        if (indexx > -1) {
+          uniqueSubCategoryIdArray.splice(indexx, 1);
+        }
+        if (this.multipleCategoriesArray.length === 0) {
+          this.anyArray = [];
+        }
+        this.selectedSubCategoryIdArray = uniqueSubCategoryIdArray;
+        console.log('this.selectedSubCategoryIdArray unselected', this.selectedSubCategoryIdArray);
+
+
+        let removedBrands = this.anyArray.filter(function (item) {
+          return Number(item.SubCategoryID) !== Number(subCategory.id);
+        });
+        this.anyArray = removedBrands;
+        let extractedBrandID = this.anyArray.map(b => b.BrandID);
+        console.log('after brand select', extractedBrandID);
+
+
+        let filteredBrandArray = extractedBrandID.filter(value => this.selectedBrandIdArray.includes(value));
+
+        this.selectedBrandIdArray = filteredBrandArray;
+        console.log('this.selectedBrandIdArray ', this.selectedBrandIdArray);
+        this.vendor.brand = this.selectedBrandIdArray;
       }
     }
-    console.log('customBrandArray', customBrandArray);
-    return customBrandArray
   }
+
+
 
 
 
   onProductChange(event, product: any) {
     if (event.isUserInput) {
       if (event.source.selected) {
-
-
+        // console.log('this.vendor.brand ', this.vendor.brand);
+        console.log('this.selectedBrandIdArray in edit', this.selectedBrandIdArray);
         this.selectedBrandIdArray.push(product.BrandID);
-        console.log('selected product', product);
-        console.log('selectedBrandIdArray', this.selectedBrandIdArray);
+        console.log('this.selectedBrandIdArray in edit', this.selectedBrandIdArray);
+        // console.log('selected product', product);
+        // console.log('selectedBrandIdArray', this.selectedBrandIdArray);
 
         if (this.finalBrandArray.length === 0) {
           let filteredBrandArray = this.multipleBrandArray.filter(function (item) {
@@ -657,7 +773,7 @@ export class DialogContentVendorComponent implements OnInit {
         if (index > -1) {
           this.brandArray.splice(index, 1);
         }
-        console.log('before removed  this.selectedCategoryIdArray', this.selectedBrandIdArray);
+        // console.log('before removed  this.selectedCategoryIdArray', this.selectedBrandIdArray);
 
         let uniqueBrandIdArray = [...new Set(this.selectedBrandIdArray)];
 
@@ -669,16 +785,55 @@ export class DialogContentVendorComponent implements OnInit {
         }
 
         this.selectedBrandIdArray = uniqueBrandIdArray;
+        console.log('this.selectedBrandIdArray unselected', this.selectedBrandIdArray);
 
+
+        // console.log('this.vendor.brand unselect', this.vendor.brand);
       }
     }
   }
 
-  getAllBrandsData() {
+  // getAllBrandsData() {
+  //   this.spinner.show();
+  //   this.salesService.getBrandsData().subscribe(res => {
+  //     console.log('brands data', res);
+  //     this.allBrandsData = res;
+  //     this.spinner.hide();
+  //   }, err => {
+  //     this.spinner.hide();
+  //   });
+  // }
+
+  allBrandsDataByCategoryAndSubcategoryID() {
     this.spinner.show();
-    this.salesService.getBrandsData().subscribe(res => {
-      console.log('brands data', res);
+    this.purchaseService.getAllBrandsByCategoryAndSubCategoryID('0', '0').subscribe(res => {
+      // console.log('category and subcategory ID brands data', res);
       this.allBrandsData = res;
+
+
+      if (this.vendorData) {
+        let particularBrandsData: any = [];
+
+        this.allBrandsData.filter(data => {
+
+          if (this.intPrevSubCategoryArray.includes(Number(data.SubCategoryID))) {
+            particularBrandsData.push(data);
+          }
+        });
+        // console.log('**** brands', particularBrandsData);
+        this.multipleBrandArray = particularBrandsData;
+        this.copyMultipleBrandArray = particularBrandsData;
+
+        // console.log('this.copyMultipleBrandArray', this.copyMultipleBrandArray);
+        this.uniqueBrandNamesArray = this.createUniqueBrandName(particularBrandsData);
+        this.anyArray = this.sortUniqueBrandName(this.uniqueBrandNamesArray);
+        console.log('this.any Array', this.anyArray);
+        // console.log('brand string array for ngmodel', this.brandStringArray);
+        this.vendor.brand = this.brandStringArray;
+        this.multipleBrandArray = this.copyMultipleBrandArray;
+        // console.log('now multipleBrandArray', this.multipleBrandArray);
+        this.spinner.hide();
+      }
       this.spinner.hide();
     }, err => {
       this.spinner.hide();
@@ -990,16 +1145,17 @@ export class DialogContentVendorComponent implements OnInit {
         categoryStr = nonDuplicateCategory.toString();
 
 
-        let concatCategoryStr = categoryStr.concat(",").concat(this.prevCategory);
-        let nonDuplicateCategoryStr = Array.from(new Set(concatCategoryStr.split(','))).toString();
+        // let concatCategoryStr = categoryStr.concat(",").concat(this.prevCategory);
+        console.log('categoryStr', categoryStr);
+        let nonDuplicateCategoryStr = Array.from(new Set(categoryStr.split(','))).toString();
 
 
         let formattedCategoryString = nonDuplicateCategoryStr.replace(',,', ',');
 
 
-        let finalCategoryString = formattedCategoryString.split(',').map(e => e.trim()).filter(e => e).join(', ');
+        let finalCategoryString = formattedCategoryString.split(',').map(e => e.trim()).filter(e => e).join(',');
         console.log('no comma ', finalCategoryString);
-        formData.append('category', finalCategoryString);
+        formData.append('category', finalCategoryString.toString());
 
       }
       else {
@@ -1008,7 +1164,7 @@ export class DialogContentVendorComponent implements OnInit {
         let nonDuplicateCategory = [... new Set(this.selectedCategoryIdArray)];
         categoryStr = nonDuplicateCategory.toString();
         let formattedCategoryString = categoryStr.replace(',,', ',');
-        let finalCategoryString = formattedCategoryString.split(',').map(e => e.trim()).filter(e => e).join(', ');
+        let finalCategoryString = formattedCategoryString.split(',').map(e => e.trim()).filter(e => e).join(',');
         console.log('no comma ', finalCategoryString);
         formData.append('category', formattedCategoryString.toString());
       }
@@ -1027,14 +1183,15 @@ export class DialogContentVendorComponent implements OnInit {
         let nonDuplicateSubCategory = [... new Set(this.selectedSubCategoryIdArray)];
         SubCategorystr = nonDuplicateSubCategory.toString();
 
-        let concatSubCategoryStr = SubCategorystr.concat(",").concat(this.prevSubCategory);
-        let nonDuplicateSubCategoryStr = Array.from(new Set(concatSubCategoryStr.split(','))).toString();
+        // let concatSubCategoryStr = SubCategorystr.concat(",").concat(this.prevSubCategory);
+        console.log('SubCategorystr', SubCategorystr);
+        let nonDuplicateSubCategoryStr = Array.from(new Set(SubCategorystr.split(','))).toString();
 
         let formattedSubCategoryString = nonDuplicateSubCategoryStr.replace(',,', ',');
         let finalSubCategoryString = formattedSubCategoryString.split(',').map(e => e.trim()).filter(e => e).join(', ');
         console.log('no comma sub', finalSubCategoryString);
 
-        formData.append('subCategory', finalSubCategoryString);
+        formData.append('subCategory', finalSubCategoryString.toString());
       }
       else {
         //normal mode
@@ -1042,9 +1199,9 @@ export class DialogContentVendorComponent implements OnInit {
         let nonDuplicateSubCategory = [... new Set(this.selectedSubCategoryIdArray)];
         SubCategorystr = nonDuplicateSubCategory.toString();
         let formattedSubCategoryString = SubCategorystr.replace(',,', ',');
-        let finalSubCategoryString = formattedSubCategoryString.split(',').map(e => e.trim()).filter(e => e).join(', ');
+        let finalSubCategoryString = formattedSubCategoryString.split(',').map(e => e.trim()).filter(e => e).join(',');
         console.log('no comma sub', finalSubCategoryString);
-        formData.append('subCategory', formattedSubCategoryString);
+        formData.append('subCategory', formattedSubCategoryString.toString());
       }
 
     }
@@ -1058,13 +1215,14 @@ export class DialogContentVendorComponent implements OnInit {
         //edit mode
         let nonDuplicateBrand = [... new Set(this.selectedBrandIdArray)];
         brandStr = nonDuplicateBrand.toString();
-        let concatBrandStr = brandStr.concat(",").concat(this.prevBrand);
-        let nonDuplicateBrandStr = Array.from(new Set(concatBrandStr.split(','))).toString();
+        // let concatBrandStr = brandStr.concat(",").concat(this.prevBrand);
+        console.log('brandStr', brandStr);
+        let nonDuplicateBrandStr = Array.from(new Set(brandStr.split(','))).toString();
         let formattedBrandString = nonDuplicateBrandStr.replace(',,', ',');
-        let finalBrandString = formattedBrandString.split(',').map(e => e.trim()).filter(e => e).join(', ');
+        let finalBrandString = formattedBrandString.split(',').map(e => e.trim()).filter(e => e).join(',');
         console.log('no comma brand', finalBrandString);
 
-        formData.append('brand', finalBrandString);
+        formData.append('brand', finalBrandString.toString());
 
       }
       else {
@@ -1073,14 +1231,15 @@ export class DialogContentVendorComponent implements OnInit {
         let nonDuplicateBrand = [... new Set(this.selectedBrandIdArray)];
         brandStr = nonDuplicateBrand.toString();
         let formattedBrandString = brandStr.replace(',,', ',');
-        let finalBrandString = formattedBrandString.split(',').map(e => e.trim()).filter(e => e).join(', ');
+        let finalBrandString = formattedBrandString.split(',').map(e => e.trim()).filter(e => e).join(',');
         console.log('no comma brand', finalBrandString);
-        formData.append('brand', finalBrandString);
+        formData.append('brand', finalBrandString.toString());
       }
 
     }
 
     formData.append('sellerId', this.vendor.sellerId);
+    console.log('this.vendor', this.vendor);
     this.purchaseService.saveVendorMaster(formData).subscribe(data => {
       this.toastr.success('Vendor added Successfully!');
       this.emitterService.isVendorMasterUpdated.emit(true);
@@ -1172,7 +1331,10 @@ export class DialogContentVendorComponent implements OnInit {
     let sortedArray: Array<any> = [];
     for (let i = 0; i < array.length; i++) {
       if ((sortedArray.findIndex(p => p.BrandName.trim() == array[i].BrandName.trim())) == -1) {
-        var item = { BrandName: array[i].BrandName.trim(), SubCategoryID: array[i].SubCategoryID, BrandID: array[i].BrandID }
+        var item = {
+          BrandName: array[i].BrandName.trim(), SubCategoryID: array[i].SubCategoryID, BrandID: array[i].BrandID.toString(),
+          CategoryID: array[i].CategoryID.toString()
+        }
         sortedArray.push(item);
       }
     }
@@ -1198,6 +1360,13 @@ export class DialogContentVendorComponent implements OnInit {
   }
 
   sortArrayInAscendingOrder(array) {
+    array.sort((a, b) => {
+      return a.name.localeCompare(b.name);
+    });
+    return array;
+  }
+
+  sortSubCategoryArrayInAscendingOrder(array) {
     array.sort((a, b) => {
       return a.name.localeCompare(b.name);
     });

@@ -13,6 +13,7 @@ export class PurchaseService {
   sellerId: string;
   intSellerId: number;
   storageSellerId: number;
+  selectedVendorIdForPurchaseOrder: number = 0;
 
   priceListData: any = [];
   masterBrandData: any = [];
@@ -46,7 +47,7 @@ export class PurchaseService {
   private GET_DASHBOARD_PURCHASE_ORDER_PER_DAY = environment.BASE_URL + 'api/DashBoard/postPurchaseOrderPerDay';
   private GET_DASHBOARD_PURCHASE_ORDER_PER_MONTH = environment.BASE_URL + 'api/DashBoard/postPurchaseOrderPerMonth';
   private GET_DASHBOARD_FASTEST_MOVING_DATA_PER_MONTH = environment.BASE_URL + 'api/DashBoard';
-
+  private GET_BRANDS_DATA_BASED_ON_CATEGORY_SUBCATEGORY_ID = environment.ADMIN_BASE_URL + 'Product/GetAllBrandBasedonCategoryIDandSubCategoryID';
 
   constructor(
     public http: HttpClient,
@@ -93,6 +94,15 @@ export class PurchaseService {
       'Authorization': 'Bearer ' + this.token
     });
     return this.http.post(this.GET_BRANDS_DATA, data, { headers: reqHeader });
+  }
+
+  getAllBrandsByCategoryAndSubCategoryID(parenetid: any, SubCategoryId: string) {
+    const data = { "CategoryId": parenetid, "SubCategoryId": SubCategoryId }
+    let reqHeader = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + this.token
+    });
+    return this.http.post(this.GET_BRANDS_DATA_BASED_ON_CATEGORY_SUBCATEGORY_ID, data, { headers: reqHeader });
   }
 
   getEveryBrand() {
