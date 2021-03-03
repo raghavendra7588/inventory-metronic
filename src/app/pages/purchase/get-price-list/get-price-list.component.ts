@@ -108,6 +108,8 @@ export class GetPriceListComponent implements OnInit {
   providedInputAmount: number = 0;
   inputQuantityArray: any = [];
   brands: any;
+  tempFinalPurchaseOrderArray: any = [];
+
   constructor(
     public purchaseService: PurchaseService,
     public loginService: LoginService,
@@ -484,7 +486,8 @@ export class GetPriceListComponent implements OnInit {
         this.subCategoryId = subCategory.id.toString();
         this.subCategoriesArray.push(subCategory.id);
         this.spinner.show();
-        this.purchaseService.getAllBrand(subCategory.parentid, subCategory.id).subscribe(data => {
+        // this.purchaseService.getAllBrand(subCategory.parentid, subCategory.id).subscribe(data => {
+        this.purchaseService.getMappedUnMappedProducts(subCategory.parentid, subCategory.id).subscribe(data => {
           this.multipleBrandArray = data;
           this.catchMappedData = this.mapObj(this.multipleBrandArray, this.dbData);
           this.multipleBrandArray = this.catchMappedData;
@@ -606,9 +609,9 @@ export class GetPriceListComponent implements OnInit {
           apiData[i].Discount = ownDbData[j].Discount;
           apiData[i].FinalPrice = ownDbData[j].FinalPrice;
           if (ownDbData[j].VendorId == undefined || ownDbData[j].VendorId == null) {
-            apiData[i].OutofStockMsg = 0;
+            apiData[i].IsActive = 0;
           } else {
-            apiData[i].OutofStockMsg = ownDbData[j].VendorId;
+            apiData[i].IsActive = ownDbData[j].VendorId;
           }
 
           exisitingRecords.push(apiData[i]);
@@ -648,9 +651,26 @@ export class GetPriceListComponent implements OnInit {
     this.updateAllRecordsCount = 0;
     this.updateAllArray = [];
     this.selection.clear();
+    let mulitpleFinalPurchaseOrderArray: any = [];
+    let concatPurchaseOrderProducts: any = [];
     this.finalPurchaseOrderArray = this.multipleEntries;
+
     this.multipleEntriesArray = [];
     this.multipleEntries = [];
+
+    if (this.tempFinalPurchaseOrderArray.length === 0) {
+      this.tempFinalPurchaseOrderArray = this.finalPurchaseOrderArray;
+      console.log('this.finalPurchaseOrderArray single ', this.finalPurchaseOrderArray);
+    }
+    else {
+      mulitpleFinalPurchaseOrderArray = this.finalPurchaseOrderArray;
+      concatPurchaseOrderProducts = [...this.tempFinalPurchaseOrderArray, ...mulitpleFinalPurchaseOrderArray];
+      this.finalPurchaseOrderArray = concatPurchaseOrderProducts;
+      this.tempFinalPurchaseOrderArray = this.finalPurchaseOrderArray;
+      console.log('this.finalPurchaseOrderArray multiple', this.finalPurchaseOrderArray);
+    }
+
+
   }
 
   createUniqueBrandName(array: any) {
@@ -686,7 +706,6 @@ export class GetPriceListComponent implements OnInit {
 
 
   sendPurchaseOrder() {
-    console.log('this.finalPurchaseOrderArray', this.finalPurchaseOrderArray);
     this.emitterService.sendPurchaseOrder.emit(this.finalPurchaseOrderArray);
     this.dialogRef.close();
   }

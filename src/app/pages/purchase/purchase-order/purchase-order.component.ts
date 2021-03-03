@@ -64,15 +64,19 @@ export class PurchaseOrderComponent implements OnInit {
     private spinner: NgxSpinnerService) {
     this.emitterService.sendPurchaseOrder.subscribe(value => {
       if (value) {
+        console.log('purchase order received total products', value);
         this.receivedPurchaseOrder = [...this.receivedPurchaseOrder, ...value].reverse();
-        this.purchaseOrder.itemValue = this.receivedPurchaseOrder.length;
+
         this.purchaseOrder.items = this.receivedPurchaseOrder;
-        let uniqueReceivedPurchaseOrder = _.uniqBy(this.receivedPurchaseOrder, 'ReferenceId');
+        // let uniqueReceivedPurchaseOrder = _.uniqBy(this.receivedPurchaseOrder, 'ReferenceId');
+
+        let uniqueReceivedPurchaseOrder = _.uniqBy(this.receivedPurchaseOrder, 'ProductVarientId');
         this.receivedPurchaseOrder = uniqueReceivedPurchaseOrder;
         this.calculateGrandTotal(this.receivedPurchaseOrder);
         let sortedRecivedPurchaseOrder = this.receivedPurchaseOrder.sort((a, b) => parseFloat(a.productId) - parseFloat(b.productId));
         this.receivedPurchaseOrder = [];
         this.receivedPurchaseOrder = sortedRecivedPurchaseOrder;
+        this.purchaseOrder.itemValue = this.receivedPurchaseOrder.length;
         this.dataSource = new MatTableDataSource(this.receivedPurchaseOrder);
         setTimeout(() => this.dataSource.paginator = this.paginator);
       }

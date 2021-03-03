@@ -8,7 +8,7 @@
                         (filteredReturn)="filteredSellerData =$event"></mat-select-filter>
                     <mat-option *ngFor="let item of filteredSellerData" [value]="item.id"
                         (onSelectionChange)="onSellerChange($event,item)">
-                        {{item.SellerNameCode}}
+                        {{item.name}}
                     </mat-option>
                 </mat-select>
             </mat-form-field>

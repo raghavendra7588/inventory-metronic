@@ -391,8 +391,8 @@ export class ProductWisePurchaseReportComponent implements OnInit {
         this.subCategoryId = subCategory.id.toString();
         this.subCategoriesArray.push(subCategory.id);
         this.spinner.show();
-        this.purchaseService.getAllBrand(subCategory.parentid, subCategory.id).subscribe(data => {
-
+        // this.purchaseService.getAllBrand(subCategory.parentid, subCategory.id).subscribe(data => {
+          this.purchaseService.getMappedUnMappedProducts(subCategory.parentid, subCategory.id).subscribe(data => {
           this.multipleBrandArray = data;
           this.catchMappedData = this.mapObj(this.multipleBrandArray, this.dbData);
 

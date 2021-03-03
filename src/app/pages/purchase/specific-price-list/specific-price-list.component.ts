@@ -111,6 +111,9 @@ export class SpecificPriceListComponent implements OnInit {
   allBrandsData: any = [];
   tempMultipleBrandArray: any = [];
 
+  mappedUnMappedProducts: any = [];
+
+
   constructor(
     public dialog: MatDialog,
     public loginService: LoginService,
@@ -140,7 +143,7 @@ export class SpecificPriceListComponent implements OnInit {
     this.loginService.seller_object.categories = data;
 
     this.getPriceListData();
-    this.getBrandsMasterData();
+
     this.getVendorData();
 
   }
@@ -244,10 +247,10 @@ export class SpecificPriceListComponent implements OnInit {
   logSelection() {
     this.isPriceValid = true;
     this.isMultipleAmount = true;
-    if (this.updateAllRecordsCount != this.providedInputAmount) {
-      this.toastr.error('Kindly Select Required CheckBoxes');
-      return;
-    }
+    // if (this.updateAllRecordsCount != this.providedInputAmount) {
+    //   this.toastr.error('Kindly Select Required CheckBoxes');
+    //   return;
+    // }
 
     this.selection.selected.forEach((element) => {
       this.updateAllArray.push(element);
@@ -261,20 +264,6 @@ export class SpecificPriceListComponent implements OnInit {
     this.updateAllRecordsCount = 0;
   }
 
-  getBrandsMasterData() {
-    this.spinner.show();
-    setTimeout(() => {
-      this.purchaseService.getEveryBrand().subscribe(data => {
-        this.masterBrandData = data;
-        this.spinner.hide();
-      }
-        ,
-        err => {
-          this.toastr.error('An Error Occured !!');
-          this.spinner.hide();
-        });
-    }, 400);
-  }
 
 
   onCategorySelectAll() {
@@ -460,7 +449,8 @@ export class SpecificPriceListComponent implements OnInit {
         this.subCategoryId = subCategory.id.toString();
         this.subCategoriesArray.push(subCategory.id);
         this.spinner.show();
-        this.purchaseService.getAllBrand(subCategory.parentid, subCategory.id).subscribe(data => {
+        // this.purchaseService.getAllBrand(subCategory.parentid, subCategory.id).subscribe(data => {
+        this.purchaseService.getMappedUnMappedProducts(subCategory.parentid, subCategory.id).subscribe(data => {
           console.log('brand data', data);
           this.multipleBrandArray = data;
           this.catchMappedData = this.mapObj(this.multipleBrandArray, this.dbData);
@@ -740,8 +730,9 @@ export class SpecificPriceListComponent implements OnInit {
 
   calculateProvidedQuantity(providedInputQuantity, productData) {
     console.log('eleement', productData);
-    if (Number(providedInputQuantity) > 0) {
+    console.log('providedInputQuantity', providedInputQuantity);
 
+    if (Number(providedInputQuantity) > 0) {
       if (this.inputQuantityArray.includes(productData.Id)) {
         console.log("value exists");
         console.log('providedInputAmount', this.providedInputAmount);
@@ -760,23 +751,26 @@ export class SpecificPriceListComponent implements OnInit {
 
 
     }
-    else if ((Number(providedInputQuantity) == 0)) {
-      if (this.inputQuantityArray.includes(productData.Id)) {
-        console.log("made to 0 ");
-        this.providedInputAmount--;
-        this.inputQuantityArray = this.inputQuantityArray.filter(item => item !== productData.Id)
-        console.log('providedInputAmount', this.providedInputAmount);
-        console.log('inputQuantityArray', this.inputQuantityArray);
-        return;
-      }
+    // else if ((Number(providedInputQuantity) == 0)) {
+    //   if (this.inputQuantityArray.includes(productData.Id)) {
+    //     console.log("made to 0 ");
+    //     this.providedInputAmount--;
+    //     this.inputQuantityArray = this.inputQuantityArray.filter(item => item !== productData.Id)
+    //     console.log('providedInputAmount', this.providedInputAmount);
+    //     console.log('inputQuantityArray', this.inputQuantityArray);
+    //     return;
+    //   }
 
-    }
+    // }
     else {
       console.log('providedInputAmount', this.providedInputAmount);
       console.log('inputQuantityArray', this.inputQuantityArray);
       return;
     }
   }
+
+
+
 
 
 }

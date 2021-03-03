@@ -126,10 +126,8 @@
                     <th mat-header-cell *matHeaderCellDef>Buying Price</th>
                     <td mat-cell *matCellDef="let element; let i = index">
                         <mat-form-field floatLabel="never" style="width:40px;">
-                            <input matInput placeholder="amount" [(ngModel)]="element.ProductPrice"
-                                (focusout)="calculateProvidedQuantity(element.ProductPrice,element)">
+                            <input matInput placeholder="Amount" [(ngModel)]="element.ProductPrice" appNumber>
                         </mat-form-field>
-
                     </td>
                 </ng-container>
 
@@ -137,8 +135,7 @@
                     <th mat-header-cell *matHeaderCellDef>Disc</th>
                     <td mat-cell *matCellDef="let element">
                         <mat-form-field floatLabel="never" style="width:40px;">
-                            <input matInput placeholder="amount" [(ngModel)]="element.Discount"
-                                (focusout)="calculateProvidedQuantity(element.Discount,element)">
+                            <input matInput placeholder="Amount" [(ngModel)]="element.Discount" appNumber>
                         </mat-form-field>
                     </td>
                 </ng-container>
@@ -147,8 +144,7 @@
                     <th mat-header-cell *matHeaderCellDef>Final Price</th>
                     <td mat-cell *matCellDef="let element">
                         <mat-form-field floatLabel="never" style="width:40px;">
-                            <input matInput placeholder="amount" [(ngModel)]="element.FinalPrice"
-                                (focusout)="calculateProvidedQuantity(element.FinalPrice,element)">
+                            <input matInput placeholder="Amount" [(ngModel)]="element.FinalPrice" appNumber>
                         </mat-form-field>
                     </td>
                 </ng-container>
@@ -181,5 +177,5 @@
         </div>
     </div>
 </div>
-
+<!-- (input)="calculateProvidedQuantity(element.ProductPrice,element)" -->
 <ngx-spinner></ngx-spinner>

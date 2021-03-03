@@ -228,6 +228,7 @@ export class SaveUnMappedProducts {
     BrandID: number;
     BrandName: string;
     Discount: string;
+    CategoryID: number;
     FinalPrice: string;
     Id: string;
     IsActive: number;
@@ -247,6 +248,7 @@ export class SaveMappedProducts {
     BrandID: number;
     BrandName: string;
     Discount: string;
+    CategoryID: number;
     FinalPrice: string;
     Id: string;
     IsActive: any;
@@ -269,6 +271,7 @@ export class UpdateOutOfStockMessage {
     BrandID: number;
     BrandName: string;
     Discount: number;
+    CategoryID: number;
     FinalPrice: number;
     Id: number;
     IsActive: any;

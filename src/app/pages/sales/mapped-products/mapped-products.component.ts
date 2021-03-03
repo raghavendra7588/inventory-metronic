@@ -318,6 +318,8 @@ export class MappedProductsComponent implements OnInit {
       this.saveUnMappedProducts.OutofStockFlag = false;
       this.saveUnMappedProducts.OutofStockMsg = 'This product is currently out of stock. Please check later.';
       this.saveUnMappedProducts.userid = this.strSellerID;
+      this.saveUnMappedProducts.CategoryID = Number(element.CategoryID);
+      
       let isPriceValid = (Number(this.saveUnMappedProducts.ProductPrice) - Number(this.saveUnMappedProducts.Discount)) === Number(this.saveUnMappedProducts.FinalPrice);
       if (isPriceValid) {
         // this.multipleEntries.push(this.saveUnMappedProducts);
@@ -401,6 +403,7 @@ export class MappedProductsComponent implements OnInit {
     this.saveUnMappedProducts.OutofStockFlag = false;
     this.saveUnMappedProducts.OutofStockMsg = 'This product is currently out of stock. Please check later.';
     this.saveUnMappedProducts.userid = this.strSellerID;
+    this.saveUnMappedProducts.CategoryID = Number(element.CategoryID);
 
     let isPriceValid = (Number(this.saveUnMappedProducts.ProductPrice) - Number(this.saveUnMappedProducts.Discount)) === Number(this.saveUnMappedProducts.FinalPrice);
     if (isPriceValid) {
@@ -458,6 +461,8 @@ export class MappedProductsComponent implements OnInit {
     this.saveUnMappedProducts.SubCategoryID = element.SubCategoryID;
     this.saveUnMappedProducts.OutofStockFlag = false;
     this.saveUnMappedProducts.OutofStockMsg = 'This product is currently out of stock. Please check later.';
+    this.saveUnMappedProducts.CategoryID = Number(element.CategoryID);
+
     this.saveUnMappedProducts.userid = this.strSellerID;
     this.spinner.show(undefined,
       {
@@ -479,7 +484,7 @@ export class MappedProductsComponent implements OnInit {
         setTimeout(() => this.dataSource.paginator = this.paginator);
         this.spinner.hide();
       });
-     
+
     },
       err => {
         this.toastr.error('An Error Occured !!');
@@ -530,6 +535,8 @@ export class MappedProductsComponent implements OnInit {
       this.saveUnMappedProducts.OutofStockMsg = 'This product is currently out of stock. Please check later.';
       this.saveUnMappedProducts.userid = this.strSellerID;
       this.saveUnMappedProducts.IsActive = '0';
+      this.saveUnMappedProducts.CategoryID = Number(element.CategoryID);
+
       let isPriceValid = (Number(this.saveUnMappedProducts.ProductPrice) - Number(this.saveUnMappedProducts.Discount)) === Number(this.saveUnMappedProducts.FinalPrice);
       if (isPriceValid) {
         this.spinner.show(undefined,

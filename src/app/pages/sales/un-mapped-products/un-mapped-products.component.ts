@@ -298,7 +298,7 @@ export class UnMappedProductsComponent implements OnInit {
       this.saveUnMappedProducts.SellerId = element.SellerId;
       this.saveUnMappedProducts.SubCategoryID = element.SubCategoryID;
       this.saveUnMappedProducts.userid = this.strSellerID;
-
+      this.saveUnMappedProducts.CategoryID = Number(element.CategoryID);
       let isPriceValid = (Number(this.saveUnMappedProducts.ProductPrice) - Number(this.saveUnMappedProducts.Discount)) === Number(this.saveUnMappedProducts.FinalPrice);
       if (isPriceValid) {
         // this.multipleEntries.push(this.saveUnMappedProducts);
@@ -376,6 +376,7 @@ export class UnMappedProductsComponent implements OnInit {
     this.saveUnMappedProducts.SellerId = element.SellerId;
     this.saveUnMappedProducts.SubCategoryID = element.SubCategoryID;
     this.saveUnMappedProducts.userid = this.strSellerID;
+    this.saveUnMappedProducts.CategoryID = Number(element.CategoryID);
 
     let toastrMsg = this.saveUnMappedProducts.Name + ' ' + this.saveUnMappedProducts.Quantity + ' ' + 'Added Into Your List';
     let isPriceValid = (Number(this.saveUnMappedProducts.ProductPrice) - Number(this.saveUnMappedProducts.Discount)) === Number(this.saveUnMappedProducts.FinalPrice);

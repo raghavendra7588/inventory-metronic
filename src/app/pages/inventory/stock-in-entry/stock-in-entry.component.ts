@@ -10,6 +10,7 @@ import { PurchaseService } from '../../purchase/purchase.service';
 import { StockIn } from '../inventory.model';
 import { InventoryService } from '../inventory.service';
 import * as _ from 'lodash';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-stock-in-entry',
@@ -44,11 +45,14 @@ export class StockInEntryComponent implements OnInit {
   multipleItemsArray: any = [];
 
 
-  constructor(public dialog: MatDialog,
+  constructor(
+    public dialog: MatDialog,
     public router: Router,
     public purchaseService: PurchaseService,
     public toastr: ToastrService,
-    public inventoryService: InventoryService) { }
+    public inventoryService: InventoryService,
+    private spinner: NgxSpinnerService
+  ) { }
 
   ngOnInit() {
 
@@ -175,8 +179,8 @@ export class StockInEntryComponent implements OnInit {
       this.mulitpleEntriesArray.push(this.stockIn);
     });
 
-    // console.log('stocking  ********', this.mulitpleEntriesArray);
-
+    console.log('stocking  ********', this.mulitpleEntriesArray);
+    this.spinner.show();
     this.inventoryService.postStockInItem(this.mulitpleEntriesArray).subscribe(data => {
       // console.log('saved ', data);
       this.toastr.success('Items saved');
@@ -187,8 +191,11 @@ export class StockInEntryComponent implements OnInit {
       this.uniquePurchaseOrderItemArray = [];
       this.selection.clear();
       this.router.navigate(['/dashboard']);
+      this.spinner.hide();
+    }, err => {
+      this.spinner.hide();
     });
-    this.toastr.success('price list saved');
+
     // this.updateAllRecordsCount = 0;
     // this.updateAllArray = [];
 
