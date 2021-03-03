@@ -512,7 +512,7 @@ export class GetPriceListComponent implements OnInit {
           //     });
           filteredBrandDataArray.filter(data => {
 
-            if (Number(data.OutofStockMsg) == Number(this.receivedVendorId)) {
+            if (Number(data.IsActive) == Number(this.receivedVendorId)) {
               onlyVendorSpecificProducts.push(data);
             }
           });
