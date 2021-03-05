@@ -11,7 +11,7 @@
   <div class="form-group">
     <label class="font-size-h6 font-weight-bolder text-dark"><span style="color: #986923;">User Name</span> </label>
     <input class="form-control form-control-solid h-auto py-7 px-6 rounded-lg" name="email" maxlength="10"
-      [(ngModel)]="user.username" autocomplete="off" />
+      [(ngModel)]="user.username" autocomplete="disabled" />
   </div>
 
   <div class="form-group">
@@ -23,7 +23,7 @@
     </div>
 
     <input class="form-control form-control-solid h-auto py-7 px-6 rounded-lg" [(ngModel)]="user.password"
-      type="password" name="password" autocomplete="off" />
+      type="password" name="password" autocomplete="disabled" />
 
     <div class="pb-lg-0 pb-5">
       <button id="kt_login_signin_submit" class="btn btn-primary font-weight-bolder font-size-h6 px-8 py-4 my-3 mr-3"

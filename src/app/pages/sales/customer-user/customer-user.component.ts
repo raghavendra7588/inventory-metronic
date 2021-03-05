@@ -35,7 +35,10 @@ export class CustomerUserComponent implements OnInit {
     public emitterService: EmitterService,
     public dialog: MatDialog
   ) {
-
+    this.userRole = sessionStorage.getItem('role');
+    this.role = sessionStorage.getItem('role');
+    this.userId = sessionStorage.getItem('sellerId');
+    
     if (this.role == 'Admin') {
       this.displayedColumns = ['totalSeller', 'totalOrder', 'totalAmount', 'name', 'email', 'mobile', 'pinCode', 'state', 'city', 'edit'];
     }
@@ -45,9 +48,7 @@ export class CustomerUserComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.userRole = sessionStorage.getItem('role');
-    this.role = sessionStorage.getItem('role');
-    this.userId = sessionStorage.getItem('sellerId');
+
 
 
     this.emitterService.isAdminCreadtedOrUpdated.subscribe(val => {

@@ -432,16 +432,16 @@ export class StatsWidget10Component implements OnInit {
   }
 
   dailySeriesData(dailyRes) {
-    console.log('dailySales', dailyRes);
+    //console.log('dailySales', dailyRes);
     for (let i = 0; i < Number(dailyRes); i++) {
       this.dailySalesSeries.push(i.toString());
     }
-    console.log('this.dailySalesSeries', this.dailySalesSeries);
+  
     this.chartOptions = this.getChartOptionsDaily();
   }
 
   weeklySeriesData(weeklyRes) {
-    console.log('Weekly', weeklyRes);
+   // console.log('Weekly', weeklyRes);
     for (let i = 0; i < Number(weeklyRes); i++) {
       this.weeklySalesSeries.push(i.toString());
     }
@@ -450,7 +450,7 @@ export class StatsWidget10Component implements OnInit {
   }
 
   monthlySeriesData(monthlyRes) {
-    console.log('Monthly', monthlyRes);
+    //console.log('Monthly', monthlyRes);
     for (let i = 0; i < Number(monthlyRes); i++) {
       this.monthlySalesSeries.push(i.toString());
     }
@@ -459,7 +459,7 @@ export class StatsWidget10Component implements OnInit {
   }
 
   yearlySeriesData(yearlyRes) {
-    console.log('Yearly', yearlyRes);
+  //  console.log('Yearly', yearlyRes);
     for (let i = 0; i < Number(yearlyRes); i++) {
       this.yearlySalesSeries.push(i.toString());
     }

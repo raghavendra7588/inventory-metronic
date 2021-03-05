@@ -55,8 +55,8 @@ export class LoginComponent implements OnInit, OnDestroy {
       this.router.navigate(['/']);
     }
 
-    this.user.username = '9821163061';
-    this.user.password = '987654';
+    // this.user.username = '9821163061';
+    // this.user.password = '987654';
 
 
   }

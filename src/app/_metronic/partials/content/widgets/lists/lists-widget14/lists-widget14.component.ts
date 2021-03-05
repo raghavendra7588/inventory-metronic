@@ -9,6 +9,7 @@ import { MonthData } from 'src/app/pages/reports/reports.model';
 import { ReportsService } from 'src/app/pages/reports/reports.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Observable } from 'rxjs';
+import { SalesService } from 'src/app/pages/sales/sales.service';
 
 @Component({
   selector: 'app-lists-widget14',
@@ -22,6 +23,7 @@ export class ListsWidget14Component implements OnInit {
   fastestMovingDataByMonth: any = [];
   monthData: MonthData = new MonthData();
 
+
   highestValueProductsByMonth: any = [];
   highestValueProductsByLastMonth: any = [];
   currentTab: string = 'currentMonth';
@@ -32,8 +34,8 @@ export class ListsWidget14Component implements OnInit {
 
   constructor(
     private reportsService: ReportsService,
-    private emitterService: EmitterService,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+
   ) {
 
     let startOfMonth = moment().clone().startOf('month').format("DD/MM/YYYY");
@@ -91,4 +93,5 @@ export class ListsWidget14Component implements OnInit {
     this.currentTab = 'lastMonth';
     this.currentlySelectedMenu = 'Last Month';
   }
+
 }

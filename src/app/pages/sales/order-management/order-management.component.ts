@@ -22,12 +22,14 @@ export class OrderManagementComponent implements OnInit {
   strSellerId: string;
   orderData: any = [];
   isDataLoaded: boolean = false;
+  role: string;
+
   @ViewChild(MatPaginator) set matPaginator(mp: MatPaginator) {
     this.paginator = mp;
     this.setDataSourceAttributes();
   }
 
-  
+
   constructor(
     public salesService: SalesService,
     public dialog: MatDialog,
@@ -35,6 +37,13 @@ export class OrderManagementComponent implements OnInit {
     private spinner: NgxSpinnerService
   ) {
     this.strSellerId = sessionStorage.getItem('sellerId');
+    this.role = sessionStorage.getItem('role');
+    if (this.role == 'Admin') {
+      this.displayedColumns = ['id', 'name', 'customer', 'status', 'orderDate', 'deliveryUpto', 'deliveryType', 'edit', 'print'];
+    }
+    else {
+      this.displayedColumns = ['id', 'customer', 'status', 'orderDate', 'deliveryUpto', 'deliveryType', 'edit', 'print'];
+    }
 
     this.emitterService.isAdminCreadtedOrUpdated.subscribe(val => {
       if (val) {
@@ -139,11 +148,11 @@ export class OrderManagementComponent implements OnInit {
         Number: j,
         sellerId: array[i].sellerId,
         sellerName: array[i].sellerName,
-        customerName:array[i].customerName,
-        status:array[i].status,
+        customerName: array[i].customerName,
+        status: array[i].status,
         orderDate: array[i].orderDate,
-        deliveryUpto:array[i].deliveryUpto,
-        deliveryType:array[i].deliveryType,
+        deliveryUpto: array[i].deliveryUpto,
+        deliveryType: array[i].deliveryType,
       }
       j++;
       formattedResponse.push(item);

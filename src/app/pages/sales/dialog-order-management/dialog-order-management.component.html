@@ -131,7 +131,7 @@
 
 
 
-    <div mat-dialog-actions class="my-4">
+    <div mat-dialog-actions class="my-4" *ngIf="salesService.currentTab!='View Order Status'">
 
 
         <button mat-raised-button class="save-button"
@@ -139,6 +139,10 @@
             [disabled]="!selectStatus ||!deliverySlotTiming " (click)="onSubmit()"><span
                 class="custom-text-color">Save</span></button>
 
+        <button mat-raised-button mat-dialog-close>Close</button>
+    </div>
+    
+    <div mat-dialog-actions class="my-4" *ngIf="salesService.currentTab=='View Order Status'">
         <button mat-raised-button mat-dialog-close>Close</button>
     </div>
 
