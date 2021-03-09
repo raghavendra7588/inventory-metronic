@@ -224,7 +224,7 @@ export class DialogContentVendorComponent implements OnInit {
           this.spinner.hide();
         },
           err => {
-            this.toastr.error('An Error Occured !!');
+            this.toastr.error('Please Check Your API is Running Or Not!');
             this.spinner.hide();
           });
       }
@@ -339,7 +339,7 @@ export class DialogContentVendorComponent implements OnInit {
 
     },
       err => {
-        this.toastr.error('An Error Occured !!');
+        this.toastr.error('Please Check Your API is Running Or Not!');
       });
 
   }
@@ -360,7 +360,7 @@ export class DialogContentVendorComponent implements OnInit {
       this.anyArray = this.sortUniqueBrandName(uniqueBrands);
     },
       err => {
-        this.toastr.error('An Error Occured !!');
+        this.toastr.error('Please Check Your API is Running Or Not!');
       });
   }
 
@@ -391,7 +391,7 @@ export class DialogContentVendorComponent implements OnInit {
       }
     },
       err => {
-        this.toastr.error('An Error Occured !!');
+        this.toastr.error('Please Check Your API is Running Or Not!');
       });
 
 
@@ -444,7 +444,7 @@ export class DialogContentVendorComponent implements OnInit {
 
     },
       err => {
-        this.toastr.error('An Error Occured !!');
+        this.toastr.error('Please Check Your API is Running Or Not!');
       });
   }
 
@@ -537,7 +537,7 @@ export class DialogContentVendorComponent implements OnInit {
           this.spinner.hide();
         },
           err => {
-            this.toastr.error('An Error Occured !!');
+            this.toastr.error('Please Check Your API is Running Or Not!');
             this.spinner.hide();
           });
 
@@ -1246,7 +1246,7 @@ export class DialogContentVendorComponent implements OnInit {
       this.dialogRef.close();
     },
       err => {
-        this.toastr.error('An Error Occured !!');
+        this.toastr.error('Please Check Your API is Running Or Not!');
       });
 
   }
@@ -1304,7 +1304,7 @@ export class DialogContentVendorComponent implements OnInit {
       this.getAddressData = data;
     },
       err => {
-        this.toastr.error('An Error Occured !!');
+        this.toastr.error('Please Check Your API is Running Or Not!');
       });
   }
 
@@ -1313,7 +1313,7 @@ export class DialogContentVendorComponent implements OnInit {
       this.masterBrandData = data;
     },
       err => {
-        this.toastr.error('An Error Occured !!');
+        this.toastr.error('Please Check Your API is Running Or Not!');
       });
   }
 
@@ -1322,7 +1322,7 @@ export class DialogContentVendorComponent implements OnInit {
       this.vendorDetails = data;
     },
       err => {
-        this.toastr.error('An Error Occured !!');
+        this.toastr.error('Please Check Your API is Running Or Not!');
       });
   }
 

@@ -68,7 +68,7 @@ export class VendorComponent implements OnInit {
       this.dataSource.paginator = this.paginator;
     },
       err => {
-        this.toastr.error('An Error Occured !!');
+        this.toastr.error('Please Check Your API is Running Or Not!');
         // this.spinner.hide();
       });
   }

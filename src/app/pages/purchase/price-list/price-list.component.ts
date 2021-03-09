@@ -172,7 +172,7 @@ export class PriceListComponent implements OnInit {
         this.masterBrandData = data;
       },
         err => {
-          this.toastr.error('An Error Occured !!');
+          this.toastr.error('Please Check Your API is Running Or Not!');
         });
     }, 400);
   }
@@ -199,7 +199,7 @@ export class PriceListComponent implements OnInit {
       this.anyArray = this.brandSearch.slice();
     },
       err => {
-        this.toastr.error('An Error Occured !!');
+        this.toastr.error('Please Check Your API is Running Or Not!');
         this.spinner.hide();
       });
 
@@ -228,7 +228,7 @@ export class PriceListComponent implements OnInit {
     }
       ,
       err => {
-        this.toastr.error('An Error Occured !!');
+        this.toastr.error('Please Check Your API is Running Or Not!');
         this.spinner.hide();
       });
 
@@ -253,7 +253,7 @@ export class PriceListComponent implements OnInit {
       this.anyArray = this.brandSearch.slice();
     },
       err => {
-        this.toastr.error('An Error Occured !!');
+        this.toastr.error('Please Check Your API is Running Or Not!');
         this.spinner.hide();
       });
   }
@@ -270,7 +270,7 @@ export class PriceListComponent implements OnInit {
 
         },
           err => {
-            this.toastr.error('An Error Occured !!');
+            this.toastr.error('Please Check Your API is Running Or Not!');
             this.spinner.hide();
           }
         );
@@ -286,7 +286,7 @@ export class PriceListComponent implements OnInit {
           this.spinner.hide();
         },
           err => {
-            this.toastr.error('An Error Occured !!');
+            this.toastr.error('Please Check Your API is Running Or Not!');
             this.spinner.hide();
           }
         );
@@ -333,7 +333,7 @@ export class PriceListComponent implements OnInit {
         }
           ,
           err => {
-            this.toastr.error('An Error Occured !!');
+            this.toastr.error('Please Check Your API is Running Or Not!');
             this.spinner.hide();
           });
         this.anyArray = this.brandSearch.slice();
@@ -445,7 +445,7 @@ export class PriceListComponent implements OnInit {
         this.toastr.success('Price List Updated');
       },
         err => {
-          this.toastr.error('An Error Occured !!');
+          this.toastr.error('Please Check Your API is Running Or Not!');
           this.spinner.hide();
         });
     }
@@ -480,7 +480,7 @@ export class PriceListComponent implements OnInit {
         },
 
           err => {
-            this.toastr.error('An Error Occured !!');
+            this.toastr.error('Please Check Your API is Running Or Not!');
             this.spinner.hide();
           });
       }
@@ -495,7 +495,7 @@ export class PriceListComponent implements OnInit {
       this.dbData = data;
     },
       err => {
-        this.toastr.error('An Error Occured !!');
+        this.toastr.error('Please Check Your API is Running Or Not!');
         // this.spinner.hide();
       });
   }
@@ -557,7 +557,7 @@ export class PriceListComponent implements OnInit {
         this.updateAllRecordsCount = 0;
       },
         err => {
-          this.toastr.error('An Error Occured !!');
+          this.toastr.error('Please Check Your API is Running Or Not!');
           this.spinner.hide();
         });
       this.updateAllRecordsCount = 0;

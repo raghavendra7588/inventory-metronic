@@ -53,10 +53,13 @@ export class MixedWidget4Component implements OnInit {
       this.salesData = res;
       console.log('sales data', res[1]);
 
-      this.weeklySales = this.salesData[1].Week;
-      this.monthlySales = this.salesData[1].Month;
-      this.yearlySales = this.salesData[1].Year;
-      this.totalSales = this.salesData[1].Totall;
+      setTimeout(() => {
+        this.weeklySales = this.salesData[1].Week;
+        this.monthlySales = this.salesData[1].Month;
+        this.yearlySales = this.salesData[1].Year;
+        this.totalSales = this.salesData[1].Totall;
+      }, 1500);
+
       console.log('this.weeklySales', this.weeklySales);
       console.log('this.monthlySales', this.monthlySales);
       console.log('this.yearlySales', this.yearlySales);

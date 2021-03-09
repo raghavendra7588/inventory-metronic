@@ -362,7 +362,7 @@ export class MappedProductsComponent implements OnInit {
 
         },
           err => {
-            this.toastr.error('An Error Occured !!');
+            this.toastr.error('Please Check Your API is Running Or Not!');
             this.spinner.hide();
           });
         this.updateAllRecordsCount = 0;
@@ -428,7 +428,7 @@ export class MappedProductsComponent implements OnInit {
         this.spinner.hide();
       },
         err => {
-          this.toastr.error('An Error Occured !!');
+          this.toastr.error('Please Check Your API is Running Or Not!');
           this.spinner.hide();
         });
     }
@@ -487,7 +487,7 @@ export class MappedProductsComponent implements OnInit {
 
     },
       err => {
-        this.toastr.error('An Error Occured !!');
+        this.toastr.error('Please Check Your API is Running Or Not!');
         this.spinner.hide();
       });
   }
@@ -575,7 +575,7 @@ export class MappedProductsComponent implements OnInit {
 
         },
           err => {
-            this.toastr.error('An Error Occured !!');
+            this.toastr.error('Please Check Your API is Running Or Not!');
             this.spinner.hide();
           });
         this.updateAllRecordsCount = 0;

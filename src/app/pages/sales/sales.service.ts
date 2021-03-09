@@ -53,7 +53,7 @@ export class SalesService {
   private UPLOAD_BULK_PRODUCT_CSV = environment.ADMIN_BASE_URL + '/ProductSellerMapping/UploadCSV';
   private DOWNLOAD_ORDER_SALES_REPORT = environment.ADMIN_BASE_URL + 'ProductSellerMapping/Getreport';
   private PARENT_CHILD_MAPPING = environment.ADMIN_BASE_URL + '/Brand/InsertParentChildMapping';
- 
+  private GET_TOP_FIVE_PRODUCTS = environment.BASE_URL + 'DashBoard/getTopFiveProductsBySellerID';
 
 
   constructor(
@@ -397,6 +397,7 @@ export class SalesService {
   }
 
 
+
   insertUpdateSalesEnquiry(enquiry) {
     let headers = new HttpHeaders();
     headers = headers.set('Content-Type', 'application/json');
@@ -450,10 +451,12 @@ export class SalesService {
 
 
   downloadOrderSalesReport(order) {
-
     return this.http.get(this.DOWNLOAD_ORDER_SALES_REPORT + '?Data=' + order.sellerName + '||' + order.reportType + '||' + order.startDate + '||' + order.endDate);
   }
 
 
+  getTopFiveProductsBySellerId(sellerID) {
+    return this.http.get(this.GET_TOP_FIVE_PRODUCTS + '/' + sellerID);
+  }
 
 }

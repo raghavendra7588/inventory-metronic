@@ -161,7 +161,7 @@ export class SpecificPriceListComponent implements OnInit {
       console.log('all vendor data from Purchase Order 11', this.purchaseService.allvendorData);
     },
       err => {
-        this.toastr.error('An Error Occured !!');
+        this.toastr.error('Please Check Your API is Running Or Not!');
         this.spinner.hide();
       });
   }
@@ -308,7 +308,7 @@ export class SpecificPriceListComponent implements OnInit {
       console.log('any array in cat', this.anyArray);
     },
       err => {
-        this.toastr.error('An Error Occured !!');
+        this.toastr.error('Please Check Your API is Running Or Not!');
         this.spinner.hide();
       });
     this.particularCategoryArray = this.categorySearch.slice();
@@ -353,7 +353,7 @@ export class SpecificPriceListComponent implements OnInit {
       console.log('any array', this.anyArray);
     },
       err => {
-        this.toastr.error('An Error Occured !!');
+        this.toastr.error('Please Check Your API is Running Or Not!');
         this.spinner.hide();
       });
 
@@ -391,7 +391,7 @@ export class SpecificPriceListComponent implements OnInit {
 
     },
       err => {
-        this.toastr.error('An Error Occured !!');
+        this.toastr.error('Please Check Your API is Running Or Not!');
         this.spinner.hide();
       });
 
@@ -426,7 +426,7 @@ export class SpecificPriceListComponent implements OnInit {
           this.spinner.hide();
         },
           err => {
-            this.toastr.error('An Error Occured !!');
+            this.toastr.error('Please Check Your API is Running Or Not!');
             this.spinner.hide();
           });
 
@@ -479,7 +479,7 @@ export class SpecificPriceListComponent implements OnInit {
           this.spinner.hide();
         },
           err => {
-            this.toastr.error('An Error Occured !!');
+            this.toastr.error('Please Check Your API is Running Or Not!');
             this.spinner.hide();
           });
         this.anyArray = this.brandSearch.slice();
@@ -547,7 +547,7 @@ export class SpecificPriceListComponent implements OnInit {
         this.providedInputAmount = 0;
       },
         err => {
-          this.toastr.error('An Error Occured !!');
+          this.toastr.error('Please Check Your API is Running Or Not!');
           this.spinner.hide();
         });
     }
@@ -586,7 +586,7 @@ export class SpecificPriceListComponent implements OnInit {
           this.providedInputAmount = 0;
         },
           err => {
-            this.toastr.error('An Error Occured !!');
+            this.toastr.error('Please Check Your API is Running Or Not!');
             this.spinner.hide();
           });
       }
@@ -662,7 +662,7 @@ export class SpecificPriceListComponent implements OnInit {
         this.providedInputAmount = 0;
       },
         err => {
-          this.toastr.error('An Error Occured !!');
+          this.toastr.error('Please Check Your API is Running Or Not!');
           this.spinner.hide();
         });
 

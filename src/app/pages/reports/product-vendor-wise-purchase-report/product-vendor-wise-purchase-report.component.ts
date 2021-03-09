@@ -441,7 +441,7 @@ export class ProductVendorWisePurchaseReportComponent implements OnInit {
   viewPurchaseReport(response) {
 
     this.dialog.open(DialogProductVendorWisePurchaseReportComponent, {
-      height: '340px',
+      height: '370px',
       width: '1400px',
       data: response
     });

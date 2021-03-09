@@ -76,7 +76,7 @@ export class ReportsService {
   getDashBoardSales(userId) {
     let headers = new HttpHeaders();
     headers = headers.set('Content-Type', 'application/json; charset=utf-8');
-    return this.http.post(this.POST_DASHBOARD_COUNT_DATA + '?' + 'userId=' + userId.toString(), { headers: headers });
+    return this.http.post<any[]>(this.POST_DASHBOARD_COUNT_DATA + '?' + 'userId=' + userId.toString(), { headers: headers });
   }
 
 }

@@ -336,7 +336,7 @@ export class UnMappedProductsComponent implements OnInit {
           this.spinner.hide();
         },
           err => {
-            this.toastr.error('An Error Occured !!');
+            this.toastr.error('Please Check Your API is Running Or Not!');
             this.spinner.hide();
           });
         this.updateAllRecordsCount = 0;
@@ -403,7 +403,7 @@ export class UnMappedProductsComponent implements OnInit {
         this.spinner.hide();
       },
         err => {
-          this.toastr.error('An Error Occured !!');
+          this.toastr.error('Please Check Your API is Running Or Not!');
           this.spinner.hide();
         });
     }

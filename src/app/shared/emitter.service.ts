@@ -21,6 +21,7 @@ export class EmitterService {
   public currentlySelectedTab: EventEmitter<boolean>;
   public isAdminCreadtedOrUpdated: EventEmitter<boolean>;
   public isDeleted: EventEmitter<boolean>;
+  public isResponseLoaded: EventEmitter<boolean>;
 
   constructor() {
     this.isLoggedIn = new EventEmitter();
@@ -39,5 +40,6 @@ export class EmitterService {
     this.currentlySelectedTab = new EventEmitter();
     this.isAdminCreadtedOrUpdated = new EventEmitter();
     this.isDeleted = new EventEmitter();
+    this.isResponseLoaded = new EventEmitter();
   }
 }

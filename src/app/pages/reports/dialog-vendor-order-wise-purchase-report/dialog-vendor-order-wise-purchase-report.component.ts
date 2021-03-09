@@ -37,6 +37,7 @@ export class DialogVendorOrderWisePurchaseReportComponent implements OnInit {
     this.purchaseService.getPurchaseReportById(data.PurchaseOrderId).subscribe(data => {
       this.PurchaseReportDataArray = data;
       this.dataSource = new MatTableDataSource(this.PurchaseReportDataArray);
+      setTimeout(() => this.dataSource.paginator = this.paginator);
     });
   }
 
