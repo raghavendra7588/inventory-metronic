@@ -18,6 +18,7 @@ import { TaxInformationComponent } from './tax-information/tax-information.compo
 import { StatementsComponent } from './statements/statements.component';
 import { UserProfileRoutingModule } from './user-profile-routing.module';
 import { ProfileCardComponent } from './_components/profile-card/profile-card.component';
+import { NgxSpinnerModule } from "ngx-spinner";
 
 @NgModule({
   declarations: [
@@ -43,6 +44,7 @@ import { ProfileCardComponent } from './_components/profile-card/profile-card.co
     DropdownMenusModule,
     NgbDropdownModule,
     NgbTooltipModule,
+    NgxSpinnerModule,
     WidgetsModule
   ]
 })

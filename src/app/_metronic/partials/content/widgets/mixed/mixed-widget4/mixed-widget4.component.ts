@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ReportsService } from 'src/app/pages/reports/reports.service';
 import { LayoutService } from '../../../../../core';
@@ -31,7 +31,8 @@ export class MixedWidget4Component implements OnInit {
   constructor(
     private layout: LayoutService,
     private reportsService: ReportsService,
-    private spinner: NgxSpinnerService) {
+    private spinner: NgxSpinnerService,
+    private changeDetector: ChangeDetectorRef) {
     this.fontFamily = this.layout.getProp('js.fontFamily');
     this.colorsGrayGray500 = this.layout.getProp('js.colors.gray.gray500');
     this.colorsGrayGray200 = this.layout.getProp('js.colors.gray.gray200');
@@ -53,12 +54,12 @@ export class MixedWidget4Component implements OnInit {
       this.salesData = res;
       console.log('sales data', res[1]);
 
-      setTimeout(() => {
-        this.weeklySales = this.salesData[1].Week;
-        this.monthlySales = this.salesData[1].Month;
-        this.yearlySales = this.salesData[1].Year;
-        this.totalSales = this.salesData[1].Totall;
-      }, 1500);
+
+      this.weeklySales = this.salesData[1].Week;
+      this.monthlySales = this.salesData[1].Month;
+      this.yearlySales = this.salesData[1].Year;
+      this.totalSales = this.salesData[1].Totall;
+      this.changeDetector.detectChanges();
 
       console.log('this.weeklySales', this.weeklySales);
       console.log('this.monthlySales', this.monthlySales);

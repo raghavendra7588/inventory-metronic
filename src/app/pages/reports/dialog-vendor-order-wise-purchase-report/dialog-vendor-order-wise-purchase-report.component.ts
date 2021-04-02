@@ -4,6 +4,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import * as _ from 'lodash';
+import { NgxSpinnerService } from 'ngx-spinner';
 import { PurchaseService } from '../../purchase/purchase.service';
 
 @Component({
@@ -23,22 +24,28 @@ export class DialogVendorOrderWisePurchaseReportComponent implements OnInit {
   sellerName: any;
   strSellerId: string;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
-  
+
   constructor(
     public purchaseService: PurchaseService,
     @Inject(MAT_DIALOG_DATA) public data: any,
     public dialogRef: MatDialogRef<DialogVendorOrderWisePurchaseReportComponent>,
-    public router: Router) {
+    public router: Router,
+    private spinner: NgxSpinnerService) {
 
     this.sellerName = sessionStorage.getItem('sellerName');
     this.vendorName = data.vendor_name;
     this.orderNo = data.OrderNo;
     // this.getPurchaseReportById(data.PurchaseOrderId);
+    this.spinner.show();
     this.purchaseService.getPurchaseReportById(data.PurchaseOrderId).subscribe(data => {
       this.PurchaseReportDataArray = data;
       this.dataSource = new MatTableDataSource(this.PurchaseReportDataArray);
       setTimeout(() => this.dataSource.paginator = this.paginator);
-    });
+      this.spinner.hide();
+    },
+      err => {
+        this.spinner.hide();
+      });
   }
 
   ngOnInit(): void {

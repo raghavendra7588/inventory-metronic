@@ -314,9 +314,14 @@ import { ModalModule } from 'ngx-bootstrap/modal';
     BussinessSnapshotComponent,
     DocumentComponent,
     SalesEnquiryComponent,
+    DialogProductDataComponent,
     DialogOrderManagementComponent,
+    DialogOrderManagementPrintComponent,
+    DialogSalesEnquiryComponent,
+    DialogSalesEnquiryComponent,
     SendNotificationComponent,
-    DialogViewUserComponent
+    DialogViewUserComponent,
+    FormatImgUrlPipe
   ],
   providers: [
     SalesService

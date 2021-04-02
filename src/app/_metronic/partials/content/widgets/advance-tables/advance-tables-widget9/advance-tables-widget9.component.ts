@@ -25,13 +25,7 @@ export class AdvanceTablesWidget9Component {
 
 
   getOrderListData(userId) {
-    this.spinner.show(undefined,
-      {
-        type: "square-jelly-box",
-        size: "medium",
-        color: 'white'
-      }
-    );
+    this.spinner.show();
     this.salesService.getOrderList(userId).subscribe(res => {
       console.log('order stats ****************', res);
       this.orderData = res;

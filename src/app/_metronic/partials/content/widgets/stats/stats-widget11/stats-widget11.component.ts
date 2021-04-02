@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { LayoutService } from '../../../../../core';
 import * as _ from 'lodash';
 import { EmitterService } from 'src/app/shared/emitter.service';
@@ -61,7 +61,8 @@ export class StatsWidget11Component implements OnInit {
     private layout: LayoutService,
     private reportsService: ReportsService,
     private emitterService: EmitterService,
-    private spinner: NgxSpinnerService) {
+    private spinner: NgxSpinnerService,
+    private cdr: ChangeDetectorRef) {
 
     let startOfMonth = moment().clone().startOf('month').format("DD/MM/YYYY");
     this.monthData.startDateOfMonth = startOfMonth;
@@ -468,6 +469,7 @@ export class StatsWidget11Component implements OnInit {
         strokeWidth: 3
       }
     };
+  
   }
 
 
@@ -591,18 +593,22 @@ export class StatsWidget11Component implements OnInit {
 
     if (this.isActiveMonth === 'weekly' && this.isActiveByVendor === 'byPurchaseValue') {
       this.chartOptions = this.getChartOptions();
+      this.cdr.detectChanges();
     }
 
     if (this.isActiveMonth === 'weekly' && this.isActiveByVendor === 'byVendor') {
       this.chartOptions = this.getChartOptionsByVendorsWeekly();
+      this.cdr.detectChanges();
     }
 
     if (this.isActiveMonth === 'monthly' && this.isActiveByVendor === 'byPurchaseValue') {
       this.chartOptions = this.getChartOptionsByMonth();
+      this.cdr.detectChanges();
     }
 
     if (this.isActiveMonth === 'monthly' && this.isActiveByVendor === 'byVendor') {
       this.chartOptions = this.getChartOptionsByVendorsMonthly();
+      this.cdr.detectChanges();
     }
 
 
@@ -614,18 +620,22 @@ export class StatsWidget11Component implements OnInit {
 
     if (this.isActiveMonth === 'weekly' && this.isActiveByVendor === 'byPurchaseValue') {
       this.chartOptions = this.getChartOptions();
+      this.cdr.detectChanges();
     }
 
     if (this.isActiveMonth === 'weekly' && this.isActiveByVendor === 'byVendor') {
       this.chartOptions = this.getChartOptionsByVendorsWeekly();
+      this.cdr.detectChanges();
     }
 
     if (this.isActiveMonth === 'monthly' && this.isActiveByVendor === 'byPurchaseValue') {
       this.chartOptions = this.getChartOptionsByMonth();
+      this.cdr.detectChanges();
     }
 
     if (this.isActiveMonth === 'monthly' && this.isActiveByVendor === 'byVendor') {
       this.chartOptions = this.getChartOptionsByVendorsMonthly();
+      this.cdr.detectChanges();
     }
 
     // this.totalPurchaseAmount = 0;
@@ -639,18 +649,22 @@ export class StatsWidget11Component implements OnInit {
 
     if (this.isActiveMonth === 'weekly' && this.isActiveByVendor === 'byPurchaseValue') {
       this.chartOptions = this.getChartOptions();
+      this.cdr.detectChanges();
     }
 
     if (this.isActiveMonth === 'weekly' && this.isActiveByVendor === 'byVendor') {
       this.chartOptions = this.getChartOptionsByVendorsWeekly();
+      this.cdr.detectChanges();
     }
 
     if (this.isActiveMonth === 'monthly' && this.isActiveByVendor === 'byPurchaseValue') {
       this.chartOptions = this.getChartOptionsByMonth();
+      this.cdr.detectChanges();
     }
 
     if (this.isActiveMonth === 'monthly' && this.isActiveByVendor === 'byVendor') {
       this.chartOptions = this.getChartOptionsByVendorsMonthly();
+      this.cdr.detectChanges();
     }
 
   }
@@ -660,20 +674,28 @@ export class StatsWidget11Component implements OnInit {
 
     if (this.isActiveMonth === 'weekly' && this.isActiveByVendor === 'byPurchaseValue') {
       this.chartOptions = this.getChartOptions();
+      this.cdr.detectChanges();
     }
 
     if (this.isActiveMonth === 'weekly' && this.isActiveByVendor === 'byVendor') {
       this.chartOptions = this.getChartOptionsByVendorsWeekly();
+      this.cdr.detectChanges();
     }
 
     if (this.isActiveMonth === 'monthly' && this.isActiveByVendor === 'byPurchaseValue') {
       this.chartOptions = this.getChartOptionsByMonth();
+      this.cdr.detectChanges();
     }
 
     if (this.isActiveMonth === 'monthly' && this.isActiveByVendor === 'byVendor') {
       this.chartOptions = this.getChartOptionsByVendorsMonthly();
+      this.cdr.detectChanges();
     }
 
+  }
+
+  ngAfterViewChecked() {
+    this.cdr.detectChanges();
   }
 
   ngOnDestroy() {

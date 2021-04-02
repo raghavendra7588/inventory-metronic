@@ -26,8 +26,14 @@
           {{user.ocupation}}
         </div>
         <div class="mt-2">
-          <a class="btn btn-sm btn-primary font-weight-bold mr-2 py-2 px-3 px-xxl-5 my-1 cursor-pointer">Chat</a>
-          <a class="btn btn-sm btn-success font-weight-bold py-2 px-3 px-xxl-5 my-1 cursor-pointer">Follow</a>
+          <!-- <a class="navi-link py-4 cursor-pointer" ngbTooltip="Coming soon..." triggers="manual" #t3="ngbTooltip"
+          (click)="t3.open()" placement="right"> -->
+          <a class="btn btn-sm btn-primary font-weight-bold mr-2 py-2 px-3 px-xxl-5 my-1 cursor-pointer"
+            ngbTooltip="Coming soon..." triggers="manual" #t4="ngbTooltip" (click)="t4.open()"
+            placement="right">Chat</a>
+          <a class="btn btn-sm btn-success font-weight-bold py-2 px-3 px-xxl-5 my-1 cursor-pointer"
+            ngbTooltip="Coming soon..." triggers="manual" #t5="ngbTooltip" (click)="t5.open()"
+            placement="right">Follow</a>
         </div>
       </div>
     </div>
@@ -85,7 +91,7 @@
             </span>
           </a>
         </div>
-        <div class="navi-item mb-2">
+        <!-- <div class="navi-item mb-2">
           <a class="navi-link py-4" routerLink="/user-profile/account-information" routerLinkActive="active">
             <span class="navi-icon mr-2">
               <span [inlineSVG]="'./assets/media/svg/icons/Code/Compiling.svg'" cacheSVG="true" class="svg-icon"></span>
@@ -94,7 +100,7 @@
               Account Information
             </span>
           </a>
-        </div>
+        </div> -->
         <div class="navi-item mb-2">
           <a class="navi-link py-4" routerLink="/user-profile/change-password" routerLinkActive="active">
             <span class="navi-icon mr-2">
@@ -104,12 +110,12 @@
             <span class="navi-text font-size-lg">
               Change Password
             </span>
-            <span class="navi-label">
+            <!-- <span class="navi-label">
               <span class="label label-light-danger label-rounded font-weight-bold">5</span>
-            </span>
+            </span> -->
           </a>
         </div>
-        <div class="navi-item mb-2">
+        <!-- <div class="navi-item mb-2">
           <a class="navi-link py-4" routerLink="/user-profile/email-settings" routerLinkActive="active">
             <span class="navi-icon mr-2">
               <span [inlineSVG]="'./assets/media/svg/icons/Communication/Mail-opened.svg'" cacheSVG="true"
@@ -119,8 +125,8 @@
               Email settings
             </span>
           </a>
-        </div>
-        <div class="navi-item mb-2">
+        </div> -->
+        <!-- <div class="navi-item mb-2">
           <a class="navi-link py-4 cursor-pointer" ngbTooltip="Coming soon..." triggers="manual" #t="ngbTooltip"
             (click)="t.open()" placement="right">
             <span class="navi-icon mr-2">
@@ -131,7 +137,7 @@
               Saved Credit Cards
             </span>
           </a>
-        </div>
+        </div> -->
         <div class="navi-item mb-2">
           <a class="navi-link py-4 cursor-pointer" ngbTooltip="Coming soon..." triggers="manual" #t2="ngbTooltip"
             (click)="t2.open()" placement="right">
@@ -139,9 +145,9 @@
               <span [inlineSVG]="'./assets/media/svg/icons/Files/File.svg'" cacheSVG="true" class="svg-icon"></span>
             </span>
             <span class="navi-text font-size-lg">Tax information</span>
-            <span class="navi-label">
+            <!-- <span class="navi-label">
               <span class="label label-light-primary label-inline font-weight-bold">new</span>
-            </span>
+            </span> -->
           </a>
         </div>
         <div class="navi-item mb-2">

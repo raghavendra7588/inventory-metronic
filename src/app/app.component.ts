@@ -2,10 +2,7 @@ import {
   Component,
   ChangeDetectionStrategy,
   OnDestroy,
-  OnInit,
-  AfterViewInit,
-  ElementRef,
-  ViewChild,
+  OnInit
 } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -28,10 +25,10 @@ import { EmitterService } from './shared/emitter.service';
   styleUrls: ['./app.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
-  
+export class AppComponent implements OnInit, OnDestroy {
+
   private unsubscribe: Subscription[] = []; // Read more: => https://brianflove.com/2016/12/11/anguar-2-unsubscribe-observables/
-  @ViewChild('el') testElement: ElementRef; 
+
 
   constructor(
     private translationService: TranslationService,
@@ -49,13 +46,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
       deLang,
       frLang
     );
-    this.emitterService.isLoggedIn.subscribe(val => {
-      if (val) {
-        setTimeout(() => {
-          this.doSomething();
-        }, 7000);
-      }
-    });
+
   }
 
   ngOnInit() {
@@ -78,17 +69,9 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
     this.unsubscribe.push(routerSubscription);
   }
 
-  doSomething() {
-    console.log('click event app compo');
-  }
 
-  ngAfterViewInit() {
-    setTimeout(() => {
-      this.doSomething();
-      this.testElement.nativeElement.onmouseenter = () => console.log('mouse enter')
-    }, 7000);
 
-  }
+
 
   ngOnDestroy() {
     this.unsubscribe.forEach((sb) => sb.unsubscribe());

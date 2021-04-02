@@ -20,6 +20,8 @@ import { UserOffcanvasComponent } from './offcanvas/user-offcanvas/user-offcanva
 import { CoreModule } from '../../../core';
 import { ScrollTopComponent } from './scroll-top/scroll-top.component';
 import { ToolbarComponent } from './toolbar/toolbar.component';
+import { SalesModule } from 'src/app/pages/sales/sales.module';
+import { PurchaseModule } from 'src/app/pages/purchase/purchase.module';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true,
@@ -42,7 +44,14 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     ScrollTopComponent,
     ToolbarComponent,
   ],
-  imports: [CommonModule, InlineSVGModule, PerfectScrollbarModule, CoreModule, RouterModule],
+  imports: [
+    CommonModule,
+    InlineSVGModule,
+    PerfectScrollbarModule,
+    CoreModule,
+    RouterModule,
+    PurchaseModule,
+    SalesModule],
   providers: [
     {
       provide: PERFECT_SCROLLBAR_CONFIG,

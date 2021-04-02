@@ -26,6 +26,8 @@ import { ReportsService } from './pages/reports/reports.service';
 import { ToastrModule } from 'ngx-toastr';
 import { ReportsModule } from './pages/reports/reports.module';
 import { ModalModule } from 'ngx-bootstrap/modal';
+import { SalesModule } from './pages/sales/sales.module';
+import { PurchaseModule } from './pages/purchase/purchase.module';
 
 function appInitializer(authService: AuthService) {
   return () => {
@@ -59,6 +61,8 @@ function appInitializer(authService: AuthService) {
     ToastrModule.forRoot(),
     ModalModule.forRoot(),
     ReportsModule,
+    SalesModule,
+    PurchaseModule,
     NgbModule
   ],
   providers: [

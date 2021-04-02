@@ -26,8 +26,7 @@
             {{data.ProductId}}
           </a>
           <span class="text-muted font-weight-bold font-size-sm my-1">
-            Sub Cat {{data.SubCategoryId}} / Brand
-            {{data.BrandId}}
+            {{data.SubCategoryId}} / {{data.BrandId}}
           </span>
 
         </div>
@@ -93,7 +92,9 @@
             {{data.ProductId}}
           </a>
           <span class="text-muted font-weight-bold font-size-sm my-1">
-            Sub Cat {{data.SubCategoryId}} / Brand
+            {{data.SubCategoryId}}
+          </span>
+          <span class="text-muted font-weight-bold font-size-sm my-1">
             {{data.BrandId}}
           </span>
 
@@ -131,3 +132,4 @@
   </ng-container>
 
 </div>
+<ngx-spinner></ngx-spinner>

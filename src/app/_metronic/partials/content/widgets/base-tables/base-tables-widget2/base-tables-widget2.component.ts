@@ -7,6 +7,7 @@ import { EmitterService } from 'src/app/shared/emitter.service';
   selector: 'app-base-tables-widget2',
   templateUrl: './base-tables-widget2.component.html',
 })
+
 export class BaseTablesWidget2Component implements OnInit {
 
   strSellerId: string;
@@ -20,7 +21,6 @@ export class BaseTablesWidget2Component implements OnInit {
   ) { }
 
   ngOnInit(): void {
-
     this.strSellerId = sessionStorage.getItem('sellerId').toString();
     this.topSevenPurchaseProducts();
   }
@@ -29,12 +29,17 @@ export class BaseTablesWidget2Component implements OnInit {
 
 
   topSevenPurchaseProducts() {
+    this.spinner.show();
     this.salesService.getTopFiveProductsBySellerId(this.strSellerId).subscribe(data => {
       this.topProductsData = data;
       console.log('this.topProductsData ', this.topProductsData);
       if (this.topProductsData && this.topProductsData.length) {
         this.emitterService.isResponseLoaded.emit(true);
       }
-    });
+      this.spinner.hide();
+    },
+      err => {
+        this.spinner.hide();
+      });
   }
 }

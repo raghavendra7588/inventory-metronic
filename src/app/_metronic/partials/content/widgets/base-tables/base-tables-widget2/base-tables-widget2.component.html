@@ -28,12 +28,14 @@
             <tr *ngFor="let data of topProductsData">
 
               <td class="pl-0">
-            
+
                 <a class="text-dark-75 font-weight-bolder text-hover-primary font-size-lg">
                   {{data.ProductId}}
                 </a><br />
                 <span class="text-muted font-weight-bold font-size-sm my-1">
-                  {{data.CategoryId}} /
+                  {{data.CategoryId}}
+                </span><br>
+                <span class="text-muted font-weight-bold font-size-sm my-1">
                   {{data.SubCategoryId}}
                 </span>
               </td>
@@ -46,14 +48,18 @@
               <td class="text-right">
                 <a class="text-dark-75 font-weight-bolder text-hover-primary font-size-lg">
                   {{data.Quantity}}
-                </a>
-
+                </a><br>
+                <span class="text-muted font-size-sm font-weight-bolder">
+                  Varient
+                </span>
               </td>
               <td class="text-right">
                 <a class="text-dark-75 font-weight-bolder text-hover-primary font-size-lg">
                   {{data.Total}}
-                </a>
-
+                </a><br>
+                <span class="text-muted font-size-sm font-weight-bolder">
+                  Total
+                </span>
               </td>
             </tr>
 
@@ -67,3 +73,6 @@
 
   </div>
 </div>
+
+
+<ngx-spinner></ngx-spinner>

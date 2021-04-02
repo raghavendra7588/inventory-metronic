@@ -39,13 +39,15 @@ export class PersonalInformationComponent implements OnInit, OnDestroy {
   loadForm() {
     this.formGroup = this.fb.group({
       pic: [this.user.pic],
-      firstname: [this.user.firstname, Validators.required],
-      lastname: [this.user.lastname, Validators.required],
-      companyName: [this.user.companyName, Validators.required],
-      phone: [this.user.phone, Validators.required],
-      email: [this.user.email, Validators.compose([Validators.required, Validators.email])],
-      website: [this.user.website, Validators.required]
+      firstname: ['',Validators.required],
+      lastname: ['',Validators.required],
+      companyName: ['',Validators.required],
+      phone: ['',Validators.required],
+      email: ['',Validators.compose([Validators.required, Validators.email])],
+      website: ['',Validators.required]
     });
+
+    this.formGroup.controls.website.setValue('https://gramvyapar.com');
   }
 
   save() {
