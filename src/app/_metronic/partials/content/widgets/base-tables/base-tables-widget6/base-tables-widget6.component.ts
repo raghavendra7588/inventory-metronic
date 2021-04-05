@@ -39,20 +39,10 @@ export class BaseTablesWidget6Component implements OnInit, AfterViewInit, OnDest
     this.emitterService.isLoggedIn.subscribe(val => {
       if (val) {
         this.getFastestMoVingProductsByMonth();
-
-        // setTimeout(() => {
-        //   this.clickedElement = fromEvent(this.el.nativeElement, 'click').subscribe(() => alert('element clicked in table '));
-        // }, 7000);
    
       }
     });
 
-    // setTimeout(() => {
-    //   this.clickedElement = fromEvent(this.el.nativeElement, 'click').subscribe(() => alert('element clicked'));
-    // }, 7000);
-    // this.el.nativeElement.on('click', () => {
-    //   alert("test");
-    // });
   }
 
   ngOnInit(): void {

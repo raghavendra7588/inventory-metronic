@@ -76,9 +76,17 @@ export class ListsWidget14Component implements OnInit {
   }
 
   getHighestValueProductsByLastMonthData() {
+    let startOfMonth = moment().clone().startOf('month').format("YYYY/MM/DD");
+    this.monthData.startDateOfMonth = startOfMonth;
+  
+    this.spinner.show();
+    let startDateOfLastMonth = moment().subtract(1, 'months').startOf('month').format("YYYY/MM/DD");
+
+    this.monthData.startDateOfLastMonth = startDateOfLastMonth;
+
     this.reportsService.getHighestValueProductByLastMonth(this.monthData).subscribe(res => {
       this.highestValueProductsByLastMonth = res;
-      // console.log('^^^^^^^^ last month', res);
+      this.spinner.hide();
     }, err => {
       this.spinner.hide();
     });
@@ -87,11 +95,13 @@ export class ListsWidget14Component implements OnInit {
   currentMonth() {
     this.currentTab = 'currentMonth';
     this.currentlySelectedMenu = 'Current Month';
+
   }
 
   lastMonth() {
     this.currentTab = 'lastMonth';
     this.currentlySelectedMenu = 'Last Month';
+
   }
 
 }

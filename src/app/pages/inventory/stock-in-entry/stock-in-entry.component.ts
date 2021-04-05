@@ -116,7 +116,7 @@ export class StockInEntryComponent implements OnInit {
       this.selection.selected.forEach((element) => {
         this.multipleItemsArray.push(element);
         this.uniquePurchaseOrderItemArray = this.uniqueEntries(this.multipleItemsArray, element);
-        this.uniqueArray = _.uniqBy(this.uniquePurchaseOrderItemArray, 'ReferenceId');
+        this.uniqueArray = _.uniqBy(this.uniquePurchaseOrderItemArray, 'PurchaseOrderItemId');
 
       });
 
@@ -236,7 +236,7 @@ export class StockInEntryComponent implements OnInit {
       // let customizedPurchaseOrderItemResponse = this.customPurchaseOrderItemResponse(this.purchaseOrderItemData);
       // let customizedPurchaseOrderItemResponse = this.mapObj(this.purchaseOrderItemData, this.ownDbstockInItemsData);
 
-      let uniqueStockInItems = _.uniqBy(this.purchaseOrderItemData, 'ReferenceId');
+      let uniqueStockInItems = _.uniqBy(this.purchaseOrderItemData, 'PurchaseOrderItemId');
       // console.log('always unique', uniqueStockInItems);
       this.purchaseOrderItemData = uniqueStockInItems;
       // console.log('always unique', this.purchaseOrderItemData);

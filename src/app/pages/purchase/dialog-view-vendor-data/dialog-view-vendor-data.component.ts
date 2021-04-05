@@ -59,7 +59,7 @@ export class DialogViewVendorDataComponent implements OnInit {
     this.purchaseService.getAllVendorViewData(this.vendorView).subscribe(data => {
       console.log('got data ', data);
       this.vendorViewData = data;
-      let uniqueVendorViewData = _.uniqBy(this.vendorViewData, 'ReferenceId');
+      let uniqueVendorViewData = _.uniqBy(this.vendorViewData, 'ProductVarientId');
       this.vendorViewData = [];
       this.vendorViewData = uniqueVendorViewData;
  
