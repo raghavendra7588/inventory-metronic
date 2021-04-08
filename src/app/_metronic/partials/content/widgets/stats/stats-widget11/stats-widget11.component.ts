@@ -66,7 +66,7 @@ export class StatsWidget11Component implements OnInit {
 
     let startOfMonth = moment().clone().startOf('month').format("DD/MM/YYYY");
     this.monthData.startDateOfMonth = startOfMonth;
-    // console.log('start', startOfMonth);
+
   }
 
   loadLayoutView() {
@@ -150,53 +150,6 @@ export class StatsWidget11Component implements OnInit {
         width: 3,
         colors: [this.colorsThemeBase]
       },
-      // xaxis: {
-      //   categories: ['Feb', 'Mar', 'Apr', 'May', 'Jun', 'Aug', 'Sep'],
-      //   axisBorder: {
-      //     show: false,
-      //   },
-      //   axisTicks: {
-      //     show: false
-      //   },
-      //   labels: {
-      //     show: false,
-      //     style: {
-      //       colors: this.colorsGrayGray500,
-      //       fontSize: '12px',
-      //       fontFamily: this.fontFamily
-      //     }
-      //   },
-      //   crosshairs: {
-      //     show: false,
-      //     position: 'front',
-      //     stroke: {
-      //       color: this.colorsGrayGray300,
-      //       width: 1,
-      //       dashArray: 3
-      //     }
-      //   },
-      //   tooltip: {
-      //     enabled: true,
-      //     formatter: undefined,
-      //     offsetY: 0,
-      //     style: {
-      //       fontSize: '12px',
-      //       fontFamily: this.fontFamily
-      //     }
-      //   }
-      // },
-      // yaxis: {
-      //   min: 0,
-      //   max: 55,
-      //   labels: {
-      //     show: false,
-      //     style: {
-      //       colors: this.colorsGrayGray500,
-      //       fontSize: '12px',
-      //       fontFamily: this.fontFamily
-      //     }
-      //   }
-      // },
       states: {
         normal: {
           filter: {
@@ -487,6 +440,8 @@ export class StatsWidget11Component implements OnInit {
 
       this.emitterService.isPurchaseWeekLoaded.emit(true);
       this.spinner.hide();
+      this.chartOptions = this.getChartOptions();
+      
     }, err => {
       this.spinner.hide();
     });
@@ -504,6 +459,8 @@ export class StatsWidget11Component implements OnInit {
       this.totalVendorsByWeekly = this.VendorsByWeekly.length;
 
       this.seriesVendorsByWeekly = this.calculateVendorsByWeek(this.VendorsByWeekly);
+
+      this.chartOptions = this.getChartOptionsByVendorsWeekly();
       this.spinner.hide();
     }, err => {
       this.spinner.hide();
@@ -513,13 +470,13 @@ export class StatsWidget11Component implements OnInit {
   getPurchaseMonthDataByMonth() {
     this.spinner.show();
     this.reportsService.getPurchaseAmountByMonth(this.monthData).subscribe(res => {
-      // console.log('MontHDATA', res);
+     
       this.purchaseAmountByMonth = res;
       let uniqueRecords = _.uniqBy(this.purchaseAmountByMonth, 'PurchaseOrderItemId');
       this.purchaseAmountByMonth = uniqueRecords;
 
       this.totalPurchaseAmountByMonth = this.calculatePurchaseAmountByMonth(this.purchaseAmountByMonth);
-
+      this.chartOptions = this.getChartOptionsByMonth();
     }, err => {
       this.spinner.hide();
     });
@@ -538,6 +495,7 @@ export class StatsWidget11Component implements OnInit {
 
       this.totalVendorsByMonthly = this.VendorsByMonthly.length;
       this.seriesVendorsByMonthly = this.calculateVendorsByMonth(this.totalVendorsByMonthly);
+      this.chartOptions = this.getChartOptionsByVendorsMonthly();
       this.spinner.hide();
     }, err => {
       this.spinner.hide();
@@ -606,10 +564,10 @@ export class StatsWidget11Component implements OnInit {
       this.cdr.detectChanges();
     }
 
-    if (this.isActiveMonth === 'monthly' && this.isActiveByVendor === 'byVendor') {
-      this.chartOptions = this.getChartOptionsByVendorsMonthly();
-      this.cdr.detectChanges();
-    }
+    // if (this.isActiveMonth === 'monthly' && this.isActiveByVendor === 'byVendor') {
+    //   this.chartOptions = this.getChartOptionsByVendorsMonthly();
+    //   this.cdr.detectChanges();
+    // }
 
 
   }
@@ -633,10 +591,10 @@ export class StatsWidget11Component implements OnInit {
       this.cdr.detectChanges();
     }
 
-    if (this.isActiveMonth === 'monthly' && this.isActiveByVendor === 'byVendor') {
-      this.chartOptions = this.getChartOptionsByVendorsMonthly();
-      this.cdr.detectChanges();
-    }
+    // if (this.isActiveMonth === 'monthly' && this.isActiveByVendor === 'byVendor') {
+    //   this.chartOptions = this.getChartOptionsByVendorsMonthly();
+    //   this.cdr.detectChanges();
+    // }
 
     // this.totalPurchaseAmount = 0;
     // this.totalVendorsByWeekly = 0;

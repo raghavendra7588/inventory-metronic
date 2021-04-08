@@ -71,7 +71,7 @@ export class StatsWidget10Component implements OnInit {
 
     this.currentTab = 'Daily'
     this.getDashBoardSalesRelatedData();
-    this.chartOptions = this.getChartOptionsDaily();
+  
   }
 
   getChartOptionsDaily() {
@@ -405,6 +405,8 @@ export class StatsWidget10Component implements OnInit {
       this.weeklySeriesData(this.weeklySales);
       this.monthlySeriesData(this.monthlySales);
       this.yearlySeriesData(this.yearlySales);
+      this.chartOptions = this.getChartOptionsDaily();
+
       this.spinner.hide();
     }, err => {
       this.spinner.hide();

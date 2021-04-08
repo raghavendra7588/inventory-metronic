@@ -1,8 +1,8 @@
 <form #uploadForm="ngForm" autocomplete="off">
 
     <div class="container-fluid my-5">
-        <div class="row">
-            <div class="col-md-3 col-6 col-sm-6 col-xl-3" *ngIf="isAdmin">
+        <div class="row" *ngIf="isAdmin">
+            <div class="col-md-3 col-6 col-sm-6 col-xl-3">
                 <mat-form-field style="width: 100% !important">
                     <mat-select placeholder="Seller" name="userName" [(ngModel)]="document.userName">
                         <mat-select-filter [placeholder]="'Seller'" [displayMember]="'SellerNameCode'"
@@ -15,7 +15,7 @@
                 </mat-form-field>
             </div>
             <div class="col-md-3 col-6 col-sm-6 col-xl-3">
-                <mat-form-field>
+                <mat-form-field style="width: 100%;">
                     <mat-label>Select an document</mat-label>
                     <mat-select [(ngModel)]="document.documentType" name="documents"
                         (ngModelChange)="selectedDocumentType()">
@@ -26,7 +26,7 @@
                 </mat-form-field>
             </div>
             <div class="col-md-3 col-6 col-sm-6 col-xl-3">
-                <mat-form-field floatPlaceholder="never">
+                <mat-form-field floatPlaceholder="never" style="width: 100%;">
                     <input [hidden]="true" (change)="onFileSelect($event)" type="file" accept="all/*" #fileSelect>
                     <input readonly matInput [(ngModel)]="document.file" name="inputFiles"
                         placeholder="Please select file..." />
@@ -44,12 +44,58 @@
                         Document</span></button>
             </div>
         </div>
+        <div class="row" *ngIf="!isAdmin">
+
+            <div class="col-md-4 col-6 col-sm-6 col-xl-4">
+                <mat-form-field style="width: 100%;">
+                    <mat-label>Select an document</mat-label>
+                    <mat-select [(ngModel)]="document.documentType" name="documents"
+                        (ngModelChange)="selectedDocumentType()">
+                        <mat-option *ngFor="let document of documents" [value]="document.type">
+                            {{ document.type }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="col-md-4 col-6 col-sm-6 col-xl-4">
+                <mat-form-field floatPlaceholder="never" style="width: 100%;">
+                    <input [hidden]="true" (change)="onFileSelect($event)" type="file" accept="all/*" #fileSelect>
+                    <input readonly matInput [(ngModel)]="document.file" name="inputFiles"
+                        placeholder="Please select file..." />
+                    <button [disabled]="!isDocumentTypeSelected" matSuffix mat-icon-button (click)="fileSelect.click();"
+                        matTooltip="Select a file" [matTooltipPosition]="'above'">
+                        <mat-icon>file_upload</mat-icon>
+                    </button>
+                </mat-form-field>
+            </div>
+            <div class="col-md-4 col-6 col-sm-6 col-xl-4">
+                <button style="color:white" mat-raised-button
+                    [disabled]=" !document.documentType || !this.document.file ||isClickedOnce"
+                    [ngClass]=" !document.documentType? 'opacity' : 'noOpacity'" (click)="onDocumentSubmit()"
+                    class="width-100 mt-2 save-button"><span style="color:white">Upload
+                        Document</span></button>
+            </div>
+        </div>
     </div>
 </form>
 
 <div class="container-fluid my-5">
-    <div class="row">
-        <div class="col-md-9 col-9 col-sm-9 col-xl-9">
+    <div class="row" *ngIf="!isAdmin">
+        <div class="col-md-8 col-6 col-sm-6 col-xl-8 col-lg-8">
+            <mat-form-field style="width: 100%;">
+                <mat-label>Search</mat-label>
+                <input matInput (keyup)="applyFilter($event.target.value)">
+            </mat-form-field>
+        </div>
+
+        <div class="col-md-4 col-6 col-sm-6 col-xl-4 col-lg-4">
+            <button mat-raised-button class="width-100 mt-2 save-button" [disabled]="!isDataLoaded"
+                [ngClass]="!isDataLoaded ? 'opacity' : 'noOpacity'" (click)="downloadTheReport()"><span
+                    style="color:white">Download</span></button>
+        </div>
+    </div>
+    <div class="row" *ngIf="isAdmin">
+        <div class="col-md-9 col-6 col-sm-6 col-xl-9 col-lg-9">
             <mat-form-field style="width: 100%;">
                 <mat-label>Search</mat-label>
                 <input matInput (keyup)="applyFilter($event.target.value)">
@@ -62,7 +108,6 @@
                     style="color:white">Download</span></button>
         </div>
     </div>
-
     <div class="row">
 
         <div class="col-xl-12 col-12 col-md-12 col-sm-12 mb-3">
