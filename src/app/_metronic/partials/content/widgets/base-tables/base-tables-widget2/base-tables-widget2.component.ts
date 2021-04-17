@@ -32,7 +32,7 @@ export class BaseTablesWidget2Component implements OnInit {
     this.spinner.show();
     this.salesService.getTopFiveProductsBySellerId(this.strSellerId).subscribe(data => {
       this.topProductsData = data;
-      console.log('this.topProductsData ', this.topProductsData);
+    
       if (this.topProductsData && this.topProductsData.length) {
         this.emitterService.isResponseLoaded.emit(true);
       }

@@ -40,10 +40,10 @@ export class ListsWidget14Component implements OnInit {
 
     let startOfMonth = moment().clone().startOf('month').format("DD/MM/YYYY");
     this.monthData.startDateOfMonth = startOfMonth;
-    // console.log('start', startOfMonth);
+    
 
     let startDateOfLastMonth = moment().subtract(1, 'months').startOf('month').format("DD/MM/YYYY");
-    // console.log('startDateOfLastMonth', startDateOfLastMonth);
+
     this.monthData.startDateOfLastMonth = startDateOfLastMonth;
   }
 

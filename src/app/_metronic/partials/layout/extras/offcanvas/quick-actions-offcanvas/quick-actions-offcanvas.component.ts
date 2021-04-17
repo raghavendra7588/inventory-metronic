@@ -33,7 +33,7 @@ export class QuickActionsOffcanvasComponent implements OnInit {
   onTabChange(currentTab: string) {
 
     this.currentlySelectedTab = currentTab;
-    console.log('currentlySelectedTab', this.currentlySelectedTab);
+
     sessionStorage.removeItem('currentlySelectedTab');
     sessionStorage.setItem('currentlySelectedTab', this.currentlySelectedTab);
     this.emitterService.currentlySelectedTab.emit(true);

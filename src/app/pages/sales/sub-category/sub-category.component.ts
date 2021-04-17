@@ -75,7 +75,7 @@ export class SubCategoryComponent implements OnInit {
   getAllSubCategoriesData() {
     let subCategory = 'sub';
     this.salesService.getAllSubCategoriesData(subCategory).subscribe(res => {
-      console.log('sub Category', res);
+
       this.subCategoryData = res;
       this.dataSource = new MatTableDataSource(this.subCategoryData);
       setTimeout(() => this.dataSource.paginator = this.paginator);

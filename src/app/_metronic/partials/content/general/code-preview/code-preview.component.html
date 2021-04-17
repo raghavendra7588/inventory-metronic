@@ -12,13 +12,9 @@
   </div>
   <div class="card-body">
     <div>
-      <!--begin::Code example-->
+
       <div class="example-code mb-5">
-        <ul
-          ngbNav
-          #nav="ngbNav"
-          class="example-nav nav nav-tabs nav-bold nav-tabs-line nav-tabs-line-2x"
-        >
+        <ul ngbNav #nav="ngbNav" class="example-nav nav nav-tabs nav-bold nav-tabs-line nav-tabs-line-2x">
           <li *ngIf="viewItem.htmlCode" ngbNavItem class="nav-item">
             <a ngbNavLink class="nav-link">HTML</a>
             <ng-template ngbNavContent>
@@ -64,26 +60,14 @@
 
         <div [ngbNavOutlet]="nav" class="mt-2"></div>
       </div>
-      <!--end::Code example-->
 
-      <!-- view -->
       <ng-content></ng-content>
-      <!-- / view -->
+  
+      <div *ngIf="viewItem.afterCodeTitle" class="kt-portlet__preview"
+        [innerHTML]="viewItem.afterCodeTitle | safe: 'html'"></div>
 
-      <!-- after Code Title -->
-      <div
-        *ngIf="viewItem.afterCodeTitle"
-        class="kt-portlet__preview"
-        [innerHTML]="viewItem.afterCodeTitle | safe: 'html'"
-      ></div>
-      <!-- / after Code Title -->
-
-      <!-- after Code Description -->
-      <div
-        *ngIf="viewItem.afterCodeDescription"
-        class="kt-portlet__preview"
-        [innerHTML]="viewItem.afterCodeDescription | safe: 'html'"
-      ></div>
+      <div *ngIf="viewItem.afterCodeDescription" class="kt-portlet__preview"
+        [innerHTML]="viewItem.afterCodeDescription | safe: 'html'"></div>
     </div>
   </div>
 </div>

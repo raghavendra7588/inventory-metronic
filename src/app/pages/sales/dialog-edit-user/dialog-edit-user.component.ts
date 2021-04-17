@@ -58,7 +58,7 @@ export class DialogEditUserComponent implements OnInit {
     this.strSellerId = sessionStorage.getItem('sellerId');
     this.role = sessionStorage.getItem('role');
     this.userData = data;
-    console.log('edit user', this.userData);
+
 
     if (this.userData && this.userData.length) {
       this.role = this.userData.role;
@@ -95,7 +95,7 @@ export class DialogEditUserComponent implements OnInit {
 
 
       this.salesService.editAdminUser(this.editUpdateAdmin).subscribe(res => {
-        console.log('admin edited', res);
+     
         this.toastr.success('Updated Successfully !!');
         this.emitterService.isAdminCreadtedOrUpdated.emit(true);
         this.dialogRef.close();
@@ -114,7 +114,7 @@ export class DialogEditUserComponent implements OnInit {
       this.validateAdminUser.pincode = this.editUser.pincode;
       this.validateAdminUser.state = this.editUser.state;
 
-      console.log('validate new admin user', this.validateAdminUser);
+     
       this.spinner.show(undefined,
         {
           type: 'square-spin',
@@ -124,7 +124,7 @@ export class DialogEditUserComponent implements OnInit {
       );
 
       this.salesService.saveAdminUser(this.validateAdminUser).subscribe(res => {
-        console.log('admin saved', res);
+        
         this.validateResponse = res;
 
         if (this.validateResponse == 'OK') {
@@ -164,7 +164,7 @@ export class DialogEditUserComponent implements OnInit {
           this.editUpdateAdmin.state = this.editUser.state;
           this.editUpdateAdmin.userid = this.strSellerId;
 
-          console.log('edit update admin user', this.editUpdateAdmin);
+
 
           this.salesService.editAdminUser(this.editUpdateAdmin).subscribe(res => {
             this.toastr.success('Saved Successfully !!');

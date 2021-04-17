@@ -39,7 +39,7 @@ export class DialogOrderManagementComponent implements OnInit {
   ) {
     this.orderData = data;
     this.assignValues();
-    console.log('order data', this.orderData);
+  
     this.orderNo = this.orderData.orderid;
     this.dataSource = new MatTableDataSource(this.orderData.orderDetails);
     setTimeout(() => this.dataSource.paginator = this.paginator);
@@ -84,7 +84,7 @@ export class DialogOrderManagementComponent implements OnInit {
     arr.forEach(item => {
       totalFinalPrice += Number(item.QuantityOrdered);
     });
-    console.log('totalFinalPrice **', totalFinalPrice);
+
     this.totalOrderedQuantity = totalFinalPrice;
 
   }
@@ -114,7 +114,7 @@ export class DialogOrderManagementComponent implements OnInit {
     }
 
     formData.append('Order', JSON.stringify(Order));
-    console.log('order ', Order);
+  
     this.salesService.updateOrders(formData).subscribe(res => {
       this.toastr.success('Updated Successfully !!');
       this.emitterService.isAdminCreadtedOrUpdated.emit(true);

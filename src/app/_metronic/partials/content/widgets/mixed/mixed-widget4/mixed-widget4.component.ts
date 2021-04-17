@@ -52,7 +52,7 @@ export class MixedWidget4Component implements OnInit {
     this.spinner.show();
     this.reportsService.getDashBoardSales(this.strUserId).subscribe(res => {
       this.salesData = res;
-      console.log('sales data', res[1]);
+    
 
 
       this.weeklySales = this.salesData[1].Week;
@@ -61,10 +61,6 @@ export class MixedWidget4Component implements OnInit {
       this.totalSales = this.salesData[1].Totall;
       this.changeDetector.detectChanges();
 
-      console.log('this.weeklySales', this.weeklySales);
-      console.log('this.monthlySales', this.monthlySales);
-      console.log('this.yearlySales', this.yearlySales);
-      console.log('this.totalSales', this.totalSales);
       this.spinner.hide();
     }, err => {
 

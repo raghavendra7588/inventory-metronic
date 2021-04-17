@@ -47,7 +47,7 @@ export class ChangePasswordComponent implements OnInit, OnDestroy {
     this.subscriptions.push(sb);
     this.vendorCode = sessionStorage.getItem('vendorId');
     this.vendorId = sessionStorage.getItem('sellerId');
-    this.getAllSellerData();
+    // this.getAllSellerData();
   }
 
   ngOnDestroy() {
@@ -158,7 +158,7 @@ export class ChangePasswordComponent implements OnInit, OnDestroy {
   }
 
   extractParticularSeller(arr) {
-    this.spinner.show();
+    // this.spinner.show();
     let particularSellerUserObj = [];
     arr.filter(res => {
       if ((res.vendorcode) == (this.vendorCode) && (res.role) === 'Seller') {
@@ -166,10 +166,10 @@ export class ChangePasswordComponent implements OnInit, OnDestroy {
       }
     });
 
-    console.log('logged in seller', particularSellerUserObj);
+
     this.sellerData = particularSellerUserObj;
-    console.log('seller 0', this.sellerData[0]);
-    // this.formGroup.controls.currentPassword.setValue(this.sellerData.password);
+
+  
     this.formGroup.get('currentPassword').setValue(this.sellerData[0].password);
     this.spinner.hide();
   }

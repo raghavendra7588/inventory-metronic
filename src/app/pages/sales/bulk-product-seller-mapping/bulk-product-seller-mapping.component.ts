@@ -54,7 +54,7 @@ export class BulkProductSellerMappingComponent implements OnInit {
 
 
   selectFile(e) {
-    console.log(e);
+ 
     this.fileData = <File>e.target.files[0];
     this.fileName = e.target.files[0].name;
     this.uploadedFileName = this.fileName;
@@ -92,7 +92,7 @@ export class BulkProductSellerMappingComponent implements OnInit {
 
   downloadCsv() {
     let objData = this.seller + '|' + this.type;
-    console.log('objData', objData);
+   
     let newWindow = window.open(this.salesService.ADMIN_BASE_URL + 'ProductSellerMapping/GetCSV?SellerID=' + objData, '_blank');
   }
 

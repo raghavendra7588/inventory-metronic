@@ -47,7 +47,7 @@ export class BaseTablesWidget6Component implements OnInit, AfterViewInit, OnDest
 
   ngOnInit(): void {
     this.currentTab = this.TABS[0];
-    // this.productData$ = this.reportsService.getFastestMovingDataByMonth(this.strSellerId);
+   
     this.getFastestMoVingProductsByMonth();
 
   }
@@ -82,12 +82,10 @@ export class BaseTablesWidget6Component implements OnInit, AfterViewInit, OnDest
 
 
   ngAfterViewInit() {
-    // setTimeout(() => {
-    //   this.clickedElement = fromEvent(this.el.nativeElement, 'click').subscribe(() => console.log('element clicked in table '));
-    // }, 7000);
+
   }
 
   ngOnDestroy() {
-    // this.clickedElement.unsubscribe();
+   
   }
 }

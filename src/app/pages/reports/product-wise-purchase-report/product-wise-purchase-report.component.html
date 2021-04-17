@@ -64,7 +64,7 @@
         <div class="col-md-3 col-sm-6 col-6 col-lg-3 col-xl-3">
             <mat-form-field style="width: 100%;">
                 <mat-label>Start Date</mat-label>
-                <input matInput [matDatepicker]="picker1" placeholder="From Date" [(ngModel)]="startDate">
+                <input matInput [matDatepicker]="picker1" placeholder="From Date" [(ngModel)]="startDate" [max]="maxDate" readonly>
                 <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
                 <mat-datepicker #picker1></mat-datepicker>
             </mat-form-field>
@@ -72,7 +72,7 @@
         <div class="col-md-3 col-sm-6 col-6 col-lg-3 col-xl-3">
             <mat-form-field style="width: 100%;">
                 <mat-label>End Date</mat-label>
-                <input matInput [matDatepicker]="picker" [(ngModel)]="endDate">
+                <input matInput [matDatepicker]="picker" [(ngModel)]="endDate" [max]="maxDate" readonly>
                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-datepicker #picker></mat-datepicker>
             </mat-form-field>

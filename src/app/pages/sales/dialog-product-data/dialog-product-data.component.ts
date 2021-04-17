@@ -23,7 +23,7 @@ export class DialogProductDataComponent implements OnInit {
   strSellerId: string;
   product: Product = new Product();
   role: string;
-  // displayedColumns = ['measurementUnit', 'varient', 'price', 'edit'];
+ 
   displayedColumns: any;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   dataSource: any;
@@ -76,7 +76,7 @@ export class DialogProductDataComponent implements OnInit {
       price: [''],
     });
     this.receivedProductData = data;
-    console.log('receivedProductData', this.receivedProductData);
+
 
     if (this.role == 'Admin') {
       this.displayedColumns = ['measurementUnit', 'varient', 'price', 'edit'];
@@ -117,7 +117,7 @@ export class DialogProductDataComponent implements OnInit {
     let parentid = '0';
     let userid = '1';
     this.salesService.getAllCategories(parentid, userid).subscribe(res => {
-      console.log('cat data', res);
+
       this.categoriesData = res;
 
       if (this.role == 'Seller') {
@@ -138,7 +138,7 @@ export class DialogProductDataComponent implements OnInit {
     );
     let parentid = 'sub';
     this.salesService.getAllSubCategoriesData(parentid).subscribe(res => {
-      console.log('sub cat data', res);
+   
       this.subCategoriesData = res;
     }, err => {
       this.spinner.hide();
@@ -154,7 +154,7 @@ export class DialogProductDataComponent implements OnInit {
       }
     );
     this.salesService.getBrandsData().subscribe(res => {
-      console.log('brands data', res);
+   
       this.brandsData = res;
       this.spinner.hide();
     }, err => {
@@ -172,7 +172,7 @@ export class DialogProductDataComponent implements OnInit {
     );
     this.salesService.getProductMeasureMentUnit().subscribe(res => {
       this.productMeasurementData = res;
-      console.log('productMeasurementData data', res);
+    
       this.spinner.hide();
     }, err => {
       this.spinner.hide();
@@ -180,7 +180,7 @@ export class DialogProductDataComponent implements OnInit {
   }
 
   selectedCategoryFromList(res) {
-    console.log('cat', res);
+
     let parentid = res.id;
     this.spinner.show(undefined,
       {
@@ -190,7 +190,7 @@ export class DialogProductDataComponent implements OnInit {
       }
     );
     this.salesService.getAllSubCategoriesData(parentid).subscribe(res => {
-      console.log('sub cat data', res);
+    
       this.subCategoriesData = res;
       this.spinner.hide();
     }, err => {
@@ -200,21 +200,21 @@ export class DialogProductDataComponent implements OnInit {
   }
 
   selectedSubCategoryFromList(res) {
-    console.log('sub cat', res);
+
   }
 
   selectedBrandsFromList(res) {
-    console.log('brand', res);
+    
   }
 
   selectectedMeasurementUnit(res) {
-    console.log('MeasurementUnit', res);
+   
     this.selectedProductMeasurementUnit = res;
 
   }
 
   addProducts() {
-    console.log('this.product.measurementUnit', this.product.measurementUnit);
+ 
 
     const index = this.customProductMeasurementUnit.findIndex((o) => Number(o.pricedecisionfactorid) === Number(this.product.measurementUnit));
     if (index === -1) {             // not exists
@@ -227,7 +227,7 @@ export class DialogProductDataComponent implements OnInit {
         isActive: "True",
         pricedecisionfactorname: this.selectedProductMeasurementUnit.name
       }
-      console.log('not exists');
+  
       this.customProductMeasurementUnit.push(product);
       this.dataSource = new MatTableDataSource(this.customProductMeasurementUnit);
       setTimeout(() => this.dataSource.paginator = this.paginator);
@@ -237,7 +237,7 @@ export class DialogProductDataComponent implements OnInit {
       this.product.price = '';
     }
     else {
-      console.log('exists');       // exists
+         // exists
       for (let i = 0; i < this.customProductMeasurementUnit.length; i++) {
         if (Number(this.customProductMeasurementUnit[i].pricedecisionfactorid) === Number(this.product.measurementUnit)) {
 
@@ -265,7 +265,7 @@ export class DialogProductDataComponent implements OnInit {
 
   deleteProduct(response) {
 
-    console.log('deleted ', response);
+   
 
     this.customProductMeasurementUnit = this.customProductMeasurementUnit.filter(item =>
       Number(item.pricedecisionfactorid) != Number(item.pricedecisionfactorid));
@@ -273,7 +273,7 @@ export class DialogProductDataComponent implements OnInit {
     this.product.varient = '';
     this.product.measurementUnit = '';
     this.product.price = '';
-    console.log('after delete', this.customProductMeasurementUnit);
+  
     this.dataSource = new MatTableDataSource(this.customProductMeasurementUnit);
     setTimeout(() => this.dataSource.paginator = this.paginator);
   }
@@ -326,7 +326,7 @@ export class DialogProductDataComponent implements OnInit {
       }
 
       formData.append('product', JSON.stringify(product));
-      console.log('products', product);
+    
 
 
 
@@ -351,7 +351,7 @@ export class DialogProductDataComponent implements OnInit {
       }
 
       formData.append('product', JSON.stringify(product));
-      console.log('products', product);
+
 
     }
     this.salesService.insertProducts(formData).subscribe(res => {

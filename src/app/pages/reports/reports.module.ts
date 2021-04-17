@@ -23,7 +23,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatListModule } from '@angular/material/list';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatNativeDateModule } from '@angular/material/core';
-// import { ToastrModule } from 'ngx-toastr';
+
 import { NgxPrintModule } from 'ngx-print';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatBadgeModule } from '@angular/material/badge';
@@ -38,6 +38,9 @@ import { DialogProductWisePurchaseReportComponent } from './dialog-product-wise-
 import { NgxSpinnerModule } from "ngx-spinner";
 import { InlineSVGModule } from 'ng-inline-svg';
 import { ToastrModule } from 'ngx-toastr';
+import { BrandVendorWisePurchaseReportComponent } from './brand-vendor-wise-purchase-report/brand-vendor-wise-purchase-report.component';
+import { DialogBrandVendorWisePurchaseOrderComponent } from './dialog-brand-vendor-wise-purchase-order/dialog-brand-vendor-wise-purchase-order.component';
+
 
 @NgModule({
   declarations: [
@@ -46,7 +49,9 @@ import { ToastrModule } from 'ngx-toastr';
     VendorOrderWisePurchaseReportComponent,
     DialogVendorOrderWisePurchaseReportComponent,
     ProductWisePurchaseReportComponent,
-    DialogProductWisePurchaseReportComponent],
+    DialogProductWisePurchaseReportComponent,
+    BrandVendorWisePurchaseReportComponent,
+    DialogBrandVendorWisePurchaseOrderComponent],
   imports: [
     CommonModule,
     HttpClientModule,
@@ -92,13 +97,19 @@ import { ToastrModule } from 'ngx-toastr';
       {
         path: 'productVendorWisePurchaseReport',
         component: ProductVendorWisePurchaseReportComponent,
+      },
+      {
+        path: 'brandVendorWisePurchaseReport',
+        component: BrandVendorWisePurchaseReportComponent,
       }
+      
     ])
   ],
   entryComponents: [
     DialogProductVendorWisePurchaseReportComponent,
     DialogVendorOrderWisePurchaseReportComponent,
-    DialogProductWisePurchaseReportComponent
+    DialogProductWisePurchaseReportComponent,
+    DialogBrandVendorWisePurchaseOrderComponent
   ],
   exports: [
     ProductVendorWisePurchaseReportComponent,
@@ -106,6 +117,7 @@ import { ToastrModule } from 'ngx-toastr';
     VendorOrderWisePurchaseReportComponent,
     DialogVendorOrderWisePurchaseReportComponent,
     ProductWisePurchaseReportComponent,
-    DialogProductWisePurchaseReportComponent]
+    DialogProductWisePurchaseReportComponent,
+    BrandVendorWisePurchaseReportComponent]
 })
 export class ReportsModule { }

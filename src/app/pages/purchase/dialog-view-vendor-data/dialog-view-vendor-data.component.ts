@@ -34,7 +34,7 @@ export class DialogViewVendorDataComponent implements OnInit {
 
     this.particularVendor = data;
     this.vendorId = Number(this.particularVendor.vendorId);
-    console.log('i received ', this.vendorId);
+ 
     this.vendorView.vendorId = Number(this.particularVendor.vendorId);
     this.vendorName = this.particularVendor.name;
 
@@ -57,13 +57,13 @@ export class DialogViewVendorDataComponent implements OnInit {
   getVendorViewData() {
     this.spinner.show();
     this.purchaseService.getAllVendorViewData(this.vendorView).subscribe(data => {
-      console.log('got data ', data);
+   
       this.vendorViewData = data;
       let uniqueVendorViewData = _.uniqBy(this.vendorViewData, 'ProductVarientId');
       this.vendorViewData = [];
       this.vendorViewData = uniqueVendorViewData;
  
-      console.log('vendorViewData', this.vendorViewData);
+     
       this.dataSource = new MatTableDataSource(this.vendorViewData);
       setTimeout(() => this.dataSource.paginator = this.paginator);
       this.spinner.hide();

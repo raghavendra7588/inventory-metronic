@@ -83,7 +83,7 @@ export class ProductMeasurementUnitComponent implements OnInit {
     );
 
     this.salesService.getProductMeasureMentUnit().subscribe(res => {
-      console.log('measure ment Unit', res);
+    
       this.productMeasurementData = res;
       this.dataSource = new MatTableDataSource(this.productMeasurementData);
       setTimeout(() => this.dataSource.paginator = this.paginator);

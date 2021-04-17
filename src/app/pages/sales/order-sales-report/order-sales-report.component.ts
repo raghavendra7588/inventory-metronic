@@ -108,7 +108,7 @@ export class OrderSalesReportComponent implements OnInit {
         particularSellerArr.push(item);
       }
     });
-    console.log('particularSellerArr', particularSellerArr);
+
     this.sellerData = particularSellerArr;
   }
 
@@ -119,26 +119,16 @@ export class OrderSalesReportComponent implements OnInit {
 
     let startDate = this.valueChanged(this.orderSalesReport.startDate);
     this.orderSalesReport.startDate = startDate;
-    console.log('start date', this.orderSalesReport.startDate);
+ 
 
     let endDate = this.valueChanged(this.orderSalesReport.endDate);
     this.orderSalesReport.endDate = endDate;
-    console.log('start date', this.orderSalesReport.endDate);
-
-    console.log('orderSalesReport', this.orderSalesReport);
-
-    // this.salesService.downloadOrderSalesReport(this.orderSalesReport).subscribe(res => {
-    //   console.log('order sales', res);
-    //   alert('got res');
-    // });
 
 
-    // let objData = this.seller + '|' + this.type;
-    // console.log('objData', objData);
-    // let newWindow = window.open(this.salesService.ADMIN_BASE_URL + 'ProductSellerMapping/GetCSV?SellerID=' + objData, '_blank');
+
 
     let objData = this.orderSalesReport.sellerName + '||' + this.orderSalesReport.reportType + '||' + startDate + '||' + endDate;
-    // var objData = sellerID + '||' + this.reportname + '||' + this.getDateFormat(this.startdate.value) + '||' + this.getDateFormat(this.enddate.value);
+  
     var newWindow = window.open(this.salesService.ADMIN_BASE_URL + '/ProductSellerMapping/Getreport?Data='
       + objData, '_blank', '');
 
@@ -161,7 +151,7 @@ export class OrderSalesReportComponent implements OnInit {
   onSellerChange(event, res) {
     this.seller = res.id;
     this.orderSalesReport.sellerName = this.seller;
-    console.log('ngmodel seller', this.seller);
+
 
   }
 }

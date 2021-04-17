@@ -46,7 +46,7 @@ export class DialogBrandComponent implements OnInit {
       image: ['']
     });
     this.brandsRespone = data;
-    console.log('this.brandsRespone', this.brandsRespone);
+
   }
 
   ngOnInit(): void {
@@ -80,8 +80,6 @@ export class DialogBrandComponent implements OnInit {
       formData.append('brand', JSON.stringify(Brand));
 
 
-      console.log('this.fileData', this.fileData);
-      console.log('this.fileName', this.fileName);
     }
     else {
 

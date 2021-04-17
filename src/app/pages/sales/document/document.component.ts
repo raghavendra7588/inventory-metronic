@@ -68,7 +68,7 @@ export class DocumentComponent implements OnInit {
   ) {
     this.role = sessionStorage.getItem('role');
     this.strSellerId = sessionStorage.getItem('sellerId');
-    console.log('current role', this.role);
+
     if (this.role == 'Admin' || this.role == 'backoffice') {
       this.isAdmin = true;
       this.getSellerUsers();
@@ -119,9 +119,7 @@ export class DocumentComponent implements OnInit {
     this.salesService.getSellerUsers(currentRole).subscribe(res => {
       this.sellerData = res;
       this.filteredSellerData = this.sellerData.slice();
-      // if (Array.isArray(this.sellerData) && this.sellerData.length) {
-      //   this.spinner.hide();
-      // }
+ 
       this.spinner.hide();
     }, err => {
       this.spinner.hide();
@@ -141,7 +139,7 @@ export class DocumentComponent implements OnInit {
   onSellerChange(event, res) {
     this.particularSellerId = res.id;
     this.particularSellerName = res.SellerNameCode;
-    console.log('this.particularSellerId', this.particularSellerId);
+
   }
 
 
@@ -151,7 +149,7 @@ export class DocumentComponent implements OnInit {
     formData.append('File', this.fileData, this.fileName);
     formData.append('documentType', this.document.documentType);
 
-    console.log('inside upload role', this.role)
+   
     if (this.role == 'Admin' || this.role == 'backoffice') {
       formData.append('userName', this.particularSellerName);
       formData.append('userId', this.particularSellerId);
@@ -173,7 +171,7 @@ export class DocumentComponent implements OnInit {
       }
     );
 
-    console.log('document model', this.document);
+
     this.salesService.uploadDocuments(formData).subscribe(data => {
       this.emitterService.isAdminCreadtedOrUpdated.emit(true);
       this.toastr.success('File Uploaded Successfully');
@@ -212,7 +210,7 @@ export class DocumentComponent implements OnInit {
     );
 
     this.salesService.getDocumentsById(id).subscribe(res => {
-      console.log('document list', res);
+
       this.documentsData = res;
       this.dataSource = new MatTableDataSource(this.documentsData);
       setTimeout(() => this.dataSource.paginator = this.paginator);

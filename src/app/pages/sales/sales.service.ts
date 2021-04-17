@@ -10,8 +10,8 @@ export class SalesService {
   token: string;
   public currentTab: string = '';
   public showGeneralEditDialog: boolean;
+  sellerData: any = [];
 
-  // BASE_URL = 'http://203.112.144.38/AdminApi/UploadedFiles/';
   BASE_URL = 'https://3intellects.co.in/UAT_AdminApi/UploadedFiles/';
   BASE_URL_DOCUMENTS = 'https://3intellects.co.in/uat_AdminApi';
 
@@ -433,8 +433,7 @@ export class SalesService {
   }
 
   downloadProductCsv(sellerId, type) {
-    // let headers = new HttpHeaders();
-    // headers = headers.set('Content-Type', 'text/csv');
+
     let reqHeader = new HttpHeaders({
       'Authorization': 'Bearer ' + this.token
     });

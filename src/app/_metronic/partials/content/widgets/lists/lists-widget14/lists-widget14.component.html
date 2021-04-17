@@ -14,56 +14,7 @@
     <h3 class="card-title font-weight-bolder" style="color:  #ff8c00;">Highest Value Products By
       {{currentlySelectedMenu}}</h3>
   </div>
-  <!-- <ng-container *ngIf="currentTab === 'lastMonth'">
-    <div class="card-body pt-2" *ngFor="let data of highestValueProductsByLastMonth">
-
-      <div class="d-flex flex-wrap align-items-center mb-10">
-
-
-        <div class="d-flex flex-column flex-grow-1 my-lg-0 my-2 pr-3">
-          <a class="text-dark-75 font-weight-bolder text-hover-primary font-size-lg">
-            {{data.ProductId}}
-          </a>
-          <span class="text-muted font-weight-bold font-size-sm my-1">
-            {{data.SubCategoryId}} / {{data.BrandId}}
-          </span>
-
-        </div>
-
-
-
-        <div class="d-flex flex-column flex-grow-1 py-lg-0 py-2">
-          <div class="d-flex flex-column text-center">
-            <span class="text-dark-75 font-weight-bolder text-hover-primary font-size-lg">
-              {{data.Varient}}
-            </span>
-            <span class="text-muted font-size-sm font-weight-bolder">
-              Varient
-            </span>
-          </div>
-        </div>
-
-        <div class="d-flex align-items-center py-lg-0 py-2">
-          <div class="d-flex flex-column text-right">
-            <span class="text-dark-75 font-weight-bolder font-size-h4">
-              {{data.total}}
-            </span>
-            <span class="text-muted font-size-sm font-weight-bolder">
-              Total
-            </span>
-          </div>
-        </div>
-
-      </div>
-
-
-
-    </div>
-
-    
-
-
-  </ng-container> -->
+ 
 
   <ng-container *ngIf="currentTab === 'lastMonth'">
     <div class="card-body pt-2" *ngFor="let data of highestValueProductsByLastMonth">

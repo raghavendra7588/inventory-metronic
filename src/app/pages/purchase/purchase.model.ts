@@ -149,7 +149,7 @@ export class PurchaseOrderItem {
 
 export class PurchaseOrderData {
     PurchaseOrderId?: number;
-    // categoryId: string;
+
     SellerId?: number;
     VendorId?: string;
     VendorName?: string;

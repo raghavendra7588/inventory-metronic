@@ -27,3 +27,11 @@ export class MonthData {
     startDateOfLastMonth: string;
 }
 
+export class BrandWiseOrder {
+    brandId: string;
+    productId: string;
+    startDate: string;
+    endDate: string;
+    sellerId: string;
+    vendorId: string;
+}

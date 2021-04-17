@@ -19,7 +19,7 @@ import { DialogSellerMappingComponent } from '../dialog-seller-mapping/dialog-se
 export class BackOfficeUserComponent implements OnInit {
 
   displayedColumns: any;
-  // displayedColumns = ['id', 'name', 'email', 'mobile', 'pin', 'state', 'city', 'mapping', 'edit'];
+ 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
   dataSource: any;
@@ -71,7 +71,7 @@ export class BackOfficeUserComponent implements OnInit {
     );
     let role = 'backoffice';
     this.salesService.getAllBackOfficeUsers(role).subscribe(res => {
-      console.log('backoffice user', res);
+      
       this.adminUsers = res;
       this.dataSource = new MatTableDataSource(this.adminUsers);
       setTimeout(() => this.dataSource.paginator = this.paginator);
@@ -80,7 +80,7 @@ export class BackOfficeUserComponent implements OnInit {
     });
   }
   setDataSourceAttributes() {
-    // this.dataSource.paginator = this.paginator;
+
     if (Array.isArray(this.dataSource) && this.dataSource.length) {
       setTimeout(() => this.dataSource.paginator = this.paginator);
     }

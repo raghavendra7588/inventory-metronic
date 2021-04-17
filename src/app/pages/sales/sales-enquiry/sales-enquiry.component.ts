@@ -58,7 +58,7 @@ export class SalesEnquiryComponent implements OnInit {
       }
     );
     this.salesService.getSalesEnquiry(userId).subscribe(res => {
-      console.log('res', res);
+    
       this.salesEnquiryData = res;
       this.dataSource = new MatTableDataSource(this.salesEnquiryData);
       setTimeout(() => this.dataSource.paginator = this.paginator);

@@ -21,6 +21,9 @@ export class PurchaseService {
   finalPriceList: any = [];
   allvendorData: any = [];
   allBrandData: any = [];
+  retailersAddressData: any = [];
+
+  addressData: any = [];
 
   private GET_CATEGORIES_DATA = environment.ADMIN_BASE_URL + '/ProductSellerMapping/getalledit';
   private GET_ALL_ADDRESSS_DATA = environment.BASE_URL + 'api/Address';
@@ -97,7 +100,7 @@ export class PurchaseService {
     return this.http.post(this.GET_ALL_PRODUCTS_MAPPED_UNMAPPED, data, { headers: reqHeader });
   }
 
-  
+
 
   getAllBrandData(parenetid: any, SubCategoryId: string) {
     const data = { "SellerId": this.sellerId, "CategoryId": parenetid, "SubCategoryId": SubCategoryId }

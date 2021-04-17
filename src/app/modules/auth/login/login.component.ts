@@ -55,8 +55,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       this.router.navigate(['/']);
     }
 
-    // this.user.username = '9821163061';
-    // this.user.password = '987654';
+
 
 
   }
@@ -129,7 +128,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
   login() {
     this.loginService.loginUser(this.user).subscribe(data => {
-      // console.log('logged in data', data)
+   
       this.authService.setLocalCache(data.token, data.name, data.id, data.categories, data.vendorcode, data.role, data.city);
       sessionStorage.removeItem('currentlySelectedTab');
       sessionStorage.setItem('currentlySelectedTab', 'Inventory');
@@ -141,7 +140,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     },
       error => {
         this.errors = error;
-        console.log('eror', this.errors.error);
+   
         if (this.errors) {
           this.toastr.error(this.errors.error);
         }

@@ -15,11 +15,23 @@ import { PurchaseService } from '../../purchase/purchase.service';
 import * as _ from 'lodash';
 import { PurchaseReport } from '../../inventory/inventory.model';
 import { DialogProductWisePurchaseReportComponent } from '../dialog-product-wise-purchase-report/dialog-product-wise-purchase-report.component';
+import { DateAdapter, MAT_DATE_FORMATS } from '@angular/material/core';
+import { AppDateAdapter, APP_DATE_FORMATS } from '../product-vendor-wise-purchase-report/date.adapter';
 
 @Component({
   selector: 'app-product-wise-purchase-report',
   templateUrl: './product-wise-purchase-report.component.html',
-  styleUrls: ['./product-wise-purchase-report.component.scss']
+  styleUrls: ['./product-wise-purchase-report.component.scss'],
+  providers: [
+    {
+      provide: DateAdapter,
+      useClass: AppDateAdapter
+    },
+    {
+      provide: MAT_DATE_FORMATS,
+      useValue: APP_DATE_FORMATS
+    }
+  ]
 })
 export class ProductWisePurchaseReportComponent implements OnInit {
 
@@ -97,6 +109,7 @@ export class ProductWisePurchaseReportComponent implements OnInit {
   subCategorySearch: any = [];
   brandSearch: any = [];
   productSearch: any = [];
+  maxDate: any;
 
   constructor(
     public dialog: MatDialog,
@@ -110,6 +123,7 @@ export class ProductWisePurchaseReportComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.maxDate = new Date();
     this.objSeller = JSON.parse(sessionStorage.getItem('categories'));
     this.sellerName = sessionStorage.getItem('sellerName');
     this.sellerId = Number(sessionStorage.getItem('sellerId'));
@@ -127,7 +141,7 @@ export class ProductWisePurchaseReportComponent implements OnInit {
 
 
   onCategorySelectAll() {
-    console.log('inside cat seelct all');
+ 
     this.purchaseReport.categoryId = 'ALL';
     let catchMappedCategory: any = [];
     let productNamesArray: any = [];
@@ -140,13 +154,12 @@ export class ProductWisePurchaseReportComponent implements OnInit {
       let uniqueBrandName = this.createUniqueBrandName(this.AllCategoryArray);
       this.anyArray = this.sortUniqueBrandName(uniqueBrandName);
       this.BrandSelect = this.anyArray;
-      console.log('any array in cat', this.anyArray);
+ 
       productNamesArray = this.createUniqueProductName(this.anyArray);
 
       this.finalProductNameArray = productNamesArray;
       this.productSearch = this.finalProductNameArray;
 
-      console.log('product array', this.finalProductNameArray);
     });
     this.loginService.seller_object.categories = this.categorySearch.slice();
     this.multipleCategoriesArray = this.subCategorySearch.slice();
@@ -156,9 +169,9 @@ export class ProductWisePurchaseReportComponent implements OnInit {
 
 
   onSubCategorySelectAll() {
-    console.log('inside sub cat select all');
+    
     let catchMappedSubCategory: any = [];
-    console.log('cat id', this.categoryId.toString());
+
     this.purchaseService.getEachBrand(this.categoryId.toString(), '0').subscribe(data => {
       this.AllSubCategoryArray = data;
       catchMappedSubCategory = this.mapObj(this.AllSubCategoryArray, this.dbData);
@@ -166,7 +179,7 @@ export class ProductWisePurchaseReportComponent implements OnInit {
       let uniqueBrands = this.createUniqueBrandName(catchMappedSubCategory);
       this.anyArray = this.sortUniqueBrandName(uniqueBrands);
       this.brandSearch = this.anyArray;
-      console.log('any array', this.anyArray);
+      
     });
     this.loginService.seller_object.categories = this.categorySearch.slice();
     this.multipleCategoriesArray = this.subCategorySearch.slice();
@@ -240,7 +253,7 @@ export class ProductWisePurchaseReportComponent implements OnInit {
   }
 
   onCategoryDeSelectAll(event) {
-    console.log('disselect all', event);
+   
   }
 
   onSubCategorySelect(event, data) {
@@ -251,7 +264,7 @@ export class ProductWisePurchaseReportComponent implements OnInit {
       if (this.multipleBrandArray.length === 0) {
         this.multipleBrandArray = data;
         this.catchMappedData = this.mapObj(this.multipleBrandArray, this.dbData);
-        // this.multipleBrandArray = this.catchMappedData;
+       
       }
       else {
         this.array2 = data;
@@ -354,7 +367,7 @@ export class ProductWisePurchaseReportComponent implements OnInit {
         let eachBrandData: any = [];
         let mappedData: any = [];
         let uniqueBrandName: any = [];
-        console.log('category select category id', category.id);
+      
         this.purchaseService.getEachBrand(category.id, '0').subscribe(data => {
           eachBrandData = data;
           mappedData = this.mapObj(eachBrandData, this.dbData);
@@ -391,7 +404,7 @@ export class ProductWisePurchaseReportComponent implements OnInit {
         this.subCategoryId = subCategory.id.toString();
         this.subCategoriesArray.push(subCategory.id);
         this.spinner.show();
-        // this.purchaseService.getAllBrand(subCategory.parentid, subCategory.id).subscribe(data => {
+      
           this.purchaseService.getMappedUnMappedProducts(subCategory.parentid, subCategory.id).subscribe(data => {
           this.multipleBrandArray = data;
           this.catchMappedData = this.mapObj(this.multipleBrandArray, this.dbData);
@@ -430,8 +443,7 @@ export class ProductWisePurchaseReportComponent implements OnInit {
   }
 
   onProductChange(event, product: any) {
-    console.log(product);
-    console.log('multiple brand array', this.multipleBrandArray);
+
     if (event.isUserInput) {
       if (event.source.selected) {
         this.spinner.show();
@@ -442,7 +454,7 @@ export class ProductWisePurchaseReportComponent implements OnInit {
           return item.BrandName.trim() === product.BrandName;
         });
         this.finalBrandArray = filteredBrandArray;
-        console.log('final product array', this.finalBrandArray);
+       
 
 
 
@@ -470,7 +482,7 @@ export class ProductWisePurchaseReportComponent implements OnInit {
   changeProduct(event, product: any) {
     if (event.isUserInput) {
       if (event.source.selected) {
-        console.log(product);
+       
       }
     }
   }
@@ -541,7 +553,7 @@ export class ProductWisePurchaseReportComponent implements OnInit {
       this.purchaseReport.startDate = 'ALL';
     }
     else {
-      let startingDate = this.convertDate(this.startDate);
+      let startingDate = this.valueChangedDate(this.startDate);
       this.purchaseReport.startDate = startingDate;
     }
 
@@ -549,18 +561,18 @@ export class ProductWisePurchaseReportComponent implements OnInit {
       this.purchaseReport.endDate = 'ALL';
     }
     else {
-      let endingDate = this.convertDate(this.endDate);
+      let endingDate = this.valueChangedToDate(this.endDate);
       this.purchaseReport.endDate = endingDate;
     }
 
-    console.log(this.purchaseReport);
+
     this.inventoryService.getPurchaseOrderInventoryData(this.purchaseReport).subscribe(data => {
-      console.log(data);
+ 
       this.reportData = data;
       let uniquePurchaseOrder = _.uniqBy(this.reportData, 'ProductVarientId');
-      console.log(uniquePurchaseOrder);
+  
       this.reportData = uniquePurchaseOrder;
-      console.log(this.reportData);
+    
       this.dataSource = new MatTableDataSource(this.reportData);
       setTimeout(() => this.dataSource.paginator = this.paginator);
     });
@@ -618,14 +630,27 @@ export class ProductWisePurchaseReportComponent implements OnInit {
     return array;
   }
 
-  convertDate(receivedDate) {
-    let date = new Date(receivedDate);
-    const year = date.getFullYear();
-    const month = `${date.getMonth() + 1}`.padStart(2, "0");
-    const day = `${date.getDate()}`.padStart(2, "0");
-    const stringDate = [day, month, year].join("/");
-    let fullDate = stringDate;
-    return fullDate
+  valueChangedDate(selectedDate) {
+    let date = new Date(selectedDate);
+    const year = date.getFullYear()
+    const month = `${date.getMonth() + 1}`.padStart(2, "0")
+    const day = `${date.getDate()}`.padStart(2, "0")
+    let stringDate = [year, month, day].join("/");
+    return stringDate;
   }
 
+  valueChangedToDate(selectedDate) {
+    let date = new Date(selectedDate);
+    const year = date.getFullYear()
+    const month = `${date.getMonth() + 1}`.padStart(2, "0")
+    const day = `${date.getDate() + 1}`.padStart(2, "0")
+    let stringDate = '';
+    if (day == '32') {
+      stringDate = [year, month, '31'].join("/") + ' ' + '23:59:59.999';
+    }
+    else {
+      stringDate = [year, month, day].join("/");
+    }
+    return stringDate;
+  }
 }

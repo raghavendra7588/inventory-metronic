@@ -47,7 +47,7 @@ export class DialogViewUserComponent implements OnInit {
     });
 
     this.userData = data;
-    console.log('edit user', this.userData);
+ 
 
     if (this.userData && this.userData.length) {
       this.role = this.userData.role;

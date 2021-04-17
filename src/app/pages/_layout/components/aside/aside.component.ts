@@ -42,7 +42,7 @@ export class AsideComponent implements OnInit {
       if (val) {
         if ("role" in sessionStorage) {
           this.role = sessionStorage.getItem("role");
-          console.log('role', this.role);
+         
         }
       }
     });
@@ -85,7 +85,7 @@ export class AsideComponent implements OnInit {
   onTabChange(currentTab: string) {
 
     this.currentlySelectedTab = currentTab;
-    console.log('currentlySelectedTab', this.currentlySelectedTab);
+  
     sessionStorage.removeItem('currentlySelectedTab');
     sessionStorage.setItem('currentlySelectedTab', this.currentlySelectedTab);
     this.emitterService.currentlySelectedTab.emit(true);

@@ -17,7 +17,7 @@ import { ExportToCsv } from 'export-to-csv';
 })
 export class CustomerUserComponent implements OnInit {
 
-  // displayedColumns = ['totalSeller', 'totalOrder', 'totalAmount', 'name', 'email', 'mobile', 'pinCode', 'state', 'city', 'edit'];
+ 
   displayedColumns: any;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
@@ -74,7 +74,7 @@ export class CustomerUserComponent implements OnInit {
     if (this.userRole == 'Admin') {
 
       this.salesService.getAllCustomerUsersByAdmin(role).subscribe(res => {
-        console.log('Customer user', res);
+
         this.adminUsers = res;
         this.dataSource = new MatTableDataSource(this.adminUsers);
         setTimeout(() => this.dataSource.paginator = this.paginator);
@@ -86,7 +86,7 @@ export class CustomerUserComponent implements OnInit {
     }
     else {
       this.salesService.getAllCustomerUsers(role, this.userId).subscribe(res => {
-        console.log('Customer user', res);
+   
         this.adminUsers = res;
         this.dataSource = new MatTableDataSource(this.adminUsers);
         setTimeout(() => this.dataSource.paginator = this.paginator);
@@ -98,15 +98,7 @@ export class CustomerUserComponent implements OnInit {
 
     }
 
-    // this.salesService.getAllCustomerUsers(role, this.userId).subscribe(res => {
-    //   console.log('Customer user', res);
-    //   this.adminUsers = res;
-    //   this.dataSource = new MatTableDataSource(this.adminUsers);
-    //   setTimeout(() => this.dataSource.paginator = this.paginator);
-    //   this.spinner.hide();
-    // }, err => {
-    //   this.spinner.hide();
-    // });
+
   }
 
 
@@ -116,7 +108,7 @@ export class CustomerUserComponent implements OnInit {
   }
 
   setDataSourceAttributes() {
-    // this.dataSource.paginator = this.paginator;
+
     if (Array.isArray(this.dataSource) && this.dataSource.length) {
       setTimeout(() => this.dataSource.paginator = this.paginator);
     }

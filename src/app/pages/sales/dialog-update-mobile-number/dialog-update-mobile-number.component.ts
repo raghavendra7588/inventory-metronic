@@ -40,7 +40,7 @@ export class DialogUpdateMobileNumberComponent implements OnInit {
     });
     this.strSellerId = sessionStorage.getItem('sellerId');
     this.userData = data;
-    console.log('edit', this.userData);
+
 
 
 
@@ -65,7 +65,7 @@ export class DialogUpdateMobileNumberComponent implements OnInit {
 
 
     let data = { emailid: 'XXXXXX@x123.com', mobilenumber: this.newMobileNumber.toString() };
-    console.log('updateMobileNumber', data);
+ 
 
     this.salesService.updateContactNumber(data).subscribe(res => {
       this.validateResponse = res;
@@ -80,7 +80,7 @@ export class DialogUpdateMobileNumberComponent implements OnInit {
           userid: this.strSellerId.toString()
         }
 
-        console.log('newMobileNumber', newMobileNumber);
+
         this.salesService.updateMobileNumber(newMobileNumber).subscribe(res => {
           this.toastr.success('Contact Number Is Updated !!');
           this.emitterService.isAdminCreadtedOrUpdated.emit(true);

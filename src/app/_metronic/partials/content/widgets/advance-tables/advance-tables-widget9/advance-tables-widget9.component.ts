@@ -27,13 +27,11 @@ export class AdvanceTablesWidget9Component {
   getOrderListData(userId) {
     this.spinner.show();
     this.salesService.getOrderList(userId).subscribe(res => {
-      console.log('order stats ****************', res);
+  
       this.orderData = res;
       let sortedArray = this.orderData.sort((a, b) => parseFloat(b.totalAmount) - parseFloat(a.totalAmount));
       this.orderData = this.extractTopOrders(sortedArray);
-      console.log('sortedArray', sortedArray);
-      console.log('this.orderData', this.orderData);
-      console.log('this.orderData', this.orderData.length);
+
       this.spinner.hide();
     },
       err => {

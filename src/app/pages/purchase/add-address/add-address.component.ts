@@ -2,9 +2,12 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { LoginService } from 'src/app/modules/auth/login.service';
 import { EmitterService } from 'src/app/shared/emitter.service';
+import { EditUpdateAdmin } from '../../sales/sales.model.';
+import { SalesService } from '../../sales/sales.service';
 import { Address } from '../purchase.model';
 import { PurchaseService } from '../purchase.service';
 
@@ -26,6 +29,14 @@ export class AddAddressComponent implements OnInit {
   copyAddressToggle: boolean = false;
   isButtonDisabled: boolean = false;
 
+  particularSellerResponse: any = [];
+  firstAddressResponse: any = [];
+  editUpdateAdmin: EditUpdateAdmin = new EditUpdateAdmin();
+  adminUsers: any = [];
+  strSellerId: string;
+  role: string;
+  newCity: string;
+
   constructor(
     public formBuilder: FormBuilder,
     public router: Router,
@@ -34,11 +45,13 @@ export class AddAddressComponent implements OnInit {
     public loginService: LoginService,
     @Inject(MAT_DIALOG_DATA) public data: any,
     public emitterService: EmitterService,
-    public toastr: ToastrService
+    public toastr: ToastrService,
+    private salesService: SalesService,
+    private spinner: NgxSpinnerService
   ) {
 
     this.addressForm = this.formBuilder.group({
-      // billing_name: ['', [Validators.required]],
+ 
       billing_name: [''],
       shipping_name: [''],
       billing_address: [''],
@@ -59,9 +72,13 @@ export class AddAddressComponent implements OnInit {
     });
 
     this.addressData = data;
+
+
   }
 
   ngOnInit(): void {
+    this.strSellerId = sessionStorage.getItem('sellerId');
+    this.role = sessionStorage.getItem('role');
     if (this.addressData) {
       this.assignValues();
     }
@@ -74,8 +91,6 @@ export class AddAddressComponent implements OnInit {
     this.address.billingName = sessionStorage.getItem('sellerName');
     this.address.shippingName = sessionStorage.getItem('sellerName');
 
-    // this.addressForm.get('billing_name').disable();
-    // this.addressForm.get('shipping_name').disable();
 
     this.address.billing_country = 'India';
     this.address.shipping_country = 'India';
@@ -112,6 +127,7 @@ export class AddAddressComponent implements OnInit {
     if (this.address.billing_city === null || this.address.billing_city === undefined || this.address.billing_city === '') {
       this.address.billing_city = 'NULL';
     }
+
 
     if (this.address.billing_pinCode === null || this.address.billing_pinCode === undefined) {
       this.address.billing_pinCode = 0;
@@ -210,5 +226,11 @@ export class AddAddressComponent implements OnInit {
     }
 
   }
+
+
+
+
+
+
 
 }

@@ -44,7 +44,7 @@ export class DialogSalesEnquiryComponent implements OnInit {
     this.strSellerId = sessionStorage.getItem('sellerId');
     this.role = sessionStorage.getItem('role');
     this.enquiryFormData = data;
-    console.log('enquiryFormData', this.enquiryFormData);
+
 
     this.enquiryForm = this.formBuilder.group({
       ShopName: ['', [Validators.required]],
@@ -116,7 +116,7 @@ export class DialogSalesEnquiryComponent implements OnInit {
           color: 'white'
         }
       );
-      console.log('req editEnquiryForm', editEnquiryForm);
+
       this.salesService.insertUpdateSalesEnquiry(editEnquiryForm).subscribe(res => {
         this.toastr.success('Updated Successfully !!');
         this.emitterService.isAdminCreadtedOrUpdated.emit(true);
@@ -142,7 +142,7 @@ export class DialogSalesEnquiryComponent implements OnInit {
         userid: this.strSellerId
       };
 
-      console.log('req editEnquiryForm', editEnquiryForm);
+    
       this.spinner.show(undefined,
         {
           type: "square-jelly-box",
@@ -185,7 +185,7 @@ export class DialogSalesEnquiryComponent implements OnInit {
     this.salesEnquiry.categories = this.enquiryFormData.categories;
 
     let arr = this.enquiryFormData.categoriestext.split(',');
-    console.log('req cat arr', arr);
+ 
     this.salesEnquiry.categoriestext = arr;
     this.salesEnquiry.id = this.enquiryFormData.id;
     this.salesEnquiry.userid = this.enquiryFormData.userid;
@@ -234,7 +234,7 @@ export class DialogSalesEnquiryComponent implements OnInit {
         color: 'white'
       }
     );
-    console.log('req editEnquiryForm', editEnquiryForm);
+
     this.salesService.insertUpdateSalesEnquiry(editEnquiryForm).subscribe(res => {
       this.toastr.success('Updated Successfully !!');
       this.emitterService.isAdminCreadtedOrUpdated.emit(true);

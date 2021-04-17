@@ -73,7 +73,7 @@ export class BrandComponent implements OnInit {
       }
     );
     this.salesService.getBrandsData().subscribe(res => {
-      console.log('brands data', res);
+    
 
       this.brandsData = res;
       this.dataSource = new MatTableDataSource(this.brandsData);

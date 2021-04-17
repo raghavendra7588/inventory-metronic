@@ -19,7 +19,7 @@ import { DialogSellerMappingComponent } from '../dialog-seller-mapping/dialog-se
 export class SalesUserComponent implements OnInit {
 
   displayedColumns: any;
-  // displayedColumns = ['id', 'name', 'email', 'mobile', 'pin', 'state', 'city', 'mapping', 'edit'];
+
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
   dataSource: any;
@@ -66,7 +66,7 @@ export class SalesUserComponent implements OnInit {
       }
     );
     this.salesService.getAllSalesUsers(role).subscribe(res => {
-      console.log('Sales user', res);
+  
       this.adminUsers = res;
       this.dataSource = new MatTableDataSource(this.adminUsers);
       setTimeout(() => this.dataSource.paginator = this.paginator);
@@ -81,13 +81,13 @@ export class SalesUserComponent implements OnInit {
     this.dataSource.filter = filter.trim().toLowerCase();
   }
   setDataSourceAttributes() {
-    // this.dataSource.paginator = this.paginator;
+
     if (Array.isArray(this.dataSource) && this.dataSource.length) {
       setTimeout(() => this.dataSource.paginator = this.paginator);
     }
   }
   editUser(user) {
-    console.log('user', user);
+
     this.salesService.currentTab = 'Edit Sales Person';
     this.dialog.open(DialogEditUserComponent, {
       height: '380px',

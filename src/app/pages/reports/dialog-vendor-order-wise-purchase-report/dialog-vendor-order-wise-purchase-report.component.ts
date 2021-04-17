@@ -35,7 +35,7 @@ export class DialogVendorOrderWisePurchaseReportComponent implements OnInit {
     this.sellerName = sessionStorage.getItem('sellerName');
     this.vendorName = data.vendor_name;
     this.orderNo = data.OrderNo;
-    // this.getPurchaseReportById(data.PurchaseOrderId);
+
     this.spinner.show();
     this.purchaseService.getPurchaseReportById(data.PurchaseOrderId).subscribe(data => {
       this.PurchaseReportDataArray = data;
@@ -72,7 +72,7 @@ export class DialogVendorOrderWisePurchaseReportComponent implements OnInit {
   getTotalQuantity() {
     let totalPurchaseQuantity = 0;
     this.PurchaseReportDataArray.forEach(item => {
-      // totalPurchaseQuantity += Number(item.availableQuantity);
+ 
       totalPurchaseQuantity += Number(item.PurchaseQuantity);
     });
     return totalPurchaseQuantity;

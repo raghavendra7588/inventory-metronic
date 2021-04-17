@@ -158,7 +158,7 @@ export class SpecificPriceListComponent implements OnInit {
       this.vendorData = data;
       this.purchaseService.allvendorData = data;
       this.spinner.hide();
-      console.log('all vendor data from Purchase Order 11', this.purchaseService.allvendorData);
+     
     },
       err => {
         this.toastr.error('Please Check Your API is Running Or Not!');
@@ -187,7 +187,7 @@ export class SpecificPriceListComponent implements OnInit {
     this.categoryArrayData = [];
     this.vendorId = 0;
     this.vendorId = item.vendorId;
-    console.log('selected vendor ID', this.vendorId);
+  
 
     this.multipleCategoriesArray = [];
     this.anyArray = [];
@@ -196,19 +196,19 @@ export class SpecificPriceListComponent implements OnInit {
         this.particularVendor = item;
       }
     });
-    console.log('particular vendor', this.particularVendor);
+    
     this.dataSource = [];
     this.strcategoryIdArray = this.particularVendor.category;
     this.numCategoryIdArray = this.strcategoryIdArray.split(',').map(Number);
-    console.log('int category array', this.numCategoryIdArray);
+    
 
     this.strsubCategoryIdArray = this.particularVendor.subCategory;
     this.numSubcategoryIdArray = this.strsubCategoryIdArray.split(',').map(Number);
-    console.log('int sub category array', this.numSubcategoryIdArray);
+  
 
     this.strBrandIdArray = this.particularVendor.brand;
     this.numBrandIdArray = this.strBrandIdArray.split(',').map(Number);
-    console.log('int brand array', this.numBrandIdArray);
+  
 
     let particularCategory: any = [];
 
@@ -218,7 +218,7 @@ export class SpecificPriceListComponent implements OnInit {
         this.particularCategoryArray.push(particularCategory);
       }
     });
-    console.log('particularCategoryArray', this.particularCategoryArray);
+  
     this.categorySearch = this.particularCategoryArray;
 
     this.particularCategoryArray = this.categorySearch.slice();
@@ -247,10 +247,6 @@ export class SpecificPriceListComponent implements OnInit {
   logSelection() {
     this.isPriceValid = true;
     this.isMultipleAmount = true;
-    // if (this.updateAllRecordsCount != this.providedInputAmount) {
-    //   this.toastr.error('Kindly Select Required CheckBoxes');
-    //   return;
-    // }
 
     this.selection.selected.forEach((element) => {
       this.updateAllArray.push(element);
@@ -284,7 +280,7 @@ export class SpecificPriceListComponent implements OnInit {
           filteredCategoryData.push(data);
         }
       });
-      console.log('filteredCategoryData', filteredCategoryData);
+
 
       this.subCategorySearch = filteredCategoryData;
 
@@ -296,7 +292,7 @@ export class SpecificPriceListComponent implements OnInit {
       });
 
 
-      // this.dataSource = new MatTableDataSource(filteredCategoryData);
+ 
       this.dataSource = new MatTableDataSource(filteredBrandData);
       this.dataSource.paginator = this.paginator;
 
@@ -305,7 +301,7 @@ export class SpecificPriceListComponent implements OnInit {
 
       this.brandSearch = this.anyArray;
 
-      console.log('any array in cat', this.anyArray);
+     
     },
       err => {
         this.toastr.error('Please Check Your API is Running Or Not!');
@@ -335,14 +331,13 @@ export class SpecificPriceListComponent implements OnInit {
       });
 
 
-      console.log('this.numBrandIdArray', this.numBrandIdArray);
-      console.log('filteredSubCategoryData', filteredSubCategoryData);
+ 
       catchMappedSubCategory.filter(data => {
         if (this.numBrandIdArray.includes(Number(data.BrandID))) {
           filteredBrandData.push(data);
         }
       });
-      console.log('filteredBrandData', filteredBrandData);
+     
       this.dataSource = new MatTableDataSource(filteredBrandData);
       this.dataSource.paginator = this.paginator;
 
@@ -350,7 +345,7 @@ export class SpecificPriceListComponent implements OnInit {
       this.anyArray = this.sortUniqueBrandName(uniqueBrands);
 
       this.brandSearch = this.anyArray;
-      console.log('any array', this.anyArray);
+      
     },
       err => {
         this.toastr.error('Please Check Your API is Running Or Not!');
@@ -373,15 +368,14 @@ export class SpecificPriceListComponent implements OnInit {
       brandData = data;
 
       mappedBrandData = this.mapObj(brandData, this.dbData);
-      console.log('mappedBrandData', mappedBrandData);
-
+    
       mappedBrandData.filter(item => {
         if (this.numBrandIdArray.includes(Number(item.BrandID))) {
           FinalFilteredBrandData.push(item);
         }
       });
 
-      console.log('FinalFilteredBrandData', FinalFilteredBrandData);
+    
       this.dataSource = new MatTableDataSource(FinalFilteredBrandData);
       this.dataSource.paginator = this.paginator;
       uniqueBrandNameData = this.createUniqueBrandName(FinalFilteredBrandData);
@@ -420,7 +414,7 @@ export class SpecificPriceListComponent implements OnInit {
               particularSubCategoryArray.push(item);
             }
           });
-          console.log('particularSubCategoryArray', particularSubCategoryArray);
+       
           this.multipleCategoriesArray = particularSubCategoryArray;
           this.subCategorySearch = this.multipleCategoriesArray;
           this.spinner.hide();
@@ -436,7 +430,7 @@ export class SpecificPriceListComponent implements OnInit {
         let eachBrandData: any = [];
         let mappedData: any = [];
         let uniqueBrandName: any = [];
-        console.log('category select category id', category.id);
+
       }
     }
 
@@ -449,15 +443,14 @@ export class SpecificPriceListComponent implements OnInit {
         this.subCategoryId = subCategory.id.toString();
         this.subCategoriesArray.push(subCategory.id);
         this.spinner.show();
-        // this.purchaseService.getAllBrand(subCategory.parentid, subCategory.id).subscribe(data => {
+  
         this.purchaseService.getMappedUnMappedProducts(subCategory.parentid, subCategory.id).subscribe(data => {
-          console.log('brand data', data);
+
           this.multipleBrandArray = data;
           this.catchMappedData = this.mapObj(this.multipleBrandArray, this.dbData);
           this.multipleBrandArray = this.catchMappedData;
 
-          console.log('sub this.catchMappedData', this.catchMappedData);
-          console.log('this.numBrandIdArray', this.numBrandIdArray);
+          
 
 
           this.catchMappedData.filter(data => {
@@ -467,11 +460,11 @@ export class SpecificPriceListComponent implements OnInit {
             }
           });
 
-          console.log('filteredBrandDataArray', filteredBrandDataArray);
+  
 
           this.uniqueBrandNamesArray = this.createUniqueBrandName(filteredBrandDataArray);
           this.anyArray = this.sortUniqueBrandName(this.uniqueBrandNamesArray);
-          console.log('brand data received', this.anyArray);
+ 
           this.brandSearch = this.anyArray;
 
           this.dataSource = new MatTableDataSource(filteredBrandDataArray);
@@ -497,17 +490,13 @@ export class SpecificPriceListComponent implements OnInit {
         this.spinner.show();
         this.dataSource = [];
         this.brandArray.push(product.ProductID);
-        console.log('this.multipleBrandArray', this.multipleBrandArray);
-        console.log('product', product);
+   
         let filteredBrandArray = this.multipleBrandArray.filter(function (item) {
           return item.BrandName.trim() === product.BrandName;
         });
-        // let filteredBrandArray = this.multipleBrandArray.filter(function (item) {
-        //   return item.Name.trim() === product.BrandName;
-        // });
-
+  
         this.finalBrandArray = filteredBrandArray;
-        console.log('finalBrandArray', this.finalBrandArray);
+      
 
         this.dataSource = [];
         this.dataSource = new MatTableDataSource(this.finalBrandArray);
@@ -538,7 +527,7 @@ export class SpecificPriceListComponent implements OnInit {
       this.priceList.ProductVarientId = element.ProductVarientId;
       this.priceList.CategoryId = Number(element.CategoryID);
       this.priceList.vendorId = Number(this.vendorId);
-      console.log('price list', this.priceList);
+    
 
       this.purchaseService.savePriceListMaster(this.priceList).subscribe(data => {
         this.toastr.success('Price List Updated');
@@ -572,7 +561,7 @@ export class SpecificPriceListComponent implements OnInit {
 
       this.priceList.CategoryId = Number(element.CategoryID);
       this.priceList.vendorId = Number(this.vendorId);
-      console.log('price list', this.priceList);
+    
 
       let isPriceValid = (Number(this.priceList.buyingPrice) - Number(this.priceList.discount)) === Number(this.priceList.finalPrice);
       if (isPriceValid) {
@@ -625,7 +614,7 @@ export class SpecificPriceListComponent implements OnInit {
       this.priceList.ProductVarientId = element.ProductVarientId;
       this.priceList.CategoryId = Number(element.CategoryID);
       this.priceList.vendorId = Number(this.vendorId);
-      console.log('price list', this.priceList);
+    
 
       this.isPriceValid = (Number(this.priceList.buyingPrice) - Number(this.priceList.discount)) === Number(this.priceList.finalPrice);
       if (this.isPriceValid) {
@@ -653,7 +642,7 @@ export class SpecificPriceListComponent implements OnInit {
         this.priceList.buyingPrice = 0;
         this.priceList.discount = 0;
         this.priceList.finalPrice = 0;
-        // this.emitterService.isPriceListUpdated.emit(true);
+       
         this.updateAllRecordsCount = 0;
         this.updateAllArray = [];
         this.multipleEntriesArray = [];
@@ -701,17 +690,7 @@ export class SpecificPriceListComponent implements OnInit {
     }
     return sortedArray;
   }
-  // createUniqueBrandName(array: any) {
-  //   console.log('arrray', array);
-  //   let sortedArray: Array<any> = [];
-  //   for (let i = 0; i < array.length; i++) {
-  //     if ((sortedArray.findIndex(p => p.BrandName.trim() == array[i].Name.trim())) == -1) {
-  //       var item = { BrandName: array[i].Name.trim(), SubCategoryID: array[i].SubCategoryId, BrandID: array[i].BrandId }
-  //       sortedArray.push(item);
-  //     }
-  //   }
-  //   return sortedArray;
-  // }
+
 
   sortUniqueBrandName(array) {
     array.sort((a, b) => {
@@ -729,42 +708,27 @@ export class SpecificPriceListComponent implements OnInit {
 
 
   calculateProvidedQuantity(providedInputQuantity, productData) {
-    console.log('eleement', productData);
-    console.log('providedInputQuantity', providedInputQuantity);
+  
 
     if (Number(providedInputQuantity) > 0) {
       if (this.inputQuantityArray.includes(productData.Id)) {
-        console.log("value exists");
-        console.log('providedInputAmount', this.providedInputAmount);
-        console.log('inputQuantityArray', this.inputQuantityArray);
+
         return;
       }
 
       else {
-        console.log("does not exist");
+
         this.inputQuantityArray.push(productData.Id);
         this.providedInputAmount++;
-        console.log('providedInputAmount', this.providedInputAmount);
-        console.log('inputQuantityArray', this.inputQuantityArray);
+
         return;
       }
 
 
     }
-    // else if ((Number(providedInputQuantity) == 0)) {
-    //   if (this.inputQuantityArray.includes(productData.Id)) {
-    //     console.log("made to 0 ");
-    //     this.providedInputAmount--;
-    //     this.inputQuantityArray = this.inputQuantityArray.filter(item => item !== productData.Id)
-    //     console.log('providedInputAmount', this.providedInputAmount);
-    //     console.log('inputQuantityArray', this.inputQuantityArray);
-    //     return;
-    //   }
-
-    // }
+  
     else {
-      console.log('providedInputAmount', this.providedInputAmount);
-      console.log('inputQuantityArray', this.inputQuantityArray);
+
       return;
     }
   }

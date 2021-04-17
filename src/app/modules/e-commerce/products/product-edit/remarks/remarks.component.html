@@ -1,5 +1,5 @@
 <div class="mt-5">
-  <!-- begin: Filtration form -->
+   begin: Filtration form -->
   <div class="form margin-b-30">
     <div class="form-filtration">
       <div class="row align-items-center">
@@ -20,9 +20,9 @@
       </div>
     </div>
   </div>
-  <!-- end: Filtration form -->
+   end: Filtration form -->
 
-  <!-- begin: Grouping -->
+   begin: Grouping -->
   <ng-container *ngIf="grouping.getSelectedRowsCount()">
     <div class="form">
       <div class="row align-items-center form-group-actions margin-top-20 margin-bottom-20">
@@ -47,8 +47,8 @@
       </div>
     </div>
   </ng-container>
-  <!-- end: Grouping -->
-  <!-- begin:Table -->
+   end: Grouping -->
+   begin:Table -->
   <div class="table-responsive angular-bootstrap-table">
     <table class="table table-head-custom table-vertical-center overflow-hidden">
       <thead>
@@ -102,7 +102,7 @@
       </tbody>
     </table>
   </div>
-  <!-- end: Table -->
+   end: Table -->
   <app-paginator class="d-flex justify-content-between align-items-center flex-wrap" [paginator]="paginator"
     [isLoading]="isLoading" (paginate)="paginate($event)"></app-paginator>
 </div>

@@ -19,7 +19,7 @@ import { ExportToCsv } from 'export-to-csv';
 })
 export class SellerUserComponent implements OnInit {
 
-  // displayedColumns = ['vendorCode', 'totalCustomer', 'totalProduct', 'totalOrder', 'name', 'email', 'mobile', 'categories', 'mapping', 'edit'];
+ 
   displayedColumns: any;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
@@ -47,13 +47,12 @@ export class SellerUserComponent implements OnInit {
 
     if (this.role == 'Admin') {
       this.isAdmin = true;
-      console.log('this.isAdmin', this.isAdmin);
-      console.log('role', this.role);
+
       this.displayedColumns = ['vendorCode', 'totalCustomer', 'totalProduct', 'totalOrder', 'name', 'email', 'mobile', 'categories', 'mapping', 'edit'];
       this.getSellerUser();
     }
     else {
-      // this.displayedColumns = ['vendorCode', 'totalCustomer', 'totalProduct', 'totalOrder', 'name', 'email', 'mobile', 'categories', 'edit'];
+      
       this.displayedColumns = ['vendorCode', 'totalCustomer', 'totalProduct', 'totalOrder', 'name', 'email', 'mobile', 'edit'];
       this.getSellerUser();
       this.isAdmin = false;
@@ -87,7 +86,7 @@ export class SellerUserComponent implements OnInit {
 
     if (this.role == 'Admin') {
       this.salesService.getAllSellerUsers(role).subscribe(res => {
-        console.log('Seller user', res);
+       
         this.adminUsers = res;
         this.isDataLoaded = true;
         this.dataSource = new MatTableDataSource(this.adminUsers);
@@ -105,7 +104,7 @@ export class SellerUserComponent implements OnInit {
 
     if (this.role == 'partner' || this.role == 'sales' || this.role == 'Seller') {
       this.salesService.getSellerUsersData(role, this.strSellerId).subscribe(res => {
-        console.log('Seller user', res);
+
         this.adminUsers = res;
         this.isDataLoaded = true;
         this.dataSource = new MatTableDataSource(this.adminUsers);
@@ -128,7 +127,7 @@ export class SellerUserComponent implements OnInit {
   }
 
   editSellerUser(user) {
-    console.log('user', user);
+ 
     this.salesService.currentTab = 'Edit New Seller';
     this.dialog.open(DialogEditUserComponent, {
       height: '370px',

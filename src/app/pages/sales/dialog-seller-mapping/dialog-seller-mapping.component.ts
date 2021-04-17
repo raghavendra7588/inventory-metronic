@@ -53,12 +53,12 @@ export class DialogSellerMappingComponent implements OnInit {
     });
 
     this.userData = data;
-    console.log('edit', this.userData);
+  
 
 
     if (this.salesService.currentTab == 'Sub Category Mapping') {
       // backoffice
-      console.log('user id', this.userData.id);
+    
       this.userID = this.userData.id + '-sub';
       this.getParentChildMappingData(this.userID);
 
@@ -98,7 +98,7 @@ export class DialogSellerMappingComponent implements OnInit {
     startWith(null),
     debounceTime(200),
     switchMap((res: string) => {
-      console.log('input ', res);
+  
       if (!res) return of(this.parentChildMappingData);
       res = res.toLowerCase();
       return of(
@@ -109,7 +109,7 @@ export class DialogSellerMappingComponent implements OnInit {
 
 
   selectionChange(option: any) {
-    console.log(option);
+   
     let value = this.shoesControl.value || [];
     if (option.selected) value.push(option.value);
     else value = value.filter((x: any) => x != option.value);
@@ -126,7 +126,7 @@ export class DialogSellerMappingComponent implements OnInit {
       }
     );
     this.salesService.getParentChildMappingBrand(id).subscribe(res => {
-      console.log('child mapping', res);
+  
       this.parentChildMappingData = res;
 
       this.dataSource = new MatTableDataSource(this.parentChildMappingData);
@@ -149,7 +149,7 @@ export class DialogSellerMappingComponent implements OnInit {
         isMappingTrue.push(arr[i].Child_UserID.toString());
       }
     }
-    console.log('isMappingTrue', isMappingTrue);
+
     this.mappingForm.controls.mappingID.setValue(isMappingTrue);
   }
 
@@ -172,7 +172,7 @@ export class DialogSellerMappingComponent implements OnInit {
     }
 
     if (this.salesService.currentTab == 'Child Seller mapping') {
-      console.log('seller tab');
+    
       this.parentChildMapping.Parent_UserID = res.Parent_UserID + '-child';
     }
     if (this.salesService.currentTab == 'Seller Mapping') {
@@ -195,7 +195,7 @@ export class DialogSellerMappingComponent implements OnInit {
 
     this.parentChildMapping.userid = this.strSellerID;
 
-    console.log(' this.parentChildMapping', this.parentChildMapping);
+
     this.spinner.show(undefined,
       {
         type: "square-jelly-box",
@@ -213,7 +213,7 @@ export class DialogSellerMappingComponent implements OnInit {
         this.spinner.hide();
       }
     }, err => {
-      console.log(err);
+
       this.toastr.error(err.error);
       this.spinner.hide();
     });
@@ -228,10 +228,10 @@ export class DialogSellerMappingComponent implements OnInit {
       finalResult = storeParentChildMappingData.filter((item) => item.Name.toLowerCase().includes(val.toLowerCase()));
     }
     else {
-      console.log('inside the else');
+
       finalResult = prevParentChildMappingData;
     }
-    console.log(val);
+
     this.parentChildMappingData = finalResult;
     return [...this.parentChildMappingData];
 
@@ -241,6 +241,6 @@ export class DialogSellerMappingComponent implements OnInit {
   }
 
   editUpdateOutStockMsg(res) {
-    console.log('clicked', res);
+   
   }
 }

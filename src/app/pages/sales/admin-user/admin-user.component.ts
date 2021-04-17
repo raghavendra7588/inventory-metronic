@@ -61,7 +61,7 @@ export class AdminUserComponent implements OnInit {
     );
     let role = 'Admin';
     this.salesService.getAllAdminUsers(role).subscribe(res => {
-      console.log('admin user', res);
+      
       this.adminUsers = res;
       this.dataSource = new MatTableDataSource(this.adminUsers);
       setTimeout(() => this.dataSource.paginator = this.paginator);
@@ -70,7 +70,7 @@ export class AdminUserComponent implements OnInit {
     });
   }  
   setDataSourceAttributes() {
-    // this.dataSource.paginator = this.paginator;
+ 
     if (Array.isArray(this.dataSource) && this.dataSource.length) {
       setTimeout(() => this.dataSource.paginator = this.paginator);
     }

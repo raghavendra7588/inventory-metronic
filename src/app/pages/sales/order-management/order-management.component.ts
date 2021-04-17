@@ -79,7 +79,7 @@ export class OrderManagementComponent implements OnInit {
       }
     );
     this.salesService.getOrderList(userId).subscribe(res => {
-      console.log('res', res);
+    
       this.orderData = res;
       this.dataSource = new MatTableDataSource(this.orderData);
       setTimeout(() => this.dataSource.paginator = this.paginator);
@@ -132,7 +132,7 @@ export class OrderManagementComponent implements OnInit {
 
   }
   setDataSourceAttributes() {
-    // this.dataSource.paginator = this.paginator;
+
     if (Array.isArray(this.dataSource) && this.dataSource.length) {
       setTimeout(() => this.dataSource.paginator = this.paginator);
     }

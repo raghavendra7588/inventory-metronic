@@ -43,7 +43,7 @@ export class DialogProductComponent implements OnInit {
     });
 
     this.categoryResponse = data;
-    console.log('PMU', this.categoryResponse);
+    
   }
 
   ngOnInit(): void {
@@ -66,7 +66,7 @@ export class DialogProductComponent implements OnInit {
         }
       );
       this.salesService.updateProductMeasurementUnit(this.product).subscribe(res => {
-        console.log('res', res);
+        
         this.toastr.success('Updated Successfully !!');
         this.emitterService.isAdminCreadtedOrUpdated.emit(true);
         this.dialogRef.close();
@@ -116,7 +116,7 @@ export class DialogProductComponent implements OnInit {
 
     this.product.userid = this.strSellerId;
     this.product.IsActive = '0';
-    console.log('product', this.product);
+  
     this.salesService.deleteProductUnitData(this.product).subscribe(res => {
       this.toastr.error('Deleted Successfully !!');
       this.emitterService.isDeleted.emit(true);

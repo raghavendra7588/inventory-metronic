@@ -80,9 +80,9 @@ export class UpdateOutOfStockComponent implements OnInit {
 
     this.salesService.getSellerUsers(currentRole).subscribe(res => {
       this.sellerData = res;
-      console.log('current role', this.role);
+    
       if (this.role == 'Seller') {
-        console.log('current role **', this.role);
+      
         this.filterSellerData(this.sellerData);
         this.categoriesData = JSON.parse(sessionStorage.getItem('categories'));
       }
@@ -103,18 +103,18 @@ export class UpdateOutOfStockComponent implements OnInit {
         particularSellerArr.push(item);
       }
     });
-    console.log('particularSellerArr', particularSellerArr);
+  
     this.sellerData = particularSellerArr;
   }
 
 
   onSellerChange(event, res) {
-    console.log('res', res);
+ 
     this.categoriesData = res.categories;
 
     this.sellerData = res.id;
     this.selectedSellerID = res.id;
-    console.log('sellerData', this.sellerData);
+
     this.spinner.show(undefined,
       {
         type: "square-jelly-box",
@@ -126,7 +126,7 @@ export class UpdateOutOfStockComponent implements OnInit {
 
     this.salesService.getMappedProducts(unmapppedData).subscribe(res => {
       this.unMappedProductData = res;
-      console.log('unMappedProductData', this.unMappedProductData);
+   
       this.dataSource = new MatTableDataSource(this.unMappedProductData);
       setTimeout(() => this.dataSource.paginator = this.paginator);
       this.spinner.hide();
@@ -136,7 +136,7 @@ export class UpdateOutOfStockComponent implements OnInit {
   }
 
   editUpdateOutStockMsg(element) {
-    console.log('element', element);
+  
 
     this.updateOutOfStockMessage.AvailableQuantity = element.AvailableQuantity;
     this.updateOutOfStockMessage.BrandID = element.BrandID;
@@ -165,7 +165,7 @@ export class UpdateOutOfStockComponent implements OnInit {
     this.updateOutOfStockMessage.userid = this.strSellerID;
     this.updateOutOfStockMessage.CategoryID = element.CategoryID;
 
-    console.log('this.updateOutOfStockMessage', this.updateOutOfStockMessage);
+
     this.spinner.show(undefined,
       {
         type: "square-jelly-box",
@@ -180,7 +180,7 @@ export class UpdateOutOfStockComponent implements OnInit {
 
       this.salesService.getMappedProducts(unmapppedData).subscribe(res => {
         this.unMappedProductData = res;
-        console.log('unMappedProductData', this.unMappedProductData);
+
         this.dataSource = new MatTableDataSource(this.unMappedProductData);
         setTimeout(() => this.dataSource.paginator = this.paginator);
         this.subCategoryId = '';
@@ -197,7 +197,7 @@ export class UpdateOutOfStockComponent implements OnInit {
 
 
   selectedCategoryFromList(res) {
-    console.log('cat seelcted', res);
+
     this.categoryID = res.id;
 
     this.spinner.show(undefined,
@@ -227,7 +227,7 @@ export class UpdateOutOfStockComponent implements OnInit {
     let mappedProductData: any = [];
     this.salesService.getMappedProducts(req).subscribe(res => {
       mappedProductData = res;
-      console.log('mappedProductData', mappedProductData);
+
       this.dataSource = new MatTableDataSource(mappedProductData);
       setTimeout(() => this.dataSource.paginator = this.paginator);
       this.spinner.hide();
@@ -237,7 +237,7 @@ export class UpdateOutOfStockComponent implements OnInit {
   }
 
   selectedSubCategoryFromList(res) {
-    console.log('sub cat seelcted', res);
+
     let brands: any = [];
     this.spinner.show(undefined,
       {
@@ -251,7 +251,7 @@ export class UpdateOutOfStockComponent implements OnInit {
     this.salesService.getMappedProducts(req).subscribe(res => {
       brands = res;
       this.brandsResponse = res;
-      console.log('brands data main', res);
+ 
       let uniqueBrandNamesArray = this.createUniqueBrandName(brands);
       this.brandsData = this.sortUniqueBrandName(uniqueBrandNamesArray);
       this.dataSource = new MatTableDataSource(brands);
@@ -263,9 +263,7 @@ export class UpdateOutOfStockComponent implements OnInit {
   }
 
   selectedBrandFromList(res) {
-    console.log('brand seelcted', res);
-    console.log('brands data from select list', this.brandsData);
-    console.log('brands SEELCTED ID', this.brandsId);
+
     let remainingCategoriesArray = this.brandsResponse.filter(function (item) {
       return Number(item.BrandID) == Number(res.BrandID);
     });

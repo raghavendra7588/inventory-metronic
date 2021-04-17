@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
+import { EmitterService } from 'src/app/shared/emitter.service';
 import { AuthService, UserModel } from '../../../auth';
 
 @Component({
@@ -18,16 +19,26 @@ export class ProfileCardComponent implements OnInit {
 
   constructor(
     public userService: AuthService,
-    private router: Router) {
+    private router: Router,
+    public emitterService: EmitterService,
+    private cdr: ChangeDetectorRef) {
     this.user$ = this.userService.currentUserSubject.asObservable();
-      this.router.navigate(['/user-profile/addAddress']);
+    this.router.navigate(['/user-profile/addAddress']);
   }
 
-  ngOnInit(): void { 
+  ngOnInit(): void {
     this.sellerName = sessionStorage.getItem('sellerName');
     this.vendorCode = sessionStorage.getItem('vendorId');
     this.role = sessionStorage.getItem('role');
     this.city = sessionStorage.getItem('city');
+
+    this.emitterService.isLoggedIn.subscribe(val => {
+      if (val) {
+        this.city = '';
+        this.city = sessionStorage.getItem('city');
+        this.cdr.detectChanges();
+      }
+    });
   }
 
 }

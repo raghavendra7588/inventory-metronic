@@ -97,8 +97,7 @@ export class Brand {
     name: string;
     descriptions: string;
     imageurl: string;
-    // isparent: string;
-    // parentid: string;
+
     id: string;
     IsActive: string;
     userid: string;

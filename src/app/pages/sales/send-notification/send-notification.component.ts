@@ -98,7 +98,7 @@ export class SendNotificationComponent implements OnInit {
 
     if (event.source.selected) {
       this.sellerArray.push(response.vendorcode);
-      console.log('seller array', this.sellerArray);
+
     }
     if (!event.source.selected) {
 
@@ -107,7 +107,7 @@ export class SendNotificationComponent implements OnInit {
       if (index > -1) {
         this.sellerArray.splice(index, 1);
       }
-      console.log('after removal', this.sellerArray);
+  
     }
   }
 
@@ -153,8 +153,7 @@ export class SendNotificationComponent implements OnInit {
     }, err => {
       this.spinner.hide();
     });
-    // console.log('this.sendNotification', this.sendNotification);
-    console.log('Notification', notification);
+
   }
 
   selectedTargetUser(res) {

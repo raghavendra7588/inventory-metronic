@@ -53,7 +53,7 @@ export class BussinessSnapshotComponent implements OnInit {
       }
     );
     this.salesService.getBussinessSnapshot(this.userID).subscribe(res => {
-      console.log('bussines', res);
+   
       this.bussinessSnapshotData = res;
       this.dataSource = new MatTableDataSource(this.bussinessSnapshotData);
       setTimeout(() => this.dataSource.paginator = this.paginator);

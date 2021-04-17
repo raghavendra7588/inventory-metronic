@@ -57,14 +57,14 @@ export class AsideStaticComponent implements OnInit {
 
 
     this.emitterService.isLoggedIn.subscribe(val => {
-      console.log('inside emit ');
+
 
       if (val) {
-        console.log('inside emit val');
+       
 
         if ("role" in sessionStorage) {
           this.role = sessionStorage.getItem("role");
-          console.log('role', this.role);
+
         }
 
       }
@@ -72,7 +72,7 @@ export class AsideStaticComponent implements OnInit {
 
     if ("role" in sessionStorage) {
       this.role = sessionStorage.getItem("role");
-      console.log('role', this.role);
+   
     }
   }
 }

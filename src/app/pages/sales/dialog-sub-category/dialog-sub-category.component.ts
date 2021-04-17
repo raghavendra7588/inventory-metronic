@@ -52,7 +52,7 @@ export class DialogSubCategoryComponent implements OnInit {
       image: ['']
     });
     this.subCategoryResponse = data;
-    console.log('subCategoryResponse', data);
+
   }
 
   ngOnInit(): void {
@@ -88,8 +88,6 @@ export class DialogSubCategoryComponent implements OnInit {
       formData.append('Category', JSON.stringify(Category));
 
 
-      console.log('this.fileData', this.fileData);
-      console.log('this.fileName', this.fileName);
     }
     else {
 
@@ -145,15 +143,15 @@ export class DialogSubCategoryComponent implements OnInit {
   getAllCategoriesData() {
 
     this.salesService.getCategoriesData('0').subscribe(res => {
-      console.log('cat res', res);
+   
       this.categoriesResponse = res;
     });
   }
 
   selectedCategoryFromList(res) {
-    console.log('selected cat', res);
+ 
     this.selectedCategory = res;
-    console.log('current category', this.subCategory.parentCategory);
+
   }
 
   deleteSubCategory() {

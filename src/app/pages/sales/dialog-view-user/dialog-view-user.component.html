@@ -19,13 +19,13 @@
         <div class="row my-2">
 
 
-            <div class="col-md-4 col-sm-4 col-4 col-xl-4">
+            <div class="col-md-6 col-sm-6 col-6 col-xl-6 col-lg-6">
                 <mat-form-field style="width: 100%;">
                     <input matInput placeholder="Email ID" formControlName="emailid" [(ngModel)]="editUser.emailid" readonly>
                 </mat-form-field>
             </div>
 
-            <div class="col-md-4 col-sm-4 col-4 col-xl-4">
+            <div class="col-md-6 col-sm-6 col-6 col-xl-6 col-lg-6">
                 <mat-form-field style="width: 100%;">
                     <input matInput placeholder="Mobile Number" [maxLength]="maxLengthPhone"
                         formControlName="mobilenumber" [(ngModel)]="editUser.mobilenumber" appNumber readonly>
@@ -37,22 +37,6 @@
                 </mat-form-field>
             </div>
 
-            <div class="col-md-4 col-sm-4 col-4 col-xl-4">
-                <mat-form-field style="width: 100%;">
-
-                    <input matInput [type]="hide ? 'password' : 'text'" placeholder="Password"
-                        formControlName="password" [(ngModel)]="editUser.password" readonly>
-                    <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
-                        [attr.aria-pressed]="hide">
-                        <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
-                    </button>
-                    <mat-error
-                        *ngIf="editUserForm.controls.mobilenumber.touched && editUserForm.controls.mobilenumber.invalid">
-                        <span *ngIf="editUserForm.controls.mobilenumber.errors.required">Password is
-                            mandatory.</span>
-                    </mat-error>
-                </mat-form-field>
-            </div>
         </div>
 
 

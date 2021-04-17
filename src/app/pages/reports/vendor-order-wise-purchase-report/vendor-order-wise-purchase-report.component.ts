@@ -7,11 +7,23 @@ import { DialogVendorOrderWisePurchaseReportComponent } from '../dialog-vendor-o
 import * as _ from 'lodash';
 import { MatPaginator } from '@angular/material/paginator';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { DateAdapter, MAT_DATE_FORMATS } from '@angular/material/core';
+import { AppDateAdapter, APP_DATE_FORMATS } from '../product-vendor-wise-purchase-report/date.adapter';
 
 @Component({
   selector: 'app-vendor-order-wise-purchase-report',
   templateUrl: './vendor-order-wise-purchase-report.component.html',
-  styleUrls: ['./vendor-order-wise-purchase-report.component.scss']
+  styleUrls: ['./vendor-order-wise-purchase-report.component.scss'],
+  providers: [
+    {
+      provide: DateAdapter,
+      useClass: AppDateAdapter
+    },
+    {
+      provide: MAT_DATE_FORMATS,
+      useValue: APP_DATE_FORMATS
+    }
+  ]
 })
 export class VendorOrderWisePurchaseReportComponent implements OnInit {
 
@@ -26,6 +38,7 @@ export class VendorOrderWisePurchaseReportComponent implements OnInit {
   purchaseReportArray: any = [];
   strSellerId: string;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+  maxDate: any;
 
   constructor(
     public dialog: MatDialog,
@@ -33,6 +46,7 @@ export class VendorOrderWisePurchaseReportComponent implements OnInit {
     private spinner: NgxSpinnerService) { }
 
   ngOnInit(): void {
+    this.maxDate = new Date();
     this.strSellerId = sessionStorage.getItem('sellerId');
     this.getVendorData();
     this.sellerId = sessionStorage.getItem('sellerId');
@@ -60,7 +74,6 @@ export class VendorOrderWisePurchaseReportComponent implements OnInit {
     this.spinner.show();
     this.purchaseService.getAllVendorData(this.strSellerId).subscribe(data => {
       this.vendorData = data;
-      console.log('vendor data purchase reports ', this.vendorData);
       this.spinner.hide();
     },
       err => {
@@ -68,16 +81,29 @@ export class VendorOrderWisePurchaseReportComponent implements OnInit {
       });
   }
 
-  convertDate(receivedDate) {
-    let date = new Date(receivedDate);
-    const year = date.getFullYear();
-    const month = `${date.getMonth() + 1}`.padStart(2, "0");
-    const day = `${date.getDate()}`.padStart(2, "0");
-    const stringDate = [day, month, year].join("/");
-    let fullDate = stringDate;
-    return fullDate
+  valueChangedDate(selectedDate) {
+    let date = new Date(selectedDate);
+    const year = date.getFullYear()
+    const month = `${date.getMonth() + 1}`.padStart(2, "0")
+    const day = `${date.getDate()}`.padStart(2, "0")
+    let stringDate = [year, month, day].join("/");
+    return stringDate;
   }
 
+  valueChangedToDate(selectedDate) {
+    let date = new Date(selectedDate);
+    const year = date.getFullYear()
+    const month = `${date.getMonth() + 1}`.padStart(2, "0")
+    const day = `${date.getDate() + 1}`.padStart(2, "0")
+    let stringDate = '';
+    if (day == '32') {
+      stringDate = [year, month, '31'].join("/") + ' ' + '23:59:59.999';
+    }
+    else {
+      stringDate = [year, month, day].join("/");
+    }
+    return stringDate;
+  }
   searchRecords() {
 
     if (this.purchaseReport.vendorId === null || this.purchaseReport.vendorId === undefined || this.purchaseReport.vendorId === '') {
@@ -98,7 +124,7 @@ export class VendorOrderWisePurchaseReportComponent implements OnInit {
       this.purchaseReportData.startDate = 'ALL';
     }
     else {
-      let startDate = this.convertDate(this.purchaseReport.startDate);
+      let startDate = this.valueChangedDate(this.purchaseReport.startDate);
       this.purchaseReportData.startDate = startDate;
     }
 
@@ -106,7 +132,7 @@ export class VendorOrderWisePurchaseReportComponent implements OnInit {
       this.purchaseReportData.endDate = 'ALL';
     }
     else {
-      let endDate = this.convertDate(this.purchaseReport.endDate);
+      let endDate = this.valueChangedToDate(this.purchaseReport.endDate);
       this.purchaseReportData.endDate = endDate;
     }
     this.purchaseReportData.sellerId = this.sellerId;

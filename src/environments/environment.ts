@@ -8,4 +8,3 @@ export const environment = {
   // BASE_URL: 'https://3intellects.co.in/uat_InventoryService/',
   ADMIN_BASE_URL: 'https://3intellects.co.in/uat_AdminApi/api/',
 };
-

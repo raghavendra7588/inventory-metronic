@@ -1,80 +1,96 @@
 <div id="demo">
-    <img src="/assets/images/gv.PNG" class="mx-auto d-block" height="80px" width="130px" />
 
+    <div class="container my-2">
+        <div class="row my-4">
+            <div class="col-md-4 text-center">
 
+                <img src="/assets/images/gv.PNG" height="80px" width="130px" />
+            </div>
+            <div class="col-md-4 text-center">
+            </div>
+            <div class="col-md-4 text-center">
+            </div>
+        </div>
+        <div class="row my-2">
+            <div class="col-md-4 text-center">
+
+                <h3 class="font-weight-bold orange-icon">Vendor Name</h3>
+                <h4 class="font-weight-bold">{{vendorName | titlecase}}</h4>
+            </div>
+
+        </div>
+
+    </div>
     <div class="container">
         <div class="row">
             <div class="col-md-12 col-12 col-sm-12 col-lg-12 col-xl-12 mt-4">
 
+
                 <table mat-table [dataSource]="dataSource" class="custom-dialog-table">
 
 
-                    <ng-container matColumnDef="ProductName">
-                        <th mat-header-cell *matHeaderCellDef>Prouct</th>
-                        <td mat-cell *matCellDef="let element">{{element.ProductName}}</td>
+               
+                    <ng-container matColumnDef="orderNo">
+                        <th mat-header-cell *matHeaderCellDef>Order No</th>
+                        <td mat-cell *matCellDef="let element"> {{element.OrderNo}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="orderDate">
+                        <th mat-header-cell *matHeaderCellDef>Order Date</th>
+                        <td mat-cell *matCellDef="let element"> {{element.OrderDate}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="BrandName">
                         <th mat-header-cell *matHeaderCellDef>Brand</th>
-                        <td mat-cell *matCellDef="let element">{{element.Brand}}</td>
-
+                        <td mat-cell *matCellDef="let element"> {{element.BrandName}} </td>
                     </ng-container>
 
-                    <ng-container matColumnDef="Varient">
-                        <th mat-header-cell *matHeaderCellDef>Varient</th>
-                        <td mat-cell *matCellDef="let element">{{element.Varient}}</td>
-
+                    <ng-container matColumnDef="productName">
+                        <th mat-header-cell *matHeaderCellDef>Product Name</th>
+                        <td mat-cell *matCellDef="let element"> {{element.ProductName}} </td>
                     </ng-container>
+                 
 
-                    <ng-container matColumnDef="ProductMRP">
+                    <!-- <ng-container matColumnDef="BuyingPrice">
                         <th mat-header-cell *matHeaderCellDef>Buying Price</th>
                         <td mat-cell *matCellDef="let element">{{element.BuyingPrice}}</td>
-
                     </ng-container>
 
-                    <ng-container matColumnDef="ProductDiscount">
+                    <ng-container matColumnDef="Discount">
                         <th mat-header-cell *matHeaderCellDef>Discount</th>
                         <td mat-cell *matCellDef="let element">{{element.Discount}}</td>
-
-                    </ng-container>
-                    <ng-container matColumnDef="BrandWiseTotal">
-                        <th mat-header-cell *matHeaderCellDef>BrandWise Tot</th>
-                        <td mat-cell *matCellDef="let element">{{element.BrandTotal}}</td>
-
-                    </ng-container>
-                    <ng-container matColumnDef="totalOrders">
-                        <th mat-header-cell *matHeaderCellDef>Tot Orders</th>
-                        <td mat-cell *matCellDef="let element">{{element.TotalOrder}}</td>
-
-                    </ng-container>
+                    </ng-container> -->
 
                     <ng-container matColumnDef="totalQuantityOrder">
                         <th mat-header-cell *matHeaderCellDef>Tot Quant Order</th>
-                        <td mat-cell *matCellDef="let element">{{element.TotalQuantityOrder }}</td>
-
+                        <td mat-cell *matCellDef="let element">{{element.TotalQuantityOrder}}</td>
                     </ng-container>
 
-                    <ng-container matColumnDef="totalFinalPrice">
-                        <th mat-header-cell *matHeaderCellDef>Tot Final Price</th>
-                        <td mat-cell *matCellDef="let element">{{element.TotalFinalPrice}}</td>
 
+                    <ng-container matColumnDef="totalFinalPrice">
+                        <th mat-header-cell *matHeaderCellDef>Tot Buying Amt</th>
+                        <td mat-cell *matCellDef="let element">{{element.TotalBuyingPrice}}</td>
                     </ng-container>
 
                     <ng-container matColumnDef="totalDiscountPrice">
-                        <th mat-header-cell *matHeaderCellDef>Tot Disc Price</th>
-                        <td mat-cell *matCellDef="let element">{{element.TotalDiscountPrice}}</td>
-
+                        <th mat-header-cell *matHeaderCellDef>Tot Disc</th>
+                        <td mat-cell *matCellDef="let element">{{element.TotalDiscount}}</td>
                     </ng-container>
 
                     <ng-container matColumnDef="FinalPurchaseAmount">
                         <th mat-header-cell *matHeaderCellDef>Final Purchase Amt</th>
-                        <td mat-cell *matCellDef="let element">{{element.FinalPurchaseAmount }}</td>
-
+                        <td mat-cell *matCellDef="let element">{{element.FinalPurchaseAmtAns}}</td>
                     </ng-container>
 
+                    <ng-container matColumnDef="OrderSum">
+                        <th mat-header-cell *matHeaderCellDef>Order Total</th>
+                        <td mat-cell *matCellDef="let element">{{element.TotalOrderAmtAns}}</td>
+                    </ng-container>
+
+                    
                     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
                 </table>
+
                 <mat-paginator [pageSizeOptions]="[25,50,100]" showFirstLastButtons></mat-paginator>
             </div>
         </div>

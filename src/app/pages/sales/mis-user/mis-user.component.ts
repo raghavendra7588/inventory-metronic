@@ -17,7 +17,7 @@ import { ExportToCsv } from 'export-to-csv';
 })
 export class MisUserComponent implements OnInit {
 
-  // displayedColumns = ['name', 'emailID', 'mobile', 'pincode', 'state', 'city', 'edit'];
+
   displayedColumns: any;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   dataSource: any;
@@ -86,7 +86,7 @@ export class MisUserComponent implements OnInit {
   }
 
   setDataSourceAttributes() {
-    // this.dataSource.paginator = this.paginator;
+   
     if (Array.isArray(this.dataSource) && this.dataSource.length) {
       setTimeout(() => this.dataSource.paginator = this.paginator);
     }

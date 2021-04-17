@@ -16,7 +16,7 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 })
 export class ProductComponent implements OnInit {
   displayedColumns: any;
-  // displayedColumns = ['product', 'brand', 'category', 'subCategory', 'image', 'edit'];
+ 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   dataSource: any;
 
@@ -76,7 +76,7 @@ export class ProductComponent implements OnInit {
     });
   }
   setDataSourceAttributes() {
-    // this.dataSource.paginator = this.paginator;
+
     if (Array.isArray(this.dataSource) && this.dataSource.length) {
       setTimeout(() => this.dataSource.paginator = this.paginator);
     }
@@ -100,7 +100,7 @@ export class ProductComponent implements OnInit {
       }
     );
     this.salesService.getProductsData(userId).subscribe(res => {
-      console.log('product', res);
+
       this.productData = res;
       this.dataSource = new MatTableDataSource(this.productData);
       setTimeout(() => this.dataSource.paginator = this.paginator);

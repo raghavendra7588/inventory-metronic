@@ -15,15 +15,7 @@
         </div>
         <div class="col-md-3 col-6 col-sm-3 col-xl-3">
 
-            <!-- <mat-form-field style="width: 100% !important">
-          
-                <mat-select placeholder="Category">
-                    <mat-option *ngFor="let item of categoriesData;" [value]="item.id">
-                        {{item.name}}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field> -->
-
+       
             <mat-form-field style="width: 100% !important">
                 <mat-select placeholder="Category" [(ngModel)]="categoryId">
                     <mat-option *ngFor="let item of categoriesData;" [value]="item.id"
@@ -34,15 +26,7 @@
             </mat-form-field>
         </div>
         <div class="col-md-3 col-6 col-sm-3 col-xl-3">
-            <!-- <mat-form-field style="width: 100% !important">
-     
-                <mat-select placeholder="Sub Category">
-                    <mat-option *ngFor="let item of categoriesData;" [value]="item.id">
-                        {{item.name}}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field> -->
-
+    
 
             <mat-form-field style="width: 100% !important">
                 <mat-select placeholder="Sub Category" [(ngModel)]="subCategoryId">
@@ -54,14 +38,7 @@
             </mat-form-field>
         </div>
         <div class="col-md-3 col-6 col-sm-3 col-xl-3">
-            <!-- <mat-form-field style="width: 100% !important">
-           
-                <mat-select placeholder="Brand">
-                    <mat-option *ngFor="let item of categoriesData;" [value]="item.id">
-                        {{item.name}}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field> -->
+     
 
             <mat-form-field style="width: 100% !important">
                 <mat-select placeholder="Brand" [(ngModel)]="brandsId">

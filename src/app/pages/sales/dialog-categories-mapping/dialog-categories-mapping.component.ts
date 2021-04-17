@@ -35,7 +35,7 @@ export class DialogCategoriesMappingComponent implements OnInit {
   ) {
     this.strSellerId = sessionStorage.getItem('sellerId');
     this.userData = data;
-    console.log('edit', this.userData);
+  
   }
 
   ngOnInit(): void {
@@ -44,17 +44,15 @@ export class DialogCategoriesMappingComponent implements OnInit {
 
   getAllCategories() {
     this.salesService.getAllCategoriesData().subscribe(res => {
-      console.log('category', res);
+
       this.categoriesData = res;
     });
   }
 
   onCategoriesChange(event, category) {
 
-    console.log('category', category);
-
     this.changedCategory.push(category);
-    console.log('  this.changedCategory', this.changedCategory);
+   
   }
 
   saveCategories() {
@@ -94,7 +92,7 @@ export class DialogCategoriesMappingComponent implements OnInit {
     this.editCategory.userid = this.strSellerId;
     this.editCategory.username = this.userData.username;
     this.editCategory.vendorcode = this.userData.vendorcode;
-    console.log(this.editCategory);
+   
     this.spinner.show(undefined,
       {
         type: 'square-spin',
@@ -103,7 +101,7 @@ export class DialogCategoriesMappingComponent implements OnInit {
       }
     );
     this.salesService.updateCategories(this.editCategory).subscribe(res => {
-      console.log(res);
+  
       this.toastr.success('Category Updated Successfully !!');
       this.emitterService.isAdminCreadtedOrUpdated.emit(true);
       this.spinner.hide();

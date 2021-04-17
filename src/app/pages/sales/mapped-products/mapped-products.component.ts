@@ -105,14 +105,14 @@ export class MappedProductsComponent implements OnInit {
       }
     );
     let currentRole = '';
-    // if (this.role == 'Admin') {
+
     currentRole = 'Seller';
-    // }
+   
     this.salesService.getSellerUsers(currentRole).subscribe(res => {
       this.sellerData = res;
-      console.log('current role', this.role);
+
       if (this.role == 'Seller') {
-        console.log('current role **', this.role);
+
         this.filterSellerData(this.sellerData);
         this.categoriesData = JSON.parse(sessionStorage.getItem('categories'));
       }
@@ -129,12 +129,12 @@ export class MappedProductsComponent implements OnInit {
 
 
   onSellerChange(event, res) {
-    console.log('res', res);
+ 
     this.categoriesData = res.categories;
 
     this.sellerData = res.id;
     this.selectedSellerID = res.id;
-    console.log('sellerData', this.sellerData);
+
     this.spinner.show(undefined,
       {
         type: "square-jelly-box",
@@ -146,7 +146,7 @@ export class MappedProductsComponent implements OnInit {
 
     this.salesService.getMappedProducts(unmapppedData).subscribe(res => {
       this.unMappedProductData = res;
-      console.log('unMappedProductData', this.unMappedProductData);
+     
       this.dataSource = new MatTableDataSource(this.unMappedProductData);
       setTimeout(() => this.dataSource.paginator = this.paginator);
       this.spinner.hide();
@@ -162,12 +162,12 @@ export class MappedProductsComponent implements OnInit {
         particularSellerArr.push(item);
       }
     });
-    console.log('particularSellerArr', particularSellerArr);
+
     this.sellerData = particularSellerArr;
   }
 
   selectedCategoryFromList(res) {
-    console.log('cat seelcted', res);
+  
     this.categoryID = res.id;
 
     this.spinner.show(undefined,
@@ -199,7 +199,7 @@ export class MappedProductsComponent implements OnInit {
     let mappedProductData: any = [];
     this.salesService.getMappedProducts(req).subscribe(res => {
       mappedProductData = res;
-      console.log('mappedProductData', mappedProductData);
+     
       this.dataSource = new MatTableDataSource(mappedProductData);
       setTimeout(() => this.dataSource.paginator = this.paginator);
       this.spinner.hide();
@@ -212,7 +212,7 @@ export class MappedProductsComponent implements OnInit {
 
 
   selectedSubCategoryFromList(res) {
-    console.log('sub cat seelcted', res);
+
     let brands: any = [];
     this.spinner.show(undefined,
       {
@@ -226,7 +226,7 @@ export class MappedProductsComponent implements OnInit {
     this.salesService.getMappedProducts(req).subscribe(res => {
       brands = res;
       this.brandsResponse = res;
-      console.log('brands data main', res);
+
       let uniqueBrandNamesArray = this.createUniqueBrandName(brands);
       this.brandsData = this.sortUniqueBrandName(uniqueBrandNamesArray);
       this.dataSource = new MatTableDataSource(brands);
@@ -237,9 +237,7 @@ export class MappedProductsComponent implements OnInit {
     });
   }
   selectedBrandFromList(res) {
-    console.log('brand seelcted', res);
-    console.log('brands data from select list', this.brandsData);
-    console.log('brands SEELCTED ID', this.brandsId);
+
     let remainingCategoriesArray = this.brandsResponse.filter(function (item) {
       return Number(item.BrandID) == Number(res.BrandID);
     });
@@ -298,7 +296,7 @@ export class MappedProductsComponent implements OnInit {
   postMultipleInsertion(elements) {
 
     elements.forEach(element => {
-      console.log('single One', element);
+
       this.saveUnMappedProducts = new SaveMappedProducts();
       this.saveUnMappedProducts.AvailableQuantity = element.AvailableQuantity;
       this.saveUnMappedProducts.BrandID = element.BrandID;
@@ -322,7 +320,7 @@ export class MappedProductsComponent implements OnInit {
       
       let isPriceValid = (Number(this.saveUnMappedProducts.ProductPrice) - Number(this.saveUnMappedProducts.Discount)) === Number(this.saveUnMappedProducts.FinalPrice);
       if (isPriceValid) {
-        // this.multipleEntries.push(this.saveUnMappedProducts);
+        
         this.spinner.show(undefined,
           {
             type: "square-jelly-box",
@@ -352,7 +350,7 @@ export class MappedProductsComponent implements OnInit {
 
             this.spinner.hide();
 
-            console.log('unMappedProductData', this.unMappedProductData);
+
             this.dataSource = new MatTableDataSource(this.unMappedProductData);
             setTimeout(() => this.dataSource.paginator = this.paginator);
 
@@ -384,7 +382,7 @@ export class MappedProductsComponent implements OnInit {
   }
 
   saveList(element) {
-    console.log('save clicked', element);
+
     this.saveUnMappedProducts.AvailableQuantity = element.AvailableQuantity;
     this.saveUnMappedProducts.BrandID = element.BrandID;
     this.saveUnMappedProducts.BrandName = element.BrandName;
@@ -414,14 +412,14 @@ export class MappedProductsComponent implements OnInit {
           color: 'white'
         }
       );
-      console.log('unmapped', this.saveUnMappedProducts);
+   
       this.salesService.saveUnmappedProducts(this.saveUnMappedProducts).subscribe(data => {
         this.toastr.success('Product Price, Discount and Final Price is Updated !!');
         let unmapppedData = { SellerId: this.sellerData, CategoryId: '0', SubCategoryId: '0' };
         this.saveUnMappedProducts = new SaveMappedProducts();
         this.salesService.getMappedProducts(unmapppedData).subscribe(res => {
           this.unMappedProductData = res;
-          console.log('MappedProductData', this.unMappedProductData);
+     
           this.dataSource = new MatTableDataSource(this.unMappedProductData);
           setTimeout(() => this.dataSource.paginator = this.paginator);
         });
@@ -442,7 +440,7 @@ export class MappedProductsComponent implements OnInit {
   }
 
   deleteProduct(element) {
-    console.log(element);
+
 
     this.saveUnMappedProducts.AvailableQuantity = element.AvailableQuantity;
     this.saveUnMappedProducts.BrandID = element.BrandID;
@@ -479,7 +477,7 @@ export class MappedProductsComponent implements OnInit {
 
       this.salesService.getMappedProducts(unmapppedData).subscribe(res => {
         this.unMappedProductData = res;
-        console.log('MappedProductData', this.unMappedProductData);
+    
         this.dataSource = new MatTableDataSource(this.unMappedProductData);
         setTimeout(() => this.dataSource.paginator = this.paginator);
         this.spinner.hide();
@@ -514,7 +512,7 @@ export class MappedProductsComponent implements OnInit {
   postDeleteMultipleInsertion(elements) {
 
     elements.forEach(element => {
-      console.log('single One', element);
+
       this.saveUnMappedProducts = new SaveMappedProducts();
       this.saveUnMappedProducts.AvailableQuantity = element.AvailableQuantity;
       this.saveUnMappedProducts.BrandID = element.BrandID;
@@ -565,7 +563,7 @@ export class MappedProductsComponent implements OnInit {
 
           this.salesService.getMappedProducts(unmapppedData).subscribe(res => {
             this.unMappedProductData = res;
-            console.log('unMappedProductData', this.unMappedProductData);
+      
             this.dataSource = new MatTableDataSource(this.unMappedProductData);
             setTimeout(() => this.dataSource.paginator = this.paginator);
             this.spinner.hide();

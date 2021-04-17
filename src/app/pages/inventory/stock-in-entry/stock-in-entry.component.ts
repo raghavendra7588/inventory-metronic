@@ -101,13 +101,13 @@ export class StockInEntryComponent implements OnInit {
   updateAll() {
     this.checkFinalPrice = true;
     this.selection.selected.forEach((element) => {
-      // console.log('selected', element);
+    
       if (this.checkFinalPrice === false) {
         return;
       }
 
       this.checkFinalPrice = this.checkItemFinalPrice(element);
-      // console.log('true or fasle', this.checkFinalPrice);
+      
       if (!this.checkFinalPrice) {
         this.toastr.error('Please Check Quantity');
       }
@@ -132,13 +132,12 @@ export class StockInEntryComponent implements OnInit {
 
 
   checkItemFinalPrice(element) {
-    // let prevFinalPrice = 0;
+ 
     let isRecordValid: boolean = true;
     let QuantityOrdered = Number(element.PurchaseQuantity);
-    // let QuantityReceived = Number(element.FinalPrice);
+  
     let QuantityReceived = Number(element.QuantityReceived)
 
-    // console.log('ordered', QuantityOrdered, 'received', QuantityReceived);
     if (QuantityReceived > QuantityOrdered) {
       isRecordValid = false;
     } else {
@@ -154,11 +153,11 @@ export class StockInEntryComponent implements OnInit {
 
   postMultipleInsertion(elements) {
     elements.forEach(element => {
-      // console.log(element);
+     
       this.stockIn = new StockIn();
-      // console.log('mulitple entries', element);
+      
       if (element.StockInItemId === 0) {
-        // console.log('got stockINNNN IDDD', element.StockInItemId);
+
         this.stockIn.stockInItemId = element.StockInItemId;
       }
       else {
@@ -179,10 +178,10 @@ export class StockInEntryComponent implements OnInit {
       this.mulitpleEntriesArray.push(this.stockIn);
     });
 
-    console.log('stocking  ********', this.mulitpleEntriesArray);
+  
     this.spinner.show();
     this.inventoryService.postStockInItem(this.mulitpleEntriesArray).subscribe(data => {
-      // console.log('saved ', data);
+ 
       this.toastr.success('Items saved');
       this.updateAllRecordsCount = 0;
       this.mulitpleEntriesArray = [];
@@ -196,12 +195,7 @@ export class StockInEntryComponent implements OnInit {
       this.spinner.hide();
     });
 
-    // this.updateAllRecordsCount = 0;
-    // this.updateAllArray = [];
 
-    // this.finalPurchaseOrderArray = this.multipleEntries;
-    // this.multipleEntriesArray = [];
-    // this.multipleEntries = [];
   }
 
 
@@ -214,7 +208,7 @@ export class StockInEntryComponent implements OnInit {
 
 
   selectedVendorFromList(item) {
-    // console.log(item);
+
     this.getPurchaseReport.vendorId = Number(item.vendorId);
     this.getPurchaseItemData.vendorId = Number(item.vendorId);
     this.purchaseReportData = [];
@@ -222,24 +216,19 @@ export class StockInEntryComponent implements OnInit {
     this.purchaseOrderItemData = [];
     this.purchaseService.getAllPurchaseOrderData(this.getPurchaseReport).subscribe(data => {
       this.purchaseReportData = data;
-      // console.log(data);
+
     })
   }
 
   SearchRecords() {
     this.purchaseService.getAllPurchaseOrderItemData(this.getPurchaseItemData).subscribe(data => {
-      // console.log('********', data);
+     
       this.purchaseOrderItemData = data;
 
-      // let customizedPurchaseOrderItemResponse = this.mapObj(this.purchaseOrderItemData, this.ownDbstockInItemsData);
-
-      // let customizedPurchaseOrderItemResponse = this.customPurchaseOrderItemResponse(this.purchaseOrderItemData);
-      // let customizedPurchaseOrderItemResponse = this.mapObj(this.purchaseOrderItemData, this.ownDbstockInItemsData);
-
       let uniqueStockInItems = _.uniqBy(this.purchaseOrderItemData, 'PurchaseOrderItemId');
-      // console.log('always unique', uniqueStockInItems);
+    
       this.purchaseOrderItemData = uniqueStockInItems;
-      // console.log('always unique', this.purchaseOrderItemData);
+   
       this.dataSource = new MatTableDataSource(this.purchaseOrderItemData);
       setTimeout(() => this.dataSource.paginator = this.paginator);
     })
@@ -254,17 +243,16 @@ export class StockInEntryComponent implements OnInit {
   }
 
   editItem(response: any) {
-    // console.log(response);
+
   }
   selectedOrderNumberList(response: any) {
-    // console.log(response);
+  
     this.getPurchaseItemData.orderNo = response.OrderNo;
     this.getPurchaseItemData.purchaseOrderId = response.PurchaseOrderId;
   }
 
   mapObj(apiData, ownDbData) {
-    // console.log('api data', apiData);
-    // console.log('own data ', ownDbData);
+
     for (let i = 0; i < apiData.length; i++) {
 
       apiData[i].CreatedAt = 'NULL';
@@ -273,7 +261,7 @@ export class StockInEntryComponent implements OnInit {
 
       for (let j = 0; j < ownDbData.length; j++) {
         if (apiData[i].PurchaseOrderItemId === ownDbData[j].PurchaseOrderItemId && apiData[i].ReferenceId === ownDbData[j].ReferenceId) {
-          // console.log('inside ');
+        
           apiData[i].FinalPrice = ownDbData[j].QuantityReceived;
           apiData[i].Discount = ownDbData[j].Discount;
           apiData[i].BuyingPrice = ownDbData[j].SellingPrice;
@@ -281,7 +269,7 @@ export class StockInEntryComponent implements OnInit {
         }
       }
     }
-    console.log('returned apiData', apiData);
+   
     return apiData;
   }
 
@@ -329,7 +317,7 @@ export class StockInEntryComponent implements OnInit {
 
   getAllStockInData() {
     this.inventoryService.getStockInItem(this.numSellerId).subscribe(data => {
-      console.log('stock in data', data);
+   
       this.ownDbstockInItemsData = data;
     });
   }

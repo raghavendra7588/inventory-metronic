@@ -35,9 +35,9 @@ export class DialogOrderManagementPrintComponent implements OnInit {
   ) {
 
     this.orderData = data;
-    console.log('order data', this.orderData);
+ 
     this.orderNo = this.orderData.orderid;
-    console.log('this.orderNo', this.orderNo);
+
     this.calculateTotalQuantity(this.orderData.orderDetails);
     this.dataSource = new MatTableDataSource(this.orderData.orderDetails);
     setTimeout(() => this.dataSource.paginator = this.paginator);
@@ -60,9 +60,7 @@ export class DialogOrderManagementPrintComponent implements OnInit {
       totalPrice += Number(item.FinalPrice);
       totalDiscount += Number(item.Discount);
     });
-    console.log('totalQuant **', totalQuantity);
-    console.log('totalPrice **', totalPrice);
-    console.log('totalDiscount **', totalDiscount);
+
     this.totalOrderedQuantity = totalQuantity;
     this.totalDiscount = totalDiscount;
     this.totalFinalPrice = totalPrice;

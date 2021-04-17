@@ -51,7 +51,7 @@ export class DialogCategoryComponent implements OnInit {
     });
 
     this.categoryResponse = data;
-    console.log('category response', data);
+ 
 
   }
 
@@ -85,8 +85,6 @@ export class DialogCategoryComponent implements OnInit {
       formData.append('Category', JSON.stringify(Category));
 
 
-      console.log('this.fileData', this.fileData);
-      console.log('this.fileName', this.fileName);
     }
     else {
 
@@ -127,7 +125,7 @@ export class DialogCategoryComponent implements OnInit {
     this.category.descriptions = this.categoryResponse.descriptions;
     this.category.isparent = this.categoryResponse.isparent;
     this.imageUrl = this.categoryResponse.imageurl;
-    // this.category.imageurl = this.categoryResponse.imageurl;
+
     this.category.parentid = this.categoryResponse.parentid;
     this.category.id = this.categoryResponse.id;
     this.category.isactive = this.categoryResponse.isactive;

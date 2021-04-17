@@ -43,20 +43,13 @@
                 (click)="updateAll()">Stock In Item
                 (<span>{{updateAllRecordsCount === 0 ? 0 : updateAllRecordsCount}}</span>) </button>
 
-            <!-- <a class="btn btn-primary btn-fixed-height font-weight-bold px-2 px-lg-5 mr-2"
-                [disabled]="updateAllRecordsCount===0" (click)="updateAll()">
-                <span [inlineSVG]="'./assets/media/svg/icons/Navigation/Check.svg'" cacheSVG="true"
-                    class="svg-icon svg-icon-lg"></span>
-                Stock In Item(<span class="d-none d-md-inline">{{updateAllRecordsCount === 0 ? 0 :
-                    updateAllRecordsCount}}</span>)
-
-            </a> -->
+    
         </div>
     </div>
     <div class="row mt-5">
         <div class="col-xl-12 col-12 col-md-12 col-sm-12 mb-3">
 
-            <!-- <div *ngIf="purchaseOrderItemData.length"> -->
+          
             <table mat-table [dataSource]="dataSource" class="custom-table">
                 <ng-container matColumnDef="select">
                     <th mat-header-cell *matHeaderCellDef style="width: 50px;">
@@ -151,10 +144,6 @@
             <mat-paginator style="background-color:  #f3f6f9 !important;" [pageSizeOptions]="[20,50,100]"
                 showFirstLastButtons></mat-paginator>
 
-            <!-- </div> -->
-            <!-- <div *ngIf="purchaseOrderItemData.length===0" class="text-center font-weight-bold">
-                No Record found
-            </div> -->
 
 
         </div>

@@ -9,10 +9,8 @@ import { MonthData } from './reports.model';
 })
 export class ReportsService {
 
-  // private BASE_URL = 'https://3intellects.co.in/uat_InventoryService/';
-  // private ADMIN_BASE_URL = 'https://3intellects.co.in/uat_AdminApi/api/';
-
-  // private BASE_URL = 'http://localhost:55547/';
+  brandWiseRequestObject: any = [];
+  selectedVendorObj: any = [];
 
   private GET_Product_Vendor_Wise_Purchase_Report_Data = environment.BASE_URL + 'api/ProductVendorWisePurchaseReport';
   private GET_Minimum_PurchaseOrder_DATA = environment.BASE_URL + 'api/MinimumPurchaseReportInventory';
@@ -26,6 +24,12 @@ export class ReportsService {
   private POST_DASHBOARD_SALES = environment.ADMIN_BASE_URL + 'DashBoard/GetCount';
 
   private POST_DASHBOARD_COUNT_DATA = 'https://3intellects.co.in/uat_AdminApi/api/DashBoard/GetCount';
+  private POST_BRAND_VENDOR_WISE_PURCHASE_REPORT = environment.BASE_URL + 'api/ProductVendorWisePurchaseReport/brandVendorWisePurchaseReport';
+
+
+  private POST_PRODUCT_VENDOR_ORDER_WISE_REPORT = environment.BASE_URL + 'api/ProductVendorWisePurchaseReport/productVendorOrderWisePurchaseReport';
+  private POST_BRAND_VENDOR_ORDER_WISE_REPORT = environment.BASE_URL + 'api/ProductVendorWisePurchaseReport/brandVendorOrderWisePurchaseReport';
+
 
   constructor(
     public http: HttpClient) { }
@@ -71,6 +75,18 @@ export class ReportsService {
 
   getHighestValueProductByLastMonth(monthData: MonthData) {
     return this.http.post(this.POST_HIGHEST_VALUE_PRODUCTS_BY_LAST_MONTH, monthData);
+  }
+
+  postBrandVendorWisePurchaseReport(monthData) {
+    return this.http.post(this.POST_BRAND_VENDOR_WISE_PURCHASE_REPORT, monthData);
+  }
+
+  postProductVendorOrderWisePurchaseReport(monthData) {
+    return this.http.post(this.POST_PRODUCT_VENDOR_ORDER_WISE_REPORT, monthData);
+  }
+
+  postBrandVendorOrderWisePurchaseReport(monthData) {
+    return this.http.post(this.POST_BRAND_VENDOR_ORDER_WISE_REPORT, monthData);
   }
 
   getDashBoardSales(userId) {

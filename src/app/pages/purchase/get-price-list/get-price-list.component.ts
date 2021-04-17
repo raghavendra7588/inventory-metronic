@@ -123,9 +123,7 @@ export class GetPriceListComponent implements OnInit {
     this.isDataLoaded = false;
     this.isProductSelected = false;
     this.receivedVendorId = data;
-    console.log('received vendor id', this.receivedVendorId);
-
-    console.log('this.purchaseService.selectedVendorIdForPurchaseOrder', this.purchaseService.selectedVendorIdForPurchaseOrder);
+   
   }
 
   ngOnInit(): void {
@@ -152,24 +150,24 @@ export class GetPriceListComponent implements OnInit {
     let numCategoryIdArray: any = [];
     let strBrandIdArray: any = [];
 
-    console.log('get all vendor data in get price list', this.purchaseService.allvendorData);
+
     this.purchaseService.allvendorData.filter(item => {
       if (Number(item.vendorId) === Number(this.receivedVendorId)) {
         this.particularVendor = item;
       }
     });
-    console.log('particular vendor', this.particularVendor);
+   
     strcategoryIdArray = this.particularVendor.category;
     numCategoryIdArray = strcategoryIdArray.split(',').map(Number);
-    console.log('int category array', numCategoryIdArray);
+  
     strsubCategoryIdArray = this.particularVendor.subCategory;
     this.numSubcategoryIdArray = strsubCategoryIdArray.split(',').map(Number);
-    console.log('int sub category array', this.numSubcategoryIdArray);
+   
 
     strBrandIdArray = this.particularVendor.brand;
     this.numBrandIdArray = strBrandIdArray.split(',').map(Number);
 
-    console.log('int brand array', this.numBrandIdArray);
+   
     this.loginService.seller_object.categories.filter(item => {
 
       if (numCategoryIdArray.includes(Number(item.id))) {
@@ -179,9 +177,9 @@ export class GetPriceListComponent implements OnInit {
       }
     });
 
-    console.log('particular category array', this.particularCategoryArray);
+   
     if (this.particularCategoryArray.length === 1 || this.particularCategoryArray.length === 0) {
-      console.log('less than one', this.particularCategoryArray[0].id);
+     
       this.categoryList = this.particularCategoryArray[0].id;
     }
     this.categorySearch = this.particularCategoryArray;
@@ -241,10 +239,7 @@ export class GetPriceListComponent implements OnInit {
 
   updateAll() {
     this.checkFinalPrice = true;
-    // if (this.updateAllRecordsCount != this.providedInputAmount) {
-    //   this.toastr.error('Kindly Select Required CheckBoxes');
-    //   return;
-    // }
+  
     this.selection.selected.forEach((element) => {
       if (this.checkFinalPrice === false) {
         return;
@@ -318,7 +313,7 @@ export class GetPriceListComponent implements OnInit {
           filteredCategoryData.push(data);
         }
       });
-      console.log('filteredCategoryData', filteredCategoryData);
+    
 
       this.subCategorySearch = filteredCategoryData;
 
@@ -337,7 +332,7 @@ export class GetPriceListComponent implements OnInit {
 
       this.brandSearch = this.anyArray;
 
-      console.log('any array in cat', this.anyArray);
+     
     },
       err => {
         this.toastr.error('Please Check Your API is Running Or Not!');
@@ -366,13 +361,13 @@ export class GetPriceListComponent implements OnInit {
         }
       });
 
-      console.log('filteredSubCategoryData', filteredSubCategoryData);
+   
       catchMappedSubCategory.filter(data => {
         if (this.numBrandIdArray.includes(Number(data.BrandID))) {
           filteredBrandData.push(data);
         }
       });
-      console.log('filteredBrandData', filteredBrandData);
+      
 
       this.dataSource = new MatTableDataSource(filteredBrandData);
       this.dataSource.paginator = this.paginator;
@@ -381,7 +376,7 @@ export class GetPriceListComponent implements OnInit {
       this.anyArray = this.sortUniqueBrandName(uniqueBrands);
 
       this.brandSearch = this.anyArray;
-      console.log('any array', this.anyArray);
+  
     },
       err => {
         this.toastr.error('Please Check Your API is Running Or Not!');
@@ -426,7 +421,7 @@ export class GetPriceListComponent implements OnInit {
 
   onCategoriesChange(event, category: any) {
 
-    console.log('current category id is', this.categoryList);
+ 
     this.spinner.show();
     if (this.receivedVendorId > 0) {
       event.isUserInput = true;
@@ -486,12 +481,12 @@ export class GetPriceListComponent implements OnInit {
         this.subCategoryId = subCategory.id.toString();
         this.subCategoriesArray.push(subCategory.id);
         this.spinner.show();
-        // this.purchaseService.getAllBrand(subCategory.parentid, subCategory.id).subscribe(data => {
+    
         this.purchaseService.getMappedUnMappedProducts(subCategory.parentid, subCategory.id).subscribe(data => {
           this.multipleBrandArray = data;
           this.catchMappedData = this.mapObj(this.multipleBrandArray, this.dbData);
           this.multipleBrandArray = this.catchMappedData;
-          console.log('sub this.catchMappedData', this.catchMappedData);
+        
 
 
           this.catchMappedData.filter(data => {
@@ -500,23 +495,21 @@ export class GetPriceListComponent implements OnInit {
               filteredBrandDataArray.push(data);
             }
           });
-          console.log('filteredBrandDataArray **', filteredBrandDataArray);
+      
           this.uniqueBrandNamesArray = this.createUniqueBrandName(filteredBrandDataArray);
           this.anyArray = this.sortUniqueBrandName(this.uniqueBrandNamesArray);
           this.brandSearch = this.anyArray;
           this.multipleBrandArray = this.catchMappedData;
-          console.log('this.receivedVendorId &', this.receivedVendorId);
+         
           let onlyVendorSpecificProducts = [];
-          //  filteredBrandDataArray.filter(function (item) {
-          //       return Number(item.OutofStockMsg) == Number(this.receivedVendorId);
-          //     });
+
           filteredBrandDataArray.filter(data => {
 
             if (Number(data.IsActive) == Number(this.receivedVendorId)) {
               onlyVendorSpecificProducts.push(data);
             }
           });
-          console.log('onlyVendorSpecificProducts', onlyVendorSpecificProducts);
+         
           this.dataSource = new MatTableDataSource(onlyVendorSpecificProducts);
           this.dataSource.paginator = this.paginator;
 
@@ -589,7 +582,7 @@ export class GetPriceListComponent implements OnInit {
   getPriceListData() {
     this.purchaseService.getAllPriceListData(this.sellerId).subscribe(data => {
       this.dbData = data;
-      console.log('our own data', this.dbData);
+   
     },
       err => {
         this.toastr.error('Please Check Your API is Running Or Not!');
@@ -640,7 +633,7 @@ export class GetPriceListComponent implements OnInit {
       this.customPriceList.Name = element.Name;
       this.customPriceList.CategoryId = Number(element.CategoryID);
 
-      console.log('customPriceList list', this.customPriceList);
+    
       this.isMultipleAmount = true;
 
       this.customPriceList.finalPrice = Number(element.FinalPrice) * Number(element.AvailableQuantity);
@@ -660,14 +653,14 @@ export class GetPriceListComponent implements OnInit {
 
     if (this.tempFinalPurchaseOrderArray.length === 0) {
       this.tempFinalPurchaseOrderArray = this.finalPurchaseOrderArray;
-      console.log('this.finalPurchaseOrderArray single ', this.finalPurchaseOrderArray);
+   
     }
     else {
       mulitpleFinalPurchaseOrderArray = this.finalPurchaseOrderArray;
       concatPurchaseOrderProducts = [...this.tempFinalPurchaseOrderArray, ...mulitpleFinalPurchaseOrderArray];
       this.finalPurchaseOrderArray = concatPurchaseOrderProducts;
       this.tempFinalPurchaseOrderArray = this.finalPurchaseOrderArray;
-      console.log('this.finalPurchaseOrderArray multiple', this.finalPurchaseOrderArray);
+ 
     }
 
 
@@ -725,40 +718,33 @@ export class GetPriceListComponent implements OnInit {
   }
 
   calculateProvidedQuantity(providedInputQuantity, productData) {
-    console.log('eleement', productData);
+
     if (Number(providedInputQuantity) > 0) {
 
       if (this.inputQuantityArray.includes(productData.Id)) {
-        console.log("value exists");
-        console.log('providedInputAmount', this.providedInputAmount);
-        console.log('inputQuantityArray', this.inputQuantityArray);
         return;
       }
 
       else {
-        console.log("does not exist");
+  
         this.inputQuantityArray.push(productData.Id);
         this.providedInputAmount++;
-        console.log('providedInputAmount', this.providedInputAmount);
-        console.log('inputQuantityArray', this.inputQuantityArray);
       }
 
 
     }
     else if ((Number(providedInputQuantity) == 0)) {
       if (this.inputQuantityArray.includes(productData.Id)) {
-        console.log("made to 0 ");
+   
         this.providedInputAmount--;
         this.inputQuantityArray = this.inputQuantityArray.filter(item => item !== productData.Id)
-        console.log('providedInputAmount', this.providedInputAmount);
-        console.log('inputQuantityArray', this.inputQuantityArray);
+
         return;
       }
 
     }
     else {
-      console.log('providedInputAmount', this.providedInputAmount);
-      console.log('inputQuantityArray', this.inputQuantityArray);
+
       return;
     }
   }

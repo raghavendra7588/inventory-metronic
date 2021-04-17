@@ -64,11 +64,11 @@ export class PurchaseOrderComponent implements OnInit {
     private spinner: NgxSpinnerService) {
     this.emitterService.sendPurchaseOrder.subscribe(value => {
       if (value) {
-        console.log('purchase order received total products', value);
+
         this.receivedPurchaseOrder = [...this.receivedPurchaseOrder, ...value].reverse();
 
         this.purchaseOrder.items = this.receivedPurchaseOrder;
-        // let uniqueReceivedPurchaseOrder = _.uniqBy(this.receivedPurchaseOrder, 'ReferenceId');
+     
 
         let uniqueReceivedPurchaseOrder = _.uniqBy(this.receivedPurchaseOrder, 'ProductVarientId');
         this.receivedPurchaseOrder = uniqueReceivedPurchaseOrder;
@@ -105,7 +105,7 @@ export class PurchaseOrderComponent implements OnInit {
     this.purchaseService.getAllVendorData(this.strSellerId).subscribe(data => {
       this.vendorData = data;
       this.purchaseService.allvendorData = data;
-      console.log('all vendor data from Purchase Order', this.purchaseService.allvendorData);
+    
       this.spinner.hide();
     });
   }
@@ -161,7 +161,7 @@ export class PurchaseOrderComponent implements OnInit {
   }
 
   getPurchaseOrderList(data: any) {
-    // console.log('I received purchase Order', data);
+
   }
 
 

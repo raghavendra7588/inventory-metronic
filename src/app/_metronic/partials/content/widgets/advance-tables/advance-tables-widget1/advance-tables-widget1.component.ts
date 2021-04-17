@@ -34,7 +34,7 @@ export class AdvanceTablesWidget1Component implements OnInit {
       }
     );
     this.salesService.getOrderList(userId).subscribe(res => {
-      console.log('order stats ****************', res);
+    
       this.orderData = res;
       this.spinner.hide();
     },

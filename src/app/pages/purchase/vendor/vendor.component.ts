@@ -61,7 +61,7 @@ export class VendorComponent implements OnInit {
 
 
   getVendorData() {
-    // this.spinner.show();
+
     this.purchaseService.getAllVendorData(this.strSellerId).subscribe(data => {
       this.vendorDetails = data;
       this.dataSource = new MatTableDataSource(this.vendorDetails);
@@ -69,7 +69,7 @@ export class VendorComponent implements OnInit {
     },
       err => {
         this.toastr.error('Please Check Your API is Running Or Not!');
-        // this.spinner.hide();
+       
       });
   }
 

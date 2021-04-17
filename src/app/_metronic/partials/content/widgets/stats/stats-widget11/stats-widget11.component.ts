@@ -564,10 +564,7 @@ export class StatsWidget11Component implements OnInit {
       this.cdr.detectChanges();
     }
 
-    // if (this.isActiveMonth === 'monthly' && this.isActiveByVendor === 'byVendor') {
-    //   this.chartOptions = this.getChartOptionsByVendorsMonthly();
-    //   this.cdr.detectChanges();
-    // }
+
 
 
   }
@@ -591,15 +588,7 @@ export class StatsWidget11Component implements OnInit {
       this.cdr.detectChanges();
     }
 
-    // if (this.isActiveMonth === 'monthly' && this.isActiveByVendor === 'byVendor') {
-    //   this.chartOptions = this.getChartOptionsByVendorsMonthly();
-    //   this.cdr.detectChanges();
-    // }
 
-    // this.totalPurchaseAmount = 0;
-    // this.totalVendorsByWeekly = 0;
-    // console.log('current isActiveMonth', this.isActiveMonth);
-    // console.log('current isActiveByVendor', this.isActiveByVendor);
   }
 
   byVendors() {
@@ -657,6 +646,6 @@ export class StatsWidget11Component implements OnInit {
   }
 
   ngOnDestroy() {
-    // this.isPurchaseWeekSubscription.unsubscribe();
+
   }
 }

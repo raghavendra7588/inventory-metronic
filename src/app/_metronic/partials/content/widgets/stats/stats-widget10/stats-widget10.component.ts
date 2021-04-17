@@ -389,17 +389,13 @@ export class StatsWidget10Component implements OnInit {
     this.spinner.show();
     this.reportsService.getDashBoardSales(this.strUserId).subscribe(res => {
       this.salesData = res;
-      console.log('sales data', res[1]);
-
+ 
       this.dailySales = this.salesData[1].Totall;
       this.weeklySales = this.salesData[1].Week;
       this.monthlySales = this.salesData[1].Month;
       this.yearlySales = this.salesData[1].Year;
 
-      console.log('this.weeklySales', this.weeklySales);
-      console.log('this.monthlySales', this.monthlySales);
-      console.log('this.yearlySales', this.yearlySales);
-      console.log('this.totalSales', this.dailySales);
+
 
       this.dailySeriesData(this.dailySales);
       this.weeklySeriesData(this.weeklySales);
@@ -435,7 +431,7 @@ export class StatsWidget10Component implements OnInit {
 
   dailySeriesData(dailyRes) {
     this.spinner.show();
-    //console.log('dailySales', dailyRes);
+  
     for (let i = 0; i < Number(dailyRes); i++) {
       this.dailySalesSeries.push(i.toString());
     }
@@ -446,33 +442,33 @@ export class StatsWidget10Component implements OnInit {
 
   weeklySeriesData(weeklyRes) {
     this.spinner.show();
-    // console.log('Weekly', weeklyRes);
+
     for (let i = 0; i < Number(weeklyRes); i++) {
       this.weeklySalesSeries.push(i.toString());
     }
-    console.log('this.weeklySalesSeries', this.weeklySalesSeries);
+  
     this.chartOptions = this.getChartOptionsWeekly();
     this.spinner.hide();
   }
 
   monthlySeriesData(monthlyRes) {
-    //console.log('Monthly', monthlyRes);
+
     this.spinner.show();
     for (let i = 0; i < Number(monthlyRes); i++) {
       this.monthlySalesSeries.push(i.toString());
     }
-    console.log('this.monthlySalesSeries', this.monthlySalesSeries);
+   
     this.chartOptions = this.getChartOptionsMonthly();
     this.spinner.hide();
   }
 
   yearlySeriesData(yearlyRes) {
-    //  console.log('Yearly', yearlyRes);
+    
     this.spinner.show();
     for (let i = 0; i < Number(yearlyRes); i++) {
       this.yearlySalesSeries.push(i.toString());
     }
-    console.log('this.yearlySalesSeries', this.yearlySalesSeries);
+   
     this.chartOptions = this.getChartOptionsYearly();
     this.spinner.hide();
   }
