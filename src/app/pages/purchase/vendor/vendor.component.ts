@@ -55,7 +55,7 @@ export class VendorComponent implements OnInit {
   openDialog() {
     this.dialog.open(DialogContentVendorComponent, {
       height: '600px',
-      width: '800px',
+      width: '1200px',
     });
   }
 
@@ -77,7 +77,7 @@ export class VendorComponent implements OnInit {
   editEmployee(vendor) {
     this.dialog.open(DialogContentVendorComponent, {
       height: '600px',
-      width: '800px',
+      width: '1200px',
       data: vendor
     });
   }
@@ -93,7 +93,7 @@ export class VendorComponent implements OnInit {
 
     this.dialog.open(DialogViewVendorDataComponent, {
       height: '600px',
-      width: '1000px',
+      width: '1200px',
       data: element
     });
   }

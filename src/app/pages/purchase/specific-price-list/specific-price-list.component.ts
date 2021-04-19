@@ -158,7 +158,7 @@ export class SpecificPriceListComponent implements OnInit {
       this.vendorData = data;
       this.purchaseService.allvendorData = data;
       this.spinner.hide();
-     
+
     },
       err => {
         this.toastr.error('Please Check Your API is Running Or Not!');
@@ -187,7 +187,7 @@ export class SpecificPriceListComponent implements OnInit {
     this.categoryArrayData = [];
     this.vendorId = 0;
     this.vendorId = item.vendorId;
-  
+
 
     this.multipleCategoriesArray = [];
     this.anyArray = [];
@@ -196,19 +196,19 @@ export class SpecificPriceListComponent implements OnInit {
         this.particularVendor = item;
       }
     });
-    
+
     this.dataSource = [];
     this.strcategoryIdArray = this.particularVendor.category;
     this.numCategoryIdArray = this.strcategoryIdArray.split(',').map(Number);
-    
+
 
     this.strsubCategoryIdArray = this.particularVendor.subCategory;
     this.numSubcategoryIdArray = this.strsubCategoryIdArray.split(',').map(Number);
-  
+
 
     this.strBrandIdArray = this.particularVendor.brand;
     this.numBrandIdArray = this.strBrandIdArray.split(',').map(Number);
-  
+
 
     let particularCategory: any = [];
 
@@ -218,7 +218,7 @@ export class SpecificPriceListComponent implements OnInit {
         this.particularCategoryArray.push(particularCategory);
       }
     });
-  
+
     this.categorySearch = this.particularCategoryArray;
 
     this.particularCategoryArray = this.categorySearch.slice();
@@ -285,14 +285,13 @@ export class SpecificPriceListComponent implements OnInit {
       this.subCategorySearch = filteredCategoryData;
 
       catchMappedCategory.filter(data => {
-
         if (this.numBrandIdArray.includes(Number(data.BrandID))) {
           filteredBrandData.push(data);
         }
       });
 
 
- 
+
       this.dataSource = new MatTableDataSource(filteredBrandData);
       this.dataSource.paginator = this.paginator;
 
@@ -301,7 +300,7 @@ export class SpecificPriceListComponent implements OnInit {
 
       this.brandSearch = this.anyArray;
 
-     
+
     },
       err => {
         this.toastr.error('Please Check Your API is Running Or Not!');
@@ -331,13 +330,13 @@ export class SpecificPriceListComponent implements OnInit {
       });
 
 
- 
+
       catchMappedSubCategory.filter(data => {
         if (this.numBrandIdArray.includes(Number(data.BrandID))) {
           filteredBrandData.push(data);
         }
       });
-     
+
       this.dataSource = new MatTableDataSource(filteredBrandData);
       this.dataSource.paginator = this.paginator;
 
@@ -345,7 +344,7 @@ export class SpecificPriceListComponent implements OnInit {
       this.anyArray = this.sortUniqueBrandName(uniqueBrands);
 
       this.brandSearch = this.anyArray;
-      
+
     },
       err => {
         this.toastr.error('Please Check Your API is Running Or Not!');
@@ -368,14 +367,14 @@ export class SpecificPriceListComponent implements OnInit {
       brandData = data;
 
       mappedBrandData = this.mapObj(brandData, this.dbData);
-    
+
       mappedBrandData.filter(item => {
         if (this.numBrandIdArray.includes(Number(item.BrandID))) {
           FinalFilteredBrandData.push(item);
         }
       });
 
-    
+
       this.dataSource = new MatTableDataSource(FinalFilteredBrandData);
       this.dataSource.paginator = this.paginator;
       uniqueBrandNameData = this.createUniqueBrandName(FinalFilteredBrandData);
@@ -414,7 +413,7 @@ export class SpecificPriceListComponent implements OnInit {
               particularSubCategoryArray.push(item);
             }
           });
-       
+
           this.multipleCategoriesArray = particularSubCategoryArray;
           this.subCategorySearch = this.multipleCategoriesArray;
           this.spinner.hide();
@@ -443,28 +442,38 @@ export class SpecificPriceListComponent implements OnInit {
         this.subCategoryId = subCategory.id.toString();
         this.subCategoriesArray.push(subCategory.id);
         this.spinner.show();
-  
+
         this.purchaseService.getMappedUnMappedProducts(subCategory.parentid, subCategory.id).subscribe(data => {
 
           this.multipleBrandArray = data;
           this.catchMappedData = this.mapObj(this.multipleBrandArray, this.dbData);
           this.multipleBrandArray = this.catchMappedData;
 
-          
+          if (this.numBrandIdArray[0] == 0 && this.numBrandIdArray.length == 1) {
+
+            this.catchMappedData.filter(data => {
+              if (this.numSubcategoryIdArray.includes(Number(data.SubCategoryID))) {
+                filteredBrandDataArray.push(data);
+              }
+            });
+         
+          }
+          else {
+            this.catchMappedData.filter(data => {
+              if (this.numBrandIdArray.includes(Number(data.BrandID))) {
+                filteredBrandDataArray.push(data);
+              }
+            });
+       
+          }
 
 
-          this.catchMappedData.filter(data => {
 
-            if (this.numBrandIdArray.includes(Number(data.BrandID))) {
-              filteredBrandDataArray.push(data);
-            }
-          });
 
-  
 
           this.uniqueBrandNamesArray = this.createUniqueBrandName(filteredBrandDataArray);
           this.anyArray = this.sortUniqueBrandName(this.uniqueBrandNamesArray);
- 
+
           this.brandSearch = this.anyArray;
 
           this.dataSource = new MatTableDataSource(filteredBrandDataArray);
@@ -490,13 +499,13 @@ export class SpecificPriceListComponent implements OnInit {
         this.spinner.show();
         this.dataSource = [];
         this.brandArray.push(product.ProductID);
-   
+
         let filteredBrandArray = this.multipleBrandArray.filter(function (item) {
           return item.BrandName.trim() === product.BrandName;
         });
-  
+
         this.finalBrandArray = filteredBrandArray;
-      
+
 
         this.dataSource = [];
         this.dataSource = new MatTableDataSource(this.finalBrandArray);
@@ -527,13 +536,15 @@ export class SpecificPriceListComponent implements OnInit {
       this.priceList.ProductVarientId = element.ProductVarientId;
       this.priceList.CategoryId = Number(element.CategoryID);
       this.priceList.vendorId = Number(this.vendorId);
-    
 
+      this.spinner.show();
       this.purchaseService.savePriceListMaster(this.priceList).subscribe(data => {
         this.toastr.success('Price List Updated');
 
         this.inputQuantityArray = [];
         this.providedInputAmount = 0;
+        this.getPriceListData();
+        this.spinner.hide();
       },
         err => {
           this.toastr.error('Please Check Your API is Running Or Not!');
@@ -561,9 +572,11 @@ export class SpecificPriceListComponent implements OnInit {
 
       this.priceList.CategoryId = Number(element.CategoryID);
       this.priceList.vendorId = Number(this.vendorId);
-    
+
 
       let isPriceValid = (Number(this.priceList.buyingPrice) - Number(this.priceList.discount)) === Number(this.priceList.finalPrice);
+
+      this.spinner.show();
       if (isPriceValid) {
         this.purchaseService.savePriceListMaster(this.priceList).subscribe(data => {
           this.toastr.success('Price List Saved');
@@ -573,6 +586,8 @@ export class SpecificPriceListComponent implements OnInit {
 
           this.inputQuantityArray = [];
           this.providedInputAmount = 0;
+          this.getPriceListData();
+          this.spinner.hide();
         },
           err => {
             this.toastr.error('Please Check Your API is Running Or Not!');
@@ -614,7 +629,7 @@ export class SpecificPriceListComponent implements OnInit {
       this.priceList.ProductVarientId = element.ProductVarientId;
       this.priceList.CategoryId = Number(element.CategoryID);
       this.priceList.vendorId = Number(this.vendorId);
-    
+
 
       this.isPriceValid = (Number(this.priceList.buyingPrice) - Number(this.priceList.discount)) === Number(this.priceList.finalPrice);
       if (this.isPriceValid) {
@@ -633,6 +648,7 @@ export class SpecificPriceListComponent implements OnInit {
     if (this.isMultipleAmount) {
       this.selection.clear();
       this.updateAllRecordsCount = 0;
+      this.spinner.show();
       this.purchaseService.saveMultiplePriceList(this.multipleEntries).subscribe(data => {
 
         this.toastr.success('Price List Saved');
@@ -642,13 +658,16 @@ export class SpecificPriceListComponent implements OnInit {
         this.priceList.buyingPrice = 0;
         this.priceList.discount = 0;
         this.priceList.finalPrice = 0;
-       
+
         this.updateAllRecordsCount = 0;
         this.updateAllArray = [];
         this.multipleEntriesArray = [];
 
         this.inputQuantityArray = [];
         this.providedInputAmount = 0;
+
+        this.getPriceListData();
+        this.spinner.hide();
       },
         err => {
           this.toastr.error('Please Check Your API is Running Or Not!');
@@ -664,6 +683,7 @@ export class SpecificPriceListComponent implements OnInit {
   }
 
   mapObj(apiData, ownDbData) {
+
     for (let i = 0; i < apiData.length; i++) {
       apiData[i].ProductPrice = 0;
       apiData[i].Discount = 0;
@@ -708,7 +728,7 @@ export class SpecificPriceListComponent implements OnInit {
 
 
   calculateProvidedQuantity(providedInputQuantity, productData) {
-  
+
 
     if (Number(providedInputQuantity) > 0) {
       if (this.inputQuantityArray.includes(productData.Id)) {
@@ -726,7 +746,7 @@ export class SpecificPriceListComponent implements OnInit {
 
 
     }
-  
+
     else {
 
       return;

@@ -287,7 +287,7 @@ export class UnMappedProductsComponent implements OnInit {
       this.saveUnMappedProducts.FinalPrice = element.FinalPrice;
       this.saveUnMappedProducts.Id = element.Id;
       this.saveUnMappedProducts.IsActive = element.IsActive;
-      this.saveUnMappedProducts.MRP = element.MRP;
+      this.saveUnMappedProducts.MRP = element.ProductPrice;
       this.saveUnMappedProducts.Name = element.Name;
       this.saveUnMappedProducts.ProductID = element.ProductID;
       this.saveUnMappedProducts.ProductPrice = element.ProductPrice;
@@ -365,7 +365,7 @@ export class UnMappedProductsComponent implements OnInit {
     this.saveUnMappedProducts.FinalPrice = element.FinalPrice;
     this.saveUnMappedProducts.Id = element.Id;
     this.saveUnMappedProducts.IsActive = element.IsActive;
-    this.saveUnMappedProducts.MRP = element.MRP;
+    this.saveUnMappedProducts.MRP = element.ProductPrice;
     this.saveUnMappedProducts.Name = element.Name;
     this.saveUnMappedProducts.ProductID = element.ProductID;
     this.saveUnMappedProducts.ProductPrice = element.ProductPrice;

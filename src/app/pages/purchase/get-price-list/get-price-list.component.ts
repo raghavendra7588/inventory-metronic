@@ -12,7 +12,7 @@ import { LoginService } from 'src/app/modules/auth/login.service';
 import { EmitterService } from 'src/app/shared/emitter.service';
 import { customPriceList, CustomProductList, PriceList, PurchaseOrderItem } from '../purchase.model';
 import { PurchaseService } from '../purchase.service';
-
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-get-price-list',
@@ -123,7 +123,7 @@ export class GetPriceListComponent implements OnInit {
     this.isDataLoaded = false;
     this.isProductSelected = false;
     this.receivedVendorId = data;
-   
+
   }
 
   ngOnInit(): void {
@@ -156,18 +156,18 @@ export class GetPriceListComponent implements OnInit {
         this.particularVendor = item;
       }
     });
-   
+
     strcategoryIdArray = this.particularVendor.category;
     numCategoryIdArray = strcategoryIdArray.split(',').map(Number);
-  
+
     strsubCategoryIdArray = this.particularVendor.subCategory;
     this.numSubcategoryIdArray = strsubCategoryIdArray.split(',').map(Number);
-   
+
 
     strBrandIdArray = this.particularVendor.brand;
     this.numBrandIdArray = strBrandIdArray.split(',').map(Number);
 
-   
+
     this.loginService.seller_object.categories.filter(item => {
 
       if (numCategoryIdArray.includes(Number(item.id))) {
@@ -177,9 +177,9 @@ export class GetPriceListComponent implements OnInit {
       }
     });
 
-   
+
     if (this.particularCategoryArray.length === 1 || this.particularCategoryArray.length === 0) {
-     
+
       this.categoryList = this.particularCategoryArray[0].id;
     }
     this.categorySearch = this.particularCategoryArray;
@@ -239,7 +239,7 @@ export class GetPriceListComponent implements OnInit {
 
   updateAll() {
     this.checkFinalPrice = true;
-  
+
     this.selection.selected.forEach((element) => {
       if (this.checkFinalPrice === false) {
         return;
@@ -313,7 +313,7 @@ export class GetPriceListComponent implements OnInit {
           filteredCategoryData.push(data);
         }
       });
-    
+
 
       this.subCategorySearch = filteredCategoryData;
 
@@ -332,7 +332,7 @@ export class GetPriceListComponent implements OnInit {
 
       this.brandSearch = this.anyArray;
 
-     
+
     },
       err => {
         this.toastr.error('Please Check Your API is Running Or Not!');
@@ -361,13 +361,13 @@ export class GetPriceListComponent implements OnInit {
         }
       });
 
-   
+
       catchMappedSubCategory.filter(data => {
         if (this.numBrandIdArray.includes(Number(data.BrandID))) {
           filteredBrandData.push(data);
         }
       });
-      
+
 
       this.dataSource = new MatTableDataSource(filteredBrandData);
       this.dataSource.paginator = this.paginator;
@@ -376,7 +376,7 @@ export class GetPriceListComponent implements OnInit {
       this.anyArray = this.sortUniqueBrandName(uniqueBrands);
 
       this.brandSearch = this.anyArray;
-  
+
     },
       err => {
         this.toastr.error('Please Check Your API is Running Or Not!');
@@ -421,7 +421,7 @@ export class GetPriceListComponent implements OnInit {
 
   onCategoriesChange(event, category: any) {
 
- 
+
     this.spinner.show();
     if (this.receivedVendorId > 0) {
       event.isUserInput = true;
@@ -481,26 +481,46 @@ export class GetPriceListComponent implements OnInit {
         this.subCategoryId = subCategory.id.toString();
         this.subCategoriesArray.push(subCategory.id);
         this.spinner.show();
-    
+
         this.purchaseService.getMappedUnMappedProducts(subCategory.parentid, subCategory.id).subscribe(data => {
           this.multipleBrandArray = data;
           this.catchMappedData = this.mapObj(this.multipleBrandArray, this.dbData);
           this.multipleBrandArray = this.catchMappedData;
-        
+
+          if (this.numBrandIdArray[0] == 0 && this.numBrandIdArray.length == 1) {
+
+            this.catchMappedData.filter(data => {
+              if (this.numSubcategoryIdArray.includes(Number(data.SubCategoryID))) {
+                filteredBrandDataArray.push(data);
+              }
+            });
+         
+          }
+          else {
+            this.catchMappedData.filter(data => {
+              if (this.numBrandIdArray.includes(Number(data.BrandID))) {
+                filteredBrandDataArray.push(data);
+              }
+            });
+      
+          }
+
+          let tempAnyArray: any = [];
 
 
-          this.catchMappedData.filter(data => {
-
-            if (this.numBrandIdArray.includes(Number(data.BrandID))) {
-              filteredBrandDataArray.push(data);
+          this.uniqueBrandNamesArray = this.createUniqueBrandName(filteredBrandDataArray);
+  
+          this.multipleBrandArray = this.catchMappedData;
+          tempAnyArray = this.sortUniqueBrandName(this.uniqueBrandNamesArray);
+     
+          tempAnyArray.filter(data => {
+            if (Number(data.IsActive) == Number(this.receivedVendorId)) {
+              this.anyArray.push(data);
             }
           });
-      
-          this.uniqueBrandNamesArray = this.createUniqueBrandName(filteredBrandDataArray);
-          this.anyArray = this.sortUniqueBrandName(this.uniqueBrandNamesArray);
+   
           this.brandSearch = this.anyArray;
-          this.multipleBrandArray = this.catchMappedData;
-         
+
           let onlyVendorSpecificProducts = [];
 
           filteredBrandDataArray.filter(data => {
@@ -509,7 +529,11 @@ export class GetPriceListComponent implements OnInit {
               onlyVendorSpecificProducts.push(data);
             }
           });
-         
+
+ 
+
+
+
           this.dataSource = new MatTableDataSource(onlyVendorSpecificProducts);
           this.dataSource.paginator = this.paginator;
 
@@ -551,8 +575,22 @@ export class GetPriceListComponent implements OnInit {
         let filteredBrandArray = this.multipleBrandArray.filter(function (item) {
           return item.BrandName.trim() === product.BrandName;
         });
-        this.finalBrandArray = filteredBrandArray;
+ 
 
+        filteredBrandArray.filter(data => {
+
+          if (Number(data.IsActive) == Number(this.receivedVendorId)) {
+            this.finalBrandArray.push(data);
+          }
+        });
+
+
+  
+
+        let tempFinalBrandArray: any = [];
+
+        tempFinalBrandArray = _.uniqBy(this.finalBrandArray, 'ProductVarientId');
+        this.finalBrandArray = tempFinalBrandArray;
 
         this.dataSource = [];
         this.dataSource = new MatTableDataSource(this.finalBrandArray);
@@ -582,7 +620,7 @@ export class GetPriceListComponent implements OnInit {
   getPriceListData() {
     this.purchaseService.getAllPriceListData(this.sellerId).subscribe(data => {
       this.dbData = data;
-   
+
     },
       err => {
         this.toastr.error('Please Check Your API is Running Or Not!');
@@ -633,7 +671,7 @@ export class GetPriceListComponent implements OnInit {
       this.customPriceList.Name = element.Name;
       this.customPriceList.CategoryId = Number(element.CategoryID);
 
-    
+
       this.isMultipleAmount = true;
 
       this.customPriceList.finalPrice = Number(element.FinalPrice) * Number(element.AvailableQuantity);
@@ -653,14 +691,14 @@ export class GetPriceListComponent implements OnInit {
 
     if (this.tempFinalPurchaseOrderArray.length === 0) {
       this.tempFinalPurchaseOrderArray = this.finalPurchaseOrderArray;
-   
+
     }
     else {
       mulitpleFinalPurchaseOrderArray = this.finalPurchaseOrderArray;
       concatPurchaseOrderProducts = [...this.tempFinalPurchaseOrderArray, ...mulitpleFinalPurchaseOrderArray];
       this.finalPurchaseOrderArray = concatPurchaseOrderProducts;
       this.tempFinalPurchaseOrderArray = this.finalPurchaseOrderArray;
- 
+
     }
 
 
@@ -668,9 +706,18 @@ export class GetPriceListComponent implements OnInit {
 
   createUniqueBrandName(array: any) {
     let sortedArray: Array<any> = [];
+
+    let tempArrayPush: any = [];
+    array.filter(data => {
+      if (Number(data.IsActive) == Number(this.receivedVendorId)) {
+        tempArrayPush.push(data);
+      }
+    });
+    array = tempArrayPush;
+
     for (let i = 0; i < array.length; i++) {
       if ((sortedArray.findIndex(p => p.BrandName.trim() == array[i].BrandName.trim())) == -1) {
-        var item = { BrandName: array[i].BrandName.trim(), SubCategoryID: array[i].SubCategoryID, BrandID: array[i].BrandID }
+        let item = { BrandName: array[i].BrandName.trim(), SubCategoryID: array[i].SubCategoryID, BrandID: array[i].BrandID, IsActive: array[i].IsActive };
         sortedArray.push(item);
       }
     }
@@ -726,7 +773,7 @@ export class GetPriceListComponent implements OnInit {
       }
 
       else {
-  
+
         this.inputQuantityArray.push(productData.Id);
         this.providedInputAmount++;
       }
@@ -735,7 +782,7 @@ export class GetPriceListComponent implements OnInit {
     }
     else if ((Number(providedInputQuantity) == 0)) {
       if (this.inputQuantityArray.includes(productData.Id)) {
-   
+
         this.providedInputAmount--;
         this.inputQuantityArray = this.inputQuantityArray.filter(item => item !== productData.Id)
 

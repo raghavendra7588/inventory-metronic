@@ -1,9 +1,10 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { Subscription } from 'rxjs';
 import { LoginService } from 'src/app/modules/auth/login.service';
 import { EmitterService } from 'src/app/shared/emitter.service';
 import { EditUpdateAdmin } from '../../sales/sales.model.';
@@ -16,7 +17,7 @@ import { PurchaseService } from '../purchase.service';
   templateUrl: './address-details.component.html',
   styleUrls: ['./address-details.component.scss']
 })
-export class AddressDetailsComponent implements OnInit {
+export class AddressDetailsComponent implements OnInit, OnDestroy {
 
   getAddress: any = [];
   addressData: any = [];
@@ -33,6 +34,7 @@ export class AddressDetailsComponent implements OnInit {
   role: string;
   newCity: string;
   isAddressUpdated: boolean = false;
+  isAddressCreatedSubscription: Subscription;
 
   constructor(
     public purchaseService: PurchaseService,
@@ -50,7 +52,7 @@ export class AddressDetailsComponent implements OnInit {
 
     this.getAddressDetails();
     this.getSellerUser();
-    this.emitterService.isAddressCreated.subscribe(value => {
+    this.isAddressCreatedSubscription = this.emitterService.isAddressCreated.subscribe(value => {
       if (value) {
         this.firstAddressResponse = [];
 
@@ -97,12 +99,12 @@ export class AddressDetailsComponent implements OnInit {
 
 
   fetchFirstAddressData() {
-  
+
     for (let i = 0; i < this.getAddress.length; i++) {
       this.firstAddressResponse = this.getAddress[0];
       this.newCity = this.firstAddressResponse.billing_city;
     }
- 
+
     if (this.isAddressUpdated) {
       this.updateSellerCity();
     }
@@ -179,5 +181,7 @@ export class AddressDetailsComponent implements OnInit {
       });
     }
   }
-
+  ngOnDestroy() {
+    this.isAddressCreatedSubscription.unsubscribe();
+  }
 }

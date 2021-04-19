@@ -38,7 +38,7 @@ import { DialogBrandVendorWisePurchaseOrderComponent } from '../dialog-brand-ven
 })
 export class BrandVendorWisePurchaseReportComponent implements OnInit {
 
-  displayedColumns: string[] = ['BrnadId', 'BrandName', 'subCategoryName', 'totalOrders',
+  displayedColumns: string[] = ['BrandName', 'subCategoryName', 'totalOrders',
     'totalQuantityOrder', 'totalFinalPrice', 'totalDiscountPrice', 'FinalPurchaseAmount', 'print'];
 
   purchaseReport: ProductVendorWisePurchaseReport = new ProductVendorWisePurchaseReport();

@@ -30,7 +30,7 @@ export class DialogProductVendorWisePurchaseReportComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any,
     public reportsService: ReportsService
   ) {
-    console.log('data', data);
+ 
     this.response = data;
     this.purchaseReportArray.push(this.response);
     this.dataSource = new MatTableDataSource(this.purchaseReportArray);
@@ -59,19 +59,14 @@ export class DialogProductVendorWisePurchaseReportComponent implements OnInit {
       this.brandWiseOrder.endDate = this.reportsService.brandWiseRequestObject.endDate;
     }
 
-    console.log('****    this.brandWiseOrder     *****', this.brandWiseOrder);
-
-
-    console.log('this.reportsService.brandWiseRequestObject = this.purchaseReport;', this.reportsService.brandWiseRequestObject);
-    // console.log('this.reportsService.selectedVendorObj', this.reportsService.selectedVendorObj);
 
 
     this.reportsService.postProductVendorOrderWisePurchaseReport(this.brandWiseOrder).subscribe(res => {
-      console.log(res);
+     
       this.productCalculationResponse = res;
 
       let uniqueRecords = _.uniqBy(this.productCalculationResponse, 'OrderNo');
-      console.log('unique', uniqueRecords);
+     
       this.productCalculationResponse = uniqueRecords
       this.dataSource = new MatTableDataSource(this.productCalculationResponse);
       setTimeout(() => this.dataSource.paginator = this.paginator);

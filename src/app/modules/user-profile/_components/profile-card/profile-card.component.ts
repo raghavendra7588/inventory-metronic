@@ -1,6 +1,6 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { EmitterService } from 'src/app/shared/emitter.service';
 import { AuthService, UserModel } from '../../../auth';
 
@@ -9,14 +9,14 @@ import { AuthService, UserModel } from '../../../auth';
   templateUrl: './profile-card.component.html',
   styleUrls: ['./profile-card.component.scss']
 })
-export class ProfileCardComponent implements OnInit {
+export class ProfileCardComponent implements OnInit, OnDestroy {
 
   user$: Observable<UserModel>;
   sellerName: string;
   vendorCode: string;
   role: string;
   city: string;
-
+  isLoggedInSubscription: Subscription;
   constructor(
     public userService: AuthService,
     private router: Router,
@@ -32,13 +32,17 @@ export class ProfileCardComponent implements OnInit {
     this.role = sessionStorage.getItem('role');
     this.city = sessionStorage.getItem('city');
 
-    this.emitterService.isLoggedIn.subscribe(val => {
+    this.isLoggedInSubscription = this.emitterService.isLoggedIn.subscribe(val => {
       if (val) {
         this.city = '';
         this.city = sessionStorage.getItem('city');
         this.cdr.detectChanges();
       }
     });
+
+  }
+  ngOnDestroy() {
+    this.isLoggedInSubscription.unsubscribe();
   }
 
 }
