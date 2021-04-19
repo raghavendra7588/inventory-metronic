@@ -158,7 +158,6 @@ export class SpecificPriceListComponent implements OnInit {
       this.vendorData = data;
       this.purchaseService.allvendorData = data;
       this.spinner.hide();
-
     },
       err => {
         this.toastr.error('Please Check Your API is Running Or Not!');
@@ -456,7 +455,7 @@ export class SpecificPriceListComponent implements OnInit {
                 filteredBrandDataArray.push(data);
               }
             });
-         
+
           }
           else {
             this.catchMappedData.filter(data => {
@@ -464,7 +463,7 @@ export class SpecificPriceListComponent implements OnInit {
                 filteredBrandDataArray.push(data);
               }
             });
-       
+
           }
 
 
@@ -596,6 +595,7 @@ export class SpecificPriceListComponent implements OnInit {
       }
       else {
         this.toastr.error('Please Check Buying Price, Discount and Final Price');
+        this.spinner.hide();
       }
     }
   }
@@ -604,6 +604,8 @@ export class SpecificPriceListComponent implements OnInit {
     this.spinner.show();
     this.purchaseService.getAllPriceListData(this.sellerId).subscribe(data => {
       this.dbData = data;
+      this.spinner.hide();
+    }, err => {
       this.spinner.hide();
     });
   }
@@ -678,6 +680,7 @@ export class SpecificPriceListComponent implements OnInit {
     else {
       this.toastr.error('Please Check Buying Price, Discount and Final Price');
       this.multipleEntriesArray = [];
+      this.spinner.hide();
     }
     this.updateAllRecordsCount = 0;
   }

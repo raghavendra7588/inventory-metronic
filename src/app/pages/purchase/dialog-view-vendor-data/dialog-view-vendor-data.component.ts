@@ -25,7 +25,7 @@ export class DialogViewVendorDataComponent implements OnInit {
   displayedColumns: string[] = ['productId', 'category', 'subCategory', 'brandName', 'productName', 'varient'];
   dataSource: any;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
-  
+
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     public purchaseService: PurchaseService,
@@ -33,8 +33,9 @@ export class DialogViewVendorDataComponent implements OnInit {
     private dialogRef: MatDialogRef<DialogViewVendorDataComponent>,) {
 
     this.particularVendor = data;
+    console.log('this.particularVendor', this.particularVendor);
     this.vendorId = Number(this.particularVendor.vendorId);
- 
+
     this.vendorView.vendorId = Number(this.particularVendor.vendorId);
     this.vendorName = this.particularVendor.name;
 
@@ -57,13 +58,18 @@ export class DialogViewVendorDataComponent implements OnInit {
   getVendorViewData() {
     this.spinner.show();
     this.purchaseService.getAllVendorViewData(this.vendorView).subscribe(data => {
-   
+
       this.vendorViewData = data;
       let uniqueVendorViewData = _.uniqBy(this.vendorViewData, 'ProductVarientId');
       this.vendorViewData = [];
       this.vendorViewData = uniqueVendorViewData;
- 
-     
+      let onlyVendorSpecific: any = [];
+      this.vendorViewData.filter(item => {
+        if (Number(this.particularVendor.vendorId) == Number(item.vendorId)) {
+          onlyVendorSpecific.push(item);
+        }
+      });
+      this.vendorViewData = onlyVendorSpecific;
       this.dataSource = new MatTableDataSource(this.vendorViewData);
       setTimeout(() => this.dataSource.paginator = this.paginator);
       this.spinner.hide();
