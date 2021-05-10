@@ -11,6 +11,7 @@ import { DialogSellerMappingComponent } from '../dialog-seller-mapping/dialog-se
 import { EmitterService } from 'src/app/shared/emitter.service';
 import { DialogViewUserComponent } from '../dialog-view-user/dialog-view-user.component';
 import { ExportToCsv } from 'export-to-csv';
+import { SubheaderService } from 'src/app/_metronic/partials/layout';
 
 @Component({
   selector: 'app-seller-user',
@@ -40,7 +41,8 @@ export class SellerUserComponent implements OnInit {
     private salesService: SalesService,
     public dialog: MatDialog,
     private spinner: NgxSpinnerService,
-    public emitterService: EmitterService
+    public emitterService: EmitterService,
+    private subheader: SubheaderService
   ) {
     this.role = sessionStorage.getItem('role');
     this.strSellerId = sessionStorage.getItem('sellerId');
@@ -66,7 +68,14 @@ export class SellerUserComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
+    setTimeout(() => {
+      this.subheader.setTitle('Sales / Seller');
+      this.subheader.setBreadcrumbs([{
+        title: 'Seller',
+        linkText: 'Seller',
+        linkPath: '/sales/seller'
+      }]);
+    }, 1);
 
   }
   setDataSourceAttributes() {
@@ -127,10 +136,9 @@ export class SellerUserComponent implements OnInit {
   }
 
   editSellerUser(user) {
- 
-    this.salesService.currentTab = 'Edit New Seller';
+    this.salesService.currentTab = 'Edit Seller';
     this.dialog.open(DialogEditUserComponent, {
-      height: '370px',
+      height: '430px',
       width: '1000px',
       data: user,
       disableClose: true
@@ -139,7 +147,6 @@ export class SellerUserComponent implements OnInit {
 
 
   openSellerUser() {
-
     this.salesService.currentTab = 'Add New Seller';
     this.dialog.open(DialogEditUserComponent, {
       height: '370px',

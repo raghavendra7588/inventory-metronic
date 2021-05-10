@@ -1,0 +1,84 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-4 col-sm-4 col-12 col-lg-4 col-xl-4 text-center">
+            <h3 class="font-weight-bold orange-icon">Vendor Code</h3>
+            <h4 class="font-weight-bold green-color">{{sellerData.vendorcode}}</h4>
+        </div>
+        <div class="col-md-4 col-sm-4 col-12 col-lg-4 col-xl-4 text-center">
+            <h3 class="font-weight-bold orange-icon">Vendor Name</h3>
+            <h4 class="font-weight-bold green-color">{{sellerData.name}}</h4>
+        </div>
+        <div class="col-md-4 col-sm-4 col-12 col-lg-4 col-xl-4 text-center">
+            <h3 class="font-weight-bold orange-icon">Status</h3>
+            <h4 class="font-weight-bold green-color">{{sellerPaymentInformation[0].SubscriptionIsActive}}</h4>
+        </div>
+    </div>
+
+    <div class="row mt-5">
+        <div class="col-md-4 col-sm-6 col-6 col-lg-4 col-xl-4">
+            <mat-form-field style="width: 100% !important">
+                <input matInput placeholder="Payment Mode" name="paymentMode"
+                    [(ngModel)]="activityStatusChange.paymentMode" readonly />
+            </mat-form-field>
+        </div>
+        <div class="col-md-4 col-sm-6 col-6 col-lg-4 col-xl-4">
+            <mat-form-field style="width: 100% !important">
+                <input matInput placeholder="Payment Date" name="paymentDate"
+                    [(ngModel)]="activityStatusChange.paymentDate" readonly />
+            </mat-form-field>
+        </div>
+        <div class="col-md-4 col-sm-6 col-6 col-lg-4 col-xl-4">
+            <mat-form-field style="width: 100% !important">
+                <input matInput placeholder="Expiry Date" name="expiryDate"
+                    [(ngModel)]="activityStatusChange.expiryDate" readonly />
+            </mat-form-field>
+        </div>
+    </div>
+
+    <div class="row mt-3" *ngIf="isSubscriptionValid =='ACTIVE'">
+        <div class="col-md-4 col-sm-6 col-6 col-lg-4 col-xl-4">
+            <mat-form-field style="width: 100% !important">
+                <input matInput placeholder="Message (Optional)" name="InactiveReason"
+                    [(ngModel)]="activityStatusChange.InactiveReason" />
+            </mat-form-field>
+        </div>
+    </div>
+    <div class="row mt-3" *ngIf="isSubscriptionValid =='ACTIVE'">
+        <div class="col-md-4 col-sm-4 col-4 col-lg-4 col-xl-4">
+            <button mat-raised-button color="primary" class="mr-2 width-100" (click)="openModal(template)">IN
+                ACTIVE</button>
+        </div>
+        <div class="col-md-4 col-sm-4 col-4 col-lg-4 col-xl-4">
+            <button mat-raised-button color="warn" class="width-100" mat-dialog-close>Close</button>
+        </div>
+    </div>
+
+    <div class="row" style="margin-top: 60px !important;" *ngIf="isSubscriptionValid =='INACTIVE'">
+        <div class="col-md-4 col-sm-6 col-6 col-lg-4 col-xl-4">
+            <button mat-raised-button class="width-100" color="primary"
+                (click)="inActiveToActiveOpenModal(templateOne)">Active Now</button>
+        </div>
+        <div class="col-md-4 col-sm-6 col-6 col-lg-4 col-xl-4">
+            <button mat-raised-button class="width-100" color="warn" mat-dialog-close>Close</button>
+        </div>
+    </div>
+</div>
+
+<ngx-spinner></ngx-spinner>
+
+<ng-template #template>
+    <div class="modal-body text-center">
+        <p>Do You Want To In Active ?</p>
+        <button type="button" class="btn btn-primary" (click)="confirm()">Yes</button>
+        <button type="button" class="btn btn-danger" (click)="decline()">No</button>
+    </div>
+</ng-template>
+
+
+<ng-template #templateOne>
+    <div class="modal-body text-center">
+        <p>Do You Want To Active Now ?</p>
+        <button type="button" class="btn btn-primary" (click)="inActiveToActiveConfirm()">Yes</button>
+        <button type="button" class="btn btn-danger" (click)="inActiveToActiveDecline()">No</button>
+    </div>
+</ng-template>

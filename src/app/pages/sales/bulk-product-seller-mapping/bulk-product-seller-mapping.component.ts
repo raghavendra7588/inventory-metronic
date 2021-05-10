@@ -4,6 +4,7 @@ import { FileSaverService } from 'ngx-filesaver';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { EmitterService } from 'src/app/shared/emitter.service';
+import { SubheaderService } from 'src/app/_metronic/partials/layout';
 import { SalesService } from '../sales.service';
 
 @Component({
@@ -37,7 +38,8 @@ export class BulkProductSellerMappingComponent implements OnInit {
     public spinner: NgxSpinnerService,
     public emitterService: EmitterService,
     public toastr: ToastrService,
-    private _FileSaverService: FileSaverService
+    private _FileSaverService: FileSaverService,
+    private subheader: SubheaderService
   ) { }
 
   ngOnInit(): void {
@@ -48,13 +50,22 @@ export class BulkProductSellerMappingComponent implements OnInit {
       { id: 1, name: 'Only Mapped Product', title: 'M' },
       { id: 2, name: 'Only UnMapped Product', title: 'U' }
     ];
+
+    setTimeout(() => {
+      this.subheader.setTitle('Sales / Bulk Product Seller Mapping');
+      this.subheader.setBreadcrumbs([{
+        title: 'Bulk Product Seller Mapping',
+        linkText: 'Bulk Product Seller Mapping',
+        linkPath: '/sales/bulkProductSellerMapping'
+      }]);
+    }, 1);
   }
 
 
 
 
   selectFile(e) {
- 
+
     this.fileData = <File>e.target.files[0];
     this.fileName = e.target.files[0].name;
     this.uploadedFileName = this.fileName;
@@ -92,7 +103,7 @@ export class BulkProductSellerMappingComponent implements OnInit {
 
   downloadCsv() {
     let objData = this.seller + '|' + this.type;
-   
+
     let newWindow = window.open(this.salesService.ADMIN_BASE_URL + 'ProductSellerMapping/GetCSV?SellerID=' + objData, '_blank');
   }
 

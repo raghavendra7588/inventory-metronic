@@ -8,6 +8,10 @@ import { DialogOrderManagementPrintComponent } from '../dialog-order-management-
 import { DialogOrderManagementComponent } from '../dialog-order-management/dialog-order-management.component';
 import { SalesService } from '../sales.service';
 import { ExportToCsv } from 'export-to-csv';
+import { SubheaderService } from 'src/app/_metronic/partials/layout';
+import { Router } from '@angular/router';
+import { SharedService } from 'src/app/shared/shared.service';
+import { PaymentService } from '../../payment/payment.service';
 
 @Component({
   selector: 'app-order-management',
@@ -23,6 +27,7 @@ export class OrderManagementComponent implements OnInit {
   orderData: any = [];
   isDataLoaded: boolean = false;
   role: string;
+  latestPaymentData: any = [];
 
   @ViewChild(MatPaginator) set matPaginator(mp: MatPaginator) {
     this.paginator = mp;
@@ -34,7 +39,11 @@ export class OrderManagementComponent implements OnInit {
     public salesService: SalesService,
     public dialog: MatDialog,
     public emitterService: EmitterService,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private subheader: SubheaderService,
+    public paymentService: PaymentService,
+    public sharedService: SharedService,
+    private router: Router
   ) {
     this.strSellerId = sessionStorage.getItem('sellerId');
     this.role = sessionStorage.getItem('role');
@@ -56,6 +65,20 @@ export class OrderManagementComponent implements OnInit {
 
   ngOnInit(): void {
     this.getOrderListData(this.strSellerId);
+
+    setTimeout(() => {
+      this.subheader.setTitle('Sales / Order');
+      this.subheader.setBreadcrumbs([{
+        title: 'Order',
+        linkText: 'Order',
+        linkPath: '/sales/order'
+      }]);
+    }, 1);
+    if (this.role == 'Seller') {
+      this.getLatestPaymentTransaction();
+    } else {
+      return;
+    }
   }
 
   applyFilter(filter: string) {
@@ -79,7 +102,7 @@ export class OrderManagementComponent implements OnInit {
       }
     );
     this.salesService.getOrderList(userId).subscribe(res => {
-    
+
       this.orderData = res;
       this.dataSource = new MatTableDataSource(this.orderData);
       setTimeout(() => this.dataSource.paginator = this.paginator);
@@ -158,5 +181,43 @@ export class OrderManagementComponent implements OnInit {
       formattedResponse.push(item);
     }
     return formattedResponse;
+  }
+
+  getLatestPaymentTransaction() {
+    this.spinner.show();
+    this.paymentService.getLatestTransactionBySeller(Number(this.strSellerId)).subscribe(res => {
+      this.latestPaymentData = res;
+      sessionStorage.removeItem('subscriptionDetails');
+      sessionStorage.setItem('subscriptionDetails', JSON.stringify(this.latestPaymentData));
+
+
+      var expiryDate = new Date(this.latestPaymentData[0].ExpiryDatee);
+      var currentDate = new Date();
+
+      if (expiryDate > currentDate) {
+
+        this.spinner.hide();
+        return;
+      } else {
+
+        this.sellerStatusChechpoint(this.latestPaymentData[0].PaymenId);
+      }
+      this.spinner.hide();
+    }, err => {
+      this.spinner.hide();
+    });
+  }
+
+
+  sellerStatusChechpoint(PaymenId) {
+    this.spinner.show();
+    this.paymentService.updateSellerStatusCheckpoint(PaymenId).subscribe(res => {
+
+      this.emitterService.isPaymentOrStatusChange.emit(true);
+      this.router.navigate(['/payment/subscription']);
+      this.spinner.hide();
+    }, err => {
+      this.spinner.hide();
+    });
   }
 }

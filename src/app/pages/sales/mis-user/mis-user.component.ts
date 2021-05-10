@@ -9,6 +9,7 @@ import { DialogUpdateMobileNumberComponent } from '../dialog-update-mobile-numbe
 import { DialogViewUserComponent } from '../dialog-view-user/dialog-view-user.component';
 import { SalesService } from '../sales.service';
 import { ExportToCsv } from 'export-to-csv';
+import { SubheaderService } from 'src/app/_metronic/partials/layout';
 
 @Component({
   selector: 'app-mis-user',
@@ -34,7 +35,8 @@ export class MisUserComponent implements OnInit {
     public salesService: SalesService,
     public dialog: MatDialog,
     public spinner: NgxSpinnerService,
-    public emitterService: EmitterService
+    public emitterService: EmitterService,
+    private subheader: SubheaderService
   ) {
   }
 
@@ -57,6 +59,15 @@ export class MisUserComponent implements OnInit {
       else {
         this.displayedColumns = ['name', 'emailID', 'mobile', 'pincode', 'state', 'city', 'edit'];
       }
+
+      setTimeout(() => {
+        this.subheader.setTitle('Sales / MIS');
+        this.subheader.setBreadcrumbs([{
+          title: 'MIS',
+          linkText: 'MIS',
+          linkPath: '/sales/MIS'
+        }]);
+      }, 1);
   }
 
   getMisUser() {

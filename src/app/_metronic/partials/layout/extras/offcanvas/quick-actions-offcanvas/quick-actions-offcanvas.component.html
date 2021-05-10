@@ -10,85 +10,156 @@
     </a>
   </div>
 
-  <div class="offcanvas-content pr-5 mr-n5">
-    <div class="row gutter-b">
 
 
-      <div class="col-6">
-        <a class="btn btn-block btn-light btn-hover-primary text-dark-50 text-center py-10 px-5"
-          routerLink="sales/user/customer" (click)="onTabChange('Sales')" routerLinkActive="active">
-          <span [inlineSVG]="'./assets/media/svg/icons/Communication/Group.svg'" cacheSVG="true"
-            class="svg-icon svg-icon-3x svg-icon-primary m-0"></span>
-          <span class="d-block font-weight-bold font-size-h6 mt-2">Customers</span>
-        </a>
+
+  <ng-container *ngIf="isSubscriptionValid=='INACTIVE'">
+    <div class="offcanvas-content pr-5 mr-n5">
+      <div class="row gutter-b">
+  
+  
+        <div class="col-6">
+          <a class="btn btn-block btn-light btn-hover-primary text-dark-50 text-center py-10 px-5" style="cursor:  no-drop;">
+            <span [inlineSVG]="'./assets/media/svg/icons/Communication/Group.svg'" cacheSVG="true"
+              class="svg-icon svg-icon-3x svg-icon-primary m-0"></span>
+            <span class="d-block font-weight-bold font-size-h6 mt-2">Customers</span>
+          </a>
+        </div>
+  
+  
+        <div class="col-6">
+          <a class="btn btn-block btn-light btn-hover-primary text-dark-50 text-center py-10 px-5" style="cursor:  no-drop;">
+            <span [inlineSVG]="'./assets/media/svg/icons/Shopping/Euro.svg'" cacheSVG="true"
+              class="svg-icon svg-icon-3x svg-icon-primary m-0"></span>
+            <span class="d-block font-weight-bold font-size-h6 mt-2">Vendors</span>
+          </a>
+        </div>
+  
       </div>
-
-
-      <div class="col-6">
-        <a class="btn btn-block btn-light btn-hover-primary text-dark-50 text-center py-10 px-5"
-          routerLink="/purchase/vendor" (click)="onTabChange('Inventory')" routerLinkActive="active">
-          <span [inlineSVG]="'./assets/media/svg/icons/Shopping/Euro.svg'" cacheSVG="true"
-            class="svg-icon svg-icon-3x svg-icon-primary m-0"></span>
-          <span class="d-block font-weight-bold font-size-h6 mt-2">Vendors</span>
-        </a>
+      <div class="row gutter-b">
+  
+        <div class="col-6">
+          <a class="btn btn-block btn-light btn-hover-primary text-dark-50 text-center py-10 px-5" style="cursor:  no-drop;">
+            <span [inlineSVG]="'./assets/media/svg/icons/Shopping/Box2.svg'" cacheSVG="true"
+              class="svg-icon svg-icon-3x svg-icon-primary m-0"></span>
+            <span class="d-block font-weight-bold font-size-h6 mt-2">Orders</span>
+          </a>
+        </div>
+  
+        <div class="col-6">
+          <a class="btn btn-block btn-light btn-hover-primary text-dark-50 text-center py-10 px-5" style="cursor:  no-drop;">
+            <span [inlineSVG]="
+                './assets/media/svg/icons/Communication/Mail-attachment.svg'
+              " cacheSVG="true" class="svg-icon svg-icon-3x svg-icon-primary m-0"></span>
+            <span class="d-block font-weight-bold font-size-h6 mt-2">Reports</span>
+          </a>
+        </div>
+  
+      </div>
+      <div class="row gutter-b">
+  
+        <div class="col-6">
+          <a class="btn btn-block btn-light btn-hover-primary text-dark-50 text-center py-10 px-5" style="cursor:  no-drop;">
+            <span [inlineSVG]="'./assets/media/svg/icons/Shopping/Chart-bar1.svg'" cacheSVG="true"
+              class="svg-icon svg-icon-3x svg-icon-primary m-0"></span>
+            <span class="d-block font-weight-bold font-size-h6 mt-2">Top Purchase</span>
+          </a>
+        </div>
+  
+        <div class="col-6">
+          <a class="btn btn-block btn-light btn-hover-primary text-dark-50 text-center py-10 px-5" style="cursor:  no-drop;">
+            <span [inlineSVG]="'./assets/media/svg/icons/Design/Color-profile.svg'" cacheSVG="true"
+              class="svg-icon svg-icon-3x svg-icon-primary m-0"></span>
+            <span class="d-block font-weight-bold font-size-h6 mt-2">Top Sale</span>
+          </a>
+        </div>
+  
       </div>
 
     </div>
-    <div class="row gutter-b">
+  </ng-container>
 
-      <div class="col-6">
-        <a class="btn btn-block btn-light btn-hover-primary text-dark-50 text-center py-10 px-5"
-          routerLink="/sales/orderManagement/orders" (click)="onTabChange('Sales')" routerLinkActive="active">
-          <span [inlineSVG]="'./assets/media/svg/icons/Shopping/Box2.svg'" cacheSVG="true"
-            class="svg-icon svg-icon-3x svg-icon-primary m-0"></span>
-          <span class="d-block font-weight-bold font-size-h6 mt-2">Orders</span>
-        </a>
+  <ng-container *ngIf="isSubscriptionValid=='ACTIVE'">
+    <div class="offcanvas-content pr-5 mr-n5">
+      <div class="row gutter-b">
+  
+  
+        <div class="col-6">
+          <a class="btn btn-block btn-light btn-hover-primary text-dark-50 text-center py-10 px-5"
+            routerLink="sales/user/customer" (click)="onTabChange('Sales')" routerLinkActive="active">
+            <span [inlineSVG]="'./assets/media/svg/icons/Communication/Group.svg'" cacheSVG="true"
+              class="svg-icon svg-icon-3x svg-icon-primary m-0"></span>
+            <span class="d-block font-weight-bold font-size-h6 mt-2">Customers</span>
+          </a>
+        </div>
+  
+  
+        <div class="col-6">
+          <a class="btn btn-block btn-light btn-hover-primary text-dark-50 text-center py-10 px-5"
+            routerLink="/purchase/vendor" (click)="onTabChange('Inventory')" routerLinkActive="active">
+            <span [inlineSVG]="'./assets/media/svg/icons/Shopping/Euro.svg'" cacheSVG="true"
+              class="svg-icon svg-icon-3x svg-icon-primary m-0"></span>
+            <span class="d-block font-weight-bold font-size-h6 mt-2">Vendors</span>
+          </a>
+        </div>
+  
       </div>
-
-      <div class="col-6">
-        <a class="btn btn-block btn-light btn-hover-primary text-dark-50 text-center py-10 px-5"
-          routerLink="/reports/vendorOrderWisePurchaseReport" (click)="onTabChange('Inventory')"
-          routerLinkActive="active">
-          <span [inlineSVG]="
-              './assets/media/svg/icons/Communication/Mail-attachment.svg'
-            " cacheSVG="true" class="svg-icon svg-icon-3x svg-icon-primary m-0"></span>
-          <span class="d-block font-weight-bold font-size-h6 mt-2">Reports</span>
-        </a>
+      <div class="row gutter-b">
+  
+        <div class="col-6">
+          <a class="btn btn-block btn-light btn-hover-primary text-dark-50 text-center py-10 px-5"
+            routerLink="/sales/orderManagement/orders" (click)="onTabChange('Sales')" routerLinkActive="active">
+            <span [inlineSVG]="'./assets/media/svg/icons/Shopping/Box2.svg'" cacheSVG="true"
+              class="svg-icon svg-icon-3x svg-icon-primary m-0"></span>
+            <span class="d-block font-weight-bold font-size-h6 mt-2">Orders</span>
+          </a>
+        </div>
+  
+        <div class="col-6">
+          <a class="btn btn-block btn-light btn-hover-primary text-dark-50 text-center py-10 px-5"
+            routerLink="/reports/vendorOrderWisePurchaseReport" (click)="onTabChange('Inventory')"
+            routerLinkActive="active">
+            <span [inlineSVG]="
+                './assets/media/svg/icons/Communication/Mail-attachment.svg'
+              " cacheSVG="true" class="svg-icon svg-icon-3x svg-icon-primary m-0"></span>
+            <span class="d-block font-weight-bold font-size-h6 mt-2">Reports</span>
+          </a>
+        </div>
+  
       </div>
-
+      <div class="row gutter-b">
+  
+        <div class="col-6">
+          <a class="btn btn-block btn-light btn-hover-primary text-dark-50 text-center py-10 px-5"
+            routerLinkActive="active">
+            <span [inlineSVG]="'./assets/media/svg/icons/Shopping/Chart-bar1.svg'" cacheSVG="true"
+              class="svg-icon svg-icon-3x svg-icon-primary m-0"></span>
+            <span class="d-block font-weight-bold font-size-h6 mt-2">Top Purchase</span>
+          </a>
+        </div>
+  
+        <div class="col-6">
+          <a class="btn btn-block btn-light btn-hover-primary text-dark-50 text-center py-10 px-5"
+            routerLinkActive="active">
+            <span [inlineSVG]="'./assets/media/svg/icons/Design/Color-profile.svg'" cacheSVG="true"
+              class="svg-icon svg-icon-3x svg-icon-primary m-0"></span>
+            <span class="d-block font-weight-bold font-size-h6 mt-2">Top Sale</span>
+          </a>
+        </div>
+  
+      </div>
+      <!-- <div class="row">
+  
+        <div class="col-6">
+          <a class="btn btn-block btn-light btn-hover-primary text-dark-50 text-center py-10 px-5">
+            <span [inlineSVG]="'./assets/media/svg/icons/Shopping/Euro.svg'" cacheSVG="true"
+              class="svg-icon svg-icon-3x svg-icon-primary m-0"></span>
+            <span class="d-block font-weight-bold font-size-h6 mt-2">Orders</span>
+          </a>
+        </div>
+  
+      </div> -->
     </div>
-    <div class="row gutter-b">
-
-      <div class="col-6">
-        <a class="btn btn-block btn-light btn-hover-primary text-dark-50 text-center py-10 px-5"
-          routerLinkActive="active">
-          <span [inlineSVG]="'./assets/media/svg/icons/Shopping/Chart-bar1.svg'" cacheSVG="true"
-            class="svg-icon svg-icon-3x svg-icon-primary m-0"></span>
-          <span class="d-block font-weight-bold font-size-h6 mt-2">Top Purchase</span>
-        </a>
-      </div>
-
-      <div class="col-6">
-        <a class="btn btn-block btn-light btn-hover-primary text-dark-50 text-center py-10 px-5"
-          routerLinkActive="active">
-          <span [inlineSVG]="'./assets/media/svg/icons/Design/Color-profile.svg'" cacheSVG="true"
-            class="svg-icon svg-icon-3x svg-icon-primary m-0"></span>
-          <span class="d-block font-weight-bold font-size-h6 mt-2">Top Sale</span>
-        </a>
-      </div>
-
-    </div>
-    <!-- <div class="row">
-
-      <div class="col-6">
-        <a class="btn btn-block btn-light btn-hover-primary text-dark-50 text-center py-10 px-5">
-          <span [inlineSVG]="'./assets/media/svg/icons/Shopping/Euro.svg'" cacheSVG="true"
-            class="svg-icon svg-icon-3x svg-icon-primary m-0"></span>
-          <span class="d-block font-weight-bold font-size-h6 mt-2">Orders</span>
-        </a>
-      </div>
-
-    </div> -->
-  </div>
+  </ng-container>
 
 </div>

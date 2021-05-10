@@ -22,6 +22,9 @@ export class EmitterService {
   public isAdminCreadtedOrUpdated: EventEmitter<boolean>;
   public isDeleted: EventEmitter<boolean>;
   public isResponseLoaded: EventEmitter<boolean>;
+  public isPaymentOrStatusChange: EventEmitter<boolean>;
+  public isPaymentOrStatusActivated: EventEmitter<boolean>;
+  public isDialogClosed: EventEmitter<boolean>;
 
   constructor() {
     this.isLoggedIn = new EventEmitter();
@@ -41,5 +44,8 @@ export class EmitterService {
     this.isAdminCreadtedOrUpdated = new EventEmitter();
     this.isDeleted = new EventEmitter();
     this.isResponseLoaded = new EventEmitter();
+    this.isPaymentOrStatusChange = new EventEmitter();
+    this.isPaymentOrStatusActivated = new EventEmitter();
+    this.isDialogClosed = new EventEmitter();
   }
 }

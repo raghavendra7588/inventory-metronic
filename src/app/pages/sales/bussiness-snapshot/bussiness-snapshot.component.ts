@@ -4,6 +4,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { EmitterService } from 'src/app/shared/emitter.service';
+import { SubheaderService } from 'src/app/_metronic/partials/layout';
 import { SalesService } from '../sales.service';
 
 @Component({
@@ -24,7 +25,8 @@ export class BussinessSnapshotComponent implements OnInit {
     public salesService: SalesService,
     public dialog: MatDialog,
     public spinner: NgxSpinnerService,
-    public emitterService: EmitterService
+    public emitterService: EmitterService,
+    private subheader: SubheaderService
   ) {
     this.role = sessionStorage.getItem('role');
 
@@ -32,6 +34,15 @@ export class BussinessSnapshotComponent implements OnInit {
 
   ngOnInit(): void {
     this.getBussinessSnapshotData();
+
+    setTimeout(() => {
+      this.subheader.setTitle('Sales / Bussiness Snapshot');
+      this.subheader.setBreadcrumbs([{
+        title: 'Order',
+        linkText: 'Order',
+        linkPath: '/sales/order'
+      }]);
+    }, 1);
   }
 
   applyFilter(filter: string) {
@@ -53,7 +64,7 @@ export class BussinessSnapshotComponent implements OnInit {
       }
     );
     this.salesService.getBussinessSnapshot(this.userID).subscribe(res => {
-   
+
       this.bussinessSnapshotData = res;
       this.dataSource = new MatTableDataSource(this.bussinessSnapshotData);
       setTimeout(() => this.dataSource.paginator = this.paginator);

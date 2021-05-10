@@ -12,6 +12,9 @@ import { PurchaseService } from '../purchase.service';
 import * as _ from 'lodash';
 import { GetPriceListComponent } from '../get-price-list/get-price-list.component';
 import { DialogPurchaseOrderPrintComponent } from '../dialog-purchase-order-print/dialog-purchase-order-print.component';
+import { SubheaderService } from 'src/app/_metronic/partials/layout';
+import { SharedService } from 'src/app/shared/shared.service';
+import { PaymentService } from '../../payment/payment.service';
 
 @Component({
   selector: 'app-purchase-order',
@@ -54,6 +57,8 @@ export class PurchaseOrderComponent implements OnInit {
   calculatedDiscount: number;
   calculatedFinalPrice: number;
   isButtonDisabled: boolean = false;
+  latestPaymentData: any = [];
+  role: string;
 
   constructor(
     public dialog: MatDialog,
@@ -61,14 +66,18 @@ export class PurchaseOrderComponent implements OnInit {
     public emitterService: EmitterService,
     public toastr: ToastrService,
     public router: Router,
-    private spinner: NgxSpinnerService) {
+    private spinner: NgxSpinnerService,
+    private subheader: SubheaderService,
+    public paymentService: PaymentService,
+    public sharedService: SharedService,
+  ) {
     this.emitterService.sendPurchaseOrder.subscribe(value => {
       if (value) {
 
         this.receivedPurchaseOrder = [...this.receivedPurchaseOrder, ...value].reverse();
 
         this.purchaseOrder.items = this.receivedPurchaseOrder;
-     
+
 
         let uniqueReceivedPurchaseOrder = _.uniqBy(this.receivedPurchaseOrder, 'ProductVarientId');
         this.receivedPurchaseOrder = uniqueReceivedPurchaseOrder;
@@ -87,6 +96,7 @@ export class PurchaseOrderComponent implements OnInit {
 
   ngOnInit() {
     this.strSellerId = sessionStorage.getItem('sellerId');
+    this.role = sessionStorage.getItem('role');
     this.purchaseOrder.orderDate = new Date();
     this.getVendorData();
     this.getAddressData();
@@ -99,13 +109,27 @@ export class PurchaseOrderComponent implements OnInit {
       { id: 1, title: 'Credit' },
       { id: 2, title: 'Online' }
     ];
+
+    setTimeout(() => {
+      this.subheader.setTitle('Purchase / Purchase Order');
+      this.subheader.setBreadcrumbs([{
+        title: 'Purchase Order',
+        linkText: 'Purchase Order',
+        linkPath: '/purchase/purchaseOrder'
+      }]);
+    }, 1);
+    if (this.role == 'Seller') {
+      this.getLatestPaymentTransaction();
+    } else {
+      return;
+    }
   }
   getVendorData() {
     this.spinner.show();
     this.purchaseService.getAllVendorData(this.strSellerId).subscribe(data => {
       this.vendorData = data;
       this.purchaseService.allvendorData = data;
-    
+
       this.spinner.hide();
     });
   }
@@ -439,5 +463,42 @@ export class PurchaseOrderComponent implements OnInit {
 
   applyFilter(filter: string) {
     this.dataSource.filter = filter.trim().toLowerCase();
+  }
+
+  getLatestPaymentTransaction() {
+    this.spinner.show();
+    this.paymentService.getLatestTransactionBySeller(Number(this.strSellerId)).subscribe(res => {
+      this.latestPaymentData = res;
+      sessionStorage.removeItem('subscriptionDetails');
+      sessionStorage.setItem('subscriptionDetails', JSON.stringify(this.latestPaymentData));
+
+      var expiryDate = new Date(this.latestPaymentData[0].ExpiryDatee);
+      var currentDate = new Date();
+
+      if (expiryDate > currentDate) {
+
+        this.spinner.hide();
+        return;
+      } else {
+
+        this.sellerStatusChechpoint(this.latestPaymentData[0].PaymenId);
+      }
+      this.spinner.hide();
+    }, err => {
+      this.spinner.hide();
+    });
+  }
+
+
+  sellerStatusChechpoint(PaymenId) {
+    this.spinner.show();
+    this.paymentService.updateSellerStatusCheckpoint(PaymenId).subscribe(res => {
+
+      this.emitterService.isPaymentOrStatusChange.emit(true);
+      this.router.navigate(['/payment/subscription']);
+      this.spinner.hide();
+    }, err => {
+      this.spinner.hide();
+    });
   }
 }

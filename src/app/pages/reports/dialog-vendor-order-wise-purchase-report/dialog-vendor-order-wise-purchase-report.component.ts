@@ -5,6 +5,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import * as _ from 'lodash';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { SubheaderService } from 'src/app/_metronic/partials/layout';
 import { PurchaseService } from '../../purchase/purchase.service';
 
 @Component({
@@ -30,7 +31,8 @@ export class DialogVendorOrderWisePurchaseReportComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any,
     public dialogRef: MatDialogRef<DialogVendorOrderWisePurchaseReportComponent>,
     public router: Router,
-    private spinner: NgxSpinnerService) {
+    private spinner: NgxSpinnerService
+  ) {
 
     this.sellerName = sessionStorage.getItem('sellerName');
     this.vendorName = data.vendor_name;
@@ -51,6 +53,8 @@ export class DialogVendorOrderWisePurchaseReportComponent implements OnInit {
   ngOnInit(): void {
     this.strSellerId = sessionStorage.getItem('sellerId');
     this.getVendorData();
+
+  
   }
 
   getFinalPrice() {
@@ -72,7 +76,7 @@ export class DialogVendorOrderWisePurchaseReportComponent implements OnInit {
   getTotalQuantity() {
     let totalPurchaseQuantity = 0;
     this.PurchaseReportDataArray.forEach(item => {
- 
+
       totalPurchaseQuantity += Number(item.PurchaseQuantity);
     });
     return totalPurchaseQuantity;

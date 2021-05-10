@@ -1,5 +1,8 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { CanActivateUserAuthGuardGuard } from '../shared/guard/can-activate-user-auth-guard.guard';
+import { PaymentFailureComponent } from './payment/payment-failure/payment-failure.component';
+import { PaymentSuccessComponent } from './payment/payment-success/payment-success.component';
 import { LayoutComponent } from './_layout/layout.component';
 
 const routes: Routes = [
@@ -9,28 +12,38 @@ const routes: Routes = [
     children: [
       {
         path: 'dashboard',
+        canActivate: [CanActivateUserAuthGuardGuard],
         loadChildren: () =>
           import('./dashboard/dashboard.module').then((m) => m.DashboardModule),
       },
       {
         path: 'purchase',
+        canActivate: [CanActivateUserAuthGuardGuard],
         loadChildren: () =>
           import('./purchase/purchase.module').then((m) => m.PurchaseModule),
       },
       {
         path: 'inventory',
+        canActivate: [CanActivateUserAuthGuardGuard],
         loadChildren: () =>
           import('./inventory/inventory.module').then((m) => m.InventoryModule),
       },
       {
         path: 'reports',
+        canActivate: [CanActivateUserAuthGuardGuard],
         loadChildren: () =>
           import('./reports/reports.module').then((m) => m.ReportsModule),
       },
       {
         path: 'sales',
+        canActivate: [CanActivateUserAuthGuardGuard],
         loadChildren: () =>
           import('./sales/sales.module').then((m) => m.SalesModule),
+      },
+      {
+        path: 'payment',
+        loadChildren: () =>
+          import('./payment/payment.module').then((m) => m.PaymentModule),
       },
       {
         path: 'builder',
@@ -78,6 +91,24 @@ const routes: Routes = [
           import('../modules/material/material.module').then(
             (m) => m.MaterialModule
           ),
+      },
+      {
+        path: 'success',
+        component: PaymentSuccessComponent,
+      },
+
+      {
+        path: 'success/:TransationID',
+        component: PaymentSuccessComponent,
+      },
+
+      {
+        path: 'failure',
+        component: PaymentFailureComponent,
+      },
+      {
+        path: 'failure/:TransationID',
+        component: PaymentFailureComponent,
       },
       {
         path: '',

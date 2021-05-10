@@ -1,7 +1,7 @@
-import { isQuote } from '@angular/compiler';
+
 import { Component, Input, OnInit } from '@angular/core';
 
-import { EmitterService } from 'src/app/shared/emitter.service';
+
 import * as _ from 'lodash';
 
 import * as moment from 'moment';
@@ -9,7 +9,7 @@ import { MonthData } from 'src/app/pages/reports/reports.model';
 import { ReportsService } from 'src/app/pages/reports/reports.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Observable } from 'rxjs';
-import { SalesService } from 'src/app/pages/sales/sales.service';
+
 
 @Component({
   selector: 'app-lists-widget14',
@@ -64,7 +64,7 @@ export class ListsWidget14Component implements OnInit {
 
   getHighestValueProductsByMonthData() {
     if (this.role == 'Admin') {
-      this.monthData.sellerId = '2';
+      this.monthData.sellerId = '0';
     }
     this.spinner.show();
     this.reportsService.getHighestValueProductByMonth(this.monthData).subscribe(res => {

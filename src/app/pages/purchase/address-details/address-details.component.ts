@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
 import { MatPaginator } from '@angular/material/paginator';
@@ -35,6 +35,8 @@ export class AddressDetailsComponent implements OnInit, OnDestroy {
   newCity: string;
   isAddressUpdated: boolean = false;
   isAddressCreatedSubscription: Subscription;
+  isSubscriptionValid: string;
+  private unsubscribe: Subscription[] = [];
 
   constructor(
     public purchaseService: PurchaseService,
@@ -42,10 +44,12 @@ export class AddressDetailsComponent implements OnInit, OnDestroy {
     public emitterService: EmitterService,
     public loginService: LoginService,
     private spinner: NgxSpinnerService,
-    private salesService: SalesService
+    private salesService: SalesService,
+    private cdr: ChangeDetectorRef
   ) { }
 
   ngOnInit(): void {
+    this.isSubscriptionValid = sessionStorage.getItem("isSubscriptionValid");
     this.sellerId = Number(sessionStorage.getItem('sellerId'));
     this.strSellerId = sessionStorage.getItem('sellerId');
     this.role = sessionStorage.getItem('role');
@@ -55,21 +59,47 @@ export class AddressDetailsComponent implements OnInit, OnDestroy {
     this.isAddressCreatedSubscription = this.emitterService.isAddressCreated.subscribe(value => {
       if (value) {
         this.firstAddressResponse = [];
-
         this.isAddressUpdated = value;
         this.getAddressDetails();
         this.getSellerUser();
         this.fetchFirstAddressData();
       }
     });
+    this.unsubscribe.push(this.isAddressCreatedSubscription);
+    const isPaymentOrStatusChange = this.emitterService.isPaymentOrStatusChange.subscribe(val => {
+   
+      if (val) {
 
+        this.isSubscriptionValid = '';
+        this.isSubscriptionValid = sessionStorage.getItem("isSubscriptionValid");
+        this.isSubscriptionValid = 'INACTIVE';
+        
+        this.cdr.detectChanges();
+      }
+      this.unsubscribe.push(isPaymentOrStatusChange);
+    });
+
+    const isPaymentOrStatusActivated = this.emitterService.isPaymentOrStatusActivated.subscribe(val => {
+      if (val) {
+       
+        if ("isSubscriptionValid" in sessionStorage) {
+          this.isSubscriptionValid = '';
+          this.isSubscriptionValid = sessionStorage.getItem("isSubscriptionValid");
+          this.isSubscriptionValid = 'ACTIVE';
+         
+          this.cdr.detectChanges();
+        }
+      }
+      this.unsubscribe.push(isPaymentOrStatusActivated);
+    });
+   
   }
 
 
 
   getAddressDetails() {
     this.spinner.show();
-    this.purchaseService.getAddressData().subscribe(data => {
+    const AddressData = this.purchaseService.getAddressData().subscribe(data => {
       this.getAddress = data;
       this.purchaseService.addressData = data;
       this.fetchFirstAddressData();
@@ -79,6 +109,8 @@ export class AddressDetailsComponent implements OnInit, OnDestroy {
     }, err => {
       this.spinner.hide();
     });
+
+    this.unsubscribe.push(AddressData);
   }
 
 
@@ -124,7 +156,7 @@ export class AddressDetailsComponent implements OnInit, OnDestroy {
     this.spinner.show();
 
     if (this.role == 'Admin') {
-      this.salesService.getAllSellerUsers(role).subscribe(res => {
+      const AllSellerUsers = this.salesService.getAllSellerUsers(role).subscribe(res => {
 
         this.adminUsers = res;
         this.salesService.sellerData = this.adminUsers;
@@ -133,11 +165,11 @@ export class AddressDetailsComponent implements OnInit, OnDestroy {
       }, err => {
         this.spinner.hide();
       });
-
+      this.unsubscribe.push(AllSellerUsers);
     }
 
     if (this.role == 'partner' || this.role == 'sales' || this.role == 'Seller') {
-      this.salesService.getSellerUsersData(role, this.strSellerId).subscribe(res => {
+      const AllSellerUser = this.salesService.getSellerUsersData(role, this.strSellerId).subscribe(res => {
 
         this.adminUsers = res;
         this.salesService.sellerData = this.adminUsers;
@@ -146,6 +178,7 @@ export class AddressDetailsComponent implements OnInit, OnDestroy {
       }, err => {
         this.spinner.hide();
       });
+      this.unsubscribe.push(AllSellerUser);
     }
 
 
@@ -181,7 +214,8 @@ export class AddressDetailsComponent implements OnInit, OnDestroy {
       });
     }
   }
+
   ngOnDestroy() {
-    this.isAddressCreatedSubscription.unsubscribe();
+    this.unsubscribe.forEach((sb) => sb.unsubscribe());
   }
 }

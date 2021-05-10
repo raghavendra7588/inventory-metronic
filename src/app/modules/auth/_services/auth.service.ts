@@ -141,10 +141,12 @@ export class AuthService implements OnDestroy {
 
   checkLocalCache(): boolean {
     const token = sessionStorage.getItem('token');
+    const isSubscriptionValid = sessionStorage.getItem('isSubscriptionValid');
     return !(
       token === undefined ||
       token === null ||
-      token.length === 0
+      token.length === 0 ||
+      isSubscriptionValid == 'INACTIVE'
     );
   }
 

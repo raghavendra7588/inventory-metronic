@@ -10,6 +10,7 @@ import { DialogProductComponent } from '../dialog-product/dialog-product.compone
 import { DialogSubCategoryComponent } from '../dialog-sub-category/dialog-sub-category.component';
 import { SalesService } from '../sales.service';
 import { ExportToCsv } from 'export-to-csv';
+import { SubheaderService } from 'src/app/_metronic/partials/layout';
 
 @Component({
   selector: 'app-category',
@@ -29,7 +30,8 @@ export class CategoryComponent implements OnInit {
     public salesService: SalesService,
     public dialog: MatDialog,
     public emitterService: EmitterService,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private subheader: SubheaderService
   ) {
 
     this.emitterService.isAdminCreadtedOrUpdated.subscribe(val => {
@@ -51,6 +53,15 @@ export class CategoryComponent implements OnInit {
 
   ngOnInit(): void {
     this.getCategoryData();
+
+    setTimeout(() => {
+      this.subheader.setTitle('Sales / Category');
+      this.subheader.setBreadcrumbs([{
+        title: 'Category',
+        linkText: 'Category',
+        linkPath: '/sales/category'
+      }]);
+    }, 1);
   }
 
   getCategoryData() {

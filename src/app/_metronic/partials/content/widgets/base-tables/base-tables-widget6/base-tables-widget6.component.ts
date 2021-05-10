@@ -59,7 +59,7 @@ export class BaseTablesWidget6Component implements OnInit, AfterViewInit, OnDest
 
   getFastestMoVingProductsByMonth() {
     if (this.role == 'Admin') {
-      this.strSellerId = '2';
+      this.strSellerId = '0';
     }
     this.spinner.show();
     this.reportsService.getFastestMovingDataByMonth(this.strSellerId).subscribe(res => {

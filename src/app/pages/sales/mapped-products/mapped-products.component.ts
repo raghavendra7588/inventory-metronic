@@ -5,10 +5,14 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSelect } from '@angular/material/select';
 import { MatTableDataSource } from '@angular/material/table';
+import { Router } from '@angular/router';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { EmitterService } from 'src/app/shared/emitter.service';
+import { SharedService } from 'src/app/shared/shared.service';
+import { SubheaderService } from 'src/app/_metronic/partials/layout';
+import { PaymentService } from '../../payment/payment.service';
 import { SaveMappedProducts, SaveUnMappedProducts, UnmappedProducts } from '../sales.model.';
 import { SalesService } from '../sales.service';
 
@@ -74,6 +78,7 @@ export class MappedProductsComponent implements OnInit {
 
   deleteModalRef: BsModalRef;
   particularProduct: any;
+  latestPaymentData: any = [];
 
   constructor(
     public salesService: SalesService,
@@ -81,13 +86,31 @@ export class MappedProductsComponent implements OnInit {
     public spinner: NgxSpinnerService,
     public emitterService: EmitterService,
     public toastr: ToastrService,
-    private modalService: BsModalService
+    private modalService: BsModalService,
+    private subheader: SubheaderService,
+    public paymentService: PaymentService,
+    public sharedService: SharedService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
     this.role = sessionStorage.getItem('role');
     this.strSellerID = sessionStorage.getItem('sellerId');
     this.getSellerUsers();
+
+    setTimeout(() => {
+      this.subheader.setTitle('Sales / Mapped Products');
+      this.subheader.setBreadcrumbs([{
+        title: 'Mapped Products',
+        linkText: 'Mapped Products',
+        linkPath: '/sales/mappedProducts'
+      }]);
+    }, 1);
+    if (this.role == 'Seller') {
+      this.getLatestPaymentTransaction();
+    } else {
+      return;
+    }
   }
 
   applyFilter(filter: string) {
@@ -107,7 +130,7 @@ export class MappedProductsComponent implements OnInit {
     let currentRole = '';
 
     currentRole = 'Seller';
-   
+
     this.salesService.getSellerUsers(currentRole).subscribe(res => {
       this.sellerData = res;
 
@@ -129,7 +152,7 @@ export class MappedProductsComponent implements OnInit {
 
 
   onSellerChange(event, res) {
- 
+
     this.categoriesData = res.categories;
 
     this.sellerData = res.id;
@@ -146,7 +169,7 @@ export class MappedProductsComponent implements OnInit {
 
     this.salesService.getMappedProducts(unmapppedData).subscribe(res => {
       this.unMappedProductData = res;
-     
+
       this.dataSource = new MatTableDataSource(this.unMappedProductData);
       setTimeout(() => this.dataSource.paginator = this.paginator);
       this.spinner.hide();
@@ -167,7 +190,7 @@ export class MappedProductsComponent implements OnInit {
   }
 
   selectedCategoryFromList(res) {
-  
+
     this.categoryID = res.id;
 
     this.spinner.show(undefined,
@@ -199,7 +222,7 @@ export class MappedProductsComponent implements OnInit {
     let mappedProductData: any = [];
     this.salesService.getMappedProducts(req).subscribe(res => {
       mappedProductData = res;
-     
+
       this.dataSource = new MatTableDataSource(mappedProductData);
       setTimeout(() => this.dataSource.paginator = this.paginator);
       this.spinner.hide();
@@ -317,10 +340,10 @@ export class MappedProductsComponent implements OnInit {
       this.saveUnMappedProducts.OutofStockMsg = 'This product is currently out of stock. Please check later.';
       this.saveUnMappedProducts.userid = this.strSellerID;
       this.saveUnMappedProducts.CategoryID = Number(element.CategoryID);
-      
+
       let isPriceValid = (Number(this.saveUnMappedProducts.ProductPrice) - Number(this.saveUnMappedProducts.Discount)) === Number(this.saveUnMappedProducts.FinalPrice);
       if (isPriceValid) {
-        
+
         this.spinner.show(undefined,
           {
             type: "square-jelly-box",
@@ -412,14 +435,14 @@ export class MappedProductsComponent implements OnInit {
           color: 'white'
         }
       );
-   
+
       this.salesService.saveUnmappedProducts(this.saveUnMappedProducts).subscribe(data => {
         this.toastr.success('Product Price, Discount and Final Price is Updated !!');
         let unmapppedData = { SellerId: this.sellerData, CategoryId: '0', SubCategoryId: '0' };
         this.saveUnMappedProducts = new SaveMappedProducts();
         this.salesService.getMappedProducts(unmapppedData).subscribe(res => {
           this.unMappedProductData = res;
-     
+
           this.dataSource = new MatTableDataSource(this.unMappedProductData);
           setTimeout(() => this.dataSource.paginator = this.paginator);
         });
@@ -477,7 +500,7 @@ export class MappedProductsComponent implements OnInit {
 
       this.salesService.getMappedProducts(unmapppedData).subscribe(res => {
         this.unMappedProductData = res;
-    
+
         this.dataSource = new MatTableDataSource(this.unMappedProductData);
         setTimeout(() => this.dataSource.paginator = this.paginator);
         this.spinner.hide();
@@ -563,7 +586,7 @@ export class MappedProductsComponent implements OnInit {
 
           this.salesService.getMappedProducts(unmapppedData).subscribe(res => {
             this.unMappedProductData = res;
-      
+
             this.dataSource = new MatTableDataSource(this.unMappedProductData);
             setTimeout(() => this.dataSource.paginator = this.paginator);
             this.spinner.hide();
@@ -641,5 +664,42 @@ export class MappedProductsComponent implements OnInit {
 
   declineDelete(): void {
     this.deleteModalRef.hide();
+  }
+
+  getLatestPaymentTransaction() {
+    this.spinner.show();
+    this.paymentService.getLatestTransactionBySeller(Number(this.strSellerID)).subscribe(res => {
+      this.latestPaymentData = res;
+      sessionStorage.removeItem('subscriptionDetails');
+      sessionStorage.setItem('subscriptionDetails', JSON.stringify(this.latestPaymentData));
+
+      var expiryDate = new Date(this.latestPaymentData[0].ExpiryDatee);
+      var currentDate = new Date();
+
+      if (expiryDate > currentDate) {
+
+        this.spinner.hide();
+        return;
+      } else {
+
+        this.sellerStatusChechpoint(this.latestPaymentData[0].PaymenId);
+      }
+      this.spinner.hide();
+    }, err => {
+      this.spinner.hide();
+    });
+  }
+
+
+  sellerStatusChechpoint(PaymenId) {
+    this.spinner.show();
+    this.paymentService.updateSellerStatusCheckpoint(PaymenId).subscribe(res => {
+
+      this.emitterService.isPaymentOrStatusChange.emit(true);
+      this.router.navigate(['/payment/subscription']);
+      this.spinner.hide();
+    }, err => {
+      this.spinner.hide();
+    });
   }
 }

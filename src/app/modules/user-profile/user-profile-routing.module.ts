@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AddressDetailsComponent } from 'src/app/pages/purchase/address-details/address-details.component';
+import { CanActivateUserAuthGuardGuard } from 'src/app/shared/guard/can-activate-user-auth-guard.guard';
 import { AccountInformationComponent } from './account-information/account-information.component';
 import { ChangePasswordComponent } from './change-password/change-password.component';
 import { EmailSettingsComponent } from './email-settings/email-settings.component';
@@ -18,12 +19,13 @@ const routes: Routes = [
     children: [
       {
         path: 'addAddress',
+        // canActivate: [CanActivateUserAuthGuardGuard],
         component: AddressDetailsComponent,
       },
-      {
-        path: 'profile-overview',
-        component: ProfileOverviewComponent,
-      },
+      // {
+      //   path: 'profile-overview',
+      //   component: ProfileOverviewComponent,
+      // },
       {
         path: 'personal-information',
         component: PersonalInformationComponent,
@@ -52,8 +54,8 @@ const routes: Routes = [
         path: 'statements',
         component: StatementsComponent
       },
-      { path: '', redirectTo: 'profile-overview', pathMatch: 'full' },
-      { path: '**', redirectTo: 'profile-overview', pathMatch: 'full' },
+      { path: '', redirectTo: 'addAddress', pathMatch: 'full' },
+      { path: '**', redirectTo: 'addAddress', pathMatch: 'full' },
     ],
   },
 ];

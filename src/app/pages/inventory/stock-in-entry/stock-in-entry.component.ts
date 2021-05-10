@@ -11,6 +11,10 @@ import { StockIn } from '../inventory.model';
 import { InventoryService } from '../inventory.service';
 import * as _ from 'lodash';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { SubheaderService } from 'src/app/_metronic/partials/layout';
+import { SharedService } from 'src/app/shared/shared.service';
+import { PaymentService } from '../../payment/payment.service';
+import { EmitterService } from 'src/app/shared/emitter.service';
 
 @Component({
   selector: 'app-stock-in-entry',
@@ -43,7 +47,8 @@ export class StockInEntryComponent implements OnInit {
   ownDbstockInItemsData: any = [];
   uniqueArray: any = [];
   multipleItemsArray: any = [];
-
+  latestPaymentData: any = [];
+  role: string;
 
   constructor(
     public dialog: MatDialog,
@@ -51,7 +56,11 @@ export class StockInEntryComponent implements OnInit {
     public purchaseService: PurchaseService,
     public toastr: ToastrService,
     public inventoryService: InventoryService,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private subheader: SubheaderService,
+    public paymentService: PaymentService,
+    public sharedService: SharedService,
+    public emitterService: EmitterService
   ) { }
 
   ngOnInit() {
@@ -62,6 +71,22 @@ export class StockInEntryComponent implements OnInit {
     this.getPurchaseItemData.sellerId = sessionStorage.getItem('sellerId');
     this.getVendorData();
     this.getAllStockInData();
+    this.role = sessionStorage.getItem('role');
+    setTimeout(() => {
+      this.subheader.setTitle('Purchase / Stock In');
+      this.subheader.setBreadcrumbs([{
+        title: 'Stock In',
+        linkText: 'Stock In',
+        linkPath: '/purchase/stockIn'
+      }]);
+    }, 1);
+
+    if (this.role == 'Seller') {
+      this.getLatestPaymentTransaction();
+    } else {
+      return;
+    }
+
   }
 
 
@@ -101,13 +126,13 @@ export class StockInEntryComponent implements OnInit {
   updateAll() {
     this.checkFinalPrice = true;
     this.selection.selected.forEach((element) => {
-    
+
       if (this.checkFinalPrice === false) {
         return;
       }
 
       this.checkFinalPrice = this.checkItemFinalPrice(element);
-      
+
       if (!this.checkFinalPrice) {
         this.toastr.error('Please Check Quantity');
       }
@@ -132,10 +157,10 @@ export class StockInEntryComponent implements OnInit {
 
 
   checkItemFinalPrice(element) {
- 
+
     let isRecordValid: boolean = true;
     let QuantityOrdered = Number(element.PurchaseQuantity);
-  
+
     let QuantityReceived = Number(element.QuantityReceived)
 
     if (QuantityReceived > QuantityOrdered) {
@@ -153,9 +178,9 @@ export class StockInEntryComponent implements OnInit {
 
   postMultipleInsertion(elements) {
     elements.forEach(element => {
-     
+
       this.stockIn = new StockIn();
-      
+
       if (element.StockInItemId === 0) {
 
         this.stockIn.stockInItemId = element.StockInItemId;
@@ -178,10 +203,10 @@ export class StockInEntryComponent implements OnInit {
       this.mulitpleEntriesArray.push(this.stockIn);
     });
 
-  
+
     this.spinner.show();
     this.inventoryService.postStockInItem(this.mulitpleEntriesArray).subscribe(data => {
- 
+
       this.toastr.success('Items saved');
       this.updateAllRecordsCount = 0;
       this.mulitpleEntriesArray = [];
@@ -222,13 +247,13 @@ export class StockInEntryComponent implements OnInit {
 
   SearchRecords() {
     this.purchaseService.getAllPurchaseOrderItemData(this.getPurchaseItemData).subscribe(data => {
-     
+
       this.purchaseOrderItemData = data;
 
       let uniqueStockInItems = _.uniqBy(this.purchaseOrderItemData, 'PurchaseOrderItemId');
-    
+
       this.purchaseOrderItemData = uniqueStockInItems;
-   
+
       this.dataSource = new MatTableDataSource(this.purchaseOrderItemData);
       setTimeout(() => this.dataSource.paginator = this.paginator);
     })
@@ -246,7 +271,7 @@ export class StockInEntryComponent implements OnInit {
 
   }
   selectedOrderNumberList(response: any) {
-  
+
     this.getPurchaseItemData.orderNo = response.OrderNo;
     this.getPurchaseItemData.purchaseOrderId = response.PurchaseOrderId;
   }
@@ -261,7 +286,7 @@ export class StockInEntryComponent implements OnInit {
 
       for (let j = 0; j < ownDbData.length; j++) {
         if (apiData[i].PurchaseOrderItemId === ownDbData[j].PurchaseOrderItemId && apiData[i].ReferenceId === ownDbData[j].ReferenceId) {
-        
+
           apiData[i].FinalPrice = ownDbData[j].QuantityReceived;
           apiData[i].Discount = ownDbData[j].Discount;
           apiData[i].BuyingPrice = ownDbData[j].SellingPrice;
@@ -269,7 +294,7 @@ export class StockInEntryComponent implements OnInit {
         }
       }
     }
-   
+
     return apiData;
   }
 
@@ -317,7 +342,7 @@ export class StockInEntryComponent implements OnInit {
 
   getAllStockInData() {
     this.inventoryService.getStockInItem(this.numSellerId).subscribe(data => {
-   
+
       this.ownDbstockInItemsData = data;
     });
   }
@@ -325,5 +350,43 @@ export class StockInEntryComponent implements OnInit {
 
   applyFilter(filter: string) {
     this.dataSource.filter = filter.trim().toLowerCase();
+  }
+
+  getLatestPaymentTransaction() {
+    this.spinner.show();
+    this.paymentService.getLatestTransactionBySeller(Number(this.strSellerId)).subscribe(res => {
+      this.latestPaymentData = res;
+      sessionStorage.removeItem('subscriptionDetails');
+      sessionStorage.setItem('subscriptionDetails', JSON.stringify(this.latestPaymentData));
+
+
+      var expiryDate = new Date(this.latestPaymentData[0].ExpiryDatee);
+      var currentDate = new Date();
+
+      if (expiryDate > currentDate) {
+
+        this.spinner.hide();
+        return;
+      } else {
+
+        this.sellerStatusChechpoint(this.latestPaymentData[0].PaymenId);
+      }
+      this.spinner.hide();
+    }, err => {
+      this.spinner.hide();
+    });
+  }
+
+
+  sellerStatusChechpoint(PaymenId) {
+    this.spinner.show();
+    this.paymentService.updateSellerStatusCheckpoint(PaymenId).subscribe(res => {
+
+      this.emitterService.isPaymentOrStatusChange.emit(true);
+      this.router.navigate(['/payment/subscription']);
+      this.spinner.hide();
+    }, err => {
+      this.spinner.hide();
+    });
   }
 }

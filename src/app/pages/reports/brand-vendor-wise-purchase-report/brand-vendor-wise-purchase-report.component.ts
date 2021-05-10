@@ -20,6 +20,10 @@ import { ProductVendorWisePurchaseReport } from '../reports.model';
 import { ReportsService } from '../reports.service';
 import * as _ from 'lodash';
 import { DialogBrandVendorWisePurchaseOrderComponent } from '../dialog-brand-vendor-wise-purchase-order/dialog-brand-vendor-wise-purchase-order.component';
+import { SubheaderService } from 'src/app/_metronic/partials/layout';
+import { Router } from '@angular/router';
+import { SharedService } from 'src/app/shared/shared.service';
+import { PaymentService } from '../../payment/payment.service';
 
 @Component({
   selector: 'app-brand-vendor-wise-purchase-report',
@@ -131,8 +135,10 @@ export class BrandVendorWisePurchaseReportComponent implements OnInit {
   isVendorSelected: boolean = false;
   maxDate: any;
 
-
-
+  latestPaymentData: any = [];
+  role: string;
+  
+  
   constructor(
     public dialog: MatDialog,
     public loginService: LoginService,
@@ -142,7 +148,11 @@ export class BrandVendorWisePurchaseReportComponent implements OnInit {
     private cdr: ChangeDetectorRef,
     private inventoryService: InventoryService,
     private reportsService: ReportsService,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private subheader: SubheaderService,
+    public paymentService: PaymentService,
+    public sharedService: SharedService,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -151,7 +161,7 @@ export class BrandVendorWisePurchaseReportComponent implements OnInit {
     this.sellerName = sessionStorage.getItem('sellerName');
     this.sellerId = Number(sessionStorage.getItem('sellerId'));
     this.strSellerId = sessionStorage.getItem('sellerId').toString();
-
+    this.role = sessionStorage.getItem('role');
     this.loginService.seller_object.categories = JSON.parse(sessionStorage.getItem('categories'));
     this.categoryOriginalArray = this.loginService.seller_object.categories;
     this.categorySearch = this.loginService.seller_object.categories;
@@ -182,6 +192,22 @@ export class BrandVendorWisePurchaseReportComponent implements OnInit {
 
     };
     const csvExporter = new ExportToCsv(options);
+
+
+    setTimeout(() => {
+      this.subheader.setTitle('Purchase / Brand Vendor Wise Purchase Report');
+      this.subheader.setBreadcrumbs([{
+        title: 'Brand Vendor Wise Purchase Report',
+        linkText: 'Brand Vendor Wise Purchase Report',
+        linkPath: '/purchase/BrandVendortWisePurchaseReport'
+      }]);
+    }, 1);
+    
+    if (this.role == 'Seller') {
+      this.getLatestPaymentTransaction();
+    } else {
+      return;
+    }
   }
 
 
@@ -662,4 +688,42 @@ export class BrandVendorWisePurchaseReportComponent implements OnInit {
     return stringDate;
   }
 
+
+  getLatestPaymentTransaction() {
+    this.spinner.show();
+    this.paymentService.getLatestTransactionBySeller(Number(this.strSellerId)).subscribe(res => {
+      this.latestPaymentData = res;
+      sessionStorage.removeItem('subscriptionDetails');
+      sessionStorage.setItem('subscriptionDetails', JSON.stringify(this.latestPaymentData));
+    
+
+      var expiryDate = new Date(this.latestPaymentData[0].ExpiryDatee);
+      var currentDate = new Date();
+
+      if (expiryDate > currentDate) {
+       
+        this.spinner.hide();
+        return;
+      } else {
+    
+        this.sellerStatusChechpoint(this.latestPaymentData[0].PaymenId);
+      }
+      this.spinner.hide();
+    }, err => {
+      this.spinner.hide();
+    });
+  }
+
+
+  sellerStatusChechpoint(PaymenId) {
+    this.spinner.show();
+    this.paymentService.updateSellerStatusCheckpoint(PaymenId).subscribe(res => {
+     
+      this.emitterService.isPaymentOrStatusChange.emit(true);
+      this.router.navigate(['/payment/subscription']);
+      this.spinner.hide();
+    }, err => {
+      this.spinner.hide();
+    });
+  }
 }

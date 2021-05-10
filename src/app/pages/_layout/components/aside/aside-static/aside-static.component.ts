@@ -1,5 +1,7 @@
 import { Location } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { PaymentService } from 'src/app/pages/payment/payment.service';
 import { EmitterService } from 'src/app/shared/emitter.service';
 import { LayoutService } from '../../../../../_metronic/core';
 
@@ -8,7 +10,7 @@ import { LayoutService } from '../../../../../_metronic/core';
   templateUrl: './aside-static.component.html',
   styleUrls: ['./aside-static.component.scss'],
 })
-export class AsideStaticComponent implements OnInit {
+export class AsideStaticComponent implements OnInit, OnDestroy {
   disableAsideSelfDisplay: boolean;
   brandSkin: string;
   ulCSSClasses: string;
@@ -22,19 +24,58 @@ export class AsideStaticComponent implements OnInit {
   role: string;
   isInventory: boolean;
   currentlySelectedTab: string;
+  isSubscriptionValid: string;
+  private unsubscribe: Subscription[] = [];
 
   constructor(
     private layout: LayoutService,
     private loc: Location,
-    private emitterService: EmitterService) {
+    private emitterService: EmitterService,
+    private cdr: ChangeDetectorRef,
+    public paymentService: PaymentService
+  ) {
     this.isInventory = true;
     this.currentlySelectedTab = sessionStorage.getItem('currentlySelectedTab');
-    this.emitterService.currentlySelectedTab.subscribe(val => {
+    const currentlySelectedTab = this.emitterService.currentlySelectedTab.subscribe(val => {
       if (val) {
         this.currentlySelectedTab = sessionStorage.getItem('currentlySelectedTab');
+        if ("isSubscriptionValid" in sessionStorage) {
+          this.isSubscriptionValid = sessionStorage.getItem("isSubscriptionValid");
+        }
       }
+
+    });
+    this.unsubscribe.push(currentlySelectedTab);
+    const isPaymentOrStatusChange = this.emitterService.isPaymentOrStatusChange.subscribe(val => {
+    
+      if (val) {
+        this.currentlySelectedTab = sessionStorage.getItem('currentlySelectedTab');
+        if ("isSubscriptionValid" in sessionStorage) {
+          this.isSubscriptionValid = '';
+          this.isSubscriptionValid = sessionStorage.getItem("isSubscriptionValid");
+          
+          this.isSubscriptionValid = 'INACTIVE';
+         
+          this.cdr.detectChanges();
+        }
+      }
+      this.unsubscribe.push(isPaymentOrStatusChange);
     });
 
+    const isPaymentOrStatusActivated = this.emitterService.isPaymentOrStatusActivated.subscribe(val => {
+      if (val) {
+        this.currentlySelectedTab = sessionStorage.getItem('currentlySelectedTab');
+        if ("isSubscriptionValid" in sessionStorage) {
+          this.isSubscriptionValid = '';
+          this.isSubscriptionValid = sessionStorage.getItem("isSubscriptionValid");
+          this.isSubscriptionValid = 'ACTIVE';
+      
+          this.cdr.detectChanges();
+        }
+      }
+      this.unsubscribe.push(isPaymentOrStatusActivated);
+    });
+    
   }
 
   ngOnInit(): void {
@@ -56,23 +97,28 @@ export class AsideStaticComponent implements OnInit {
     this.location = this.loc;
 
 
-    this.emitterService.isLoggedIn.subscribe(val => {
-
-
+    const isLoggedIn = this.emitterService.isLoggedIn.subscribe(val => {
       if (val) {
-       
-
         if ("role" in sessionStorage) {
           this.role = sessionStorage.getItem("role");
-
         }
-
+        if ("isSubscriptionValid" in sessionStorage) {
+          this.isSubscriptionValid = sessionStorage.getItem("isSubscriptionValid");
+        }
       }
+      this.unsubscribe.push(isLoggedIn);
     });
 
     if ("role" in sessionStorage) {
       this.role = sessionStorage.getItem("role");
-   
+
     }
+    if ("isSubscriptionValid" in sessionStorage) {
+      this.isSubscriptionValid = sessionStorage.getItem("isSubscriptionValid");
+    }
+  }
+
+  ngOnDestroy() {
+    this.unsubscribe.forEach((sb) => sb.unsubscribe());
   }
 }

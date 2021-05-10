@@ -138,6 +138,14 @@
   color: #7cfc00;
 }
 
+.green-icon {
+  color: #007500;
+}
+
+.blue-color {
+  color: #ffff00;
+}
+
 .opacity {
   opacity: 0.2;
 }
@@ -147,7 +155,7 @@
 }
 
 .isActive {
-  color: #007bff;
+  color: #5050d0;
 }
 
 .notActive {
@@ -168,11 +176,60 @@
   color: white;
 }
 
-// .mat-paginator-container {
-//   background-color: #f3f6f9 !important;
-// }
-
 .custom-dialog-paginator {
   color: rgba(0, 0, 0, 0.54);
   background-color: rgba(0, 0, 0, 0.54);
+}
+
+.custom-card-header-color {
+  background-color: #1bc5bd !important;
+  color: white;
+}
+
+.custom-header-font {
+  font-size: 2.1rem;
+}
+
+.custom-card-header-height-width {
+  height: 70px !important;
+}
+
+.custom-font-icon-color {
+  color: #ff8c00;
+}
+
+.vertical-align-text {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.price-title {
+  font-size: 2.2rem;
+}
+
+.header-title {
+  font-size: 1.5rem;
+}
+
+.custom-no-drop {
+  cursor: not-allowed;
+}
+
+.custom-green-icon {
+  color: #28a745;
+  font-size: 1.5rem;
+}
+
+.green-color {
+  color: #28a745;
+}
+
+.custom-grab {
+  cursor: -webkit-grab;
+  cursor: grab;
+}
+
+.custom-fa-30 {
+  font-size: 25px !important;
 }

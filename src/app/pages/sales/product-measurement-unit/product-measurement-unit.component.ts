@@ -7,6 +7,7 @@ import { EmitterService } from 'src/app/shared/emitter.service';
 import { DialogProductComponent } from '../dialog-product/dialog-product.component';
 import { SalesService } from '../sales.service';
 import { ExportToCsv } from 'export-to-csv';
+import { SubheaderService } from 'src/app/_metronic/partials/layout';
 
 @Component({
   selector: 'app-product-measurement-unit',
@@ -26,7 +27,8 @@ export class ProductMeasurementUnitComponent implements OnInit {
     public salesService: SalesService,
     public dialog: MatDialog,
     private spinner: NgxSpinnerService,
-    public emitterService: EmitterService
+    public emitterService: EmitterService,
+    private subheader: SubheaderService
   ) { }
 
   ngOnInit(): void {
@@ -47,6 +49,15 @@ export class ProductMeasurementUnitComponent implements OnInit {
     }, err => {
       this.spinner.hide();
     });
+
+    setTimeout(() => {
+      this.subheader.setTitle('Sales / Product Measurement Unit');
+      this.subheader.setBreadcrumbs([{
+        title: 'Product Measurement Unit',
+        linkText: 'Product Measurement Unit',
+        linkPath: '/sales/productMeasurementUnit'
+      }]);
+    }, 1);
   }
 
   applyFilter(filter: string) {

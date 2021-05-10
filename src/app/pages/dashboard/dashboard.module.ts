@@ -4,6 +4,7 @@ import { RouterModule } from '@angular/router';
 import { DashboardComponent } from './dashboard.component';
 import { DashboardsModule } from '../../_metronic/partials/content/dashboards/dashboards.module';
 
+
 @NgModule({
   declarations: [DashboardComponent],
   imports: [
@@ -12,9 +13,9 @@ import { DashboardsModule } from '../../_metronic/partials/content/dashboards/da
       {
         path: '',
         component: DashboardComponent,
-      },
+      }
     ]),
     DashboardsModule,
   ],
 })
-export class DashboardModule {}
+export class DashboardModule { }

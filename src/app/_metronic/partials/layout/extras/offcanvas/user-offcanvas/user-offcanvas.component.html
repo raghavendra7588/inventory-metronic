@@ -1,4 +1,3 @@
-
 <div id="kt_quick_user" class="offcanvas p-10" [ngClass]="extrasUserOffcanvasDirection">
   <ng-container *ngIf="user$ | async as _user">
 
@@ -51,29 +50,53 @@
       <div class="separator separator-dashed mt-8 mb-5"></div>
 
       <div class="navi navi-spacer-x-0 p-0">
- 
-        <a class="navi-item cursor-pointer" routerLink="/user-profile">
-          <div class="navi-link">
-            <div class="symbol symbol-40 bg-light mr-3">
-              <div class="symbol-label">
-                <span [inlineSVG]="
-                    './assets/media/svg/icons/General/Notification2.svg'
-                  " cacheSVG="true" class="svg-icon svg-icon-md svg-icon-success"></span>
-              </div>
-            </div>
-            <div class="navi-text">
-              <div class="font-weight-bold">
-                My Profile
-              </div>
-              <div class="text-muted">
-                Account settings and more
-                <!-- <span class="label label-light-danger label-inline font-weight-bold">update</span> -->
-              </div>
-            </div>
-          </div>
-        </a>
 
-        <a class="navi-item cursor-pointer">
+        <ng-container *ngIf="isSubscriptionValid=='INACTIVE'">
+          <a class="navi-item cursor-pointer" style="cursor:  no-drop;">
+            <div class="navi-link">
+              <div class="symbol symbol-40 bg-light mr-3">
+                <div class="symbol-label">
+                  <span [inlineSVG]="
+                      './assets/media/svg/icons/General/Notification2.svg'
+                    " cacheSVG="true" class="svg-icon svg-icon-md svg-icon-success" style="cursor:  no-drop;"></span>
+                </div>
+              </div>
+              <div class="navi-text" style="cursor:  no-drop;">
+                <div class="font-weight-bold">
+                  My Profile
+                </div>
+                <div class="text-muted">
+                  Account settings and more
+                </div>
+              </div>
+            </div>
+          </a>
+        </ng-container>
+
+        <ng-container *ngIf="isSubscriptionValid=='ACTIVE'">
+          <a class="navi-item cursor-pointer" routerLink="/user-profile">
+            <div class="navi-link">
+              <div class="symbol symbol-40 bg-light mr-3">
+                <div class="symbol-label">
+                  <span [inlineSVG]="
+                      './assets/media/svg/icons/General/Notification2.svg'
+                    " cacheSVG="true" class="svg-icon svg-icon-md svg-icon-success"></span>
+                </div>
+              </div>
+              <div class="navi-text">
+                <div class="font-weight-bold">
+                  My Profile
+                </div>
+                <div class="text-muted">
+                  Account settings and more
+                </div>
+              </div>
+            </div>
+          </a>
+        </ng-container>
+
+        <!-- routerLink="/payment/subscription" -->
+        <a class="navi-item cursor-pointer" routerLink="/user-profile">
           <div class="navi-link">
             <div class="symbol symbol-40 bg-light mr-3">
               <div class="symbol-label">
@@ -84,16 +107,16 @@
             </div>
             <div class="navi-text">
               <div class="font-weight-bold">
-                My Messages
+                My Subscription
               </div>
               <div class="text-muted">
-                Coming Soon
+                Payment and more
               </div>
             </div>
           </div>
         </a>
 
-        <a class="navi-item cursor-pointer">
+        <a class="navi-item cursor-pointer" style="cursor:  no-drop;">
           <div class="navi-link">
             <div class="symbol symbol-40 bg-light mr-3">
               <div class="symbol-label">
@@ -113,7 +136,7 @@
           </div>
         </a>
 
-        <a class="navi-item cursor-pointer">
+        <a class="navi-item cursor-pointer" style="cursor:  no-drop;">
           <div class="navi-link">
             <div class="symbol symbol-40 bg-light mr-3">
               <div class="symbol-label">
@@ -132,10 +155,10 @@
             </div>
           </div>
         </a>
-     
+
       </div>
-    
+
     </div>
- 
+
   </ng-container>
 </div>

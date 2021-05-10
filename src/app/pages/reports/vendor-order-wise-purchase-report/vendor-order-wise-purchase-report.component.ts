@@ -9,6 +9,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { DateAdapter, MAT_DATE_FORMATS } from '@angular/material/core';
 import { AppDateAdapter, APP_DATE_FORMATS } from '../product-vendor-wise-purchase-report/date.adapter';
+import { SubheaderService } from 'src/app/_metronic/partials/layout';
 
 @Component({
   selector: 'app-vendor-order-wise-purchase-report',
@@ -43,7 +44,9 @@ export class VendorOrderWisePurchaseReportComponent implements OnInit {
   constructor(
     public dialog: MatDialog,
     public purchaseService: PurchaseService,
-    private spinner: NgxSpinnerService) { }
+    private spinner: NgxSpinnerService,
+    private subheader: SubheaderService
+    ) { }
 
   ngOnInit(): void {
     this.maxDate = new Date();
@@ -51,6 +54,14 @@ export class VendorOrderWisePurchaseReportComponent implements OnInit {
     this.getVendorData();
     this.sellerId = sessionStorage.getItem('sellerId');
     this.purchaseReportData.sellerId = this.sellerId;
+    setTimeout(() => {
+      this.subheader.setTitle('Purchase / Vendor Order Wise Purchase Report');
+      this.subheader.setBreadcrumbs([{
+        title: 'Vendor Order Wise Purchase Report',
+        linkText: 'Vendor Order Wise Purchase Report',
+        linkPath: '/purchase/vendorOrderWisePurchaseReport'
+      }]);
+    }, 1);
   }
 
   viewPurchaseOrder(data) {

@@ -7,7 +7,10 @@ import { EmitterService } from 'src/app/shared/emitter.service';
 import { DialogProductDataComponent } from '../dialog-product-data/dialog-product-data.component';
 import { SalesService } from '../sales.service';
 import { ExportToCsv } from 'export-to-csv';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { SubheaderService } from 'src/app/_metronic/partials/layout';
+import { PaymentService } from '../../payment/payment.service';
+import { Router } from '@angular/router';
+import { SharedService } from 'src/app/shared/shared.service';
 
 @Component({
   selector: 'app-product',
@@ -16,7 +19,7 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 })
 export class ProductComponent implements OnInit {
   displayedColumns: any;
- 
+
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   dataSource: any;
 
@@ -30,13 +33,17 @@ export class ProductComponent implements OnInit {
   isDataLoaded: boolean = false;
 
   role: string;
+  latestPaymentData: any = [];
 
   constructor(
     public salesService: SalesService,
     public dialog: MatDialog,
     public emitterService: EmitterService,
     private spinner: NgxSpinnerService,
-    private modalService: BsModalService
+    private subheader: SubheaderService,
+    public paymentService: PaymentService,
+    public sharedService: SharedService,
+    private router: Router
   ) {
     this.role = sessionStorage.getItem('role');
   }
@@ -60,6 +67,20 @@ export class ProductComponent implements OnInit {
     }, err => {
       this.spinner.hide();
     });
+
+    setTimeout(() => {
+      this.subheader.setTitle('Sales / Product');
+      this.subheader.setBreadcrumbs([{
+        title: 'Product',
+        linkText: 'Product',
+        linkPath: '/sales/product'
+      }]);
+    }, 1);
+    if (this.role == 'Seller') {
+      this.getLatestPaymentTransaction();
+    } else {
+      return;
+    }
   }
 
   applyFilter(filter: string) {
@@ -152,6 +173,42 @@ export class ProductComponent implements OnInit {
     }
     return formattedResponse;
   }
+  getLatestPaymentTransaction() {
+    this.spinner.show();
+    this.paymentService.getLatestTransactionBySeller(Number(this.strSellerId)).subscribe(res => {
+      this.latestPaymentData = res;
+      sessionStorage.removeItem('subscriptionDetails');
+      sessionStorage.setItem('subscriptionDetails', JSON.stringify(this.latestPaymentData));
 
+
+      var expiryDate = new Date(this.latestPaymentData[0].ExpiryDatee);
+      var currentDate = new Date();
+
+      if (expiryDate > currentDate) {
+
+        this.spinner.hide();
+        return;
+      } else {
+
+        this.sellerStatusChechpoint(this.latestPaymentData[0].PaymenId);
+      }
+      this.spinner.hide();
+    }, err => {
+      this.spinner.hide();
+    });
+  }
+
+
+  sellerStatusChechpoint(PaymenId) {
+    this.spinner.show();
+    this.paymentService.updateSellerStatusCheckpoint(PaymenId).subscribe(res => {
+
+      this.emitterService.isPaymentOrStatusChange.emit(true);
+      this.router.navigate(['/payment/subscription']);
+      this.spinner.hide();
+    }, err => {
+      this.spinner.hide();
+    });
+  }
 
 }

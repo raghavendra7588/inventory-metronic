@@ -4,6 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { EmitterService } from 'src/app/shared/emitter.service';
+import { SubheaderService } from 'src/app/_metronic/partials/layout';
 import { SendNotification } from '../sales.model.';
 import { SalesService } from '../sales.service';
 
@@ -36,7 +37,8 @@ export class SendNotificationComponent implements OnInit {
     public spinner: NgxSpinnerService,
     public formBuilder: FormBuilder,
     public emitterService: EmitterService,
-    public toastr: ToastrService
+    public toastr: ToastrService,
+    private subheader: SubheaderService
   ) {
     this.role = sessionStorage.getItem('role');
 
@@ -69,6 +71,15 @@ export class SendNotificationComponent implements OnInit {
         id: 0, title: 'Buyer'
       }
     ];
+
+    setTimeout(() => {
+      this.subheader.setTitle('Sales / Send Notification');
+      this.subheader.setBreadcrumbs([{
+        title: 'Send Notification',
+        linkText: 'Send Notification',
+        linkPath: '/sales/sendNotification'
+      }]);
+    }, 1);
   }
 
 

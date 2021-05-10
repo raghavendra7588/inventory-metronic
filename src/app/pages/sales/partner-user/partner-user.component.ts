@@ -10,6 +10,7 @@ import { DialogViewUserComponent } from '../dialog-view-user/dialog-view-user.co
 import { SalesService } from '../sales.service';
 import { ExportToCsv } from 'export-to-csv';
 import { DialogSellerMappingComponent } from '../dialog-seller-mapping/dialog-seller-mapping.component';
+import { SubheaderService } from 'src/app/_metronic/partials/layout';
 
 
 @Component({
@@ -37,7 +38,8 @@ export class PartnerUserComponent implements OnInit {
     private salesService: SalesService,
     public dialog: MatDialog,
     private spinner: NgxSpinnerService,
-    public emitterService: EmitterService
+    public emitterService: EmitterService,
+    private subheader: SubheaderService
   ) { }
 
   ngOnInit(): void {
@@ -58,6 +60,15 @@ export class PartnerUserComponent implements OnInit {
     else {
       this.displayedColumns = ['id', 'name', 'email', 'mobile', 'pinCode', 'state', 'city', 'edit'];
     }
+
+    setTimeout(() => {
+      this.subheader.setTitle('Sales / Partner');
+      this.subheader.setBreadcrumbs([{
+        title: 'Partner',
+        linkText: 'Partner',
+        linkPath: '/sales/partner'
+      }]);
+    }, 1);
   }
 
   getSellerUser() {

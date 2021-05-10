@@ -6,12 +6,15 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSelect } from '@angular/material/select';
 import { MatTableDataSource } from '@angular/material/table';
+import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
 import { LoginService } from 'src/app/modules/auth/login.service';
 import { EmitterService } from 'src/app/shared/emitter.service';
-import { SalesService } from '../../sales/sales.service';
+import { SharedService } from 'src/app/shared/shared.service';
+import { SubheaderService } from 'src/app/_metronic/partials/layout';
+import { PaymentService } from '../../payment/payment.service';
 import { PriceList } from '../purchase.model';
 import { PurchaseService } from '../purchase.service';
 
@@ -112,7 +115,8 @@ export class SpecificPriceListComponent implements OnInit {
   tempMultipleBrandArray: any = [];
 
   mappedUnMappedProducts: any = [];
-
+  latestPaymentData: any = [];
+  role: string;
 
   constructor(
     public dialog: MatDialog,
@@ -122,7 +126,11 @@ export class SpecificPriceListComponent implements OnInit {
     public toastr: ToastrService,
     private cdr: ChangeDetectorRef,
     private spinner: NgxSpinnerService,
-    private salesService: SalesService) {
+    private subheader: SubheaderService,
+    public paymentService: PaymentService,
+    public sharedService: SharedService,
+    private router: Router
+  ) {
     this.emitterService.isPriceListUpdated.subscribe(val => {
       if (val) {
         this.updateAllRecordsCount = 0;
@@ -136,6 +144,8 @@ export class SpecificPriceListComponent implements OnInit {
     this.objSeller = JSON.parse(sessionStorage.getItem('categories'));
     this.sellerName = sessionStorage.getItem('sellerName');
     this.sellerId = Number(sessionStorage.getItem('sellerId'));
+    this.role = sessionStorage.getItem('role');
+
     this.loginService.seller_object.categories = JSON.parse(sessionStorage.getItem('categories'));
 
     let data = this.sortArrayInAscendingOrder(this.loginService.seller_object.categories);
@@ -145,7 +155,19 @@ export class SpecificPriceListComponent implements OnInit {
     this.getPriceListData();
 
     this.getVendorData();
-
+    setTimeout(() => {
+      this.subheader.setTitle('Purchase / Specific Price List');
+      this.subheader.setBreadcrumbs([{
+        title: 'Specific Price List',
+        linkText: 'Specific Price List',
+        linkPath: '/purchase/specificPriceList'
+      }]);
+    }, 1);
+    if (this.role == 'Seller') {
+      this.getLatestPaymentTransaction();
+    } else {
+      return;
+    }
   }
 
   ngAfterViewChecked() {
@@ -757,7 +779,43 @@ export class SpecificPriceListComponent implements OnInit {
   }
 
 
+  getLatestPaymentTransaction() {
+    this.spinner.show();
+    this.paymentService.getLatestTransactionBySeller(Number(this.strSellerId)).subscribe(res => {
+      this.latestPaymentData = res;
+      sessionStorage.removeItem('subscriptionDetails');
+      sessionStorage.setItem('subscriptionDetails', JSON.stringify(this.latestPaymentData));
 
+
+      var expiryDate = new Date(this.latestPaymentData[0].ExpiryDatee);
+      var currentDate = new Date();
+
+      if (expiryDate > currentDate) {
+
+        this.spinner.hide();
+        return;
+      } else {
+
+        this.sellerStatusChechpoint(this.latestPaymentData[0].PaymenId);
+      }
+      this.spinner.hide();
+    }, err => {
+      this.spinner.hide();
+    });
+  }
+
+
+  sellerStatusChechpoint(PaymenId) {
+    this.spinner.show();
+    this.paymentService.updateSellerStatusCheckpoint(PaymenId).subscribe(res => {
+
+      this.emitterService.isPaymentOrStatusChange.emit(true);
+      this.router.navigate(['/payment/subscription']);
+      this.spinner.hide();
+    }, err => {
+      this.spinner.hide();
+    });
+  }
 
 
 }

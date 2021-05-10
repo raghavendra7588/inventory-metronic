@@ -33,7 +33,6 @@ export class DialogViewVendorDataComponent implements OnInit {
     private dialogRef: MatDialogRef<DialogViewVendorDataComponent>,) {
 
     this.particularVendor = data;
-    console.log('this.particularVendor', this.particularVendor);
     this.vendorId = Number(this.particularVendor.vendorId);
 
     this.vendorView.vendorId = Number(this.particularVendor.vendorId);

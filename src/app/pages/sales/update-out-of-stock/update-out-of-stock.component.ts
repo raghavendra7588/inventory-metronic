@@ -5,10 +5,14 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSelect } from '@angular/material/select';
 import { MatTableDataSource } from '@angular/material/table';
+import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { element } from 'protractor';
 import { EmitterService } from 'src/app/shared/emitter.service';
+import { SharedService } from 'src/app/shared/shared.service';
+import { SubheaderService } from 'src/app/_metronic/partials/layout';
+import { PaymentService } from '../../payment/payment.service';
 import { UpdateOutOfStockMessage } from '../sales.model.';
 import { SalesService } from '../sales.service';
 
@@ -47,13 +51,18 @@ export class UpdateOutOfStockComponent implements OnInit {
   updateOutOfStockMessage: UpdateOutOfStockMessage = new UpdateOutOfStockMessage();
 
   outOfStockFlag: string;
+  latestPaymentData: any = [];
 
   constructor(
     public salesService: SalesService,
     public dialog: MatDialog,
     public spinner: NgxSpinnerService,
     public emitterService: EmitterService,
-    public toastr: ToastrService
+    public toastr: ToastrService,
+    private subheader: SubheaderService,
+    public paymentService: PaymentService,
+    public sharedService: SharedService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -61,6 +70,20 @@ export class UpdateOutOfStockComponent implements OnInit {
     this.strSellerID = sessionStorage.getItem('sellerId');
 
     this.getSellerUsers();
+
+    setTimeout(() => {
+      this.subheader.setTitle('Sales / Update Out Of Stock');
+      this.subheader.setBreadcrumbs([{
+        title: 'Update Out Of Stock',
+        linkText: 'Update Out Of Stock',
+        linkPath: '/sales/updateOutOfStock'
+      }]);
+    }, 1);
+    if (this.role == 'Seller') {
+      this.getLatestPaymentTransaction();
+    } else {
+      return;
+    }
   }
 
   applyFilter(filter: string) {
@@ -80,9 +103,9 @@ export class UpdateOutOfStockComponent implements OnInit {
 
     this.salesService.getSellerUsers(currentRole).subscribe(res => {
       this.sellerData = res;
-    
+
       if (this.role == 'Seller') {
-      
+
         this.filterSellerData(this.sellerData);
         this.categoriesData = JSON.parse(sessionStorage.getItem('categories'));
       }
@@ -103,13 +126,13 @@ export class UpdateOutOfStockComponent implements OnInit {
         particularSellerArr.push(item);
       }
     });
-  
+
     this.sellerData = particularSellerArr;
   }
 
 
   onSellerChange(event, res) {
- 
+
     this.categoriesData = res.categories;
 
     this.sellerData = res.id;
@@ -126,7 +149,7 @@ export class UpdateOutOfStockComponent implements OnInit {
 
     this.salesService.getMappedProducts(unmapppedData).subscribe(res => {
       this.unMappedProductData = res;
-   
+
       this.dataSource = new MatTableDataSource(this.unMappedProductData);
       setTimeout(() => this.dataSource.paginator = this.paginator);
       this.spinner.hide();
@@ -136,7 +159,7 @@ export class UpdateOutOfStockComponent implements OnInit {
   }
 
   editUpdateOutStockMsg(element) {
-  
+
 
     this.updateOutOfStockMessage.AvailableQuantity = element.AvailableQuantity;
     this.updateOutOfStockMessage.BrandID = element.BrandID;
@@ -251,7 +274,7 @@ export class UpdateOutOfStockComponent implements OnInit {
     this.salesService.getMappedProducts(req).subscribe(res => {
       brands = res;
       this.brandsResponse = res;
- 
+
       let uniqueBrandNamesArray = this.createUniqueBrandName(brands);
       this.brandsData = this.sortUniqueBrandName(uniqueBrandNamesArray);
       this.dataSource = new MatTableDataSource(brands);
@@ -289,5 +312,43 @@ export class UpdateOutOfStockComponent implements OnInit {
       return a.BrandName.localeCompare(b.BrandName);
     });
     return array
+  }
+
+  getLatestPaymentTransaction() {
+    this.spinner.show();
+    this.paymentService.getLatestTransactionBySeller(Number(this.strSellerID)).subscribe(res => {
+      this.latestPaymentData = res;
+      sessionStorage.removeItem('subscriptionDetails');
+      sessionStorage.setItem('subscriptionDetails', JSON.stringify(this.latestPaymentData));
+
+
+      var expiryDate = new Date(this.latestPaymentData[0].ExpiryDatee);
+      var currentDate = new Date();
+
+      if (expiryDate > currentDate) {
+
+        this.spinner.hide();
+        return;
+      } else {
+
+        this.sellerStatusChechpoint(this.latestPaymentData[0].PaymenId);
+      }
+      this.spinner.hide();
+    }, err => {
+      this.spinner.hide();
+    });
+  }
+
+
+  sellerStatusChechpoint(PaymenId) {
+    this.spinner.show();
+    this.paymentService.updateSellerStatusCheckpoint(PaymenId).subscribe(res => {
+
+      this.emitterService.isPaymentOrStatusChange.emit(true);
+      this.router.navigate(['/payment/subscription']);
+      this.spinner.hide();
+    }, err => {
+      this.spinner.hide();
+    });
   }
 }

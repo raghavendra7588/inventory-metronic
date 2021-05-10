@@ -10,6 +10,7 @@ import { EmitterService } from 'src/app/shared/emitter.service';
 import { DocumentData } from '../sales.model.';
 import { SalesService } from '../sales.service';
 import { ExportToCsv } from 'export-to-csv';
+import { SubheaderService } from 'src/app/_metronic/partials/layout';
 
 
 @Component({
@@ -65,6 +66,7 @@ export class DocumentComponent implements OnInit {
     public spinner: NgxSpinnerService,
     public emitterService: EmitterService,
     public toastr: ToastrService,
+    private subheader: SubheaderService
   ) {
     this.role = sessionStorage.getItem('role');
     this.strSellerId = sessionStorage.getItem('sellerId');
@@ -93,6 +95,15 @@ export class DocumentComponent implements OnInit {
       { id: 5, type: 'Shop Photo' },
       { id: 6, type: 'Vendor Photo with Shop' }
     ];
+
+    setTimeout(() => {
+      this.subheader.setTitle('Sales / Document');
+      this.subheader.setBreadcrumbs([{
+        title: 'Document',
+        linkText: 'Document',
+        linkPath: '/sales/document'
+      }]);
+    }, 1);
   }
 
   setDataSourceAttributes() {

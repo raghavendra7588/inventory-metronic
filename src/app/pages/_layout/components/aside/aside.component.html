@@ -2,10 +2,17 @@
 
   <div class="aside-brand d-flex flex-column align-items-center flex-column-auto py-5 py-lg-12" id="kt_brand"
     [ngClass]="brandClasses">
+    <ng-container *ngIf="isSubscriptionValid=='INACTIVE'">
+      <a class="brand-logo">
+        <img alt="Logo" src="./assets/media/logos/logo-letter-2.png" class="max-h-30px" />
+      </a>
+    </ng-container>
+    <ng-container *ngIf="isSubscriptionValid=='ACTIVE'">
+      <a routerLink="/" class="brand-logo">
+        <img alt="Logo" src="./assets/media/logos/logo-letter-2.png" class="max-h-30px" />
+      </a>
+    </ng-container>
 
-    <a routerLink="/" class="brand-logo">
-      <img alt="Logo" src="./assets/media/logos/logo-letter-2.png" class="max-h-30px" />
-    </a>
 
   </div>
 
@@ -13,32 +20,74 @@
 
     <ul class="nav flex-column" role="tablist">
 
+      <ng-container *ngIf="isSubscriptionValid=='INACTIVE'">
 
-      <li class="nav-item mb-3" placement="right" ngbTooltip="Dashboard" ngbTooltipClass="tooltip" container="body">
-        <a class="nav-link btn btn-icon btn-clean btn-lg" routerLink="/dashboard" data-toggle="tab"
-          data-target="#kt_aside_tab_4" role="tab">
-          <span [inlineSVG]="'./assets/media/svg/icons/Design/Layers.svg'" cacheSVG="true"
-            class="svg-icon svg-icon-xl colorize-yellow"></span>
-        </a>
-      </li>
+        <li class="nav-item mb-3" placement="right" ngbTooltip="Dashboard" ngbTooltipClass="tooltip" container="body"
+          style="cursor:  no-drop;">
+          <a class="nav-link btn btn-icon btn-clean btn-lg" data-toggle="tab" data-target="#kt_aside_tab_4" role="tab"
+            style="cursor:  no-drop;">
+            <span [inlineSVG]="'./assets/media/svg/icons/Design/Layers.svg'" cacheSVG="true"
+              class="svg-icon svg-icon-xl colorize-yellow" style="cursor:  no-drop;"></span>
+          </a>
+        </li>
+      </ng-container>
 
-      <li class="nav-item mb-3" placement="right" ngbTooltip="Inventory" container="body"
-        (click)="onTabChange('Inventory')" [ngClass]="currentlySelectedTab ==='Inventory'? 'activeClass':''">
-        <a class="nav-link btn btn-icon btn-clean btn-lg" (click)="setTab(TABS[2])" data-toggle="tab"
-          data-target="#kt_aside_tab_2" role="tab">
-          <span [inlineSVG]="'./assets/media/svg/icons/Shopping/Bag1.svg'" cacheSVG="true"
-            class="svg-icon svg-icon-xl colorize-red"></span>
-        </a>
-      </li>
+      <ng-container *ngIf="isSubscriptionValid=='ACTIVE'">
+        <li class="nav-item mb-3" placement="right" ngbTooltip="Dashboard" ngbTooltipClass="tooltip" container="body">
+          <a class="nav-link btn btn-icon btn-clean btn-lg" routerLink="/dashboard" data-toggle="tab"
+            data-target="#kt_aside_tab_4" role="tab">
+            <span [inlineSVG]="'./assets/media/svg/icons/Design/Layers.svg'" cacheSVG="true"
+              class="svg-icon svg-icon-xl colorize-yellow"></span>
+          </a>
+        </li>
 
-      <li class="nav-item mb-3" placement="right" ngbTooltip="Sales" container="body" (click)="onTabChange('Sales')"
-        [ngClass]=" currentlySelectedTab ==='Sales'? 'activeClass':''">
-        <a class="nav-link btn btn-icon btn-clean btn-lg" (click)="setTab(TABS[2])" data-toggle="tab"
-          data-target="#kt_aside_tab_2" role="tab">
-          <span [inlineSVG]="'./assets/media/svg/icons/Clothes/Briefcase.svg'" cacheSVG="true"
-            class="svg-icon svg-icon-xl colorize-yellow"></span>
-        </a>
-      </li>
+      </ng-container>
+
+
+      <ng-container *ngIf="isSubscriptionValid=='ACTIVE'">
+        <li class="nav-item mb-3" placement="right" ngbTooltip="Inventory" container="body"
+          (click)="onTabChange('Inventory')" [ngClass]="currentlySelectedTab ==='Inventory'? 'activeClass':''">
+          <a class="nav-link btn btn-icon btn-clean btn-lg" (click)="setTab(TABS[2])" data-toggle="tab"
+            data-target="#kt_aside_tab_2" role="tab">
+            <span [inlineSVG]="'./assets/media/svg/icons/Shopping/Bag1.svg'" cacheSVG="true"
+              class="svg-icon svg-icon-xl colorize-red"></span>
+          </a>
+        </li>
+      </ng-container>
+      <ng-container *ngIf="isSubscriptionValid=='ACTIVE'">
+        <li class="nav-item mb-3" placement="right" ngbTooltip="Sales" container="body" (click)="onTabChange('Sales')"
+          [ngClass]=" currentlySelectedTab ==='Sales'? 'activeClass':''">
+          <a class="nav-link btn btn-icon btn-clean btn-lg" (click)="setTab(TABS[2])" data-toggle="tab"
+            data-target="#kt_aside_tab_2" role="tab">
+            <span [inlineSVG]="'./assets/media/svg/icons/Clothes/Briefcase.svg'" cacheSVG="true"
+              class="svg-icon svg-icon-xl colorize-yellow"></span>
+          </a>
+        </li>
+      </ng-container>
+
+
+      <ng-container *ngIf="isSubscriptionValid=='INACTIVE'">
+        <li class="nav-item mb-3 custom-no-drop" placement="right" ngbTooltip="Inventory" container="body"
+          [ngClass]="currentlySelectedTab ==='Inventory'? 'activeClass':''" style="cursor:  no-drop;">
+          <a class="nav-link btn btn-icon btn-clean btn-lg" (click)="setTab(TABS[2])" data-toggle="tab"
+            data-target="#kt_aside_tab_2" role="tab" style="cursor:  no-drop;">
+            <span [inlineSVG]="'./assets/media/svg/icons/Shopping/Bag1.svg'" cacheSVG="true"
+              class="svg-icon svg-icon-xl colorize-red" style="cursor:  no-drop;"></span>
+          </a>
+        </li>
+      </ng-container>
+
+      <ng-container *ngIf="isSubscriptionValid=='INACTIVE'">
+        <li class="nav-item mb-3" placement="right" ngbTooltip="Sales" container="body"
+          [ngClass]=" currentlySelectedTab ==='Sales'? 'activeClass':''" style="cursor:  no-drop;">
+          <a class="nav-link btn btn-icon btn-clean btn-lg" (click)="setTab(TABS[2])" data-toggle="tab"
+            data-target="#kt_aside_tab_2" role="tab">
+            <span [inlineSVG]="'./assets/media/svg/icons/Clothes/Briefcase.svg'" cacheSVG="true"
+              class="svg-icon svg-icon-xl colorize-yellow" style="cursor:  no-drop;"></span>
+          </a>
+        </li>
+      </ng-container>
+
 
     </ul>
 
@@ -59,7 +108,7 @@
           <app-aside-search class="aside-menu-wrapper flex-column-fluid" id="kt_aside_menu_wrapper"></app-aside-search>
         </div>
 
-       
+
 
 
         <div class="tab-pane fade" id="kt_aside_tab_2" [ngClass]="{ 'show active': activeTabId === TABS[2] }">

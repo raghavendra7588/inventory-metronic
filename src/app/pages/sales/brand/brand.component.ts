@@ -7,6 +7,7 @@ import { EmitterService } from 'src/app/shared/emitter.service';
 import { DialogBrandComponent } from '../dialog-brand/dialog-brand.component';
 import { SalesService } from '../sales.service';
 import { ExportToCsv } from 'export-to-csv';
+import { SubheaderService } from 'src/app/_metronic/partials/layout';
 
 @Component({
   selector: 'app-brand',
@@ -26,7 +27,8 @@ export class BrandComponent implements OnInit {
     public salesService: SalesService,
     public dialog: MatDialog,
     public emitterService: EmitterService,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private subheader: SubheaderService
   ) {
 
     this.emitterService.isAdminCreadtedOrUpdated.subscribe(val => {
@@ -40,6 +42,15 @@ export class BrandComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAllBrandsData();
+
+    setTimeout(() => {
+      this.subheader.setTitle('Sales / Brand');
+      this.subheader.setBreadcrumbs([{
+        title: 'Brand',
+        linkText: 'Brand',
+        linkPath: '/sales/brand'
+      }]);
+    }, 1);
   }
   applyFilter(filter: string) {
     this.dataSource.filter = filter.trim().toLowerCase();
@@ -73,7 +84,7 @@ export class BrandComponent implements OnInit {
       }
     );
     this.salesService.getBrandsData().subscribe(res => {
-    
+
 
       this.brandsData = res;
       this.dataSource = new MatTableDataSource(this.brandsData);
@@ -115,8 +126,8 @@ export class BrandComponent implements OnInit {
         Number: j,
         id: array[i].id,
         name: array[i].name,
-        descriptions:array[i].descriptions,
-        imageurl:array[i].imageurl
+        descriptions: array[i].descriptions,
+        imageurl: array[i].imageurl
       }
       j++;
       formattedResponse.push(item);

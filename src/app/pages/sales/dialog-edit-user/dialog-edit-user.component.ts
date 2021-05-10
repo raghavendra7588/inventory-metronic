@@ -4,10 +4,12 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import { EmitterService } from 'src/app/shared/emitter.service';
 import { DialogUpdateMobileNumberComponent } from '../dialog-update-mobile-number/dialog-update-mobile-number.component';
-import { EditUpdateAdmin, EditUser, ValidateAdminUser } from '../sales.model.';
+import { EditUpdateAdmin, EditUser, SellerPaymentMode, ValidateAdminUser } from '../sales.model.';
 import { SalesService } from '../sales.service';
 import { NgxSpinnerService } from "ngx-spinner";
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+
+import { PaymentService } from '../../payment/payment.service';
 
 @Component({
   selector: 'app-dialog-edit-user',
@@ -21,6 +23,7 @@ export class DialogEditUserComponent implements OnInit {
   editUser: EditUser = new EditUser();
   validateAdminUser: ValidateAdminUser = new ValidateAdminUser();
   editUpdateAdmin: EditUpdateAdmin = new EditUpdateAdmin();
+  sellerPaymentMode: SellerPaymentMode = new SellerPaymentMode();
 
   userData: any = [];
   strSellerId: string;
@@ -34,6 +37,11 @@ export class DialogEditUserComponent implements OnInit {
   modalRef: BsModalRef;
   message: string;
   isEditMode: boolean = false;
+  paymentModeTypes: any = [];
+  isPerOrderSubscription: boolean = false;
+  isPerOrderSubscriptionStr: string = '';
+
+
 
   constructor(
     public formBuilder: FormBuilder,
@@ -43,7 +51,8 @@ export class DialogEditUserComponent implements OnInit {
     public toastr: ToastrService,
     public salesService: SalesService,
     private spinner: NgxSpinnerService,
-    private modalService: BsModalService
+    private modalService: BsModalService,
+    public paymentService: PaymentService
   ) {
     this.editUserForm = this.formBuilder.group({
       name: ['', [Validators.required]],
@@ -54,6 +63,9 @@ export class DialogEditUserComponent implements OnInit {
       pincode: ['', [Validators.required]],
       state: ['', [Validators.required]],
       city: [''],
+      subscriptionPaymentMode: [''],
+      subscriptionPaymentAmount: ['']
+
     });
     this.strSellerId = sessionStorage.getItem('sellerId');
     this.role = sessionStorage.getItem('role');
@@ -67,17 +79,42 @@ export class DialogEditUserComponent implements OnInit {
       this.role = sessionStorage.getItem('role');
     }
 
+
   }
 
   ngOnInit(): void {
     if (this.userData) {
       this.assignValues();
     }
+    this.getPaymentModeDetails();
+  }
+
+  getPaymentModeDetails() {
+    this.paymentService.getPaymentMode().subscribe(res => {
+      this.paymentModeTypes = res;
+    });
   }
 
   onSubmit() {
 
     if (this.userData) {
+
+      if (this.isPerOrderSubscriptionStr == 'Per Order Subscription') {
+        if (this.editUser.subcriptionPaymentAmount == ''
+          || this.editUser.subcriptionPaymentAmount == undefined || this.editUser.subcriptionPaymentAmount == null) {
+          this.toastr.error('Subscription Amount Is Required');
+          return;
+        }
+        else {
+          this.sellerPaymentMode.PaymentAmount = this.editUser.subcriptionPaymentAmount;
+        }
+      }
+
+      if (this.isPerOrderSubscriptionStr == 'Continue Free'.trim() || this.isPerOrderSubscriptionStr == 'Paid Subscription'.trim()) {
+        this.sellerPaymentMode.PaymentAmount = '0';
+      }
+
+
       this.editUpdateAdmin.IsActive = '1';
       this.editUpdateAdmin.userid = this.strSellerId;
 
@@ -93,9 +130,20 @@ export class DialogEditUserComponent implements OnInit {
       this.editUpdateAdmin.role = this.userData.role;
       this.editUpdateAdmin.state = this.editUser.state;
 
+      this.editUpdateAdmin.subscriptionPaymentMode = this.editUser.subscriptionPaymentMode;
+
+      this.sellerPaymentMode.SellerId = Number(this.userData.id);
+      this.sellerPaymentMode.UpdatedBySellerId = Number(this.strSellerId);
+
+      this.sellerPaymentMode.PaymentMode = this.editUser.subscriptionPaymentMode;
+
 
       this.salesService.editAdminUser(this.editUpdateAdmin).subscribe(res => {
-     
+        this.paymentService.updatePaymentMode(this.sellerPaymentMode).subscribe(data => {
+ 
+        }, err => {
+          this.spinner.hide();
+        });
         this.toastr.success('Updated Successfully !!');
         this.emitterService.isAdminCreadtedOrUpdated.emit(true);
         this.dialogRef.close();
@@ -114,7 +162,7 @@ export class DialogEditUserComponent implements OnInit {
       this.validateAdminUser.pincode = this.editUser.pincode;
       this.validateAdminUser.state = this.editUser.state;
 
-     
+
       this.spinner.show(undefined,
         {
           type: 'square-spin',
@@ -124,7 +172,7 @@ export class DialogEditUserComponent implements OnInit {
       );
 
       this.salesService.saveAdminUser(this.validateAdminUser).subscribe(res => {
-        
+
         this.validateResponse = res;
 
         if (this.validateResponse == 'OK') {
@@ -164,7 +212,7 @@ export class DialogEditUserComponent implements OnInit {
           this.editUpdateAdmin.state = this.editUser.state;
           this.editUpdateAdmin.userid = this.strSellerId;
 
-
+        
 
           this.salesService.editAdminUser(this.editUpdateAdmin).subscribe(res => {
             this.toastr.success('Saved Successfully !!');
@@ -282,6 +330,17 @@ export class DialogEditUserComponent implements OnInit {
   decline(): void {
     this.message = 'Declined!';
     this.modalRef.hide();
+  }
+
+  selectedPaymentModeFromList(paymentModeStr) {
+    if (paymentModeStr == 'Per Order Subscription') {
+      this.isPerOrderSubscription = true;
+      this.isPerOrderSubscriptionStr = paymentModeStr;
+    }
+    else {
+      this.isPerOrderSubscription = false;
+      this.isPerOrderSubscriptionStr = paymentModeStr;
+    }
   }
 
 }

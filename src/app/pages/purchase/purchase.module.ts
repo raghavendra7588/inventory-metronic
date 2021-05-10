@@ -177,7 +177,8 @@ import { NumberDirective } from './number.directive';
     SpecificPriceListComponent,
     PurchaseOrderComponent,
     DialogPurchaseOrderPrintComponent,
-    DialogOrderPrintComponent
+    DialogOrderPrintComponent,
+    NumberDirective
   ]
 })
 export class PurchaseModule { }

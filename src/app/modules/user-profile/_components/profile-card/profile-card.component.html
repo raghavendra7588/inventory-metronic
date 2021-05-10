@@ -16,7 +16,7 @@
           {{user.ocupation}}
         </div>
         <div class="mt-2">
-   
+
           <a class="btn btn-sm btn-primary font-weight-bold mr-2 py-2 px-3 px-xxl-5 my-1 cursor-pointer"
             ngbTooltip="Coming soon..." triggers="manual" #t4="ngbTooltip" (click)="t4.open()"
             placement="right">Chat</a>
@@ -32,17 +32,17 @@
 
       <div class="d-flex align-items-center justify-content-between mb-2">
         <span class="font-weight-bold mr-2">Role:</span>
-        <span class="text-muted">{{role}}</span>
+        <span class="font-weight-bold">{{role}}</span>
       </div>
 
       <div class="d-flex align-items-center justify-content-between mb-2">
         <span class="font-weight-bold mr-2">City:</span>
-        <span class="text-muted">{{city}}</span>
+        <span class="font-weight-bold">{{city}}</span>
       </div>
 
       <div class="d-flex align-items-center justify-content-between mb-2">
         <span class="font-weight-bold mr-2">Vendor Code:</span>
-        <span class="text-muted">{{vendorCode}}</span>
+        <span class="font-weight-bold">{{vendorCode}}</span>
       </div>
     </div>
 
@@ -50,6 +50,7 @@
 
 
       <div class="navi navi-bold navi-hover navi-active navi-link-rounded">
+
         <div class="navi-item mb-2">
           <a class="navi-link py-4" routerLink="/user-profile/addAddress" routerLinkActive="active">
             <span class="navi-icon mr-2">
@@ -60,31 +61,86 @@
             </span>
           </a>
         </div>
+        <ng-container *ngIf="role==='Seller'">
+          <div class="navi-item mb-2">
+            <a class="navi-link py-4" routerLink="/payment/subscription" routerLinkActive="active">
+              <span class="navi-icon mr-2">
+                <span [inlineSVG]="'./assets/media/svg/icons/Text/Article.svg'" cacheSVG="true" class="svg-icon"></span>
+              </span>
+              <span class="navi-text font-size-lg">
+                Subscription Plans
+              </span>
+            </a>
+          </div>
+        </ng-container>
 
-        <div class="navi-item mb-2">
-          <a class="navi-link py-4" routerLink="/user-profile/personal-information" routerLinkActive="active">
-            <span class="navi-icon mr-2">
-              <span [inlineSVG]="'./assets/media/svg/icons/General/User.svg'" cacheSVG="true" class="svg-icon"></span>
-            </span>
-            <span class="navi-text font-size-lg">
-              Personal Information
-            </span>
-          </a>
-        </div>
-      
-        <div class="navi-item mb-2">
-          <a class="navi-link py-4" routerLink="/user-profile/change-password" routerLinkActive="active">
-            <span class="navi-icon mr-2">
-              <span [inlineSVG]="'./assets/media/svg/icons/Communication/Shield-user.svg'" cacheSVG="true"
-                class="svg-icon"></span>
-            </span>
-            <span class="navi-text font-size-lg">
-              Change Password
-            </span>
-      
-          </a>
-        </div>
+        <ng-container *ngIf="role!=='Seller'">
+          <div class="navi-item mb-2">
+            <a class="navi-link py-4" style="cursor: no-drop;">
+              <span class="navi-icon mr-2">
+                <span [inlineSVG]="'./assets/media/svg/icons/Text/Article.svg'" cacheSVG="true" class="svg-icon" style="cursor: no-drop;"></span>
+              </span>
+              <span class="navi-text font-size-lg" style="cursor: no-drop;">
+                Subscription Plans
+              </span>
+            </a>
+          </div>
+        </ng-container>
 
+        <ng-container *ngIf="role==='Seller'">
+          <div class="navi-item mb-2">
+            <a class="navi-link py-4 custom-grab" (click)="openTransactionHistory()" routerLinkActive="active">
+              <span class="navi-icon mr-2">
+                <span [inlineSVG]="'./assets/media/svg/icons/General/User.svg'" cacheSVG="true" class="svg-icon"></span>
+              </span>
+              <span class="navi-text font-size-lg">
+                Transaction History
+              </span>
+            </a>
+          </div>
+        </ng-container>
+
+        <ng-container *ngIf="role!=='Seller'">
+          <div class="navi-item mb-2">
+            <a class="navi-link py-4 custom-grab" style="cursor: no-drop;">
+              <span class="navi-icon mr-2">
+                <span [inlineSVG]="'./assets/media/svg/icons/General/User.svg'" cacheSVG="true" class="svg-icon"
+                  style="cursor: no-drop;"></span>
+              </span>
+              <span class="navi-text font-size-lg" style="cursor: no-drop;">
+                Transaction History
+              </span>
+            </a>
+          </div>
+        </ng-container>
+
+        <ng-container *ngIf="role==='Seller'">
+          <div class="navi-item mb-2">
+            <a class="navi-link py-4 custom-grab" routerLinkActive="active" (click)="openActiveStatus()">
+              <span class="navi-icon mr-2">
+                <span [inlineSVG]="'./assets/media/svg/icons/Communication/Shield-user.svg'" cacheSVG="true"
+                  class="svg-icon"></span>
+              </span>
+              <span class="navi-text font-size-lg">
+                Active Status
+              </span>
+            </a>
+          </div>
+        </ng-container>
+
+        <ng-container *ngIf="role!=='Seller'">
+          <div class="navi-item mb-2">
+            <a class="navi-link py-4 custom-grab" style="cursor: no-drop;">
+              <span class="navi-icon mr-2">
+                <span [inlineSVG]="'./assets/media/svg/icons/Communication/Shield-user.svg'" cacheSVG="true"
+                  class="svg-icon" style="cursor: no-drop;"></span>
+              </span>
+              <span class="navi-text font-size-lg" style="cursor: no-drop;">
+                Active Status
+              </span>
+            </a>
+          </div>
+        </ng-container>
 
         <div class="navi-item mb-2">
           <a class="navi-link py-4 cursor-pointer" ngbTooltip="Coming soon..." triggers="manual" #t2="ngbTooltip"
@@ -93,7 +149,7 @@
               <span [inlineSVG]="'./assets/media/svg/icons/Files/File.svg'" cacheSVG="true" class="svg-icon"></span>
             </span>
             <span class="navi-text font-size-lg">Tax information</span>
-          
+
           </a>
         </div>
         <div class="navi-item mb-2">
@@ -112,3 +168,5 @@
     </div>
 
   </div>
+
+  <ngx-spinner></ngx-spinner>

@@ -23,6 +23,8 @@ export class EditUser {
     id: string;
     role: string;
     userid: string;
+    subscriptionPaymentMode: string;
+    subcriptionPaymentAmount: string;
 }
 
 
@@ -127,6 +129,8 @@ export class EditUpdateAdmin {
     role: string;
     state: string;
     userid: string;
+    subscriptionPaymentMode: string;
+    subcriptionPaymentAmount: string;
 }
 
 export class EditCategory {
@@ -296,3 +300,10 @@ export class ParentChildMapping {
     userid: string;
 }
 
+
+export class SellerPaymentMode {
+    SellerId: number;
+    PaymentAmount: string;
+    PaymentMode: string;
+    UpdatedBySellerId: number;
+}

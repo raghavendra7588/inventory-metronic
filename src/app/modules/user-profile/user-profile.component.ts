@@ -12,11 +12,11 @@ export class UserProfileComponent implements OnInit {
   ngOnInit(): void {
     setTimeout(() => {
       this.subheader.setTitle('User Profile');
-      this.subheader.setBreadcrumbs([{
-        title: 'User profile',
-        linkText: 'User profile',
-        linkPath: '/user-profile'
-      }]);
+      // this.subheader.setBreadcrumbs([{
+      //   title: 'User profile',
+      //   linkText: 'User profile',
+      //   linkPath: '/addAddress'
+      // }]);
     }, 1);
   }
 }

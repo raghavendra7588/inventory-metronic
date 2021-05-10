@@ -9,6 +9,10 @@ import { DialogUpdateMobileNumberComponent } from '../dialog-update-mobile-numbe
 import { DialogViewUserComponent } from '../dialog-view-user/dialog-view-user.component';
 import { SalesService } from '../sales.service';
 import { ExportToCsv } from 'export-to-csv';
+import { SubheaderService } from 'src/app/_metronic/partials/layout';
+import { Router } from '@angular/router';
+import { SharedService } from 'src/app/shared/shared.service';
+import { PaymentService } from '../../payment/payment.service';
 
 @Component({
   selector: 'app-customer-user',
@@ -17,7 +21,7 @@ import { ExportToCsv } from 'export-to-csv';
 })
 export class CustomerUserComponent implements OnInit {
 
- 
+
   displayedColumns: any;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
@@ -27,18 +31,22 @@ export class CustomerUserComponent implements OnInit {
   userId: string;
   role: string;
   isDataLoaded: boolean = false;
-
+  latestPaymentData: any = [];
 
   constructor(
     private salesService: SalesService,
     private spinner: NgxSpinnerService,
     public emitterService: EmitterService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private subheader: SubheaderService,
+    public paymentService: PaymentService,
+    public sharedService: SharedService,
+    private router: Router
   ) {
     this.userRole = sessionStorage.getItem('role');
     this.role = sessionStorage.getItem('role');
     this.userId = sessionStorage.getItem('sellerId');
-    
+
     if (this.role == 'Admin') {
       this.displayedColumns = ['totalSeller', 'totalOrder', 'totalAmount', 'name', 'email', 'mobile', 'pinCode', 'state', 'city', 'edit'];
     }
@@ -59,6 +67,20 @@ export class CustomerUserComponent implements OnInit {
 
 
     this.getCustomerUser();
+
+    setTimeout(() => {
+      this.subheader.setTitle('Sales / Customer');
+      this.subheader.setBreadcrumbs([{
+        title: 'Customer',
+        linkText: 'Customer',
+        linkPath: '/sales/customer'
+      }]);
+    }, 1);
+    if (this.role == 'Seller') {
+      this.getLatestPaymentTransaction();
+    } else {
+      return;
+    }
   }
 
   getCustomerUser() {
@@ -86,7 +108,7 @@ export class CustomerUserComponent implements OnInit {
     }
     else {
       this.salesService.getAllCustomerUsers(role, this.userId).subscribe(res => {
-   
+
         this.adminUsers = res;
         this.dataSource = new MatTableDataSource(this.adminUsers);
         setTimeout(() => this.dataSource.paginator = this.paginator);
@@ -206,5 +228,43 @@ export class CustomerUserComponent implements OnInit {
       formattedResponse.push(item);
     }
     return formattedResponse;
+  }
+
+
+  getLatestPaymentTransaction() {
+    this.spinner.show();
+    this.paymentService.getLatestTransactionBySeller(Number(this.userId)).subscribe(res => {
+      this.latestPaymentData = res;
+      sessionStorage.removeItem('subscriptionDetails');
+      sessionStorage.setItem('subscriptionDetails', JSON.stringify(this.latestPaymentData));
+
+      var expiryDate = new Date(this.latestPaymentData[0].ExpiryDatee);
+      var currentDate = new Date();
+
+      if (expiryDate > currentDate) {
+
+        this.spinner.hide();
+        return;
+      } else {
+
+        this.sellerStatusChechpoint(this.latestPaymentData[0].PaymenId);
+      }
+      this.spinner.hide();
+    }, err => {
+      this.spinner.hide();
+    });
+  }
+
+
+  sellerStatusChechpoint(PaymenId) {
+    this.spinner.show();
+    this.paymentService.updateSellerStatusCheckpoint(PaymenId).subscribe(res => {
+
+      this.emitterService.isPaymentOrStatusChange.emit(true);
+      this.router.navigate(['/payment/subscription']);
+      this.spinner.hide();
+    }, err => {
+      this.spinner.hide();
+    });
   }
 }

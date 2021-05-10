@@ -51,8 +51,8 @@ export class StatsWidget11Component implements OnInit {
 
   isPurchaseWeekSubscription: Subscription
 
-  isActiveMonth: string = 'weekly';
-  isActiveByVendor: string = 'byPurchaseValue';
+  isActiveMonth: string = 'monthly';
+  isActiveByVendor: string = 'byVendor';
 
 
   monthData: MonthData = new MonthData();
@@ -62,9 +62,10 @@ export class StatsWidget11Component implements OnInit {
     private reportsService: ReportsService,
     private emitterService: EmitterService,
     private spinner: NgxSpinnerService,
-    private cdr: ChangeDetectorRef) {
+    private cdr: ChangeDetectorRef
+  ) {
 
-    let startOfMonth = moment().clone().startOf('month').format("DD/MM/YYYY");
+    let startOfMonth = moment().clone().startOf('month').format("YYYY-MM-DD");
     this.monthData.startDateOfMonth = startOfMonth;
 
   }
@@ -107,17 +108,12 @@ export class StatsWidget11Component implements OnInit {
     this.getPurchaseMonthDataByMonth();
     this.getPurchaseAmountByMonthByVendors();
 
-
-    if (this.isActiveByVendor === 'byPurchaseValue' && this.isActiveMonth === 'weekly') {
-      this.chartOptions = this.getChartOptions();
-    }
-
   }
 
   getChartOptions() {
     return {
       series: [{
-        name: 'Purchase',
+        name: 'Weekly Purchase',
         data: this.seriesPurchaseAmountPerWeek
       }],
       chart: {
@@ -195,7 +191,7 @@ export class StatsWidget11Component implements OnInit {
   getChartOptionsByMonth() {
     return {
       series: [{
-        name: 'Purchase',
+        name: 'Monthly Purchase',
         data: this.seriesPurchaseAmountByMonth
       }],
       chart: {
@@ -273,7 +269,7 @@ export class StatsWidget11Component implements OnInit {
   getChartOptionsByVendorsWeekly() {
     return {
       series: [{
-        name: 'Vendors',
+        name: 'Weekly Vendors',
         data: this.seriesVendorsByWeekly
       }],
       chart: {
@@ -350,7 +346,7 @@ export class StatsWidget11Component implements OnInit {
   getChartOptionsByVendorsMonthly() {
     return {
       series: [{
-        name: 'Vendors',
+        name: 'Monthly Vendors',
         data: this.seriesVendorsByMonthly
       }],
       chart: {
@@ -422,7 +418,7 @@ export class StatsWidget11Component implements OnInit {
         strokeWidth: 3
       }
     };
-  
+
   }
 
 
@@ -441,7 +437,7 @@ export class StatsWidget11Component implements OnInit {
       this.emitterService.isPurchaseWeekLoaded.emit(true);
       this.spinner.hide();
       this.chartOptions = this.getChartOptions();
-      
+
     }, err => {
       this.spinner.hide();
     });
@@ -470,7 +466,7 @@ export class StatsWidget11Component implements OnInit {
   getPurchaseMonthDataByMonth() {
     this.spinner.show();
     this.reportsService.getPurchaseAmountByMonth(this.monthData).subscribe(res => {
-     
+
       this.purchaseAmountByMonth = res;
       let uniqueRecords = _.uniqBy(this.purchaseAmountByMonth, 'PurchaseOrderItemId');
       this.purchaseAmountByMonth = uniqueRecords;

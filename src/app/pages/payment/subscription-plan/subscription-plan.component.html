@@ -1,0 +1,120 @@
+<div class="container-fluid" style="margin-top: 30px !important;">
+
+
+
+    <div class="row">
+        <div class="col-md-3 col-6 col-sm-6 col-lg-3 col-xl-3">
+
+            <div class="card" style="height: 291px !important;" id="cardOne">
+                <div class="card-header custom-card-header-color custom-card-header-height-width vertical-align-text">
+                    <h2 class="custom-header-font">1 Month</h2>
+                </div>
+                <div class="card-body text-center">
+                    <h4><i class="fa fa-rupee-sign mr-1 custom-font-icon-color custom-fa-30"></i> <span
+                            class="orange-icon" style="font-size: 2.0rem;">320</span> </h4>
+                    <button type="button" id="buttonOne" class="btn btn-lg btn-block btn btn-primary"
+                        style="color: white; margin-top: 76px;" (click)="confirmPayment(320,1)"><span
+                            style="font-size: 1.5rem;">Pay</span></button>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-6 col-sm-6 col-lg-3 col-xl-3">
+            <div class="card" id="cardTwo">
+                <div class="card-header custom-card-header-color custom-card-header-height-width vertical-align-text">
+                    <h2 class="custom-header-font">3 Months</h2>
+                </div>
+                <div class="card-body text-center">
+                    <h4><i class="fa fa-rupee-sign mr-1 custom-font-icon-color custom-fa-30"></i> <span
+                            class="orange-icon" style="font-size: 2.0rem;">900</span> </h4>
+                    <h5 class="text-center custom-green-icon" style="margin-top: 8px;">Your Saving<br>6.2 %</h5>
+                    <button type="button" id="buttonTwo" class="btn btn-lg btn-block btn btn-primary"
+                        style="color: white; margin-top: 22px;" (click)="confirmPayment(900,2)"><span
+                            style="font-size: 1.5rem;">Pay</span></button>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-md-3 col-6 col-sm-6 col-lg-3 col-xl-3">
+
+            <div class="card" id="cardThree">
+                <div class="card-header custom-card-header-color custom-card-header-height-width vertical-align-text">
+                    <h2 class="custom-header-font">6 Months</h2>
+                </div>
+                <div class="card-body text-center">
+                    <h4><i class="fa fa-rupee-sign mr-1 custom-font-icon-color custom-fa-30"></i> <span
+                            class="orange-icon" style="font-size: 2.0rem;">1600</span> </h4>
+
+                    <h5 class="text-center custom-green-icon" style="margin-top: 8px;">Your Saving<br>16.6 %</h5>
+                    <button type="button" id="buttonThree" class="btn btn-lg btn-block btn btn-primary"
+                        style="color: white; margin-top: 22px;" (click)="confirmPayment(1600,3)"><span
+                            style="font-size: 1.5rem;">Pay</span></button>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-6 col-sm-6 col-lg-3 col-xl-3">
+            <div class="card" id="cardFour">
+                <div class="card-header custom-card-header-color custom-card-header-height-width vertical-align-text">
+                    <h2 class="custom-header-font">1 Year</h2>
+                </div>
+                <div class="card-body text-center">
+
+                    <h4><i class="fa fa-rupee-sign mr-1 custom-font-icon-color custom-fa-30"></i> <span
+                            class="orange-icon" style="font-size: 2.0rem;">3000</span> </h4>
+                    <h5 class="text-center custom-green-icon" style="margin-top: 8px;">Your Saving<br>21.8 %</h5>
+                    <button type="button" id="buttonFour" class="btn btn-lg btn-block btn btn-primary"
+                        style="color: white; margin-top: 22px;" (click)="confirmPayment(3000,4)"><span
+                            style="font-size: 1.5rem;">Pay</span></button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<div class="container-fluid">
+    <div class="row my-3">
+        <div class="col-md-9 col-sm-9 col-12"></div>
+
+        <div class="col-md-12 col-sm-12 col-12">
+
+            <form ngNoForm name="payuform" [action]="paymentService.pUrl" method="POST"
+                onsubmit="window.replace('_self');">
+                <div class="form-group" *ngIf="!isHidden">
+                    <label for="firstname">Name:</label>
+                    <input type="text" class="form-control" id="firstname" name="Name" [(ngModel)]="payuform.Name">
+                </div>
+                <div class="form-group" *ngIf="!isHidden">
+                    <label for="email">Email:</label>
+                    <input type="email" class="form-control" id="email" name="EmailID" [(ngModel)]="payuform.EmailID">
+                </div>
+                <div class="form-group" *ngIf="!isHidden">
+                    <label for="email">Phone:</label>
+                    <input class="form-control" id="phone" name="mobilno" [(ngModel)]="payuform.mobilno" maxlength="10"
+                        NumberDirective>
+                </div>
+                <div class="form-group" *ngIf="!isHidden">
+                    <label for="amount">Amount:</label>
+                    <input type="number" class="form-control" id="amount" name="Amount" [(ngModel)]="payuform.Amount"
+                        readonly>
+                </div>
+
+
+                <div class="row">
+                    <div class="col-md-9 col-6 col-sm-6"></div>
+                    <div class="col-md-3 col-6 col-sm-6">
+
+                        <button type="button" *ngIf="makePayment" class="width-100 mt-2 custom-submit-btn"
+                            type="submit">Confirm</button>
+                    </div>
+                </div>
+
+
+            </form>
+        </div>
+
+
+
+    </div>
+
+</div>

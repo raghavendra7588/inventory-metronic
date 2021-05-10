@@ -24,10 +24,11 @@ import { EmitterService } from './shared/emitter.service';
 import { MatSelectFilterModule } from 'mat-select-filter';
 import { ReportsService } from './pages/reports/reports.service';
 import { ToastrModule } from 'ngx-toastr';
-import { ReportsModule } from './pages/reports/reports.module';
+
 import { ModalModule } from 'ngx-bootstrap/modal';
-import { SalesModule } from './pages/sales/sales.module';
-import { PurchaseModule } from './pages/purchase/purchase.module';
+
+import { NumberOnlyDirective } from './number-only.directive';
+import { SharedService } from './shared/shared.service';
 
 function appInitializer(authService: AuthService) {
   return () => {
@@ -38,7 +39,7 @@ function appInitializer(authService: AuthService) {
 }
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, NumberOnlyDirective],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
@@ -60,9 +61,6 @@ function appInitializer(authService: AuthService) {
     InlineSVGModule.forRoot(),
     ToastrModule.forRoot(),
     ModalModule.forRoot(),
-    ReportsModule,
-    SalesModule,
-    PurchaseModule,
     NgbModule
   ],
   providers: [
@@ -86,8 +84,9 @@ function appInitializer(authService: AuthService) {
 
     },
     EmitterService,
-    ReportsService
+    ReportsService,
+    SharedService
   ],
-  bootstrap: [AppComponent],
+  bootstrap: [AppComponent]
 })
 export class AppModule { }

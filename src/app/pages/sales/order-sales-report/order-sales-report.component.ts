@@ -3,6 +3,7 @@ import { DateAdapter, MAT_DATE_FORMATS } from '@angular/material/core';
 import { MatDialog } from '@angular/material/dialog';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { EmitterService } from 'src/app/shared/emitter.service';
+import { SubheaderService } from 'src/app/_metronic/partials/layout';
 import { AppDateAdapter } from '../../purchase/dialog-content-vendor/date.adapter';
 import { OrderSalesReport } from '../sales.model.';
 import { SalesService } from '../sales.service';
@@ -47,7 +48,8 @@ export class OrderSalesReportComponent implements OnInit {
     public salesService: SalesService,
     public dialog: MatDialog,
     public spinner: NgxSpinnerService,
-    public emitterService: EmitterService
+    public emitterService: EmitterService,
+    private subheader: SubheaderService
   ) {
     this.role = sessionStorage.getItem('role');
   }
@@ -74,6 +76,15 @@ export class OrderSalesReportComponent implements OnInit {
           id: 3, title: 'Sales Enquiry', name: 'E'
         });
     }
+
+    setTimeout(() => {
+      this.subheader.setTitle('Sales / Order Sales Report');
+      this.subheader.setBreadcrumbs([{
+        title: 'Order Sales Report',
+        linkText: 'Order Sales Report',
+        linkPath: '/sales/orderSalesReport'
+      }]);
+    }, 1);
   }
 
   getSellerUsers() {
@@ -119,7 +130,7 @@ export class OrderSalesReportComponent implements OnInit {
 
     let startDate = this.valueChanged(this.orderSalesReport.startDate);
     this.orderSalesReport.startDate = startDate;
- 
+
 
     let endDate = this.valueChanged(this.orderSalesReport.endDate);
     this.orderSalesReport.endDate = endDate;
@@ -128,7 +139,7 @@ export class OrderSalesReportComponent implements OnInit {
 
 
     let objData = this.orderSalesReport.sellerName + '||' + this.orderSalesReport.reportType + '||' + startDate + '||' + endDate;
-  
+
     var newWindow = window.open(this.salesService.ADMIN_BASE_URL + '/ProductSellerMapping/Getreport?Data='
       + objData, '_blank', '');
 

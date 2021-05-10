@@ -9,6 +9,7 @@ import { SalesService } from '../sales.service';
 import { NgxSpinnerService } from "ngx-spinner";
 import { EmitterService } from 'src/app/shared/emitter.service';
 import { ExportToCsv } from 'export-to-csv';
+import { SubheaderService } from 'src/app/_metronic/partials/layout';
 
 @Component({
   selector: 'app-admin-user',
@@ -37,7 +38,8 @@ export class AdminUserComponent implements OnInit {
     public salesService: SalesService,
     public dialog: MatDialog,
     public spinner: NgxSpinnerService,
-    public emitterService: EmitterService
+    public emitterService: EmitterService,
+    private subheader: SubheaderService
   ) {
   }
 
@@ -49,6 +51,15 @@ export class AdminUserComponent implements OnInit {
         this.getAdminUser();
       }
     });
+
+    setTimeout(() => {
+      this.subheader.setTitle('Sales / Admin');
+      this.subheader.setBreadcrumbs([{
+        title: 'Admin',
+        linkText: 'Admin',
+        linkPath: '/sales/admin'
+      }]);
+    }, 1);
   }
 
   getAdminUser() {

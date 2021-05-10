@@ -7,6 +7,7 @@ import { EmitterService } from 'src/app/shared/emitter.service';
 import { DialogSalesEnquiryComponent } from '../dialog-sales-enquiry/dialog-sales-enquiry.component';
 import { SalesService } from '../sales.service';
 import { ExportToCsv } from 'export-to-csv';
+import { SubheaderService } from 'src/app/_metronic/partials/layout';
 
 @Component({
   selector: 'app-sales-enquiry',
@@ -31,7 +32,8 @@ export class SalesEnquiryComponent implements OnInit {
     public salesService: SalesService,
     public dialog: MatDialog,
     public emitterService: EmitterService,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private subheader: SubheaderService
   ) { }
 
   ngOnInit(): void {
@@ -43,6 +45,15 @@ export class SalesEnquiryComponent implements OnInit {
         this.getSalesEnquiryData(this.strSellerId);
       }
     });
+
+    setTimeout(() => {
+      this.subheader.setTitle('Sales / Sales Enquiry');
+      this.subheader.setBreadcrumbs([{
+        title: 'Sales Enquiry',
+        linkText: 'Sales Enquiry',
+        linkPath: '/sales/salesEnquiry'
+      }]);
+    }, 1);
   }
 
   applyFilter(filter: string) {
@@ -58,7 +69,7 @@ export class SalesEnquiryComponent implements OnInit {
       }
     );
     this.salesService.getSalesEnquiry(userId).subscribe(res => {
-    
+
       this.salesEnquiryData = res;
       this.dataSource = new MatTableDataSource(this.salesEnquiryData);
       setTimeout(() => this.dataSource.paginator = this.paginator);

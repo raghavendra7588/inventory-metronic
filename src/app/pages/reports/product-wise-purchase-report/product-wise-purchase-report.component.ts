@@ -17,6 +17,7 @@ import { PurchaseReport } from '../../inventory/inventory.model';
 import { DialogProductWisePurchaseReportComponent } from '../dialog-product-wise-purchase-report/dialog-product-wise-purchase-report.component';
 import { DateAdapter, MAT_DATE_FORMATS } from '@angular/material/core';
 import { AppDateAdapter, APP_DATE_FORMATS } from '../product-vendor-wise-purchase-report/date.adapter';
+import { SubheaderService } from 'src/app/_metronic/partials/layout';
 
 @Component({
   selector: 'app-product-wise-purchase-report',
@@ -119,7 +120,9 @@ export class ProductWisePurchaseReportComponent implements OnInit {
     public toastr: ToastrService,
     private cdr: ChangeDetectorRef,
     private inventoryService: InventoryService,
-    private spinner: NgxSpinnerService) {
+    private spinner: NgxSpinnerService,
+    private subheader: SubheaderService
+  ) {
   }
 
   ngOnInit() {
@@ -132,6 +135,15 @@ export class ProductWisePurchaseReportComponent implements OnInit {
     this.categorySearch = this.loginService.seller_object.categories;
     this.getPriceListData();
 
+    
+    setTimeout(() => {
+      this.subheader.setTitle('Purchase / Product Wise Purchase Report');
+      this.subheader.setBreadcrumbs([{
+        title: 'Product Wise Purchase Report',
+        linkText: 'Product Wise Purchase Report',
+        linkPath: '/purchase/productWisePurchaseReport'
+      }]);
+    }, 1);
   }
 
 
@@ -141,7 +153,7 @@ export class ProductWisePurchaseReportComponent implements OnInit {
 
 
   onCategorySelectAll() {
- 
+
     this.purchaseReport.categoryId = 'ALL';
     let catchMappedCategory: any = [];
     let productNamesArray: any = [];
@@ -154,7 +166,7 @@ export class ProductWisePurchaseReportComponent implements OnInit {
       let uniqueBrandName = this.createUniqueBrandName(this.AllCategoryArray);
       this.anyArray = this.sortUniqueBrandName(uniqueBrandName);
       this.BrandSelect = this.anyArray;
- 
+
       productNamesArray = this.createUniqueProductName(this.anyArray);
 
       this.finalProductNameArray = productNamesArray;
@@ -169,7 +181,7 @@ export class ProductWisePurchaseReportComponent implements OnInit {
 
 
   onSubCategorySelectAll() {
-    
+
     let catchMappedSubCategory: any = [];
 
     this.purchaseService.getEachBrand(this.categoryId.toString(), '0').subscribe(data => {
@@ -179,7 +191,7 @@ export class ProductWisePurchaseReportComponent implements OnInit {
       let uniqueBrands = this.createUniqueBrandName(catchMappedSubCategory);
       this.anyArray = this.sortUniqueBrandName(uniqueBrands);
       this.brandSearch = this.anyArray;
-      
+
     });
     this.loginService.seller_object.categories = this.categorySearch.slice();
     this.multipleCategoriesArray = this.subCategorySearch.slice();
@@ -253,7 +265,7 @@ export class ProductWisePurchaseReportComponent implements OnInit {
   }
 
   onCategoryDeSelectAll(event) {
-   
+
   }
 
   onSubCategorySelect(event, data) {
@@ -264,7 +276,7 @@ export class ProductWisePurchaseReportComponent implements OnInit {
       if (this.multipleBrandArray.length === 0) {
         this.multipleBrandArray = data;
         this.catchMappedData = this.mapObj(this.multipleBrandArray, this.dbData);
-       
+
       }
       else {
         this.array2 = data;
@@ -367,7 +379,7 @@ export class ProductWisePurchaseReportComponent implements OnInit {
         let eachBrandData: any = [];
         let mappedData: any = [];
         let uniqueBrandName: any = [];
-      
+
         this.purchaseService.getEachBrand(category.id, '0').subscribe(data => {
           eachBrandData = data;
           mappedData = this.mapObj(eachBrandData, this.dbData);
@@ -400,12 +412,12 @@ export class ProductWisePurchaseReportComponent implements OnInit {
 
     if (event.isUserInput) {
       if (event.source.selected) {
-    
+
         this.subCategoryId = subCategory.id.toString();
         this.subCategoriesArray.push(subCategory.id);
         this.spinner.show();
-      
-          this.purchaseService.getMappedUnMappedProducts(subCategory.parentid, subCategory.id).subscribe(data => {
+
+        this.purchaseService.getMappedUnMappedProducts(subCategory.parentid, subCategory.id).subscribe(data => {
           this.multipleBrandArray = data;
           this.catchMappedData = this.mapObj(this.multipleBrandArray, this.dbData);
 
@@ -454,7 +466,7 @@ export class ProductWisePurchaseReportComponent implements OnInit {
           return item.BrandName.trim() === product.BrandName;
         });
         this.finalBrandArray = filteredBrandArray;
-       
+
 
 
 
@@ -482,7 +494,7 @@ export class ProductWisePurchaseReportComponent implements OnInit {
   changeProduct(event, product: any) {
     if (event.isUserInput) {
       if (event.source.selected) {
-       
+
       }
     }
   }
@@ -567,12 +579,12 @@ export class ProductWisePurchaseReportComponent implements OnInit {
 
 
     this.inventoryService.getPurchaseOrderInventoryData(this.purchaseReport).subscribe(data => {
- 
+
       this.reportData = data;
       let uniquePurchaseOrder = _.uniqBy(this.reportData, 'ProductVarientId');
-  
+
       this.reportData = uniquePurchaseOrder;
-    
+
       this.dataSource = new MatTableDataSource(this.reportData);
       setTimeout(() => this.dataSource.paginator = this.paginator);
     });

@@ -16,7 +16,7 @@
 
         <ng-container *ngIf="title$ | async as _title">
           <h2 class="d-flex align-items-center text-dark font-weight-bold my-1 mr-3">
-            {{ _title }}
+            <small>{{ _title }}</small>
             <ng-container *ngIf="subheaderDisplayDesc">
               <ng-container *ngIf="description$ | async as _description">
                 <small>{{ _description }}</small>
@@ -25,45 +25,35 @@
           </h2>
         </ng-container>
 
-        <!-- <ul class="breadcrumb breadcrumb-transparent breadcrumb-dot font-weight-bold my-2 p-0">
-          <li class="breadcrumb-item" *ngFor="let bc of breadcrumbs$ | async" routerLinkActive="active">
-            <a class="text-muted">
-              {{ bc.linkText }}
-            </a>
-          </li>
-        </ul> -->
 
       </div>
 
     </div>
 
     <div class="d-flex align-items-center flex-wrap">
+      <ng-container *ngIf="subIsActive =='ACTIVE'">
 
-      <!-- <a class="btn btn-primary btn-fixed-height font-weight-bold px-2 px-lg-5 mr-2">
-        <span [inlineSVG]="'./assets/media/svg/icons/Communication/Add-user.svg'" cacheSVG="true"
-          class="svg-icon svg-icon-lg"></span>
-        <span class="d-none d-md-inline">New Member</span>
-      </a> -->
+        <ng-container *ngIf="lessThanFifteenDaysWarning =='LESS_THAN_FIFTEEN_DAYS_REMAINING'">
+          <h6 class="orange-icon">Subscription Will Expire In {{subDaysCnt}} Days</h6>
+        </ng-container>
 
-      <!-- <div class="dropdown dropdown-inline" data-toggle="tooltip" title="Quick actions" data-placement="left"
-        placement="bottom-right" ngbDropdown>
-        <a class="btn btn-primary btn-fixed-height font-weight-bold px-2 px-lg-5 mr-2" data-toggle="dropdown"
-          aria-haspopup="true" aria-expanded="false" ngbDropdownToggle>
-          <span [inlineSVG]="'./assets/media/svg/icons/Files/File.svg'" cacheSVG="true"
-            class="svg-icon svg-icon-lg"></span>
-          <span class="d-none d-md-inline">New Report</span>
-        </a>
-        <div class="dropdown-menu p-0 m-0 dropdown-menu-md dropdown-menu-right" ngbDropdownMenu>
-          <app-dropdown-menu1></app-dropdown-menu1>
-        </div>
-      </div> -->
+        <ng-container *ngIf="lessThanSevenDaysWarning =='LESS_THAN_SEVEN_DAYS_REMAINING'">
+          <h6 class="text-danger">Subscription Will Expire In {{subDaysCnt}} Days</h6>
+        </ng-container>
+        <ng-container *ngIf="adminFreeUsageWarning =='ADMIN_FREE_USAGE'">
+          <h6 class="orange-icon">You Are Using System Access Under Free Program</h6>
+        </ng-container>
 
-      <!-- <a class="btn btn-primary btn-icon font-weight-bold" data-toggle="modal" data-target="#kt_chat_modal">
-        <span [inlineSVG]="'./assets/media/svg/icons/Communication/Group-chat.svg'" cacheSVG="true"
-          class="svg-icon svg-icon-lg"></span>
-      </a> -->
-
+        <ng-container *ngIf="freeTrialWarning =='FREE_TRAIL'">
+          <h6 class="text-danger">You Are Using Trail Version</h6>
+        </ng-container>
+      </ng-container>
+      <ng-container *ngIf="subIsActive =='INACTIVE' && subscriptionIsExpiredWarning =='PACK_IS_EXPIRED'">
+        <h6 class="text-danger">Your Subscription Is Expired On {{subscriptionDetails[0].ExpiryDate}}.<br>
+          Kindly Reacharge To Continue</h6>
+      </ng-container>
     </div>
 
   </div>
 </div>
+<ngx-spinner></ngx-spinner>
