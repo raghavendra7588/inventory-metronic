@@ -1,0 +1,124 @@
+<div class="container-fluid">
+
+    <div class="row">
+        <div class="col-md-4 col-sm-4 col-4 col-lg-4 col-xl-4">
+            <mat-form-field style="width: 100%;">
+                <mat-label>From Date</mat-label>
+                <input matInput [matDatepicker]="picker" readonly>
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+        </div>
+        <div class="col-md-4 col-sm-4 col-4 col-lg-4 col-xl-4">
+            <mat-form-field style="width: 100%;">
+                <mat-label>To Date</mat-label>
+                <input matInput [matDatepicker]="pickerOne" readonly>
+                <mat-datepicker-toggle matSuffix [for]="pickerOne"></mat-datepicker-toggle>
+                <mat-datepicker #pickerOne></mat-datepicker>
+            </mat-form-field>
+        </div>
+
+        <div class="col-md-4 col-sm-4 col-4 col-lg-4 col-xl-4">
+            <button mat-raised-button style="color:white" class="width-100 mt-2 save-button">Search
+            </button>
+        </div>
+    </div>
+    <div class="row">
+
+        <div class="col-md-4 col-sm-4 col-4 col-lg-4 col-xl-4">
+            <mat-form-field style="width: 100%;">
+                <mat-label>Filter</mat-label>
+                <input matInput (keyup)="applyFilter($event.target.value)">
+            </mat-form-field>
+        </div>
+        <div class="col-md-4 col-sm-4 col-4 col-lg-4 col-xl-4">
+            <button mat-raised-button style="color:white" class="width-100 mt-2 save-button">Download Report
+            </button>
+        </div>
+
+        <div class="col-md-4 col-sm-4 col-4 col-lg-4 col-xl-4">
+            <button mat-raised-button style="color:white" class="width-100 mt-2 save-button">Make Payment
+            </button>
+        </div>
+        <!-- (click)="confirmPayment()" -->
+    </div>
+
+    <div class="row my-4">
+        <div class="col-md-4 col-sm-4 col-6 col-lg-4 col-xl-4">
+            <p class="custom-font-icon-color" style="font-size: 1.5rem;">Per Order Amt : Rs {{perOrderAmount}}</p>
+        </div>
+        <div class="col-md-4 col-sm-6 col-6 col-lg-4 col-xl-4">
+            <p class="custom-green-icon">Payable Amt : Rs 0</p>
+        </div>
+        <div class="col-md-4 col-sm-4 col-6 col-lg-4 col-xl-4">
+
+            <form ngNoForm name="payuform" [action]="paymentService.pUrl" method="POST"
+                onsubmit="window.replace('_self');">
+                <div class="form-group" *ngIf="!isHidden">
+                    <label for="firstname">Name:</label>
+                    <input type="text" class="form-control" id="firstname" name="Name" [(ngModel)]="payuform.Name">
+                </div>
+                <div class="form-group" *ngIf="!isHidden">
+                    <label for="email">Email:</label>
+                    <input type="email" class="form-control" id="email" name="EmailID" [(ngModel)]="payuform.EmailID">
+                </div>
+                <div class="form-group" *ngIf="!isHidden">
+                    <label for="email">Phone:</label>
+                    <input class="form-control" id="phone" name="mobilno" [(ngModel)]="payuform.mobilno" maxlength="10"
+                        NumberDirective>
+                </div>
+                <div class="form-group" *ngIf="!isHidden">
+                    <label for="amount">Amount:</label>
+                    <input type="number" class="form-control" id="amount" name="Amount" [(ngModel)]="payuform.Amount"
+                        readonly>
+                </div>
+
+
+
+                <button type="button" *ngIf="makePayment" class="width-100 mt-2 custom-submit-btn"
+                    type="submit">Confirm</button>
+
+
+
+            </form>
+        </div>
+    </div>
+    <div class="row mt-5">
+
+        <div class="col-md-12 col-sm-12 col-12 col-lg-12 col-xl-12">
+
+            <table mat-table [dataSource]="dataSource" class="custom-dialog-table">
+
+                <ng-container matColumnDef="serialNo">
+                    <th mat-header-cell *matHeaderCellDef>Serial No</th>
+                    <td mat-cell *matCellDef="let element">{{element.serialNo}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="orderDate">
+                    <th mat-header-cell *matHeaderCellDef>Order Date</th>
+                    <td mat-cell *matCellDef="let element">{{element.orderDate}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="orderNumber">
+                    <th mat-header-cell *matHeaderCellDef>Order Number</th>
+                    <td mat-cell *matCellDef="let element">{{element.orderNumber}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="customerName">
+                    <th mat-header-cell *matHeaderCellDef>Customer Name</th>
+                    <td mat-cell *matCellDef="let element"> {{element.customerName}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="orderAmount">
+                    <th mat-header-cell *matHeaderCellDef>Order Amount</th>
+                    <td mat-cell *matCellDef="let element"> {{element.orderAmount}} </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+
+            <mat-paginator [pageSizeOptions]="[20, 50, 100]" showFirstLastButtons></mat-paginator>
+        </div>
+    </div>
+</div>

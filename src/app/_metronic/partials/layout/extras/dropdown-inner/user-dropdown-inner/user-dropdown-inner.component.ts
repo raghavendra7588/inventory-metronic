@@ -23,6 +23,6 @@ export class UserDropdownInnerComponent implements OnInit {
 
   logout() {
     this.auth.logout();
-    document.location.reload();
+    // document.location.reload();
   }
 }

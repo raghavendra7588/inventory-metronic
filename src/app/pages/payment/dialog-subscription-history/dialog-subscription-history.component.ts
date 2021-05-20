@@ -5,6 +5,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { EmitterService } from 'src/app/shared/emitter.service';
 import { PaymentService } from '../payment.service';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-dialog-subscription-history',
@@ -42,6 +43,10 @@ export class DialogSubscriptionHistoryComponent implements OnInit {
     this.paymentService.getTransactionHistory(Number(this.strSellerId)).subscribe(res => {
 
       this.transactionHistoryData = res;
+    
+      let uniqueTransactions = _.uniqBy(this.transactionHistoryData, 'PaymenId');
+      this.transactionHistoryData = uniqueTransactions;
+
       this.dataSource = new MatTableDataSource(this.transactionHistoryData);
       setTimeout(() => this.dataSource.paginator = this.paginator);
       this.spinner.hide();

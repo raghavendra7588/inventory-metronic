@@ -25,6 +25,8 @@ export class EditUser {
     userid: string;
     subscriptionPaymentMode: string;
     subcriptionPaymentAmount: string;
+    PerOrderSubscriptionEndDate: string;
+    PreviousExpiryDate: string;
 }
 
 
@@ -306,4 +308,7 @@ export class SellerPaymentMode {
     PaymentAmount: string;
     PaymentMode: string;
     UpdatedBySellerId: number;
+    UpdatedExpiryDate: string;
+    PerOrderSubscriptionEndDate: string;
+    SubscritpionStartDate: string;
 }

@@ -36,10 +36,13 @@ export class Subheader6Component implements OnInit, OnDestroy {
   freeTrialWarning: string;
   subscriptionIsExpiredWarning: string;
   adminFreeUsageWarning: string;
+  perOrderPlanWarning: string;
+  sellerMadeInactiveWarning: string;
 
   unSubscription: Subscription[] = [];
   strSellerId: string;
   currentTransactionData: any = [];
+
 
   constructor(
     private layout: LayoutService,
@@ -125,7 +128,7 @@ export class Subheader6Component implements OnInit, OnDestroy {
 
         diffInDays = moment(this.subExpiryDate).diff(moment(this.subPaymentDate), 'days');
         this.subDaysCnt = diffInDays;
-        console.log('this.subscriptionDetails[0]', this.subscriptionDetails[0]);
+       
 
         this.spinner.hide();
 
@@ -135,21 +138,25 @@ export class Subheader6Component implements OnInit, OnDestroy {
             this.freeTrialWarning = 'FREE_TRAIL';
             this.lessThanSevenDaysWarning = '';
             this.adminFreeUsageWarning = '';
+            this.sellerMadeInactiveWarning = '';
           }
           if (Number(this.subDaysCnt) < 8) {
             this.lessThanSevenDaysWarning = 'LESS_THAN_SEVEN_DAYS_REMAINING';
             this.freeTrialWarning = '';
             this.adminFreeUsageWarning = '';
+            this.sellerMadeInactiveWarning = '';
           }
           if (this.subscriptionDetails[0].PaymentMode == 'Continue Free' && (Number(this.subDaysCnt) >= 8 || Number(this.subDaysCnt) <= 14) &&
-            (this.subscriptionDetails[0].UpdatedByAdminOn && this.subscriptionDetails[0].UpdatedByAdminOn != undefined)) {
+            this.subscriptionDetails[0].LifeTimeAccess == 'Y') {
             this.adminFreeUsageWarning = 'ADMIN_FREE_USAGE';
             this.freeTrialWarning = '';
+            this.sellerMadeInactiveWarning = '';
           }
           if ((Number(this.subDaysCnt) >= 8) && this.subscriptionDetails[0].PaymentMode != 'Continue Free') {
             if ((Number(this.subDaysCnt) <= 15)) {
               this.lessThanFifteenDaysWarning = 'LESS_THAN_FIFTEEN_DAYS_REMAINING';
               this.adminFreeUsageWarning = '';
+              this.sellerMadeInactiveWarning = '';
             }
             else {
               this.freeTrialWarning = '';
@@ -157,6 +164,7 @@ export class Subheader6Component implements OnInit, OnDestroy {
               this.lessThanFifteenDaysWarning = '';
               this.subscriptionIsExpiredWarning = '';
               this.adminFreeUsageWarning = '';
+              this.sellerMadeInactiveWarning = '';
               return;
             }
           }
@@ -165,13 +173,21 @@ export class Subheader6Component implements OnInit, OnDestroy {
         if (this.subIsActive == 'INACTIVE' && Number(this.subDaysCnt) < 0) {
           this.subscriptionIsExpiredWarning = 'PACK_IS_EXPIRED';
           this.adminFreeUsageWarning = '';
+          this.sellerMadeInactiveWarning = '';
         }
-        if (this.subIsActive == 'INACTIVE' && Number(this.subDaysCnt) > 0) {
+
+        if (this.subIsActive == 'INACTIVE' && Number(this.subDaysCnt) > 0 && (this.subscriptionDetails[0].InActivatedDateOn != null || this.subscriptionDetails[0].InActivatedDateOn != undefined)) {
+          this.sellerMadeInactiveWarning = 'SELLER_IS_INACTIVE';
+          this.subscriptionIsExpiredWarning = '';
+          this.adminFreeUsageWarning = '';
+        }
+        if (this.subIsActive == 'INACTIVE' && Number(this.subDaysCnt) > 0 && (this.subscriptionDetails[0].InActivatedDateOn == null || this.subscriptionDetails[0].InActivatedDateOn == undefined)) {
           this.freeTrialWarning = '';
           this.lessThanSevenDaysWarning = '';
           this.lessThanFifteenDaysWarning = '';
           this.subscriptionIsExpiredWarning = '';
           this.adminFreeUsageWarning = '';
+          this.sellerMadeInactiveWarning = '';
           return;
         }
       }

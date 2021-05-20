@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { AfterContentChecked, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
@@ -18,9 +18,9 @@ import { SubheaderService } from 'src/app/_metronic/partials/layout';
   templateUrl: './seller-user.component.html',
   styleUrls: ['./seller-user.component.scss']
 })
-export class SellerUserComponent implements OnInit {
+export class SellerUserComponent implements OnInit, AfterContentChecked {
 
- 
+
   displayedColumns: any;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
@@ -42,7 +42,8 @@ export class SellerUserComponent implements OnInit {
     public dialog: MatDialog,
     private spinner: NgxSpinnerService,
     public emitterService: EmitterService,
-    private subheader: SubheaderService
+    private subheader: SubheaderService,
+    private cdr: ChangeDetectorRef
   ) {
     this.role = sessionStorage.getItem('role');
     this.strSellerId = sessionStorage.getItem('sellerId');
@@ -54,7 +55,7 @@ export class SellerUserComponent implements OnInit {
       this.getSellerUser();
     }
     else {
-      
+
       this.displayedColumns = ['vendorCode', 'totalCustomer', 'totalProduct', 'totalOrder', 'name', 'email', 'mobile', 'edit'];
       this.getSellerUser();
       this.isAdmin = false;
@@ -95,9 +96,12 @@ export class SellerUserComponent implements OnInit {
 
     if (this.role == 'Admin') {
       this.salesService.getAllSellerUsers(role).subscribe(res => {
-       
+
         this.adminUsers = res;
-        this.isDataLoaded = true;
+        // setTimeout(() => this.isDataLoaded = true);
+        setTimeout(() => {
+          this.isDataLoaded = true
+        }, 0);
         this.dataSource = new MatTableDataSource(this.adminUsers);
         setTimeout(() => this.dataSource.paginator = this.paginator);
         if (Array.isArray(this.dataSource) && this.dataSource.length) {
@@ -115,7 +119,10 @@ export class SellerUserComponent implements OnInit {
       this.salesService.getSellerUsersData(role, this.strSellerId).subscribe(res => {
 
         this.adminUsers = res;
-        this.isDataLoaded = true;
+        // setTimeout(() => this.isDataLoaded = true );
+        setTimeout(() => {
+          this.isDataLoaded = true
+        }, 0);
         this.dataSource = new MatTableDataSource(this.adminUsers);
         setTimeout(() => this.dataSource.paginator = this.paginator);
         if (Array.isArray(this.dataSource) && this.dataSource.length) {
@@ -130,7 +137,9 @@ export class SellerUserComponent implements OnInit {
 
 
   }
-
+  ngAfterContentChecked() {
+    this.cdr.detectChanges();
+  }
   applyFilter(filter: string) {
     this.dataSource.filter = filter.trim().toLowerCase();
   }

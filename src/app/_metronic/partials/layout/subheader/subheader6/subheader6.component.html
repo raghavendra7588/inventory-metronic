@@ -52,6 +52,10 @@
         <h6 class="text-danger">Your Subscription Is Expired On {{subscriptionDetails[0].ExpiryDate}}.<br>
           Kindly Reacharge To Continue</h6>
       </ng-container>
+      <ng-container *ngIf="subIsActive =='INACTIVE' && sellerMadeInactiveWarning =='SELLER_IS_INACTIVE'">
+        <h6 class="text-danger">Seller Is In Active</h6>
+      </ng-container>
+      
     </div>
 
   </div>

@@ -8,13 +8,27 @@ import { EditUpdateAdmin, EditUser, SellerPaymentMode, ValidateAdminUser } from 
 import { SalesService } from '../sales.service';
 import { NgxSpinnerService } from "ngx-spinner";
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-
 import { PaymentService } from '../../payment/payment.service';
+import * as moment from 'moment';
+import { DateAdapter, MAT_DATE_FORMATS } from '@angular/material/core';
+import { AppDateAdapter, APP_DATE_FORMATS } from './date.adapter';
+
 
 @Component({
   selector: 'app-dialog-edit-user',
   templateUrl: './dialog-edit-user.component.html',
-  styleUrls: ['./dialog-edit-user.component.scss']
+  styleUrls: ['./dialog-edit-user.component.scss'],
+  providers: [
+    {
+      provide: DateAdapter,
+      useClass: AppDateAdapter
+    },
+    {
+      provide: MAT_DATE_FORMATS,
+      useValue: APP_DATE_FORMATS
+    }
+  ]
+
 })
 export class DialogEditUserComponent implements OnInit {
 
@@ -29,6 +43,7 @@ export class DialogEditUserComponent implements OnInit {
   strSellerId: string;
   maxLengthPinCode = 6;
   maxLengthPhone = 10;
+  minDate: Date;
   hide = true;
   validateResponse: any = [];
 
@@ -38,10 +53,14 @@ export class DialogEditUserComponent implements OnInit {
   message: string;
   isEditMode: boolean = false;
   paymentModeTypes: any = [];
-  isPerOrderSubscription: boolean = false;
+  isPerOrderSubscription: boolean;
   isPerOrderSubscriptionStr: string = '';
-
-
+  subscriptionDetails: any = [];
+  currentTransactionData: any = [];
+  selectedSellerId: string;
+  selectedPaymentModeTitle: string;
+  isSellerUsingMetronic: boolean = false;
+  isChangeActionTaken: boolean = false;
 
   constructor(
     public formBuilder: FormBuilder,
@@ -64,13 +83,13 @@ export class DialogEditUserComponent implements OnInit {
       state: ['', [Validators.required]],
       city: [''],
       subscriptionPaymentMode: [''],
-      subscriptionPaymentAmount: ['']
-
+      subscriptionPaymentAmount: [''],
+      perOrderSubscriptionEndDate: [''],
+      previousExpiryDate: ['']
     });
     this.strSellerId = sessionStorage.getItem('sellerId');
     this.role = sessionStorage.getItem('role');
     this.userData = data;
-
 
     if (this.userData && this.userData.length) {
       this.role = this.userData.role;
@@ -79,14 +98,17 @@ export class DialogEditUserComponent implements OnInit {
       this.role = sessionStorage.getItem('role');
     }
 
-
   }
 
   ngOnInit(): void {
     if (this.userData) {
+
+     
+      this.getCurrentSellerTransaction(this.userData.id);
+      this.getPaymentModeDetails();
       this.assignValues();
     }
-    this.getPaymentModeDetails();
+    this.minDate = new Date();
   }
 
   getPaymentModeDetails() {
@@ -105,9 +127,15 @@ export class DialogEditUserComponent implements OnInit {
           this.toastr.error('Subscription Amount Is Required');
           return;
         }
+        // if (this.editUser.PerOrderSubscriptionEndDate == ''
+        //   || this.editUser.PerOrderSubscriptionEndDate == undefined || this.editUser.PerOrderSubscriptionEndDate == null) {
+        //   this.toastr.error('End Date Is Required');
+        //   return;
+        // }
         else {
           this.sellerPaymentMode.PaymentAmount = this.editUser.subcriptionPaymentAmount;
         }
+
       }
 
       if (this.isPerOrderSubscriptionStr == 'Continue Free'.trim() || this.isPerOrderSubscriptionStr == 'Paid Subscription'.trim()) {
@@ -138,12 +166,100 @@ export class DialogEditUserComponent implements OnInit {
       this.sellerPaymentMode.PaymentMode = this.editUser.subscriptionPaymentMode;
 
 
+      if (this.editUser.subscriptionPaymentMode == 'Continue Free') {
+        let newDate = moment(new Date(), "DD-MM-YYYY").add(10, 'years').format('YYYY-MM-DD');
+        this.sellerPaymentMode.UpdatedExpiryDate = newDate;
+      }
+
+
+      var expiryDate;
+      var currentDate;
+
+
+
+
+      if (this.editUser.subscriptionPaymentMode == 'Paid Subscription' || this.isPerOrderSubscriptionStr == 'Per Order Subscription'
+        || this.isPerOrderSubscriptionStr == 'Continue Free') {
+
+        expiryDate = new Date(this.currentTransactionData[0].ExpiryDatee);
+        currentDate = new Date();
+        let todaysDate;
+
+
+
+
+        if (expiryDate > currentDate) {
+          if (this.editUser.subscriptionPaymentMode == 'Per Order Subscription') {
+
+            let now = new Date();
+            let current;
+            if (now.getMonth() == 11) {
+              current = new Date(now.getFullYear() + 1, 0, 1);
+            } else {
+              current = new Date(now.getFullYear(), now.getMonth() + 1, 1);
+            }
+            let finalDate = moment(current).format('YYYY-MM-DD');
+
+            let UpdatedExpiryDatee = new Date(finalDate);
+            UpdatedExpiryDatee.setDate(UpdatedExpiryDatee.getDate() + Number(4));
+            let da = new Date(UpdatedExpiryDatee);
+            let UpdatedExpiryDateeFinal = moment(da).format('YYYY-MM-DD');
+
+
+          
+            this.sellerPaymentMode.UpdatedExpiryDate = UpdatedExpiryDateeFinal;
+
+
+
+
+            let subscriptionStartDate = new Date(this.currentTransactionData[0].ExpiryDatee);
+            subscriptionStartDate.setDate(subscriptionStartDate.getDate() + Number(1));
+            let dat = new Date(subscriptionStartDate);
+            let finalSubscriptionStartDate = moment(dat).format('YYYY-MM-DD');
+
+            this.sellerPaymentMode.SubscritpionStartDate = finalSubscriptionStartDate;
+
+          }
+          if (this.editUser.subscriptionPaymentMode == 'Paid Subscription') {
+            todaysDate = new Date();
+            todaysDate.setDate(todaysDate.getDate() + Number(2));
+            let d = new Date(todaysDate);
+            let finalDate = moment(d).format('YYYY-MM-DD');
+            this.sellerPaymentMode.UpdatedExpiryDate = finalDate;       // UpdatedExpiryDate  
+            this.sellerPaymentMode.SubscritpionStartDate = '';
+            this.sellerPaymentMode.SubscritpionStartDate = moment(new Date()).format('YYYY-MM-DD');
+
+          }
+
+          if (this.editUser.subscriptionPaymentMode == 'Continue Free') {
+              
+            let subscriptionStartDate = new Date(this.currentTransactionData[0].ExpiryDatee);
+            subscriptionStartDate.setDate(subscriptionStartDate.getDate() + Number(1));
+            let dat = new Date(subscriptionStartDate);
+            let finalSubscriptionStartDate = moment(dat).format('YYYY-MM-DD');
+
+            this.sellerPaymentMode.SubscritpionStartDate = finalSubscriptionStartDate;
+
+          }
+
+          // this.sellerPaymentMode.SubscritpionStartDate = moment(new Date()).format('YYYY-MM-DD');
+        }
+        else {
+          this.sellerPaymentMode.SubscritpionStartDate = moment(new Date()).format('YYYY-MM-DD');
+        }
+      }
+
+    
+
       this.salesService.editAdminUser(this.editUpdateAdmin).subscribe(res => {
-        this.paymentService.updatePaymentMode(this.sellerPaymentMode).subscribe(data => {
- 
-        }, err => {
-          this.spinner.hide();
-        });
+        if (this.isSellerUsingMetronic && this.isChangeActionTaken) {
+          this.paymentService.updatePaymentMode(this.sellerPaymentMode).subscribe(data => {
+
+          }, err => {
+            this.spinner.hide();
+          });
+        }
+
         this.toastr.success('Updated Successfully !!');
         this.emitterService.isAdminCreadtedOrUpdated.emit(true);
         this.dialogRef.close();
@@ -151,6 +267,8 @@ export class DialogEditUserComponent implements OnInit {
         this.spinner.hide();
       });
     }
+
+
 
     else {
       this.validateAdminUser.address = this.editUser.address;
@@ -212,7 +330,7 @@ export class DialogEditUserComponent implements OnInit {
           this.editUpdateAdmin.state = this.editUser.state;
           this.editUpdateAdmin.userid = this.strSellerId;
 
-        
+
 
           this.salesService.editAdminUser(this.editUpdateAdmin).subscribe(res => {
             this.toastr.success('Saved Successfully !!');
@@ -249,6 +367,8 @@ export class DialogEditUserComponent implements OnInit {
     this.editUser.id = this.userData.id;
     this.editUser.role = this.userData.role;
     this.editUser.userid = this.userData.id;
+
+
   }
 
   deleteUser() {
@@ -333,14 +453,53 @@ export class DialogEditUserComponent implements OnInit {
   }
 
   selectedPaymentModeFromList(paymentModeStr) {
+
+    this.selectedPaymentModeTitle = paymentModeStr;
     if (paymentModeStr == 'Per Order Subscription') {
       this.isPerOrderSubscription = true;
       this.isPerOrderSubscriptionStr = paymentModeStr;
     }
-    else {
+
+    if (paymentModeStr == 'Paid Subscription') {
       this.isPerOrderSubscription = false;
       this.isPerOrderSubscriptionStr = paymentModeStr;
+
+      let todaysDate = new Date(this.currentTransactionData[0].ExpiryDatee);
+      todaysDate.setDate(todaysDate.getDate() + Number(2));
+      let d = new Date(todaysDate);
+      let finalDate = moment(d).format('YYYY-MM-DD');
+      this.sellerPaymentMode.UpdatedExpiryDate = finalDate.toString();
     }
+    if (paymentModeStr == 'Continue Free') {
+      this.isPerOrderSubscription = false;
+      this.isPerOrderSubscriptionStr = paymentModeStr;
+      this.sellerPaymentMode.UpdatedExpiryDate = moment(this.currentTransactionData[0].ExpiryDatee).format('YYYY-MM-DD');
+    }
+    this.isChangeActionTaken = true;
+  }
+
+  getCurrentSellerTransaction(id) {
+    this.spinner.show();
+
+    this.paymentService.getLatestTransactionBySeller(Number(id)).subscribe(res => {
+
+      this.currentTransactionData = res;
+  
+
+      this.spinner.hide();
+      if (this.currentTransactionData.length) {
+        this.editUser.PreviousExpiryDate = this.currentTransactionData[0].ExpiryDate;
+        if ((this.currentTransactionData[0].UpdatedByAdminOn && this.currentTransactionData[0].UpdatedByAdminOn != undefined)) {
+          this.editUser.subscriptionPaymentMode = this.currentTransactionData[0].PaymentMode;
+        }
+        this.isSellerUsingMetronic = true;
+      }
+
+
+    },
+      err => {
+        this.spinner.hide();
+      });
   }
 
 }

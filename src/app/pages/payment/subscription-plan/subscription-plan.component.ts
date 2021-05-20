@@ -80,6 +80,12 @@ export class SubscriptionPlanComponent implements OnInit, OnDestroy {
     });
 
     this.getSellerContactCredentials(this.sellerData.id);
+
+    if (this.sellerPaymentData[0].LifeTimeAccess == 'Y') {
+      this.toastr.error('We Offered You To Use System Access Under Free Program !');
+      this.router.navigate(['/dashboard']);
+      return;
+    }
   }
 
   addTitle() {
@@ -104,93 +110,102 @@ export class SubscriptionPlanComponent implements OnInit, OnDestroy {
   }
 
   confirmPayment(amount, selectedCardID) {
-    console.log('selectedCardID', selectedCardID);
-    let tempNum = uuid();
-    this.uuidv4Num = tempNum.toString().substring(1, 8);
 
-    this.payuform.Name = this.sellerData.name.trim();
-    this.payuform.EmailID = (this.sellerContactCredentials[0].Email).trim();
-    this.payuform.Amount = amount;
-    this.payuform.mobilno = (this.sellerContactCredentials[0].MobileNumber).trim();
-
-    let dateObj = new Date();
-
-    this.txnid = ('web' + 'txnid' + this.uuidv4Num + dateObj.getMilliseconds());
-    let url = new URL(this.payuUrl);
-    url.searchParams.set('Name', this.payuform.Name);
-    url.searchParams.set('EmailID', this.payuform.EmailID);
-    url.searchParams.set('Amount', this.payuform.Amount);
-    url.searchParams.set('mobileno', this.payuform.mobilno.toString());
-    url.searchParams.set('TransationID', this.txnid.toString());
-
-    this.payuUrl = url.href;
-    this.paymentService.pUrl = url.href;
-
-
-
-
-
-    this.makePayment = true;
-    sessionStorage.removeItem("paymentRequest");
-    sessionStorage.setItem("paymentRequest", JSON.stringify(this.payuform));
-
-
-    if (selectedCardID == 1) {
-      document.getElementById("cardOne").style.borderColor = "#ff8c00";
-      document.getElementById("buttonOne").style.color = "black";
-
-      document.getElementById("cardTwo").style.borderColor = "white";
-      document.getElementById("buttonTwo").style.color = "white";
-
-      document.getElementById("cardThree").style.borderColor = "white";
-      document.getElementById("buttonThree").style.color = "white";
-
-      document.getElementById("cardFour").style.borderColor = "white";
-      document.getElementById("buttonFour").style.color = "white";
+    if (this.sellerPaymentData[0].LifeTimeAccess == 'Y') {
+      this.toastr.error('We Offered You To Use System Access Under Free Program !');
+      this.router.navigate(['/dashboard']);
+      return;
     }
-    if (selectedCardID == 2) {
-      document.getElementById("cardTwo").style.borderColor = "#ff8c00";
-      document.getElementById("buttonTwo").style.color = "black";
+    else {
+   
+      let tempNum = uuid();
+      this.uuidv4Num = tempNum.toString().substring(1, 8);
 
-      document.getElementById("cardOne").style.borderColor = "white";
-      document.getElementById("buttonOne").style.color = "white";
+      this.payuform.Name = this.sellerData.name.trim();
+      this.payuform.EmailID = (this.sellerContactCredentials[0].Email).trim();
+      this.payuform.Amount = amount;
+      this.payuform.mobilno = (this.sellerContactCredentials[0].MobileNumber).trim();
 
-      document.getElementById("cardThree").style.borderColor = "white";
-      document.getElementById("buttonThree").style.color = "white";
+      let dateObj = new Date();
 
-      document.getElementById("cardFour").style.borderColor = "white";
-      document.getElementById("buttonFour").style.color = "white";
+      this.txnid = ('web' + 'txnid' + this.uuidv4Num + dateObj.getMilliseconds());
+      let url = new URL(this.payuUrl);
+      url.searchParams.set('Name', this.payuform.Name);
+      url.searchParams.set('EmailID', this.payuform.EmailID);
+      url.searchParams.set('Amount', this.payuform.Amount);
+      url.searchParams.set('mobileno', this.payuform.mobilno.toString());
+      url.searchParams.set('TransationID', this.txnid.toString());
+
+      this.payuUrl = url.href;
+      this.paymentService.pUrl = url.href;
+
+
+
+
+
+      this.makePayment = true;
+      sessionStorage.removeItem("paymentRequest");
+      sessionStorage.setItem("paymentRequest", JSON.stringify(this.payuform));
+
+
+      if (selectedCardID == 1) {
+        document.getElementById("cardOne").style.borderColor = "#ff8c00";
+        document.getElementById("buttonOne").style.color = "black";
+
+        document.getElementById("cardTwo").style.borderColor = "white";
+        document.getElementById("buttonTwo").style.color = "white";
+
+        document.getElementById("cardThree").style.borderColor = "white";
+        document.getElementById("buttonThree").style.color = "white";
+
+        document.getElementById("cardFour").style.borderColor = "white";
+        document.getElementById("buttonFour").style.color = "white";
+      }
+      if (selectedCardID == 2) {
+        document.getElementById("cardTwo").style.borderColor = "#ff8c00";
+        document.getElementById("buttonTwo").style.color = "black";
+
+        document.getElementById("cardOne").style.borderColor = "white";
+        document.getElementById("buttonOne").style.color = "white";
+
+        document.getElementById("cardThree").style.borderColor = "white";
+        document.getElementById("buttonThree").style.color = "white";
+
+        document.getElementById("cardFour").style.borderColor = "white";
+        document.getElementById("buttonFour").style.color = "white";
+      }
+      if (selectedCardID == 3) {
+        document.getElementById("cardThree").style.borderColor = "#ff8c00";
+        document.getElementById("buttonThree").style.color = "black";
+
+        document.getElementById("cardOne").style.borderColor = "white";
+        document.getElementById("buttonOne").style.color = "white";
+
+        document.getElementById("cardTwo").style.borderColor = "white";
+        document.getElementById("buttonTwo").style.color = "white";
+
+        document.getElementById("cardFour").style.borderColor = "white";
+        document.getElementById("buttonFour").style.color = "white";
+      }
+      if (selectedCardID == 4) {
+        document.getElementById("cardFour").style.borderColor = "#ff8c00";
+        document.getElementById("buttonFour").style.color = "black";
+
+        document.getElementById("cardOne").style.borderColor = "white";
+        document.getElementById("buttonOne").style.color = "white";
+
+        document.getElementById("cardTwo").style.borderColor = "white";
+        document.getElementById("buttonTwo").style.color = "white";
+
+        document.getElementById("cardThree").style.borderColor = "white";
+        document.getElementById("buttonThree").style.color = "white";
+      }
+
+
+
+      this.toastr.success('Please Hit Confirm To Continue');
     }
-    if (selectedCardID == 3) {
-      document.getElementById("cardThree").style.borderColor = "#ff8c00";
-      document.getElementById("buttonThree").style.color = "black";
 
-      document.getElementById("cardOne").style.borderColor = "white";
-      document.getElementById("buttonOne").style.color = "white";
-
-      document.getElementById("cardTwo").style.borderColor = "white";
-      document.getElementById("buttonTwo").style.color = "white";
-
-      document.getElementById("cardFour").style.borderColor = "white";
-      document.getElementById("buttonFour").style.color = "white";
-    }
-    if (selectedCardID == 4) {
-      document.getElementById("cardFour").style.borderColor = "#ff8c00";
-      document.getElementById("buttonFour").style.color = "black";
-
-      document.getElementById("cardOne").style.borderColor = "white";
-      document.getElementById("buttonOne").style.color = "white";
-
-      document.getElementById("cardTwo").style.borderColor = "white";
-      document.getElementById("buttonTwo").style.color = "white";
-
-      document.getElementById("cardThree").style.borderColor = "white";
-      document.getElementById("buttonThree").style.color = "white";
-    }
-
-
-
-    this.toastr.success('Please Hit Confirm To Continue');
   }
 
   getSellerContactCredentials(sellerId) {

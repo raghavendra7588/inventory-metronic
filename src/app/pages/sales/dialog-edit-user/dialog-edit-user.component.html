@@ -126,7 +126,8 @@
             </div>
         </div>
         <div class="row my-2">
-            <div class="col-md-4 col-sm-4 col-4 col-xl-4 col-lg-4" *ngIf="salesService.currentTab =='Edit Seller'">
+            <div class="col-md-4 col-sm-4 col-4 col-xl-4 col-lg-4"
+                *ngIf="salesService.currentTab =='Edit Seller' && isSellerUsingMetronic">
 
                 <mat-form-field style="width: 100% !important">
                     <mat-select placeholder="Subscription Mode" [(ngModel)]="editUser.subscriptionPaymentMode"
@@ -139,15 +140,38 @@
                 </mat-form-field>
 
             </div>
-
-            <div class="col-md-4 col-sm-4 col-4 col-xl-4 col-lg-4" *ngIf="isPerOrderSubscription">
-                <mat-form-field style="width: 100% !important">
-                    <input matInput placeholder="Per Order Amount" formControlName="subscriptionPaymentAmount" [(ngModel)]="editUser.subcriptionPaymentAmount">
+            <div class="col-md-4 col-sm-4 col-4 col-xl-4 col-lg-4"
+                *ngIf="salesService.currentTab =='Edit Seller' && isSellerUsingMetronic">
+                <mat-form-field style="width: 100%;">
+                    <input matInput placeholder="Expiry Date" formControlName="previousExpiryDate"
+                        [(ngModel)]="editUser.PreviousExpiryDate" readonly>
                 </mat-form-field>
             </div>
+            <div class="col-md-4 col-sm-4 col-4 col-xl-4 col-lg-4"
+                *ngIf="isPerOrderSubscription && isSellerUsingMetronic">
+                <mat-form-field style="width: 100% !important">
+                    <input matInput placeholder="Per Order Amount" formControlName="subscriptionPaymentAmount"
+                        [(ngModel)]="editUser.subcriptionPaymentAmount">
+                </mat-form-field>
+            </div>
+
+
+
         </div>
 
-
+        <!-- <div class="row my-2">
+            <div class="col-md-4 col-sm-4 col-4 col-xl-4 col-lg-4"
+                *ngIf="isPerOrderSubscription && isSellerUsingMetronic">
+                <mat-form-field style="width: 100%;">
+                    <mat-label>Per Order Expiry Date</mat-label>
+                    <input matInput [matDatepicker]="picker" formControlName="datePicker"
+                        formControlName="perOrderSubscriptionEndDate" [(ngModel)]="editUser.PerOrderSubscriptionEndDate"
+                        [min]="minDate" readonly>
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+            </div>
+        </div> -->
 
         <div mat-dialog-actions>
             <button mat-raised-button [ngClass]="!editUserForm.valid? 'opacity' : 'noOpacity'" class="save-button"

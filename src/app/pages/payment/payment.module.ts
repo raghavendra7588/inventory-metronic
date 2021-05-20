@@ -54,6 +54,8 @@ import { PaymentService } from './payment.service';
 import { SubscriptionPlanComponent } from './subscription-plan/subscription-plan.component';
 import { DialogSubscriptionHistoryComponent } from './dialog-subscription-history/dialog-subscription-history.component';
 import { DialogSellerActiveInactiveComponent } from './dialog-seller-active-inactive/dialog-seller-active-inactive.component';
+import { PaidOrdersPageComponent } from './paid-orders-page/paid-orders-page.component';
+import { HighlightCardDirective } from './highlight-card.directive';
 
 
 
@@ -64,7 +66,9 @@ import { DialogSellerActiveInactiveComponent } from './dialog-seller-active-inac
     PaymentFailureComponent,
     SubscriptionPlanComponent,
     DialogSubscriptionHistoryComponent,
-    DialogSellerActiveInactiveComponent
+    DialogSellerActiveInactiveComponent,
+    PaidOrdersPageComponent,
+    HighlightCardDirective
   ],
   imports: [
     CommonModule,
@@ -119,6 +123,10 @@ import { DialogSellerActiveInactiveComponent } from './dialog-seller-active-inac
       {
         path: 'subscription',
         component: SubscriptionPlanComponent,
+      },
+      {
+        path: 'orderStats',
+        component: PaidOrdersPageComponent,
       }
     ]),
   ],
@@ -127,7 +135,8 @@ import { DialogSellerActiveInactiveComponent } from './dialog-seller-active-inac
     PaymentFailureComponent,
     SubscriptionPlanComponent,
     DialogSubscriptionHistoryComponent,
-    DialogSellerActiveInactiveComponent
+    DialogSellerActiveInactiveComponent,
+    PaidOrdersPageComponent
   ],
   providers: [PaymentService],
   entryComponents: [
