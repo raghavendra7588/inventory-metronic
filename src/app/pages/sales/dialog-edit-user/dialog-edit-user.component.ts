@@ -103,7 +103,7 @@ export class DialogEditUserComponent implements OnInit {
   ngOnInit(): void {
     if (this.userData) {
 
-     
+
       this.getCurrentSellerTransaction(this.userData.id);
       this.getPaymentModeDetails();
       this.assignValues();
@@ -206,7 +206,7 @@ export class DialogEditUserComponent implements OnInit {
             let UpdatedExpiryDateeFinal = moment(da).format('YYYY-MM-DD');
 
 
-          
+
             this.sellerPaymentMode.UpdatedExpiryDate = UpdatedExpiryDateeFinal;
 
 
@@ -232,7 +232,7 @@ export class DialogEditUserComponent implements OnInit {
           }
 
           if (this.editUser.subscriptionPaymentMode == 'Continue Free') {
-              
+
             let subscriptionStartDate = new Date(this.currentTransactionData[0].ExpiryDatee);
             subscriptionStartDate.setDate(subscriptionStartDate.getDate() + Number(1));
             let dat = new Date(subscriptionStartDate);
@@ -249,17 +249,17 @@ export class DialogEditUserComponent implements OnInit {
         }
       }
 
-    
+
 
       this.salesService.editAdminUser(this.editUpdateAdmin).subscribe(res => {
         if (this.isSellerUsingMetronic && this.isChangeActionTaken) {
           this.paymentService.updatePaymentMode(this.sellerPaymentMode).subscribe(data => {
-
+            this.spinner.hide();
           }, err => {
             this.spinner.hide();
           });
         }
-
+        this.spinner.hide();
         this.toastr.success('Updated Successfully !!');
         this.emitterService.isAdminCreadtedOrUpdated.emit(true);
         this.dialogRef.close();
@@ -331,8 +331,9 @@ export class DialogEditUserComponent implements OnInit {
           this.editUpdateAdmin.userid = this.strSellerId;
 
 
-
+          this.spinner.hide();
           this.salesService.editAdminUser(this.editUpdateAdmin).subscribe(res => {
+            this.spinner.hide();
             this.toastr.success('Saved Successfully !!');
             this.emitterService.isAdminCreadtedOrUpdated.emit(true);
             this.dialogRef.close();
@@ -343,7 +344,9 @@ export class DialogEditUserComponent implements OnInit {
             });
         }
 
-
+        this.spinner.hide();
+      }, err => {
+        this.spinner.hide();
       });
 
 
@@ -484,7 +487,7 @@ export class DialogEditUserComponent implements OnInit {
     this.paymentService.getLatestTransactionBySeller(Number(id)).subscribe(res => {
 
       this.currentTransactionData = res;
-  
+
 
       this.spinner.hide();
       if (this.currentTransactionData.length) {
@@ -493,9 +496,10 @@ export class DialogEditUserComponent implements OnInit {
           this.editUser.subscriptionPaymentMode = this.currentTransactionData[0].PaymentMode;
         }
         this.isSellerUsingMetronic = true;
+        this.spinner.hide();
       }
 
-
+      this.spinner.hide();
     },
       err => {
         this.spinner.hide();

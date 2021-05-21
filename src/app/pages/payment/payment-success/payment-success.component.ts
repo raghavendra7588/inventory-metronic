@@ -59,7 +59,7 @@ export class PaymentSuccessComponent implements OnInit {
     var totalDaysBasedOnAmount: number = 0;
     this.paymentService.getLatestTransactionBySeller(Number(this.strSellerId)).subscribe(res => {
       this.latestPaymentData = res;
-     
+
       sessionStorage.removeItem('subscriptionDetails');
       sessionStorage.setItem('subscriptionDetails', JSON.stringify(this.latestPaymentData));
 
@@ -104,7 +104,7 @@ export class PaymentSuccessComponent implements OnInit {
         let subscriptionStartDate = new Date(this.latestPaymentData[0].ExpiryDatee);
 
 
-
+        this.spinner.hide();
         todaysDate.setDate(todaysDate.getDate() + Number(totalDaysBasedOnAmount));
         let d = new Date(todaysDate);
         let finalDate = moment(d).format('YYYY-MM-DD');
@@ -127,7 +127,7 @@ export class PaymentSuccessComponent implements OnInit {
         this.paymentSuccessAndFailure.SubscritpionStartDate = moment(new Date()).format('YYYY-MM-DD');
       }
       this.paymentSuccessAndFailure.PaymentId = Number(this.latestPaymentData[0].PaymenId);
-   
+
       this.updatePaymentDetailsData(this.paymentSuccessAndFailure);
       this.spinner.hide();
     }, err => {
@@ -145,6 +145,9 @@ export class PaymentSuccessComponent implements OnInit {
         timeOut: 3000,
       });
       this.emitterService.isPaymentOrStatusActivated.emit(true);
+      this.spinner.hide();
+    }, err => {
+      this.spinner.hide();
     });
   }
 

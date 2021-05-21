@@ -17,8 +17,10 @@ export class SubscriptionPlanComponent implements OnInit, OnDestroy {
 
   role: string;
   payuform: PaymentGateWay = new PaymentGateWay();
-  // payuUrl: string = 'https://3intellects.co.in/AdminApi/PayU.aspx';
-  payuUrl: string = 'http://localhost:55547/Default.aspx';
+
+  payuUrl: string = 'https://3intellects.co.in/uat_InventoryService/Default.aspx';
+  // payuUrl: string = 'http://localhost:55547/Default.aspx';
+
   txnid: string;
   isHidden: boolean = true;
   makePayment: boolean = false;

@@ -69,7 +69,7 @@ export class PaymentFailureComponent implements OnInit {
       sessionStorage.setItem('subscriptionDetails', JSON.stringify(this.latestPaymentData));
 
       this.storagePaymentRequest = JSON.parse(sessionStorage.getItem("paymentRequest"));
-
+      this.spinner.hide();
 
       this.paymentSuccessAndFailure.SellerId = this.strSellerId;
       this.paymentSuccessAndFailure.TrasnsactionId = this.paymentSuccessAndFailure.TrasnsactionId;
@@ -109,10 +109,12 @@ export class PaymentFailureComponent implements OnInit {
         sessionStorage.setItem('isSubscriptionValid', 'INACTIVE');
         this.emitterService.isPaymentOrStatusChange.emit(true);
       }
-
+      this.spinner.hide();
       this.toastr.error('Your Transaction Is Failed', '', {
         timeOut: 3000,
       });
+    }, err => {
+      this.spinner.hide();
     });
   }
 }
