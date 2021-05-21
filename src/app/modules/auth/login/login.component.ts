@@ -12,6 +12,7 @@ import { ToastrService } from 'ngx-toastr';
 import { PaymentService } from 'src/app/pages/payment/payment.service';
 import { SellerPaymentVerification } from '../login.model';
 import * as moment from 'moment';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-login',
@@ -55,7 +56,8 @@ export class LoginComponent implements OnInit, OnDestroy {
     private loginService: LoginService,
     private emitterService: EmitterService,
     public toastr: ToastrService,
-    private paymentService: PaymentService
+    private paymentService: PaymentService,
+    private spinner: NgxSpinnerService
   ) {
     this.isLoading$ = this.authService.isLoading$;
     // redirect to home if already logged in
@@ -67,11 +69,11 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.date = new Date();
     this.date.setDate(this.date.getDate() + Number(15));
     let d = moment(new Date(this.date)).format('YYYY-MM-DD');
- 
+
 
     this.sellerPaymentVerification.tempExpiryDate = d;
     this.sellerPaymentVerification.tempStartDate = moment(new Date()).format('YYYY-MM-DD');
-    
+
   }
 
   ngOnInit(): void {
@@ -93,9 +95,9 @@ export class LoginComponent implements OnInit, OnDestroy {
             }
             if (user && this.isSubscriptionValid == 'ACTIVE') {
               this.router.navigate(['/']);
-            
-                this.toastr.success('Logged In Successfully !!');
-          
+
+              this.toastr.success('Logged In Successfully !!');
+
 
             }
             else {
@@ -153,30 +155,32 @@ export class LoginComponent implements OnInit, OnDestroy {
   login() {
     this.authService.checkLocalCache();
     this.isButtonDisabled = true;
+    this.spinner.show();
     this.loginService.loginUser(this.user).subscribe(data => {
       sessionStorage.setItem('sellerData', JSON.stringify(data));
       if (data.role == 'Seller') {
         this.sellerPaymentVerification.sellerId = data.id;
         this.sellerPaymentVerification.vendorName = data.name;
         this.sellerPaymentVerification.vendorCode = data.vendorcode;
-
+        this.spinner.hide();
         this.paymentService.getsellerSubscriptionDetails(this.sellerPaymentVerification).subscribe(res => {
-         
+
           this.subscriptionDetailsData = res;
           this.isSubscriptionValid = this.subscriptionDetailsData[0].SubscriptionIsActive;
           sessionStorage.setItem('isSubscriptionValid', this.isSubscriptionValid.toString());
           sessionStorage.setItem('subscriptionDetails', JSON.stringify(this.subscriptionDetailsData));
-         
+          this.spinner.hide();
         }, err => {
           this.toastr.error('Please Check Your API is Running Or Not!');
           this.isButtonDisabled = false;
-       
+          this.spinner.hide();
         });
       }
       else {
         this.isSubscriptionValid = 'ACTIVE';
         sessionStorage.setItem('isSubscriptionValid', this.isSubscriptionValid.toString());
         this.isButtonDisabled = false;
+        this.spinner.hide();
       }
 
       this.authService.setLocalCache(data.token, data.name, data.id, data.categories, data.vendorcode, data.role, data.city);
@@ -187,17 +191,17 @@ export class LoginComponent implements OnInit, OnDestroy {
       this.emitterService.isLoggedInSuccessful.emit(true);
       this.isLoggedInCheck = true;
       this.isButtonDisabled = false;
-
+      this.spinner.hide();
     },
       error => {
         this.errors = error;
         this.isButtonDisabled = false;
-        
+        this.spinner.hide();
         if (this.errors) {
           this.toastr.error(this.errors.error);
           this.isButtonDisabled = false;
         }
- 
+        this.spinner.hide();
       });
 
   }

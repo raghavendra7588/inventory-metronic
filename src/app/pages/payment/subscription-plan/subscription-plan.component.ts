@@ -83,11 +83,7 @@ export class SubscriptionPlanComponent implements OnInit, OnDestroy {
 
     this.getSellerContactCredentials(this.sellerData.id);
 
-    if (this.sellerPaymentData[0].LifeTimeAccess == 'Y') {
-      this.toastr.error('We Offered You To Use System Access Under Free Program !');
-      this.router.navigate(['/dashboard']);
-      return;
-    }
+
   }
 
   addTitle() {
@@ -115,11 +111,15 @@ export class SubscriptionPlanComponent implements OnInit, OnDestroy {
 
     if (this.sellerPaymentData[0].LifeTimeAccess == 'Y') {
       this.toastr.error('We Offered You To Use System Access Under Free Program !');
-      this.router.navigate(['/dashboard']);
+      return;
+    }
+
+    if (this.sellerPaymentData[0].PaymentMode == 'Per Order Subscription') {
+      this.toastr.error('You Are Under Per Order Subscription Mode !');
       return;
     }
     else {
-   
+
       let tempNum = uuid();
       this.uuidv4Num = tempNum.toString().substring(1, 8);
 
@@ -140,7 +140,6 @@ export class SubscriptionPlanComponent implements OnInit, OnDestroy {
 
       this.payuUrl = url.href;
       this.paymentService.pUrl = url.href;
-
 
 
 
