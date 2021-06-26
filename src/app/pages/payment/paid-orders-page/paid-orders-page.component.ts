@@ -31,7 +31,7 @@ export class PaidOrdersPageComponent implements OnInit {
   payuform: PaymentGateWay = new PaymentGateWay();
   // payuUrl: string = 'http://localhost:55547/Default.aspx';
   // payuUrl: string = 'https://3intellects.co.in/uat_InventoryService/Default.aspx';
-  payuUrl: string = environment.BASE_URL + '/Default.aspx';
+  payuUrl: string = environment.BASE_URL + 'Default.aspx';
 
   txnid: string;
   sellerContactCredentials: any = [];
