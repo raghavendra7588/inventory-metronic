@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { MonthData } from './reports.model';
 
-
 @Injectable({
   providedIn: 'root'
 })
@@ -21,9 +20,9 @@ export class ReportsService {
   private POST_PURCHASE_AMOUNT_PER_MONTH_BY_VENDOR = environment.BASE_URL + 'api/DashBoard/getPurchaseAmountByMonthByVendor';
   private POST_HIGHEST_VALUE_PRODUCTS_BY_MONTH = environment.BASE_URL + 'api/DashBoard/getHighestValueProductsByCurrentMonth';
   private POST_HIGHEST_VALUE_PRODUCTS_BY_LAST_MONTH = environment.BASE_URL + 'api/DashBoard/getHighestValueByLastMonth';
-  private POST_DASHBOARD_SALES = environment.ADMIN_BASE_URL + 'DashBoard/GetCount';
 
-  private POST_DASHBOARD_COUNT_DATA = 'https://3intellects.co.in/uat_AdminApi/api/DashBoard/GetCount';
+  // private POST_DASHBOARD_COUNT_DATA = 'https://3intellects.co.in/uat_AdminApi/api/DashBoard/GetCount';
+  private POST_DASHBOARD_COUNT_DATA = environment.ADMIN_BASE_URL + 'DashBoard/GetCount';
   private POST_BRAND_VENDOR_WISE_PURCHASE_REPORT = environment.BASE_URL + 'api/ProductVendorWisePurchaseReport/brandVendorWisePurchaseReport';
 
 

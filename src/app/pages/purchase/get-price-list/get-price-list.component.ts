@@ -36,7 +36,7 @@ export class GetPriceListComponent implements OnInit {
   customProductList: CustomProductList = new CustomProductList();
   @ViewChild('select') select: MatSelect;
   selection = new SelectionModel<PriceList[]>(true, []);
-  displayedColumns: string[] = ['select', 'productId', 'brandName', 'productName', 'quantity', 'actualPrice', 'discount', 'finalPrice', 'availableQuantity'];
+  displayedColumns: string[] = ['select', 'brandName', 'productName', 'quantity', 'actualPrice', 'discount', 'finalPrice', 'availableQuantity'];
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   datePicker: any;
   objSeller: any;

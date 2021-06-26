@@ -12,6 +12,7 @@ import { SubheaderService } from 'src/app/_metronic/partials/layout';
 import { Router } from '@angular/router';
 import { SharedService } from 'src/app/shared/shared.service';
 import { PaymentService } from '../../payment/payment.service';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-order-management',
@@ -102,7 +103,6 @@ export class OrderManagementComponent implements OnInit {
       }
     );
     this.salesService.getOrderList(userId).subscribe(res => {
-
       this.orderData = res;
       this.dataSource = new MatTableDataSource(this.orderData);
       setTimeout(() => this.dataSource.paginator = this.paginator);
@@ -113,6 +113,8 @@ export class OrderManagementComponent implements OnInit {
         this.spinner.hide();
       });
   }
+
+
 
   openOrderDialog(order) {
     this.salesService.currentTab = 'Edit Order Status';

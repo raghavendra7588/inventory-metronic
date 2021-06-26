@@ -40,7 +40,7 @@ export class ListsWidget14Component implements OnInit {
 
     let startOfMonth = moment().clone().startOf('month').format("DD/MM/YYYY");
     this.monthData.startDateOfMonth = startOfMonth;
-    
+
 
     let startDateOfLastMonth = moment().subtract(1, 'months').startOf('month').format("DD/MM/YYYY");
 
@@ -54,11 +54,16 @@ export class ListsWidget14Component implements OnInit {
     }
     this.strSellerId = sessionStorage.getItem('sellerId').toString();
     this.monthData.sellerId = this.strSellerId;
+    
+    if (this.role == 'Admin') {
+      return;
+    }
+    else {
+      this.getHighestValueProductsByMonthData();
+      this.getHighestValueProductsByLastMonthData();
+      this.productData = this.reportsService.getHighestValueProductByMonth(this.monthData);
+    }
 
-    this.getHighestValueProductsByMonthData();
-    this.getHighestValueProductsByLastMonthData();
-
-    this.productData = this.reportsService.getHighestValueProductByMonth(this.monthData);
   }
 
 
@@ -78,7 +83,7 @@ export class ListsWidget14Component implements OnInit {
   getHighestValueProductsByLastMonthData() {
     let startOfMonth = moment().clone().startOf('month').format("YYYY/MM/DD");
     this.monthData.startDateOfMonth = startOfMonth;
-  
+
     this.spinner.show();
     let startDateOfLastMonth = moment().subtract(1, 'months').startOf('month').format("YYYY/MM/DD");
 

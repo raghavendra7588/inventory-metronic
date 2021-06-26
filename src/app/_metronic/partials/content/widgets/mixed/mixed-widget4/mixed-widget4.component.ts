@@ -70,9 +70,6 @@ export class MixedWidget4Component implements OnInit {
     this.spinner.show();
     this.reportsService.getDashBoardSales(this.strUserId).subscribe(res => {
       this.salesData = res;
-
-
-
       this.weeklySales = this.salesData[1].Week;
       this.monthlySales = this.salesData[1].Month;
       this.yearlySales = this.salesData[1].Year;

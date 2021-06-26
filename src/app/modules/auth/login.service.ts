@@ -13,7 +13,9 @@ export class LoginService {
   ) { }
 
   public LOGIN_URL = 'http://3intellects.co.in/AdminApi/api//user/authenticate';
-  private LOGGED_IN_URL = 'https://3intellects.co.in/uat_AdminApi/api/User/authenticate';
+  // private LOGGED_IN_URL = 'https://3intellects.co.in/uat_AdminApi/api/User/authenticate';
+  private LOGGED_IN_URL = environment.ADMIN_BASE_URL + '/User/authenticate';
+  // private GET_CATEGORIES_DATA = environment.ADMIN_BASE_URL + '/ProductSellerMapping/getalledit';
 
   public seller_token: string;
   public seller_mapped_categories: any = [];

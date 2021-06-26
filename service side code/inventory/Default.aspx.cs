@@ -43,10 +43,8 @@ namespace inventory
                     phone.Text = Request.QueryString["mobileno"].ToString();
                     productinfo.Text = "Subscription";
 
-                    surl.Text = "https://3intellects.co.in/uat_InventoryService/ResponseHandling.aspx";
-                    furl.Text = "https://3intellects.co.in/uat_InventoryService/ResponseHandling.aspx";
-
-
+                    surl.Text = "http://localhost:55547/ResponseHandling.aspx";
+                    furl.Text = "http://localhost:55547/ResponseHandling.aspx";
                 }
 
 

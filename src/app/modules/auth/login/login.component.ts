@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subscription, Observable } from 'rxjs';
-import { first } from 'rxjs/operators';
+import { finalize, first } from 'rxjs/operators';
 import { UserModel } from '../_models/user.model';
 import { AuthService } from '../_services/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -156,30 +156,33 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.authService.checkLocalCache();
     this.isButtonDisabled = true;
     this.spinner.show();
-    this.loginService.loginUser(this.user).subscribe(data => {
+    this.loginService.loginUser(this.user).pipe(finalize(() => { 
+      this.isButtonDisabled = false;
+    })).subscribe(data => {
+
       sessionStorage.setItem('sellerData', JSON.stringify(data));
       if (data.role == 'Seller') {
         this.sellerPaymentVerification.sellerId = data.id;
         this.sellerPaymentVerification.vendorName = data.name;
         this.sellerPaymentVerification.vendorCode = data.vendorcode;
         this.spinner.hide();
-        this.paymentService.getsellerSubscriptionDetails(this.sellerPaymentVerification).subscribe(res => {
-
+        this.paymentService.getsellerSubscriptionDetails(this.sellerPaymentVerification).pipe(finalize(() => { 
+          this.isButtonDisabled = false;
+        }))
+        .subscribe(res => {
           this.subscriptionDetailsData = res;
           this.isSubscriptionValid = this.subscriptionDetailsData[0].SubscriptionIsActive;
           sessionStorage.setItem('isSubscriptionValid', this.isSubscriptionValid.toString());
-          sessionStorage.setItem('subscriptionDetails', JSON.stringify(this.subscriptionDetailsData));
+          sessionStorage.setItem('subscriptionDetails', JSON.stringify(this.subscriptionDetailsData));   
           this.spinner.hide();
         }, err => {
           this.toastr.error('Please Check Your API is Running Or Not!');
-          this.isButtonDisabled = false;
-          this.spinner.hide();
+          this.spinner.hide();       
         });
       }
       else {
         this.isSubscriptionValid = 'ACTIVE';
         sessionStorage.setItem('isSubscriptionValid', this.isSubscriptionValid.toString());
-        this.isButtonDisabled = false;
         this.spinner.hide();
       }
 
@@ -190,16 +193,14 @@ export class LoginComponent implements OnInit, OnDestroy {
       this.emitterService.isLoggedIn.emit(true);
       this.emitterService.isLoggedInSuccessful.emit(true);
       this.isLoggedInCheck = true;
-      this.isButtonDisabled = false;
+
       this.spinner.hide();
     },
       error => {
-        this.errors = error;
-        this.isButtonDisabled = false;
+        this.errors = error;  
         this.spinner.hide();
         if (this.errors) {
-          this.toastr.error(this.errors.error);
-          this.isButtonDisabled = false;
+          this.toastr.error(this.errors.error);    
         }
         this.spinner.hide();
       });

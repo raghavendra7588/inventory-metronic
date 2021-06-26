@@ -93,39 +93,59 @@ export class PaymentSuccessComponent implements OnInit {
         totalDaysBasedOnAmount = 365;
       }
 
-      if (expiryDate > currentDate) {
-
-        let paymentExpiryDate = moment(this.latestPaymentData[0].ExpiryDatee).format('YYYY-MM-DD');
-        let currentPaymentDate = moment(this.latestPaymentData[0].PaymentDatee).format('YYYY-MM-DD');
 
 
-        let diffInDays = moment(paymentExpiryDate).diff(moment(currentPaymentDate), 'days');
-        let todaysDate = new Date(this.latestPaymentData[0].ExpiryDatee);
-        let subscriptionStartDate = new Date(this.latestPaymentData[0].ExpiryDatee);
+      if (this.latestPaymentData[0].PaymentMode != 'Per Order Subscription') {
+        this.paymentSuccessAndFailure.CurrentPaymentMode = 'Paid Subscription';
+        if (expiryDate > currentDate) {
+
+          let paymentExpiryDate = moment(this.latestPaymentData[0].ExpiryDatee).format('YYYY-MM-DD');
+          let currentPaymentDate = moment(this.latestPaymentData[0].PaymentDatee).format('YYYY-MM-DD');
 
 
-        this.spinner.hide();
-        todaysDate.setDate(todaysDate.getDate() + Number(totalDaysBasedOnAmount));
-        let d = new Date(todaysDate);
-        let finalDate = moment(d).format('YYYY-MM-DD');
+          let diffInDays = moment(paymentExpiryDate).diff(moment(currentPaymentDate), 'days');
+          let todaysDate = new Date(this.latestPaymentData[0].ExpiryDatee);
+          let subscriptionStartDate = new Date(this.latestPaymentData[0].ExpiryDatee);
 
-        subscriptionStartDate.setDate(subscriptionStartDate.getDate() + Number(1));
-        let da = new Date(subscriptionStartDate);
-        let finalSubscriptionStartDate = moment(da).format('YYYY-MM-DD');
 
-        this.paymentSuccessAndFailure.NewExpiryDate = finalDate.toString();
-        this.paymentSuccessAndFailure.SubscritpionStartDate = finalSubscriptionStartDate.toString();
+          this.spinner.hide();
+          todaysDate.setDate(todaysDate.getDate() + Number(totalDaysBasedOnAmount));
+          let d = new Date(todaysDate);
+          let finalDate = moment(d).format('YYYY-MM-DD');
 
-      } else {
-        // let todaysDate = new Date(this.latestPaymentData[0].ExpiryDatee);
-        let todaysDate = new Date();
-        todaysDate.setDate(todaysDate.getDate() + Number(totalDaysBasedOnAmount));
-        let d = new Date(todaysDate);
-        let finalDate = moment(d).format('YYYY-MM-DD');
+          subscriptionStartDate.setDate(subscriptionStartDate.getDate() + Number(1));
+          let da = new Date(subscriptionStartDate);
+          let finalSubscriptionStartDate = moment(da).format('YYYY-MM-DD');
 
-        this.paymentSuccessAndFailure.NewExpiryDate = finalDate.toString();
-        this.paymentSuccessAndFailure.SubscritpionStartDate = moment(new Date()).format('YYYY-MM-DD');
+          this.paymentSuccessAndFailure.NewExpiryDate = finalDate.toString();
+          this.paymentSuccessAndFailure.SubscritpionStartDate = finalSubscriptionStartDate.toString();
+
+        } else {
+
+          let todaysDate = new Date();
+          todaysDate.setDate(todaysDate.getDate() + Number(totalDaysBasedOnAmount));
+          let d = new Date(todaysDate);
+          let finalDate = moment(d).format('YYYY-MM-DD');
+
+          this.paymentSuccessAndFailure.NewExpiryDate = finalDate.toString();
+          this.paymentSuccessAndFailure.SubscritpionStartDate = moment(new Date()).format('YYYY-MM-DD');
+        }
       }
+
+      if (this.latestPaymentData[0].PaymentMode == 'Per Order Subscription') {
+        let startDateOfCurrentMonth = moment().clone().startOf('month').toDate(); //sub start date
+        let startDateOfNextMonth = moment().add(1, 'M').startOf('month').toDate();
+
+        let fithDayOfNextMonth = new Date(startDateOfNextMonth);
+        fithDayOfNextMonth.setDate(fithDayOfNextMonth.getDate() + Number(4));  //5th day of next month
+
+
+
+        this.paymentSuccessAndFailure.NewExpiryDate = moment(fithDayOfNextMonth).format('YYYY-MM-DD');
+        this.paymentSuccessAndFailure.SubscritpionStartDate = moment(startDateOfCurrentMonth).format('YYYY-MM-DD');
+        this.paymentSuccessAndFailure.CurrentPaymentMode = 'Per Order Subscription';
+      }
+
       this.paymentSuccessAndFailure.PaymentId = Number(this.latestPaymentData[0].PaymenId);
 
       this.updatePaymentDetailsData(this.paymentSuccessAndFailure);

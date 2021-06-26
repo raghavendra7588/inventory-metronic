@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
+import { AdminSellerActiveInActive } from './payment.model';
 
 @Injectable({
   providedIn: 'root'
@@ -24,7 +25,7 @@ export class PaymentService {
   private GET_SELLER_CONTACT_CREDENTIALS = environment.BASE_URL + 'api/Vendor/SellerContactCredentials';
   private POST_SELLER_STATUS_CHECKPOINT = environment.BASE_URL + 'api/PaymentController/UpdateSellerStatusCheckPoint';
   private POST_PREVIOUS_TRANSACTIONS = environment.BASE_URL + 'api/PaymentController/UpdatePreviousTransactions';
-
+  private POST_ADMIN_SELLER_ACTIVE_INACTIVE = environment.ADMIN_BASE_URL + 'user/SellerUpdate';
 
   constructor(private http: HttpClient) {
     this.token = sessionStorage.getItem('token');
@@ -89,6 +90,10 @@ export class PaymentService {
   updateSellerStatusCheckpoint(PaymentId) {
     let req = { PaymentId: PaymentId }
     return this.http.post(this.POST_SELLER_STATUS_CHECKPOINT, req);
+  }
+
+  updateAdminSellerActiveInActive(sellerObj: AdminSellerActiveInActive) {
+    return this.http.post<AdminSellerActiveInActive>(this.POST_ADMIN_SELLER_ACTIVE_INACTIVE, sellerObj);
   }
 
 }

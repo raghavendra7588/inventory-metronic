@@ -5,7 +5,9 @@
 
     <div class="d-flex align-items-center">
       <div class="symbol symbol-60 symbol-xxl-100 mr-5 align-self-start align-self-xxl-center">
-        <div class="symbol-label" [style.backgroundImage]="'url('+ user.pic +')'"></div>
+        <!-- <div class="symbol-label" [style.backgroundImage]="'url('+ user.pic +')'"></div> -->
+        <div class="symbol-label" style="background-image: url('./assets/images/usericon.jpg');"></div>
+        <!-- ./assets/images/usericon.jpg -->
         <i class="symbol-badge bg-success"></i>
       </div>
       <div>
@@ -17,12 +19,12 @@
         </div>
         <div class="mt-2">
 
-          <a class="btn btn-sm btn-primary font-weight-bold mr-2 py-2 px-3 px-xxl-5 my-1 cursor-pointer"
+          <!-- <a class="btn btn-sm btn-primary font-weight-bold mr-2 py-2 px-3 px-xxl-5 my-1 cursor-pointer"
             ngbTooltip="Coming soon..." triggers="manual" #t4="ngbTooltip" (click)="t4.open()"
             placement="right">Chat</a>
           <a class="btn btn-sm btn-success font-weight-bold py-2 px-3 px-xxl-5 my-1 cursor-pointer"
             ngbTooltip="Coming soon..." triggers="manual" #t5="ngbTooltip" (click)="t5.open()"
-            placement="right">Follow</a>
+            placement="right">Follow</a> -->
         </div>
       </div>
     </div>
@@ -30,10 +32,10 @@
     <div class="py-9">
 
 
-      <div class="d-flex align-items-center justify-content-between mb-2">
+      <!-- <div class="d-flex align-items-center justify-content-between mb-2">
         <span class="font-weight-bold mr-2">Role:</span>
         <span class="font-weight-bold">{{role}}</span>
-      </div>
+      </div> -->
 
       <div class="d-flex align-items-center justify-content-between mb-2">
         <span class="font-weight-bold mr-2">City:</span>

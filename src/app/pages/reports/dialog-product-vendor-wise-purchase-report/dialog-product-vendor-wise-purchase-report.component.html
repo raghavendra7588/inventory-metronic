@@ -4,7 +4,7 @@
         <div class="row my-4">
             <div class="col-md-4 text-center">
 
-                <img src="/assets/images/gv.PNG" height="80px" width="130px" />
+                <img src="./assets/images/logo1.png" height="80px" width="130px" />
             </div>
             <div class="col-md-4 text-center">
             </div>
@@ -29,7 +29,7 @@
                 <table mat-table [dataSource]="dataSource" class="custom-dialog-table">
 
 
-               
+
                     <ng-container matColumnDef="orderNo">
                         <th mat-header-cell *matHeaderCellDef>Order No</th>
                         <td mat-cell *matCellDef="let element"> {{element.OrderNo}} </td>
@@ -48,7 +48,7 @@
                         <th mat-header-cell *matHeaderCellDef>Product Name</th>
                         <td mat-cell *matCellDef="let element"> {{element.ProductName}} </td>
                     </ng-container>
-                 
+
 
                     <!-- <ng-container matColumnDef="BuyingPrice">
                         <th mat-header-cell *matHeaderCellDef>Buying Price</th>
@@ -86,7 +86,7 @@
                         <td mat-cell *matCellDef="let element">{{element.TotalOrderAmtAns}}</td>
                     </ng-container>
 
-                    
+
                     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
                 </table>

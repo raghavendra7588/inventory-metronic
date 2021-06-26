@@ -51,6 +51,7 @@ export class PurchaseService {
   private GET_DASHBOARD_PURCHASE_ORDER_PER_MONTH = environment.BASE_URL + 'api/DashBoard/postPurchaseOrderPerMonth';
   private GET_DASHBOARD_FASTEST_MOVING_DATA_PER_MONTH = environment.BASE_URL + 'api/DashBoard';
   private GET_BRANDS_DATA_BASED_ON_CATEGORY_SUBCATEGORY_ID = environment.ADMIN_BASE_URL + 'Product/GetAllBrandBasedonCategoryIDandSubCategoryID';
+  // private GET_ALL_PRODUCTS_MAPPED_UNMAPPED = environment.HTTP_ADMIN_BASE_URL + 'Product/GetallProduct2';
   private GET_ALL_PRODUCTS_MAPPED_UNMAPPED = environment.ADMIN_BASE_URL + 'Product/GetallProduct2';
 
   constructor(

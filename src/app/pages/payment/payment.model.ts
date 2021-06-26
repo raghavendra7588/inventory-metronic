@@ -4,6 +4,7 @@ export class PaymentGateWay {
     Amount: string;
     mobilno: string;
     TransationID: string;
+    currentPaymentMode: string;
 }
 
 export class ActivityStatusChange {
@@ -35,14 +36,17 @@ export class PaymentSuccessAndFailure {
     VendorCode: string;
     VendorName: string;
     SubscritpionStartDate: string;
-}
-
-export class SellerProfile {
-    id: string;
-    LanguageCode: string;
+    CurrentPaymentMode: string;
 }
 
 export class PreviousTrasactions {
     SellerId: Number;
     CurrentDate: string;
+}
+
+export class AdminSellerActiveInActive {
+    id: string;
+    Vendorcode: string;
+    tempInActiveFlag: string;
+    tempInActiveMsg: string;
 }

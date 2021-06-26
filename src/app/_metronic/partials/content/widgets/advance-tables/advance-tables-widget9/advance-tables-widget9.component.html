@@ -13,7 +13,7 @@
   <div class="card-body pt-0 pb-3">
     <div class="tab-content">
 
-      <div class="table-responsive">
+      <div class="table-responsive" *ngIf="orderData.length != 0">
         <table class="table table-head-custom table-vertical-center table-head-bg table-borderless">
           <thead>
             <tr class="text-left">
@@ -23,17 +23,14 @@
               <th style="min-width: 120px">Order Date</th>
               <th style="min-width: 100px">Order Value</th>
 
-              <th style="min-width: 100px">rating</th>
+              <th style="min-width: 100px">Rating</th>
               <th style="min-width: 100px"> </th>
             </tr>
           </thead>
-
-
           <tbody>
             <tr *ngFor="let data of orderData">
               <td class="pl-0 py-8">
                 <div class="d-flex align-items-center">
-
                   <div>
                     <a class="text-dark-75 font-weight-bolder text-hover-primary mb-1 font-size-lg">
                       {{data.customerName}}
@@ -45,15 +42,11 @@
                 <span class="text-dark-75 font-weight-bolder d-block font-size-lg">
                   {{data.orderDate}}
                 </span>
-
               </td>
-
               <td>
-
                 <span class="text-dark-75 font-weight-bolder d-block font-size-lg">
                   {{data.totalAmount}}
                 </span>
-
               </td>
               <td>
                 <span class="text-dark-75 font-weight-bolder d-block font-size-lg">
@@ -61,15 +54,16 @@
                 </span>
               </td>
               <td class="pr-0 text-center">
-
                 <button type="button" class="btn btn-primary" (click)="openOrderDialog(data)">View</button>
               </td>
             </tr>
 
-
-
           </tbody>
         </table>
+      </div>
+
+      <div *ngIf="orderData.length == 0">
+        <h3 class="text-center">No Records Found</h3>
       </div>
 
     </div>

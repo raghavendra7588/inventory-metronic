@@ -4,7 +4,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { AppDateAdapter, APP_DATE_FORMATS } from '../../purchase/dialog-content-vendor/date.adapter';
-import { ActiveStatus, ActivityStatusChange, SellerProfile } from '../payment.model';
+import { ActiveStatus, ActivityStatusChange, AdminSellerActiveInActive } from '../payment.model';
 import { PaymentService } from '../payment.service';
 import * as moment from 'moment';
 import { ToastrService } from 'ngx-toastr';
@@ -33,6 +33,7 @@ export class DialogSellerActiveInactiveComponent implements OnInit {
   sellerData: any = [];
   minDate: any;
   activityStatusChange: ActivityStatusChange = new ActivityStatusChange();
+  adminSellerActiveInActive: AdminSellerActiveInActive = new AdminSellerActiveInActive();
   finalActiveStatus: ActiveStatus = new ActiveStatus();
   modalRef: BsModalRef;
   inActiveToActiveModalRef: BsModalRef;
@@ -48,8 +49,6 @@ export class DialogSellerActiveInactiveComponent implements OnInit {
   transactionHistoryData: any = [];
   currentDate: any;
   currentTransactionData: any = [];
-
-  sellerProfile: SellerProfile = new SellerProfile();
   sellerProfileData: any = [];
 
   constructor(
@@ -65,12 +64,8 @@ export class DialogSellerActiveInactiveComponent implements OnInit {
     this.isSubscriptionValid = sessionStorage.getItem("isSubscriptionValid");
     this.strSellerId = sessionStorage.getItem('sellerId').toString();
     this.sellerData = JSON.parse(sessionStorage.getItem("sellerData"));
-
-    this.sellerProfile.id = '6';
-    this.sellerProfile.LanguageCode = 'en';
     this.sellerPaymentInformation = data;
- 
-    if (this.isSubscriptionValid == 'INACTIVE') {    
+    if (this.isSubscriptionValid == 'INACTIVE') {
       this.getTransactionHistoryDetails();
       this.activityStatusChange = this.transactionHistoryData;
     }
@@ -81,8 +76,11 @@ export class DialogSellerActiveInactiveComponent implements OnInit {
     this.minDate = tempPaymentDate;
     this.activityStatusChange.sellerId = this.strSellerId;
     this.assignValues();
-  }
 
+    this.adminSellerActiveInActive.id = this.strSellerId;
+
+    this.adminSellerActiveInActive.Vendorcode = this.sellerData.vendorcode;
+  }
 
 
   assignValues() {
@@ -91,8 +89,6 @@ export class DialogSellerActiveInactiveComponent implements OnInit {
     this.activityStatusChange.expiryDate = this.sellerPaymentInformation[0].ExpiryDate;
   }
 
-
-
   openModal(template: TemplateRef<any>) {
     this.isButtonDisabled = true;
     this.modalRef = this.modalService.show(template, { class: 'modal-sm' });
@@ -100,36 +96,48 @@ export class DialogSellerActiveInactiveComponent implements OnInit {
   }
 
   confirm(): void {
-
-
     if (this.activityStatusChange.InactiveReason === null || this.activityStatusChange.InactiveReason === undefined
       || this.activityStatusChange.InactiveReason === '') {
       this.activityStatusChange.InactiveReason = 'Default InActive Message';
       this.finalActiveStatus.InactiveReason = this.activityStatusChange.InactiveReason;
+      this.adminSellerActiveInActive.tempInActiveMsg = this.activityStatusChange.InactiveReason;
     }
     this.finalActiveStatus.InactiveReason = this.activityStatusChange.InactiveReason;
+    this.adminSellerActiveInActive.tempInActiveMsg = this.activityStatusChange.InactiveReason;
+
     this.activityStatusChange.inActivatedDate = moment(new Date()).format('YYYY-MM-DD');
-  
+
     this.activityStatusChange.updatedExpiryDate = moment(new Date()).format('YYYY-MM-DD');
-
-
 
     this.finalActiveStatus.sellerId = this.strSellerId;
     this.finalActiveStatus.CurrentStatus = this.sellerPaymentInformation[0].SubscriptionIsActive;
     this.finalActiveStatus.inActivatedDate = this.activityStatusChange.inActivatedDate;
     this.finalActiveStatus.updatedExpiryDate = this.activityStatusChange.updatedExpiryDate;
 
+    this.adminSellerActiveInActive.tempInActiveFlag = 'Y';
 
-
-    this.paymentService.updateActiveStatus(this.finalActiveStatus).subscribe(res => {
-      this.getCurrentSellerTransaction();
-      this.emitterService.isPaymentOrStatusChange.emit(true);
-      sessionStorage.removeItem('isSubscriptionValid');
-      sessionStorage.setItem('isSubscriptionValid', 'INACTIVE');
-      this.router.navigate(['/payment/subscription']);
-
-      this.toastr.error('Seller Is InActived Successfully !!');
+    this.spinner.show();
+    this.paymentService.updateAdminSellerActiveInActive(this.adminSellerActiveInActive).subscribe(res => {
+      this.spinner.hide();
+      this.paymentService.updateActiveStatus(this.finalActiveStatus).subscribe(res => {
+        this.spinner.hide();
+        this.getCurrentSellerTransaction();
+        this.emitterService.isPaymentOrStatusChange.emit(true);
+        sessionStorage.removeItem('isSubscriptionValid');
+        sessionStorage.setItem('isSubscriptionValid', 'INACTIVE');
+        this.router.navigate(['/payment/subscription']);
+        this.toastr.error('Seller Is InActived Successfully !!');
+      }, err => {
+        this.spinner.hide();
+        this.toastr.error('Please Check API Is Running Or Not !!');
+      });
+    }, err => {
+      this.spinner.hide();
+      this.toastr.error('Please Check API Is Running Or Not !!');
     });
+
+
+
     this.modalRef.hide();
   }
 
@@ -145,12 +153,9 @@ export class DialogSellerActiveInactiveComponent implements OnInit {
     this.subPaymentDate = moment(this.sellerPaymentInformation[0].PaymentDatee).format('YYYY-MM-DD');
     this.subExpiryDate = moment(this.sellerPaymentInformation[0].ExpiryDatee).format('YYYY-MM-DD');
 
-
-
     let diffInDays = moment(this.subExpiryDate).diff(moment(this.subPaymentDate), 'days');
-
     this.subDaysCnt = diffInDays;
-  
+
 
     if (Number(this.subDaysCnt) < 0) {
       this.toastr.error('Your Subscription Is Expired');
@@ -165,7 +170,7 @@ export class DialogSellerActiveInactiveComponent implements OnInit {
   }
 
   inActiveToActiveConfirm(): void {
-   
+
     this.activityStatusChange.CurrentStatus = this.sellerPaymentInformation[0].SubscriptionIsActive;
     this.activityStatusChange.InactiveReason = ' ';
     this.activityStatusChange.inActivatedDate = moment(new Date()).format('YYYY-MM-DD');
@@ -176,16 +181,34 @@ export class DialogSellerActiveInactiveComponent implements OnInit {
     this.finalActiveStatus.CurrentStatus = this.sellerPaymentInformation[0].SubscriptionIsActive;
     this.finalActiveStatus.InactiveReason = '';
     this.finalActiveStatus.inActivatedDate = moment(new Date()).format('YYYY-MM-DD');
-   
-    this.paymentService.updateActiveStatus(this.finalActiveStatus).subscribe(res => {
-      this.getCurrentSellerTransaction();
-      this.emitterService.isPaymentOrStatusActivated.emit(true);
-      sessionStorage.removeItem('isSubscriptionValid');
-      sessionStorage.setItem('isSubscriptionValid', 'ACTIVE');
-      this.router.navigate(['/dashboard']);
-      this.toastr.success('Seller Is Actived Successfully !!');
 
+
+    this.adminSellerActiveInActive.tempInActiveFlag = 'N';
+    this.adminSellerActiveInActive.tempInActiveMsg = '';
+
+    this.spinner.show();
+    this.paymentService.updateAdminSellerActiveInActive(this.adminSellerActiveInActive).subscribe(res => {
+      this.spinner.hide();
+      this.paymentService.updateActiveStatus(this.finalActiveStatus).subscribe(res => {
+        this.getCurrentSellerTransaction();
+        this.spinner.hide();
+        this.emitterService.isPaymentOrStatusActivated.emit(true);
+        sessionStorage.removeItem('isSubscriptionValid');
+        sessionStorage.setItem('isSubscriptionValid', 'ACTIVE');
+        this.router.navigate(['/dashboard']);
+        this.toastr.success('Seller Is Actived Successfully !!');       
+      }, err => {
+        this.spinner.hide();
+        this.toastr.error('Please Check API Is Running Or Not !!');
+      });
+      this.spinner.hide();
+    }, err => {
+      this.spinner.hide();
+      this.toastr.error('Please Check API Is Running Or Not !!');
     });
+
+
+
     this.inActiveToActiveModalRef.hide();
   }
 
@@ -197,25 +220,25 @@ export class DialogSellerActiveInactiveComponent implements OnInit {
   getTransactionHistoryDetails() {
     this.spinner.show();
     this.paymentService.getLatestTransactionBySeller(Number(this.strSellerId)).subscribe(res => {
-  
+
       this.transactionHistoryData = res;
       this.spinner.hide();
 
       this.activityStatusChange.CurrentStatus = this.transactionHistoryData[0].SubscriptionIsActive;
       let currentDate = new Date();
       let inActivatedOn = this.transactionHistoryData[0].InActivatedDateOn;
-     
+
 
       let moment = require('moment');
       let diffInDays = moment(currentDate).diff(moment(inActivatedOn), 'days');
-     
+
       this.inactiveDaysCnt = diffInDays;
 
       this.date = new Date(this.transactionHistoryData[0].ExpiryDatee);
       this.date.setDate(this.date.getDate() + Number(this.inactiveDaysCnt));
       let d = new Date(this.date);
       let finalDate = moment(d).format('YYYY-MM-DD');
-   
+
       this.finalActiveStatus.updatedExpiryDate = finalDate;
     }, err => {
       this.spinner.hide();
@@ -225,7 +248,6 @@ export class DialogSellerActiveInactiveComponent implements OnInit {
   getCurrentSellerTransaction() {
     this.spinner.show();
     this.paymentService.getLatestTransactionBySeller(Number(this.strSellerId)).subscribe(res => {
-    
       this.currentTransactionData = res;
       sessionStorage.removeItem('subscriptionDetails');
       sessionStorage.setItem('subscriptionDetails', JSON.stringify(this.currentTransactionData));
@@ -238,7 +260,7 @@ export class DialogSellerActiveInactiveComponent implements OnInit {
   }
 
 
-  
 
- 
+
+
 }

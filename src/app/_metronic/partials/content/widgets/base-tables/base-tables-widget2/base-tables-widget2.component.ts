@@ -13,6 +13,7 @@ export class BaseTablesWidget2Component implements OnInit {
   strSellerId: string;
   @Input() cssClass: string;
   topProductsData: any = [];
+  role: string;
 
   constructor(
     public salesService: SalesService,
@@ -22,7 +23,13 @@ export class BaseTablesWidget2Component implements OnInit {
 
   ngOnInit(): void {
     this.strSellerId = sessionStorage.getItem('sellerId').toString();
-    this.topSevenPurchaseProducts();
+    this.role = sessionStorage.getItem('role');
+    if (this.role == 'Admin') {
+      return;
+    }
+    else {
+      this.topSevenPurchaseProducts();
+    }
   }
 
 
@@ -32,7 +39,7 @@ export class BaseTablesWidget2Component implements OnInit {
     this.spinner.show();
     this.salesService.getTopFiveProductsBySellerId(this.strSellerId).subscribe(data => {
       this.topProductsData = data;
-    
+
       if (this.topProductsData && this.topProductsData.length) {
         this.emitterService.isResponseLoaded.emit(true);
       }

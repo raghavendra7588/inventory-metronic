@@ -4,12 +4,14 @@
     [ngClass]="brandClasses">
     <ng-container *ngIf="isSubscriptionValid=='INACTIVE'">
       <a class="brand-logo">
-        <img alt="Logo" src="./assets/media/logos/logo-letter-2.png" class="max-h-30px" />
+        <!-- <img alt="Logo" src="./assets/media/logos/logo-letter-2.png" class="max-h-30px" /> -->
+        <img alt="Logo" src="./assets/images/GV_Logo.jpg" class="max-h-30px" />
       </a>
     </ng-container>
     <ng-container *ngIf="isSubscriptionValid=='ACTIVE'">
       <a routerLink="/" class="brand-logo">
-        <img alt="Logo" src="./assets/media/logos/logo-letter-2.png" class="max-h-30px" />
+        <img alt="Logo" src="./assets/images/GV_Logo.jpg" class="max-h-30px" />
+        <!-- <img alt="Logo" src="./assets/media/logos/logo-letter-2.png" class="max-h-30px" /> -->
       </a>
     </ng-container>
 

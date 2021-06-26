@@ -1,5 +1,4 @@
 import { SelectionModel } from '@angular/cdk/collections';
-import { ThrowStmt } from '@angular/compiler';
 import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { MatCheckbox } from '@angular/material/checkbox';
 import { MatDialog } from '@angular/material/dialog';
@@ -24,7 +23,7 @@ import { PurchaseService } from '../purchase.service';
   styleUrls: ['./specific-price-list.component.scss']
 })
 export class SpecificPriceListComponent implements OnInit {
-  displayedColumns: string[] = ['select', 'productId', 'brandName', 'productName', 'quantity', 'actualPrice', 'discount', 'finalPrice', 'availableQuantity', 'save'];
+  displayedColumns: string[] = ['select', 'brandName', 'productName', 'quantity', 'actualPrice', 'discount', 'finalPrice', 'availableQuantity', 'save'];
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   dataSource: any = [];
@@ -465,19 +464,15 @@ export class SpecificPriceListComponent implements OnInit {
         this.spinner.show();
 
         this.purchaseService.getMappedUnMappedProducts(subCategory.parentid, subCategory.id).subscribe(data => {
-
           this.multipleBrandArray = data;
           this.catchMappedData = this.mapObj(this.multipleBrandArray, this.dbData);
           this.multipleBrandArray = this.catchMappedData;
-
           if (this.numBrandIdArray[0] == 0 && this.numBrandIdArray.length == 1) {
-
             this.catchMappedData.filter(data => {
               if (this.numSubcategoryIdArray.includes(Number(data.SubCategoryID))) {
                 filteredBrandDataArray.push(data);
               }
             });
-
           }
           else {
             this.catchMappedData.filter(data => {
@@ -485,18 +480,10 @@ export class SpecificPriceListComponent implements OnInit {
                 filteredBrandDataArray.push(data);
               }
             });
-
           }
-
-
-
-
-
           this.uniqueBrandNamesArray = this.createUniqueBrandName(filteredBrandDataArray);
           this.anyArray = this.sortUniqueBrandName(this.uniqueBrandNamesArray);
-
           this.brandSearch = this.anyArray;
-
           this.dataSource = new MatTableDataSource(filteredBrandDataArray);
           this.dataSource.paginator = this.paginator;
           this.spinner.hide();

@@ -58,7 +58,7 @@ namespace inventory.Controllers
             {
                 if (intId == 0)
                 {
-                    ObjPurchaseOrder= purchaseOrderBL.postPurchaseOrderToDb(purchaseOrderData);
+                    ObjPurchaseOrder = purchaseOrderBL.postPurchaseOrderToDb(purchaseOrderData);
                 }
 
                 return ObjPurchaseOrder;

@@ -51,14 +51,19 @@ export class ProfileCardComponent implements OnInit, OnDestroy {
 
     this.city = sessionStorage.getItem('city');
     this.sellerPaymentData = JSON.parse(sessionStorage.getItem("subscriptionDetails"));
- 
+
     this.previousTrasactions.SellerId = Number(this.strSellerId);
     this.previousTrasactions.CurrentDate = moment(new Date()).format('YYYY-MM-DD');
 
-    this.paymentMode = this.sellerPaymentData[0].PaymentMode.trim();
-    this.isLifeTimeAccess = this.sellerPaymentData[0].LifeTimeAccess.trim();
+    if (this.role == 'Seller') {
+      this.paymentMode = this.sellerPaymentData[0].PaymentMode.trim();
+      this.isLifeTimeAccess = this.sellerPaymentData[0].LifeTimeAccess.trim();
+    }
+    else {
+      return;
+    }
 
-    
+
     const isLoggedInSubscription = this.emitterService.isLoggedIn.subscribe(val => {
       if (val) {
         this.city = '';

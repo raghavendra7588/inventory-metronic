@@ -22,7 +22,7 @@ namespace inventory.Models
         public int SellerId { get; set; }
         public int UpdatedBySellerId { get; set; }
         public string PaymentMode { get; set; }
-        public string PaymentAmount { get; set; }   
+        public string PaymentAmount { get; set; }
         public DateTime UpdatedExpiryDate { get; set; }
         public DateTime SubscritpionStartDate { get; set; }
     }
@@ -32,7 +32,7 @@ namespace inventory.Models
         public int SellerId { get; set; }
         public int UpdatedBySellerId { get; set; }
         public DateTime InactivatedDate { get; set; }
-        public string InactiveReason { get; set; }       
+        public string InactiveReason { get; set; }
         public string CurrentStatus { get; set; }
         public DateTime updatedExpiryDate { get; set; }
     }
@@ -48,6 +48,7 @@ namespace inventory.Models
         public string VendorName { get; set; }
         public string VendorCode { get; set; }
         public DateTime SubscritpionStartDate { get; set; }
+        public string CurrentPaymentMode { get; set; }
     }
 
     public class StatusCheckpoint
@@ -169,7 +170,7 @@ namespace inventory.Models
             cmd.Parameters.AddWithValue("@InactivatedDate", updateInActiveStateData.InactivatedDate);
             cmd.Parameters.AddWithValue("@CurrentStatus", updateInActiveStateData.CurrentStatus);
             cmd.Parameters.AddWithValue("@UpdatedExpiryDate", updateInActiveStateData.updatedExpiryDate);
-          
+
             cmd.ExecuteNonQuery();
             conn.Close();
             return "ok";
@@ -210,7 +211,8 @@ namespace inventory.Models
             cmd.Parameters.AddWithValue("@VendorCode", updatePaymentDetailsData.VendorCode);
             cmd.Parameters.AddWithValue("@VendorName", updatePaymentDetailsData.VendorName);
             cmd.Parameters.AddWithValue("@SubscritpionStartDate", updatePaymentDetailsData.SubscritpionStartDate);
-            
+            cmd.Parameters.AddWithValue("@CurrentPaymentMode", updatePaymentDetailsData.CurrentPaymentMode);
+
             cmd.ExecuteNonQuery();
             conn.Close();
             return "ok";

@@ -56,6 +56,7 @@ import { DialogSubscriptionHistoryComponent } from './dialog-subscription-histor
 import { DialogSellerActiveInactiveComponent } from './dialog-seller-active-inactive/dialog-seller-active-inactive.component';
 import { PaidOrdersPageComponent } from './paid-orders-page/paid-orders-page.component';
 import { HighlightCardDirective } from './highlight-card.directive';
+import { SharedService } from 'src/app/shared/shared.service';
 
 
 
@@ -116,7 +117,6 @@ import { HighlightCardDirective } from './highlight-card.directive';
     MatTreeModule,
     ToastrModule.forRoot(),
     NgxSpinnerModule,
-    InlineSVGModule,
     ModalModule.forRoot(),
     InlineSVGModule.forRoot(),
     RouterModule.forChild([
@@ -138,7 +138,7 @@ import { HighlightCardDirective } from './highlight-card.directive';
     DialogSellerActiveInactiveComponent,
     PaidOrdersPageComponent
   ],
-  providers: [PaymentService],
+  providers: [PaymentService, SharedService],
   entryComponents: [
     DialogSubscriptionHistoryComponent,
     DialogSellerActiveInactiveComponent]

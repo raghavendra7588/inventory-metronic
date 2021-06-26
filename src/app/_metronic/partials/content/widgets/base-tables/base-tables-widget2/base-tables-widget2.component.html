@@ -13,11 +13,10 @@
 
 
 
-      <div class="table-responsive">
+      <div class="table-responsive" *ngIf="topProductsData.length != 0">
         <table class="table table-borderless table-vertical-center">
           <thead>
             <tr>
-
               <th class="p-0 min-w-150px"></th>
               <th class="p-0 min-w-140px"></th>
               <th class="p-0 min-w-120px"></th>
@@ -26,9 +25,7 @@
           </thead>
           <tbody>
             <tr *ngFor="let data of topProductsData">
-
               <td class="pl-0">
-
                 <a class="text-dark-75 font-weight-bolder text-hover-primary font-size-lg">
                   {{data.ProductId}}
                 </a><br />
@@ -43,7 +40,6 @@
                 <a class="text-dark-75 font-weight-bolder text-hover-primary font-size-lg">
                   {{data.BrandId}}
                 </a>
-
               </td>
               <td class="text-right">
                 <a class="text-dark-75 font-weight-bolder text-hover-primary font-size-lg">
@@ -53,7 +49,7 @@
                   Varient
                 </span>
               </td>
-              <td class="text-right">
+              <td class="text-center">
                 <a class="text-dark-75 font-weight-bolder text-hover-primary font-size-lg">
                   {{data.Total}}
                 </a><br>
@@ -67,6 +63,9 @@
 
           </tbody>
         </table>
+      </div>
+      <div *ngIf="topProductsData.length == 0">
+        <h3 class="text-center mb-2">No Records Found</h3>
       </div>
 
     </div>

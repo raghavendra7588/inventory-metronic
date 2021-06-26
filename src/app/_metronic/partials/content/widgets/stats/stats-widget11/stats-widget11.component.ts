@@ -53,7 +53,7 @@ export class StatsWidget11Component implements OnInit {
 
   isActiveMonth: string = 'monthly';
   isActiveByVendor: string = 'byVendor';
-
+  role: string;
 
   monthData: MonthData = new MonthData();
 
@@ -100,13 +100,19 @@ export class StatsWidget11Component implements OnInit {
 
 
     this.strSellerId = sessionStorage.getItem('sellerId').toString();
-
+    this.role = sessionStorage.getItem('role');
     this.monthData.sellerId = this.strSellerId;
 
-    this.getPurchaseAmountByVendors(this.strSellerId);
-    this.getPurchaseAmountByPerWeek(this.strSellerId);
-    this.getPurchaseMonthDataByMonth();
-    this.getPurchaseAmountByMonthByVendors();
+
+    if (this.role == 'Admin') {
+      return;
+    }
+    else {
+      this.getPurchaseAmountByVendors(this.strSellerId);
+      this.getPurchaseAmountByPerWeek(this.strSellerId);
+      this.getPurchaseMonthDataByMonth();
+      this.getPurchaseAmountByMonthByVendors();
+    }
 
   }
 

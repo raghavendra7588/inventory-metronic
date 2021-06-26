@@ -28,7 +28,7 @@ namespace inventory.Models
         public string CESSAmount { get; set; }
         public string DocAmount { get; set; }
         public string AdvanceAmount { get; set; }
-        public string AdvanceLedger { get; set; }      
+        public string AdvanceLedger { get; set; }
         public string BatchNumber { get; set; }
         public string paymentTerms { get; set; }
         public List<PurchaseOrderItem> items { get; set; }
@@ -242,7 +242,7 @@ namespace inventory.Models
             finalTable.Columns.Add("SellingPrice", typeof(int));
             finalTable.Columns.Add("Barcode", typeof(string));
             finalTable.Columns.Add("BuyingPrice", typeof(int));
-
+            finalTable.Columns.Add("FinalPrice", typeof(int));
 
             for (int i = 0; i < purchaseOrderItemTable.Rows.Count; i++)
             {
@@ -286,7 +286,8 @@ namespace inventory.Models
                         Discount = Convert.ToInt32(stockInTable.Rows[j]["Discount"].ToString());
                         SellingPrice = Convert.ToInt32(stockInTable.Rows[j]["SellingPrice"].ToString());
                         BarCode = (stockInTable.Rows[j]["BarCode"].ToString());
-                        //BuyingPrice= Convert.ToInt32(stockInTable.Rows[j]["BuyingPrice"].ToString());
+                        BuyingPrice = Convert.ToInt32(purchaseOrderItemTable.Rows[i]["BuyingPrice"].ToString());
+
                         flag = true;
 
                     }
@@ -304,7 +305,7 @@ namespace inventory.Models
                     StockInItemId = 0;
                     SellingPrice = 0;
                     QuantityReceived = 0;
-                    BarCode = "NULL";
+                    BarCode = "NULL9799662114";
 
                 }
                 SubCategoryId = (purchaseOrderItemTable.Rows[i]["SubCategoryId"].ToString());
@@ -321,12 +322,19 @@ namespace inventory.Models
 
                 if (PurchaseQuantity != QuantityReceived)
                 {
-                    finalTable.Rows.Add(StockInItemId, PurchaseOrderItemId, PurchaseOrderId, 
+                    finalTable.Rows.Add(StockInItemId, PurchaseOrderItemId, PurchaseOrderId,
                         ProductVarientId, ReferenceId, SubCategoryId, BrandID, ProductId,
                         SubCategoryIDD, BrandIDD, ProductIDD,
-                 Quantity, PurchaseQuantity, QuantityReceived, Discount, SellingPrice, BarCode, BuyingPrice);
+                 Quantity, PurchaseQuantity, QuantityReceived, Discount, SellingPrice, BarCode, BuyingPrice, 0);
                 }
 
+            }
+
+
+            for (int i = 0; i < finalTable.Rows.Count; i++)
+            {
+                finalTable.Rows[i]["FinalPrice"] = Convert.ToInt32(finalTable.Rows[i]["BuyingPrice"].ToString()) -
+                    Convert.ToInt32(finalTable.Rows[i]["Discount"].ToString());
             }
             return finalTable;
         }

@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
@@ -75,6 +74,13 @@ export class PaymentFailureComponent implements OnInit {
       this.paymentSuccessAndFailure.TrasnsactionId = this.paymentSuccessAndFailure.TrasnsactionId;
       this.paymentSuccessAndFailure.Amount = this.storagePaymentRequest.Amount.toString();
 
+      if (this.latestPaymentData[0].PaymentMode != 'Per Order Subscription') {
+        this.paymentSuccessAndFailure.CurrentPaymentMode = 'Paid Subscription';
+      }
+      if (this.latestPaymentData[0].PaymentMode == 'Per Order Subscription') {
+        this.paymentSuccessAndFailure.CurrentPaymentMode = 'Per Order Subscription';
+      }
+
       this.paymentSuccessAndFailure.VendorCode = this.latestPaymentData[0].VendorCode;
       this.paymentSuccessAndFailure.VendorName = this.latestPaymentData[0].VendorName;
 
@@ -89,6 +95,7 @@ export class PaymentFailureComponent implements OnInit {
       let moment = require('moment');
       this.paymentSuccessAndFailure.NewExpiryDate = moment(new Date()).format('YYYY-MM-DD');
       this.paymentSuccessAndFailure.SubscritpionStartDate = moment(new Date()).format('YYYY-MM-DD');
+
       this.updatePaymentDetailsData(this.paymentSuccessAndFailure);
       this.spinner.hide();
     }, err => {

@@ -39,7 +39,7 @@ export class BaseTablesWidget6Component implements OnInit, AfterViewInit, OnDest
     this.emitterService.isLoggedIn.subscribe(val => {
       if (val) {
         this.getFastestMoVingProductsByMonth();
-   
+
       }
     });
 
@@ -47,9 +47,14 @@ export class BaseTablesWidget6Component implements OnInit, AfterViewInit, OnDest
 
   ngOnInit(): void {
     this.currentTab = this.TABS[0];
-   
-    this.getFastestMoVingProductsByMonth();
 
+    if (this.role == 'Admin') {
+      return;
+    }
+    else {
+      this.getFastestMoVingProductsByMonth();
+    }
+   
   }
 
 
@@ -86,6 +91,6 @@ export class BaseTablesWidget6Component implements OnInit, AfterViewInit, OnDest
   }
 
   ngOnDestroy() {
-   
+
   }
 }

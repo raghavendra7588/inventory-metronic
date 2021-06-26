@@ -7,6 +7,7 @@ import { PaymentGateWay } from '../payment.model';
 import { PaymentService } from '../payment.service';
 import { v4 as uuid } from 'uuid';
 import { Subscription } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-subscription-plan',
@@ -18,7 +19,9 @@ export class SubscriptionPlanComponent implements OnInit, OnDestroy {
   role: string;
   payuform: PaymentGateWay = new PaymentGateWay();
 
-  payuUrl: string = 'https://3intellects.co.in/uat_InventoryService/Default.aspx';
+  // payuUrl: string = 'https://3intellects.co.in/uat_InventoryService/Default.aspx';
+  // payuUrl: string = 'http://localhost:55547/Default.aspx';
+  payuUrl: string = environment.BASE_URL + '/Default.aspx';
 
   txnid: string;
   isHidden: boolean = true;
@@ -120,12 +123,16 @@ export class SubscriptionPlanComponent implements OnInit, OnDestroy {
     else {
 
       let tempNum = uuid();
-      this.uuidv4Num = tempNum.toString().substring(1, 8);
+
+
+      this.uuidv4Num = tempNum.substr(tempNum.length - 11);
+
 
       this.payuform.Name = this.sellerData.name.trim();
-      this.payuform.EmailID = (this.sellerContactCredentials[0].Email).trim();
+      let tempName = this.payuform.Name.split(" ").join("");
+      this.payuform.Name = tempName;
+
       this.payuform.Amount = amount;
-      this.payuform.mobilno = (this.sellerContactCredentials[0].MobileNumber).trim();
 
       let dateObj = new Date();
 
@@ -137,10 +144,10 @@ export class SubscriptionPlanComponent implements OnInit, OnDestroy {
       url.searchParams.set('mobileno', this.payuform.mobilno.toString());
       url.searchParams.set('TransationID', this.txnid.toString());
 
+
+
       this.payuUrl = url.href;
       this.paymentService.pUrl = url.href;
-
-
 
 
       this.makePayment = true;
@@ -211,6 +218,8 @@ export class SubscriptionPlanComponent implements OnInit, OnDestroy {
   getSellerContactCredentials(sellerId) {
     this.paymentService.getSellerCredentials(sellerId).subscribe(res => {
       this.sellerContactCredentials = res;
+      this.payuform.mobilno = (this.sellerContactCredentials[0].MobileNumber).trim();
+      this.payuform.EmailID = (this.sellerContactCredentials[0].Email).trim();
     });
   }
 

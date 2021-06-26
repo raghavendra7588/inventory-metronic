@@ -24,7 +24,7 @@ import { PaymentService } from '../../payment/payment.service';
 export class PurchaseOrderComponent implements OnInit {
 
 
-  displayedColumns: string[] = ['ProductId', 'BrandName', 'ProductName', 'Quantity', 'BuyingPrice',
+  displayedColumns: string[] = ['BrandName', 'ProductName', 'Quantity', 'BuyingPrice',
     'Discount', 'AvailableQuantity', 'TotalDiscount', 'FinalPrice'];
   dataSource: any;
 

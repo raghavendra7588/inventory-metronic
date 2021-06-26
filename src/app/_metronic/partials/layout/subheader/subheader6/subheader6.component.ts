@@ -125,10 +125,11 @@ export class Subheader6Component implements OnInit, OnDestroy {
 
 
         let diffInDays = 0;
-
-        diffInDays = moment(this.subExpiryDate).diff(moment(this.subPaymentDate), 'days');
+        let currentDate = moment(new Date()).format('YYYY-MM-DD');
+        // diffInDays = moment(this.subExpiryDate).diff(moment(this.subPaymentDate), 'days');
+        diffInDays = moment(this.subExpiryDate).diff(moment(currentDate), 'days');
         this.subDaysCnt = diffInDays;
-       
+
 
         this.spinner.hide();
 

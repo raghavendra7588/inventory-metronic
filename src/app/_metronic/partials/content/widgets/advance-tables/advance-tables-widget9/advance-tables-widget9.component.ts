@@ -87,17 +87,17 @@ export class AdvanceTablesWidget9Component implements OnInit {
       this.latestPaymentData = res;
       sessionStorage.removeItem('subscriptionDetails');
       sessionStorage.setItem('subscriptionDetails', JSON.stringify(this.latestPaymentData));
-     
+
 
       var expiryDate = new Date(this.latestPaymentData[0].ExpiryDatee);
       var currentDate = new Date();
 
       if (expiryDate > currentDate) {
-       
+
         this.spinner.hide();
         return;
       } else {
-      
+
         this.sellerStatusChechpoint(this.latestPaymentData[0].PaymenId);
       }
       this.spinner.hide();
@@ -110,7 +110,7 @@ export class AdvanceTablesWidget9Component implements OnInit {
   sellerStatusChechpoint(PaymenId) {
     this.spinner.show();
     this.paymentService.updateSellerStatusCheckpoint(PaymenId).subscribe(res => {
-    
+
       this.emitterService.isPaymentOrStatusChange.emit(true);
       this.router.navigate(['/payment/subscription']);
       this.spinner.hide();
