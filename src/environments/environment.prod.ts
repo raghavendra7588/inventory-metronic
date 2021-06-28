@@ -7,7 +7,7 @@ export const environment = {
   // BASE_URL: 'http://localhost:55547/',
   BASE_URL: 'https://3intellects.co.in/uat_InventoryService/',
   ADMIN_BASE_URL: 'https://3intellects.co.in/uat_AdminApi/api/',
-  APP_BASE_URL: 'https://3intellects.co.in/uat_/AppApi/api/',
+  APP_BASE_URL: 'https://3intellects.co.in/uat_AppApi/api/',
   // BASE_URL: 'https://3intellects.co.in/InventoryService/',
   // ADMIN_BASE_URL: 'https://3intellects.co.in/AdminApi/api/',
   // APP_BASE_URL: 'https://3intellects.co.in/AppApi/api/'
