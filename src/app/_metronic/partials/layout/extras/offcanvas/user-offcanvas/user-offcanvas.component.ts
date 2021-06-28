@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { LayoutService } from '../../../../../core';
 import { Observable, Subscription } from 'rxjs';
 import { UserModel } from '../../../../../../modules/auth/_models/user.model';
@@ -20,16 +20,20 @@ export class UserOffcanvasComponent implements OnInit, OnDestroy {
   city: string;
   isSubscriptionValid: string;
   private unsubscribe: Subscription[] = [];
+  @ViewChildren('li') livs: QueryList<any>;
+  @ViewChild('element') element: ElementRef;
 
   constructor(
     private layout: LayoutService,
     private auth: AuthService,
     private emitterService: EmitterService,
     private cdr: ChangeDetectorRef,
-    public paymentService: PaymentService
+    public paymentService: PaymentService,
+    private elementRef: ElementRef
   ) { }
 
   ngOnInit(): void {
+
     this.extrasUserOffcanvasDirection = `offcanvas-${this.layout.getProp(
       'extras.user.offcanvas.direction'
     )}`;
@@ -43,13 +47,13 @@ export class UserOffcanvasComponent implements OnInit, OnDestroy {
       this.isSubscriptionValid = sessionStorage.getItem("isSubscriptionValid");
     }
     const isPaymentOrStatusChange = this.emitterService.isPaymentOrStatusChange.subscribe(val => {
-     
+
       if (val) {
         if ("isSubscriptionValid" in sessionStorage) {
           this.isSubscriptionValid = '';
           this.isSubscriptionValid = sessionStorage.getItem("isSubscriptionValid");
           this.isSubscriptionValid = 'INACTIVE';
-         
+
           this.cdr.detectChanges();
         }
       }
@@ -63,12 +67,20 @@ export class UserOffcanvasComponent implements OnInit, OnDestroy {
           this.isSubscriptionValid = '';
           this.isSubscriptionValid = sessionStorage.getItem("isSubscriptionValid");
           this.isSubscriptionValid = 'ACTIVE';
-         
+
           this.cdr.detectChanges();
         }
       }
       this.unsubscribe.push(isPaymentOrStatusActivated);
     });
+  }
+
+  closeOffCanvas() {
+
+    this.element.nativeElement.classList.remove("offcanvas-on");
+    this.element.nativeElement.classList.add("offcanvas");
+    this.element.nativeElement.classList.add("p-10");
+    this.element.nativeElement.classList.add("offcanvas-left");
   }
 
   logout() {

@@ -494,7 +494,7 @@ export class GetPriceListComponent implements OnInit {
                 filteredBrandDataArray.push(data);
               }
             });
-         
+
           }
           else {
             this.catchMappedData.filter(data => {
@@ -502,23 +502,23 @@ export class GetPriceListComponent implements OnInit {
                 filteredBrandDataArray.push(data);
               }
             });
-      
+
           }
 
           let tempAnyArray: any = [];
 
 
           this.uniqueBrandNamesArray = this.createUniqueBrandName(filteredBrandDataArray);
-  
+
           this.multipleBrandArray = this.catchMappedData;
           tempAnyArray = this.sortUniqueBrandName(this.uniqueBrandNamesArray);
-     
+
           tempAnyArray.filter(data => {
             if (Number(data.IsActive) == Number(this.receivedVendorId)) {
               this.anyArray.push(data);
             }
           });
-   
+
           this.brandSearch = this.anyArray;
 
           let onlyVendorSpecificProducts = [];
@@ -530,7 +530,7 @@ export class GetPriceListComponent implements OnInit {
             }
           });
 
- 
+
 
 
 
@@ -575,7 +575,7 @@ export class GetPriceListComponent implements OnInit {
         let filteredBrandArray = this.multipleBrandArray.filter(function (item) {
           return item.BrandName.trim() === product.BrandName;
         });
- 
+
 
         filteredBrandArray.filter(data => {
 
@@ -585,7 +585,7 @@ export class GetPriceListComponent implements OnInit {
         });
 
 
-  
+
 
         let tempFinalBrandArray: any = [];
 
@@ -671,6 +671,9 @@ export class GetPriceListComponent implements OnInit {
       this.customPriceList.Name = element.Name;
       this.customPriceList.CategoryId = Number(element.CategoryID);
 
+      this.customPriceList.SystemProductPrice = Number(element.ProductPrice);
+      this.customPriceList.SystemDiscount = Number(element.Discount);
+      this.customPriceList.SystemFinalPrice = Number(element.FinalPrice);
 
       this.isMultipleAmount = true;
 
@@ -678,7 +681,7 @@ export class GetPriceListComponent implements OnInit {
       this.multipleEntries.push(this.customPriceList);
 
     });
-    this.toastr.success('price list saved');
+    this.toastr.success('Price List Saved');
     this.updateAllRecordsCount = 0;
     this.updateAllArray = [];
     this.selection.clear();

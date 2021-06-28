@@ -28,7 +28,7 @@ export class DialogOrderPrintComponent implements OnInit {
     public purchaseService: PurchaseService,
     public router: Router) {
     this.orderNumber = data.OrderNo;
-    this.vendorName = data.vendorName
+    this.vendorName = data.vendorName;
     this.purchaseService.getPurchaseReportById(data.PurchaseOrderId).subscribe(data => {
       this.PurchaseReportDataArray = data;
       this.totalRecords = data;

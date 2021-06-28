@@ -26,10 +26,537 @@
     </ng-container>
 
 
-    <ng-container *ngIf="isSubscriptionValid == 'ACTIVE'">
+    <ng-container *ngIf="isSubscriptionValid == 'ACTIVE' && role==='Seller'">
       <ng-container *ngIf="currentlySelectedTab==='Inventory'">
         <li class="menu-section">
           <h4 class="menu-text theme-color">Inventory Part</h4>
+          <i class="menu-icon flaticon-more-v2"></i>
+        </li>
+
+        <li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover"
+          routerLinkActive="menu-item-open">
+          <a class="menu-link menu-toggle" routerLinkActive="active">
+            <span [inlineSVG]="'./assets/media/svg/icons/Home/Home.svg'" cacheSVG="true"
+              class="svg-icon menu-icon colorize-ornage"></span>
+            <span class="menu-text">Purchase</span>
+
+          </a>
+          <div class="menu-submenu">
+            <ul class="menu-subnav">
+              <li class="menu-item menu-item-parent" aria-haspopup="true">
+                <span class="menu-link">
+                  <span class="menu-text">Purchase</span>
+                </span>
+              </li>
+            </ul>
+          </div>
+        </li>
+
+        <ul class="fa-ul">
+          <li class="list-group-item list-group-item-action custom-li" [routerLink]="['/purchase/vendor']"><span
+              [inlineSVG]="'./assets/media/svg/icons/Communication/Add-user.svg'" cacheSVG="true"
+              class="svg-icon menu-icon colorize-ornage mr-2"></span>Vendor</li>
+          <li class="list-group-item list-group-item-action custom-li" [routerLink]="['/purchase/specificPriceList']">
+            <span [inlineSVG]="'./assets/media/svg/icons/General/Thunder.svg'" cacheSVG="true"
+              class="svg-icon menu-icon colorize-ornage mr-2"></span>Specific Price List
+          </li>
+          <li class="list-group-item list-group-item-action custom-li" [routerLink]="['/purchase/purchaseOrder']"><span
+              [inlineSVG]="'./assets/media/svg/icons/General/Bookmark.svg'" cacheSVG="true"
+              class="svg-icon menu-icon colorize-ornage mr-2"></span>Purchase Order</li>
+        </ul>
+
+        <li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover"
+          routerLinkActive="menu-item-open">
+          <a class="menu-link menu-toggle" routerLinkActive="active">
+            <span [inlineSVG]="'./assets/media/svg/icons/Shopping/Box2.svg'" cacheSVG="true"
+              class="svg-icon menu-icon colorize-blue"></span>
+            <span class="menu-text">Inventory</span>
+
+          </a>
+          <div class="menu-submenu">
+            <ul class="menu-subnav">
+              <li class="menu-item menu-item-parent" aria-haspopup="true">
+                <span class="menu-link">
+                  <span class="menu-text">Inventory</span>
+                </span>
+              </li>
+            </ul>
+          </div>
+        </li>
+        <ul class="fa-ul">
+          <li class="list-group-item list-group-item-action custom-li" [routerLink]="['/inventory/stockInEntry']"><span
+              [inlineSVG]="'./assets/media/svg/icons/General/Notification2.svg'" cacheSVG="true"
+              class="svg-icon menu-icon colorize-blue mr-2"></span>Stock In Entry</li>
+        </ul>
+
+
+        <li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover"
+          routerLinkActive="menu-item-open">
+          <a class="menu-link menu-toggle" routerLinkActive="active">
+            <span [inlineSVG]="'./assets/media/svg/icons/Media/Equalizer.svg'" cacheSVG="true"
+              class="svg-icon menu-icon colorize-blue-color"></span>
+            <span class="menu-text">Purchase Reports</span>
+
+          </a>
+          <div class="menu-submenu">
+            <ul class="menu-subnav">
+              <li class="menu-item menu-item-parent" aria-haspopup="true">
+                <span class="menu-link">
+                  <span class="menu-text">Purchase Reports</span>
+                </span>
+              </li>
+            </ul>
+          </div>
+        </li>
+        <ul class="fa-ul">
+          <li class="list-group-item list-group-item-action custom-li"
+            [routerLink]="['/reports/vendorOrderWisePurchaseReport']"><span
+              [inlineSVG]="'./assets/media/svg/icons/Shopping/Chart-bar1.svg'" cacheSVG="true"
+              class="svg-icon menu-icon colorize-blue-color mr-2"></span>Vendor / Order Wise</li>
+          <li class="list-group-item list-group-item-action custom-li"
+            [routerLink]="['/reports/productWisePurchaseReport']"><span
+              [inlineSVG]="'./assets/media/svg/icons/Shopping/Chart-bar2.svg'" cacheSVG="true"
+              class="svg-icon menu-icon colorize-blue-color mr-2"></span>Product Wise</li>
+          <li class="list-group-item list-group-item-action custom-li"
+            [routerLink]="['/reports/productVendorWisePurchaseReport']"><span
+              [inlineSVG]="'./assets/media/svg/icons/Shopping/Chart-line2.svg'" cacheSVG="true"
+              class="svg-icon menu-icon colorize-blue-color mr-2"></span>Product / Vendor Wise</li>
+          <li class="list-group-item list-group-item-action custom-li"
+            [routerLink]="['/reports/brandVendorWisePurchaseReport']"><span
+              [inlineSVG]="'./assets/media/svg/icons/Shopping/Chart-line1.svg'" cacheSVG="true"
+              class="svg-icon menu-icon colorize-blue-color mr-2"></span>Brand / Vendor Wise</li>
+        </ul>
+
+
+      </ng-container>
+      <ng-container *ngIf="currentlySelectedTab==='Sales'">
+        <li class="menu-section">
+          <h4 class="menu-text theme-color">Sales Part</h4>
+          <i class="menu-icon flaticon-more-v2"></i>
+        </li>
+
+
+        <li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover"
+          routerLinkActive="menu-item-open">
+          <a class="menu-link menu-toggle" routerLinkActive="active">
+            <span [inlineSVG]="'./assets/media/svg/icons/General/User.svg'" cacheSVG="true"
+              class="svg-icon menu-icon colorize-ornage"></span>
+            <span class="menu-text">User</span>
+          </a>
+          <div class="menu-submenu">
+            <ul class="menu-subnav">
+              <li class="menu-item menu-item-parent" aria-haspopup="true">
+                <span class="menu-link">
+                  <span class="menu-text">User</span>
+                </span>
+              </li>
+            </ul>
+          </div>
+        </li>
+        <ul class="fa-ul">
+          <li class="list-group-item list-group-item-action custom-li" [routerLink]="['sales/user/customer']"><span
+              [inlineSVG]="'./assets/media/svg/icons/Communication/Add-user.svg'" cacheSVG="true"
+              class="svg-icon menu-icon colorize-ornage mr-2"></span>Customer</li>
+        </ul>
+
+        <li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover"
+          routerLinkActive="menu-item-open">
+          <a class="menu-link menu-toggle" routerLinkActive="active">
+            <span [inlineSVG]="'./assets/media/svg/icons/Clothes/Crown.svg'" cacheSVG="true"
+              class="svg-icon menu-icon colorize-blue"></span>
+            <span class="menu-text">Master Management</span>
+          </a>
+          <div class="menu-submenu">
+            <ul class="menu-subnav">
+              <li class="menu-item menu-item-parent" aria-haspopup="true">
+                <span class="menu-link">
+                  <span class="menu-text">Master Management</span>
+                </span>
+              </li>
+            </ul>
+          </div>
+        </li>
+        <ul class="fa-ul">
+          <li class="list-group-item list-group-item-action custom-li"
+            [routerLink]="['/sales/masterManagement/product']"><span
+              [inlineSVG]="'./assets/media/svg/icons/Shopping/Bag2.svg'" cacheSVG="true"
+              class="svg-icon menu-icon colorize-blue mr-2"></span>Product</li>
+        </ul>
+
+
+        <li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover"
+          routerLinkActive="menu-item-open">
+          <a class="menu-link menu-toggle" routerLinkActive="active">
+            <span [inlineSVG]="'./assets/media/svg/icons/Text/Bullet-list.svg'" cacheSVG="true"
+              class="svg-icon menu-icon colorize-blue-color"></span>
+            <span class="menu-text">Product Management</span>
+          </a>
+          <div class="menu-submenu">
+            <ul class="menu-subnav">
+              <li class="menu-item menu-item-parent" aria-haspopup="true">
+                <span class="menu-link">
+                  <span class="menu-text">Product Management</span>
+                </span>
+              </li>
+            </ul>
+          </div>
+        </li>
+        <ul class="fa-ul">
+          <li class="list-group-item list-group-item-action custom-li"
+            [routerLink]="['/sales/productManagement/mappedProduct']"><span
+              [inlineSVG]="'./assets/media/svg/icons/Shopping/Bag1.svg'" cacheSVG="true"
+              class="svg-icon menu-icon colorize-blue-color mr-2"></span>Mapped Products</li>
+          <li class="list-group-item list-group-item-action custom-li"
+            [routerLink]="['/sales/productManagement/unMappedProduct']"><span
+              [inlineSVG]="'./assets/media/svg/icons/Shopping/Cart3.svg'" cacheSVG="true"
+              class="svg-icon menu-icon colorize-blue-color mr-2"></span>UnMapped Products</li>
+          <li class="list-group-item list-group-item-action custom-li"
+            [routerLink]="['/sales/productManagement/updateOutOfStock']"><span
+              [inlineSVG]="'./assets/media/svg/icons/Shopping/Cart2.svg'" cacheSVG="true"
+              class="svg-icon menu-icon colorize-blue-color mr-2"></span>Update Out Of Stock</li>
+        </ul>
+
+        <li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover"
+          routerLinkActive="menu-item-open">
+          <a class="menu-link menu-toggle" routerLinkActive="active">
+            <span [inlineSVG]="'./assets/media/svg/icons/General/Bookmark.svg'" cacheSVG="true"
+              class="svg-icon menu-icon colorize-yellow"></span>
+            <span class="menu-text">Order Management</span>
+          </a>
+          <div class="menu-submenu">
+            <ul class="menu-subnav">
+              <li class="menu-item menu-item-parent" aria-haspopup="true">
+                <span class="menu-link">
+                  <span class="menu-text">Order Management</span>
+                </span>
+              </li>
+            </ul>
+          </div>
+        </li>
+
+        <ul class="fa-ul">
+          <li class="list-group-item list-group-item-action custom-li" [routerLink]="['/sales/orderManagement/orders']">
+            <span [inlineSVG]="'./assets/media/svg/icons/General/Clipboard.svg'" cacheSVG="true"
+              class="svg-icon menu-icon colorize-yellow mr-2"></span>Orders
+          </li>
+        </ul>
+
+        <li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover"
+          routerLinkActive="menu-item-open">
+          <a class="menu-link menu-toggle" routerLinkActive="active">
+            <span [inlineSVG]="'./assets/media/svg/icons/Media/Equalizer.svg'" cacheSVG="true"
+              class="svg-icon menu-icon colorize-blue"></span>
+            <span class="menu-text">Reports</span>
+          </a>
+          <div class="menu-submenu">
+            <ul class="menu-subnav">
+              <li class="menu-item menu-item-parent" aria-haspopup="true">
+                <span class="menu-link">
+                  <span class="menu-text">Reports</span>
+                </span>
+              </li>
+            </ul>
+          </div>
+        </li>
+
+        <ul class="fa-ul">
+          <li class="list-group-item list-group-item-action custom-li"
+            [routerLink]="['/sales/reports/orderSalesReport']"><span
+              [inlineSVG]="'./assets/media/svg/icons/Shopping/Chart-bar2.svg'" cacheSVG="true"
+              class="svg-icon menu-icon colorize-blue mr-2"></span>Order / Sales Report</li>
+          <li class="list-group-item list-group-item-action custom-li"
+            [routerLink]="['/sales/reports/bussinessSnapshot']">
+            <span [inlineSVG]="'./assets/media/svg/icons/Shopping/Chart-bar1.svg'" cacheSVG="true"
+              class="svg-icon menu-icon colorize-blue mr-2"></span>Bussiness Snapshot
+          </li>
+        </ul>
+
+        <li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover"
+          routerLinkActive="menu-item-open" [routerLink]="['/sales/documents']">
+          <a class="menu-link menu-toggle" routerLinkActive="active">
+            <span [inlineSVG]="'./assets/media/svg/icons/Files/Selected-file.svg'" cacheSVG="true"
+              class="svg-icon menu-icon colorize-blue-color"></span>
+            <span class="menu-text">Document</span>
+          </a>
+          <div class="menu-submenu">
+            <ul class="menu-subnav">
+              <li class="menu-item menu-item-parent" aria-haspopup="true">
+                <span class="menu-link">
+                  <span class="menu-text">Document</span>
+                </span>
+              </li>
+            </ul>
+          </div>
+        </li>
+
+      </ng-container>
+
+    </ng-container>
+
+
+    <ng-container *ngIf="isSubscriptionValid == 'INACTIVE' && role==='Seller'">
+      <ng-container *ngIf="currentlySelectedTab==='Inventory'">
+        <li class="menu-section">
+          <h4 class="menu-text theme-color">Inventory Part</h4>
+          <i class="menu-icon flaticon-more-v2"></i>
+        </li>
+
+        <li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover"
+          routerLinkActive="menu-item-open" style="cursor: no-drop;">
+          <a class="menu-link menu-toggle" routerLinkActive="active" style="cursor: no-drop;">
+            <span [inlineSVG]="'./assets/media/svg/icons/Home/Home.svg'" cacheSVG="true"
+              class="svg-icon menu-icon colorize-ornage"></span>
+            <span class="menu-text">Purchase</span>
+
+          </a>
+          <div class="menu-submenu">
+            <ul class="menu-subnav">
+              <li class="menu-item menu-item-parent" aria-haspopup="true">
+                <span class="menu-link">
+                  <span class="menu-text">Purchase</span>
+                </span>
+              </li>
+            </ul>
+          </div>
+        </li>
+
+        <ul class="fa-ul">
+          <li class="list-group-item list-group-item-action custom-li" style="cursor: no-drop;"><span
+              [inlineSVG]="'./assets/media/svg/icons/General/User.svg'" cacheSVG="true"
+              class="svg-icon menu-icon colorize-ornage mr-2"></span>Vendor</li>
+          <li class="list-group-item list-group-item-action custom-li" style="cursor: no-drop;"><span
+              [inlineSVG]="'./assets/media/svg/icons/General/Thunder.svg'" cacheSVG="true"
+              class="svg-icon menu-icon colorize-ornage mr-2"></span>Specific Price List</li>
+          <li class="list-group-item list-group-item-action custom-li" style="cursor: no-drop;"><span
+              [inlineSVG]="'./assets/media/svg/icons/General/Bookmark.svg'" cacheSVG="true"
+              class="svg-icon menu-icon colorize-ornage mr-2"></span>Purchase Order</li>
+        </ul>
+
+        <li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover"
+          routerLinkActive="menu-item-open" style="cursor:  no-drop;">
+          <a class="menu-link menu-toggle" routerLinkActive="active" style="cursor:  no-drop;">
+            <span [inlineSVG]="'./assets/media/svg/icons/Shopping/Box2.svg'" cacheSVG="true"
+              class="svg-icon menu-icon colorize-blue"></span>
+            <span class="menu-text">Inventory</span>
+
+          </a>
+          <div class="menu-submenu">
+            <ul class="menu-subnav">
+              <li class="menu-item menu-item-parent" aria-haspopup="true" style="cursor:  no-drop;">
+                <span class="menu-link">
+                  <span class="menu-text">Inventory</span>
+                </span>
+              </li>
+            </ul>
+          </div>
+        </li>
+        <ul class="fa-ul">
+          <li class="list-group-item list-group-item-action custom-li" style="cursor:  no-drop;"><span
+              [inlineSVG]="'./assets/media/svg/icons/General/Notification2.svg'" cacheSVG="true"
+              class="svg-icon menu-icon colorize-blue mr-2"></span>Stock In Entry</li>
+        </ul>
+
+
+        <li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover"
+          routerLinkActive="menu-item-open" style="cursor:  no-drop;">
+          <a class="menu-link menu-toggle" routerLinkActive="active" style="cursor:  no-drop;">
+            <span [inlineSVG]="'./assets/media/svg/icons/Media/Equalizer.svg'" cacheSVG="true"
+              class="svg-icon menu-icon colorize-blue-color"></span>
+            <span class="menu-text">Purchase Reports</span>
+
+          </a>
+          <div class="menu-submenu">
+            <ul class="menu-subnav">
+              <li class="menu-item menu-item-parent" aria-haspopup="true">
+                <span class="menu-link" style="cursor:  no-drop;">
+                  <span class="menu-text">Purchase Reports</span>
+                </span>
+              </li>
+            </ul>
+          </div>
+        </li>
+        <ul class="fa-ul">
+          <li class="list-group-item list-group-item-action custom-li" style="cursor:  no-drop;"><span
+              [inlineSVG]="'./assets/media/svg/icons/Shopping/Chart-bar1.svg'" cacheSVG="true"
+              class="svg-icon menu-icon colorize-blue-color mr-2" style="cursor:  no-drop;"></span>Vendor / Order Wise
+          </li>
+          <li class="list-group-item list-group-item-action custom-li" style="cursor:  no-drop;"><span
+              [inlineSVG]="'./assets/media/svg/icons/Shopping/Chart-bar2.svg'" cacheSVG="true"
+              class="svg-icon menu-icon colorize-blue-color mr-2" style="cursor:  no-drop;"></span>Product Wise</li>
+          <li class="list-group-item list-group-item-action custom-li" style="cursor:  no-drop;"><span
+              [inlineSVG]="'./assets/media/svg/icons/Shopping/Chart-line2.svg'" cacheSVG="true"
+              class="svg-icon menu-icon colorize-blue-color mr-2"></span>Product / Vendor Wise</li>
+          <li class="list-group-item list-group-item-action custom-li" style="cursor:  no-drop;"><span
+              [inlineSVG]="'./assets/media/svg/icons/Shopping/Chart-line1.svg'" cacheSVG="true"
+              class="svg-icon menu-icon colorize-blue-color mr-2"></span>Brand / Vendor Wise</li>
+        </ul>
+
+
+      </ng-container>
+      <ng-container *ngIf="currentlySelectedTab==='Sales'">
+        <li class="menu-section">
+          <h4 class="menu-text theme-color">Sales Part</h4>
+          <i class="menu-icon flaticon-more-v2"></i>
+        </li>
+
+
+        <li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover"
+          routerLinkActive="menu-item-open" style="cursor: no-drop;">
+          <a class="menu-link menu-toggle" routerLinkActive="active" style="cursor: no-drop;">
+            <span [inlineSVG]="'./assets/media/svg/icons/General/User.svg'" cacheSVG="true"
+              class="svg-icon menu-icon colorize-ornage"></span>
+            <span class="menu-text">User</span>
+          </a>
+          <div class="menu-submenu">
+            <ul class="menu-subnav">
+              <li class="menu-item menu-item-parent" aria-haspopup="true">
+                <span class="menu-link" style="cursor: no-drop;">
+                  <span class="menu-text">User</span>
+                </span>
+              </li>
+            </ul>
+          </div>
+        </li>
+        <ul class="fa-ul">
+          <li class="list-group-item list-group-item-action custom-li" style="cursor: no-drop;"><span
+              [inlineSVG]="'./assets/media/svg/icons/Communication/Add-user.svg'" cacheSVG="true"
+              class="svg-icon menu-icon colorize-ornage mr-2"></span>Customer</li>
+        </ul>
+
+        <li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover"
+          routerLinkActive="menu-item-open" style="cursor: no-drop;">
+          <a class="menu-link menu-toggle" routerLinkActive="active" style="cursor: no-drop;">
+            <span [inlineSVG]="'./assets/media/svg/icons/Clothes/Crown.svg'" cacheSVG="true"
+              class="svg-icon menu-icon colorize-blue"></span>
+            <span class="menu-text">Master Management</span>
+          </a>
+          <div class="menu-submenu">
+            <ul class="menu-subnav">
+              <li class="menu-item menu-item-parent" aria-haspopup="true" style="cursor: no-drop;">
+                <span class="menu-link">
+                  <span class="menu-text">Master Management</span>
+                </span>
+              </li>
+            </ul>
+          </div>
+        </li>
+        <ul class="fa-ul">
+          <li class="list-group-item list-group-item-action custom-li" style="cursor: no-drop;">
+            <span [inlineSVG]="'./assets/media/svg/icons/Shopping/Bag2.svg'" cacheSVG="true"
+              class="svg-icon menu-icon colorize-blue mr-2"></span>Product
+          </li>
+        </ul>
+
+
+        <li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover"
+          routerLinkActive="menu-item-open" style="cursor: no-drop;">
+          <a class="menu-link menu-toggle" routerLinkActive="active" style="cursor: no-drop;">
+            <span [inlineSVG]="'./assets/media/svg/icons/Text/Bullet-list.svg'" cacheSVG="true"
+              class="svg-icon menu-icon colorize-blue-color"></span>
+            <span class="menu-text">Product Management</span>
+          </a>
+          <div class="menu-submenu">
+            <ul class="menu-subnav">
+              <li class="menu-item menu-item-parent" aria-haspopup="true" style="cursor: no-drop;">
+                <span class="menu-link">
+                  <span class="menu-text">Product Management</span>
+                </span>
+              </li>
+            </ul>
+          </div>
+        </li>
+        <ul class="fa-ul">
+          <li class="list-group-item list-group-item-action custom-li" style="cursor: no-drop;"><span
+              [inlineSVG]="'./assets/media/svg/icons/Shopping/Bag1.svg'" cacheSVG="true"
+              class="svg-icon menu-icon colorize-blue-color mr-2"></span>Mapped Products</li>
+          <li class="list-group-item list-group-item-action custom-li" style="cursor: no-drop;"><span
+              [inlineSVG]="'./assets/media/svg/icons/Shopping/Cart3.svg'" cacheSVG="true"
+              class="svg-icon menu-icon colorize-blue-color mr-2"></span>UnMapped Products</li>
+          <li class="list-group-item list-group-item-action custom-li" style="cursor: no-drop;"><span
+              [inlineSVG]="'./assets/media/svg/icons/Shopping/Cart2.svg'" cacheSVG="true"
+              class="svg-icon menu-icon colorize-blue-color mr-2"></span>Update Out Of Stock</li>
+        </ul>
+
+        <li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover"
+          routerLinkActive="menu-item-open" style="cursor: no-drop;">
+          <a class="menu-link menu-toggle" routerLinkActive="active" style="cursor: no-drop;">
+            <span [inlineSVG]="'./assets/media/svg/icons/General/Bookmark.svg'" cacheSVG="true"
+              class="svg-icon menu-icon colorize-yellow"></span>
+            <span class="menu-text">Order Management</span>
+          </a>
+          <div class="menu-submenu">
+            <ul class="menu-subnav">
+              <li class="menu-item menu-item-parent" aria-haspopup="true" style="cursor: no-drop;">
+                <span class="menu-link">
+                  <span class="menu-text">Order Management</span>
+                </span>
+              </li>
+            </ul>
+          </div>
+        </li>
+
+        <ul class="fa-ul">
+          <li class="list-group-item list-group-item-action custom-li" style="cursor: no-drop;">
+            <span [inlineSVG]="'./assets/media/svg/icons/General/Clipboard.svg'" cacheSVG="true"
+              class="svg-icon menu-icon colorize-yellow mr-2"></span>Orders
+          </li>
+        </ul>
+
+        <li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover"
+          routerLinkActive="menu-item-open" style="cursor: no-drop;">
+          <a class="menu-link menu-toggle" routerLinkActive="active" style="cursor: no-drop;">
+            <span [inlineSVG]="'./assets/media/svg/icons/Media/Equalizer.svg'" cacheSVG="true"
+              class="svg-icon menu-icon colorize-blue"></span>
+            <span class="menu-text">Reports</span>
+          </a>
+          <div class="menu-submenu">
+            <ul class="menu-subnav">
+              <li class="menu-item menu-item-parent" aria-haspopup="true" style="cursor: no-drop;">
+                <span class="menu-link">
+                  <span class="menu-text">Reports</span>
+                </span>
+              </li>
+            </ul>
+          </div>
+        </li>
+
+        <ul class="fa-ul">
+          <li class="list-group-item list-group-item-action custom-li" style="cursor: no-drop;">
+            <span [inlineSVG]="'./assets/media/svg/icons/Shopping/Chart-bar2.svg'" cacheSVG="true"
+              class="svg-icon menu-icon colorize-blue mr-2"></span>Order / Sales Report
+          </li>
+          <li class="list-group-item list-group-item-action custom-li" style="cursor: no-drop;">
+            <span [inlineSVG]="'./assets/media/svg/icons/Shopping/Chart-bar1.svg'" cacheSVG="true"
+              class="svg-icon menu-icon colorize-blue mr-2"></span>Bussiness Snapshot
+          </li>
+        </ul>
+
+        <li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover"
+          routerLinkActive="menu-item-open" style="cursor: no-drop;">
+          <a class="menu-link menu-toggle" routerLinkActive="active" style="cursor: no-drop;">
+            <span [inlineSVG]="'./assets/media/svg/icons/Files/Selected-file.svg'" cacheSVG="true"
+              class="svg-icon menu-icon colorize-blue-color"></span>
+            <span class="menu-text">Document</span>
+          </a>
+          <div class="menu-submenu">
+            <ul class="menu-subnav">
+              <li class="menu-item menu-item-parent" aria-haspopup="true" style="cursor: no-drop;">
+                <span class="menu-link">
+                  <span class="menu-text">Document</span>
+                </span>
+              </li>
+            </ul>
+          </div>
+        </li>
+
+      </ng-container>
+
+    </ng-container>
+
+    <ng-container *ngIf="isSubscriptionValid == 'ACTIVE' && role !='Seller'">
+      <ng-container *ngIf="currentlySelectedTab==='Inventory'">
+        <li class="menu-section">
+          <h4 class="menu-text text-center theme-color">Inventory Part</h4>
           <i class="menu-icon flaticon-more-v2"></i>
         </li>
 
@@ -188,7 +715,7 @@
 
         <li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover"
           routerLinkActive="menu-item-open"
-          *ngIf="role==='Admin' || role==='Seller' ||role==='sales'||role==='partner'">
+          *ngIf="role==='Admin' ||role==='sales'||role==='partner'||role==='Customer'">
           <a class="menu-link menu-toggle" routerLinkActive="active">
             <span [inlineSVG]="'./assets/media/svg/icons/General/User.svg'" cacheSVG="true"
               class="svg-icon menu-icon colorize-ornage"></span>
@@ -216,7 +743,8 @@
               </li>
 
               <li class="menu-item menu-item-submenu" routerLinkActive="menu-item-open" aria-haspopup="true"
-                data-menu-toggle="hover" *ngIf="role==='Admin' || role==='sales' || role==='partner'">
+                data-menu-toggle="hover"
+                *ngIf="role==='Admin' || role==='sales' || role==='partner'|| role==='Customer'">
                 <a class="menu-link menu-toggle" routerLinkActive="active" routerLink="/sales/user/seller">
                   <i class="menu-bullet menu-bullet-dot">
                     <span></span>
@@ -228,7 +756,7 @@
               </li>
 
               <li class="menu-item menu-item-submenu" routerLinkActive="menu-item-open" aria-haspopup="true"
-                data-menu-toggle="hover" *ngIf="role==='Seller' || role==='Admin'">
+                data-menu-toggle="hover" *ngIf="role==='Admin'">
                 <a class="menu-link menu-toggle" routerLinkActive="active" routerLink="sales/user/customer">
                   <i class="menu-bullet menu-bullet-dot">
                     <span></span>
@@ -283,7 +811,7 @@
         </li>
 
         <li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover"
-          routerLinkActive="menu-item-open" *ngIf="role==='Admin' || role==='Seller' ||role==='backoffice'">
+          routerLinkActive="menu-item-open" *ngIf="role==='Admin' ||role==='backoffice'">
           <a class="menu-link menu-toggle" routerLinkActive="active">
             <span [inlineSVG]="'./assets/media/svg/icons/Clothes/Crown.svg'" cacheSVG="true"
               class="svg-icon menu-icon colorize-blue"></span>
@@ -342,7 +870,7 @@
               </li>
 
               <li class="menu-item" routerLinkActive="menu-item-active" aria-haspopup="true" data-menu-toggle="hover"
-                *ngIf="role==='Admin' || role==='backoffice' || role==='Seller'">
+                *ngIf="role==='Admin' || role==='backoffice'">
                 <a class="menu-link" routerLinkActive="active" routerLink="/sales/masterManagement/product">
                   <i class="menu-bullet menu-bullet-dot">
                     <span></span>
@@ -355,7 +883,7 @@
         </li>
 
         <li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover"
-          routerLinkActive="menu-item-open" *ngIf="role==='Admin' || role==='Seller' ||role==='backoffice'">
+          routerLinkActive="menu-item-open" *ngIf="role==='Admin' ||role==='backoffice'">
           <a class="menu-link menu-toggle" routerLinkActive="active">
             <span [inlineSVG]="'./assets/media/svg/icons/Text/Bullet-list.svg'" cacheSVG="true"
               class="svg-icon menu-icon colorize-blue-color"></span>
@@ -383,7 +911,7 @@
               </li>
 
               <li class="menu-item" routerLinkActive="menu-item-active" aria-haspopup="true" data-menu-toggle="hover"
-                *ngIf="role==='Seller' ||role==='Admin' || role==='backoffice'">
+                *ngIf="role==='Admin' || role==='backoffice'">
                 <a class="menu-link" routerLink="/sales/productManagement/mappedProduct" routerLinkActive="active">
                   <i class="menu-bullet menu-bullet-dot">
                     <span></span>
@@ -393,7 +921,7 @@
               </li>
 
               <li class="menu-item" routerLinkActive="menu-item-active" aria-haspopup="true" data-menu-toggle="hover"
-                *ngIf="role==='Seller' ||role==='Admin' || role==='backoffice'">
+                *ngIf="role==='Admin' || role==='backoffice'">
                 <a class="menu-link" routerLink="/sales/productManagement/unMappedProduct" routerLinkActive="active">
                   <i class="menu-bullet menu-bullet-dot">
                     <span></span>
@@ -403,7 +931,7 @@
               </li>
 
               <li class="menu-item" routerLinkActive="menu-item-active" aria-haspopup="true" data-menu-toggle="hover"
-                *ngIf="role==='Seller' ||role==='Admin' || role==='backoffice'">
+                *ngIf="role==='Admin' || role==='backoffice'">
                 <a class="menu-link" routerLink="/sales/productManagement/updateOutOfStock" routerLinkActive="active">
                   <i class="menu-bullet menu-bullet-dot">
                     <span></span>
@@ -418,7 +946,7 @@
 
 
         <li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover"
-          routerLinkActive="menu-item-open" *ngIf="role==='Admin' || role==='Seller'">
+          routerLinkActive="menu-item-open" *ngIf="role==='Admin'">
           <a class="menu-link menu-toggle" routerLinkActive="active">
             <span [inlineSVG]="'./assets/media/svg/icons/General/Bookmark.svg'" cacheSVG="true"
               class="svg-icon menu-icon colorize-yellow"></span>
@@ -435,7 +963,7 @@
               </li>
 
               <li class="menu-item" routerLinkActive="menu-item-active" aria-haspopup="true" data-menu-toggle="hover"
-                *ngIf="role==='Admin' || role==='Seller'">
+                *ngIf="role==='Admin'">
                 <a class="menu-link" routerLink="/sales/orderManagement/orders" routerLinkActive="active">
                   <i class="menu-bullet menu-bullet-dot">
                     <span></span>
@@ -450,7 +978,7 @@
 
         <li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover"
           routerLinkActive="menu-item-open"
-          *ngIf="role==='Admin' || role==='Seller' ||role==='backoffice' ||role==='sales' || role==='partner'|| role==='mis'">
+          *ngIf="role==='Admin'  ||role==='sales' || role==='partner'|| role==='mis' ||role==='Customer'">
           <a class="menu-link menu-toggle" routerLinkActive="active">
             <span [inlineSVG]="'./assets/media/svg/icons/Media/Equalizer.svg'" cacheSVG="true"
               class="svg-icon menu-icon colorize-blue"></span>
@@ -467,7 +995,7 @@
               </li>
 
               <li class="menu-item" routerLinkActive="menu-item-active" aria-haspopup="true" data-menu-toggle="hover"
-                *ngIf="role==='mis' || role==='Admin' || role==='Seller'">
+                *ngIf="role==='mis' || role==='Admin'">
                 <a class="menu-link" routerLink="/sales/reports/orderSalesReport" routerLinkActive="active">
                   <i class="menu-bullet menu-bullet-dot">
                     <span></span>
@@ -477,7 +1005,7 @@
               </li>
 
               <li class="menu-item" routerLinkActive="menu-item-active" aria-haspopup="true" data-menu-toggle="hover"
-                *ngIf="role==='Admin' || role==='sales' || role==='partner' || role==='Seller'">
+                *ngIf="role==='Admin' || role==='sales' || role==='partner' || role==='Customer'">
                 <a class="menu-link" routerLink="/sales/reports/bussinessSnapshot" routerLinkActive="active">
                   <i class="menu-bullet menu-bullet-dot">
                     <span></span>
@@ -493,12 +1021,14 @@
 
 
         <li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover"
-          routerLinkActive="menu-item-open" *ngIf="role==='Admin' || role==='sales'">
+          routerLinkActive="menu-item-open" *ngIf="role==='Admin' || role==='sales' || role==='Customer'">
           <a class="menu-link menu-toggle" routerLinkActive="active">
             <span [inlineSVG]="'./assets/media/svg/icons/Communication/Adress-book2.svg'" cacheSVG="true"
               class="svg-icon menu-icon colorize-ornage"></span>
             <span class="menu-text">Enquiry Form</span>
             <i class="menu-arrow"></i>
+
+
           </a>
           <div class="menu-submenu">
             <i class="menu-arrow"></i>
@@ -510,7 +1040,7 @@
               </li>
 
               <li class="menu-item" routerLinkActive="menu-item-active" aria-haspopup="true" data-menu-toggle="hover"
-                *ngIf="role==='Admin' || role==='sales'">
+                *ngIf="role==='Admin' || role==='sales' || role==='Customer'">
                 <a class="menu-link" routerLink="/sales/enquiry/salesEnquiry" routerLinkActive="active">
                   <i class="menu-bullet menu-bullet-dot">
                     <span></span>
@@ -528,7 +1058,7 @@
 
         <li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover"
           routerLinkActive="menu-item-open"
-          *ngIf="role==='Admin' || role==='partner' ||role==='Seller' || role==='sales'|| role==='backoffice'">
+          *ngIf="role==='Admin' || role==='partner' || role==='sales'|| role==='backoffice' || role==='Customer'">
           <a class="menu-link menu-toggle" routerLinkActive="active">
             <span [inlineSVG]="'./assets/media/svg/icons/Files/Selected-file.svg'" cacheSVG="true"
               class="svg-icon menu-icon colorize-blue-color"></span>
@@ -577,7 +1107,7 @@
 
       </ng-container>
     </ng-container>
-    <ng-container *ngIf="isSubscriptionValid == 'INACTIVE'">
+    <ng-container *ngIf="isSubscriptionValid == 'INACTIVE' && role !='Seller'">
       <ng-container *ngIf="currentlySelectedTab==='Inventory'">
         <li class="menu-section">
           <h4 class="menu-text theme-color">Inventory Part</h4>
@@ -652,8 +1182,7 @@
           <i class="menu-icon flaticon-more-v2"></i>
         </li>
         <li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover"
-          routerLinkActive="menu-item-open"
-          *ngIf="role==='Admin' || role==='Seller' ||role==='sales'||role==='partner'">
+          routerLinkActive="menu-item-open" *ngIf="role==='Admin' ||role==='sales'||role==='partner'">
           <a class="menu-link menu-toggle" routerLinkActive="active" style="cursor:  no-drop;">
             <span [inlineSVG]="'./assets/media/svg/icons/General/User.svg'" cacheSVG="true"
               class="svg-icon menu-icon colorize-ornage"></span>
@@ -677,7 +1206,7 @@
         </li>
 
         <li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover"
-          routerLinkActive="menu-item-open" *ngIf="role==='Admin' || role==='Seller' ||role==='backoffice'">
+          routerLinkActive="menu-item-open" *ngIf="role==='Admin'||role==='backoffice'">
           <a class="menu-link menu-toggle" routerLinkActive="active" style="cursor:  no-drop;">
             <span [inlineSVG]="'./assets/media/svg/icons/Clothes/Crown.svg'" cacheSVG="true"
               class="svg-icon menu-icon colorize-blue"></span>
@@ -699,7 +1228,7 @@
         </li>
 
         <li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover"
-          routerLinkActive="menu-item-open" *ngIf="role==='Admin' || role==='Seller' ||role==='backoffice'">
+          routerLinkActive="menu-item-open" *ngIf="role==='Admin' ||role==='backoffice'">
           <a class="menu-link menu-toggle" routerLinkActive="active" style="cursor:  no-drop;">
             <span [inlineSVG]="'./assets/media/svg/icons/Text/Bullet-list.svg'" cacheSVG="true"
               class="svg-icon menu-icon colorize-blue-color"></span>
@@ -722,7 +1251,7 @@
 
 
         <li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover"
-          routerLinkActive="menu-item-open" *ngIf="role==='Admin' || role==='Seller'">
+          routerLinkActive="menu-item-open" *ngIf="role==='Admin'">
           <a class="menu-link menu-toggle" routerLinkActive="active" style="cursor:  no-drop;">
             <span [inlineSVG]="'./assets/media/svg/icons/General/Bookmark.svg'" cacheSVG="true"
               class="svg-icon menu-icon colorize-yellow"></span>
@@ -744,7 +1273,7 @@
 
         <li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover"
           routerLinkActive="menu-item-open"
-          *ngIf="role==='Admin' || role==='Seller' ||role==='backoffice' ||role==='sales' || role==='partner'|| role==='mis'">
+          *ngIf="role==='Admin'||role==='backoffice' ||role==='sales' || role==='partner'|| role==='mis'">
           <a class="menu-link menu-toggle" routerLinkActive="active" style="cursor:  no-drop;">
             <span [inlineSVG]="'./assets/media/svg/icons/Media/Equalizer.svg'" cacheSVG="true"
               class="svg-icon menu-icon colorize-blue"></span>

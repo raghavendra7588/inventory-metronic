@@ -1,5 +1,6 @@
 import { Location } from '@angular/common';
 import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { PaymentService } from 'src/app/pages/payment/payment.service';
 import { EmitterService } from 'src/app/shared/emitter.service';
@@ -47,15 +48,15 @@ export class AsideStaticComponent implements OnInit, OnDestroy {
     });
     this.unsubscribe.push(currentlySelectedTab);
     const isPaymentOrStatusChange = this.emitterService.isPaymentOrStatusChange.subscribe(val => {
-    
+
       if (val) {
         this.currentlySelectedTab = sessionStorage.getItem('currentlySelectedTab');
         if ("isSubscriptionValid" in sessionStorage) {
           this.isSubscriptionValid = '';
           this.isSubscriptionValid = sessionStorage.getItem("isSubscriptionValid");
-          
+
           this.isSubscriptionValid = 'INACTIVE';
-         
+
           this.cdr.detectChanges();
         }
       }
@@ -69,13 +70,13 @@ export class AsideStaticComponent implements OnInit, OnDestroy {
           this.isSubscriptionValid = '';
           this.isSubscriptionValid = sessionStorage.getItem("isSubscriptionValid");
           this.isSubscriptionValid = 'ACTIVE';
-      
+
           this.cdr.detectChanges();
         }
       }
       this.unsubscribe.push(isPaymentOrStatusActivated);
     });
-    
+
   }
 
   ngOnInit(): void {
@@ -117,6 +118,7 @@ export class AsideStaticComponent implements OnInit, OnDestroy {
       this.isSubscriptionValid = sessionStorage.getItem("isSubscriptionValid");
     }
   }
+
 
   ngOnDestroy() {
     this.unsubscribe.forEach((sb) => sb.unsubscribe());

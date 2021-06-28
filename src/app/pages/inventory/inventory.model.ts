@@ -56,4 +56,6 @@ export class StockIn {
     BarCode: string;
     sellerId: number;
     stockInItemId: number;
+    BuyingPrice: number;
+    FinalPrice: number;
 }

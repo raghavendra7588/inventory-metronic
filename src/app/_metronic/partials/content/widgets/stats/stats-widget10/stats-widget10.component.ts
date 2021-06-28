@@ -71,7 +71,7 @@ export class StatsWidget10Component implements OnInit {
 
     this.currentTab = 'Daily'
     this.getDashBoardSalesRelatedData();
-  
+
   }
 
   getChartOptionsDaily() {
@@ -389,9 +389,12 @@ export class StatsWidget10Component implements OnInit {
     this.spinner.show();
     this.reportsService.getDashBoardSales(this.strUserId).subscribe(res => {
       this.salesData = res;
- 
-      this.dailySales = this.salesData[1].Totall;
-      this.weeklySales = this.salesData[1].Week;
+      if (this.salesData[1].Totall) {
+        this.dailySales = this.salesData[1].Totall;
+      }
+      if (this.salesData[1].Week) {
+        this.dailySales = this.salesData[1].Week;
+      }
       this.monthlySales = this.salesData[1].Month;
       this.yearlySales = this.salesData[1].Year;
 
@@ -431,7 +434,7 @@ export class StatsWidget10Component implements OnInit {
 
   dailySeriesData(dailyRes) {
     this.spinner.show();
-  
+
     for (let i = 0; i < Number(dailyRes); i++) {
       this.dailySalesSeries.push(i.toString());
     }
@@ -446,7 +449,7 @@ export class StatsWidget10Component implements OnInit {
     for (let i = 0; i < Number(weeklyRes); i++) {
       this.weeklySalesSeries.push(i.toString());
     }
-  
+
     this.chartOptions = this.getChartOptionsWeekly();
     this.spinner.hide();
   }
@@ -457,18 +460,18 @@ export class StatsWidget10Component implements OnInit {
     for (let i = 0; i < Number(monthlyRes); i++) {
       this.monthlySalesSeries.push(i.toString());
     }
-   
+
     this.chartOptions = this.getChartOptionsMonthly();
     this.spinner.hide();
   }
 
   yearlySeriesData(yearlyRes) {
-    
+
     this.spinner.show();
     for (let i = 0; i < Number(yearlyRes); i++) {
       this.yearlySalesSeries.push(i.toString());
     }
-   
+
     this.chartOptions = this.getChartOptionsYearly();
     this.spinner.hide();
   }

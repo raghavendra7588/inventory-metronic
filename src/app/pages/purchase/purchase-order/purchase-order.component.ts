@@ -15,6 +15,7 @@ import { DialogPurchaseOrderPrintComponent } from '../dialog-purchase-order-prin
 import { SubheaderService } from 'src/app/_metronic/partials/layout';
 import { SharedService } from 'src/app/shared/shared.service';
 import { PaymentService } from '../../payment/payment.service';
+import { DialogOrderPrintComponent } from '../dialog-order-print/dialog-order-print.component';
 
 @Component({
   selector: 'app-purchase-order',
@@ -501,4 +502,6 @@ export class PurchaseOrderComponent implements OnInit {
       this.spinner.hide();
     });
   }
+
+
 }

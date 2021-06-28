@@ -134,7 +134,7 @@ export class StockInEntryComponent implements OnInit {
       this.checkFinalPrice = this.checkItemFinalPrice(element);
 
       if (!this.checkFinalPrice) {
-        this.toastr.error('Please Check Quantity');
+        this.toastr.error('Please Check All Values');
       }
     });
     if (this.checkFinalPrice) {
@@ -161,9 +161,11 @@ export class StockInEntryComponent implements OnInit {
     let isRecordValid: boolean = true;
     let QuantityOrdered = Number(element.PurchaseQuantity);
 
-    let QuantityReceived = Number(element.QuantityReceived)
+    let QuantityReceived = Number(element.QuantityReceived);
+    let BuyingPrice = Number(element.FinalPrice);
+    let SellingPrice = Number(element.SellingPrice);
 
-    if (QuantityReceived > QuantityOrdered) {
+    if (QuantityReceived > QuantityOrdered || SellingPrice < BuyingPrice) {
       isRecordValid = false;
     } else {
       if ((Number(QuantityReceived)) === 0) {
@@ -200,14 +202,14 @@ export class StockInEntryComponent implements OnInit {
       this.stockIn.SellingPrice = Number(element.SellingPrice);
       this.stockIn.BarCode = element.Barcode;
       this.stockIn.sellerId = Number(sessionStorage.getItem('sellerId'));
+      this.stockIn.BuyingPrice = Number(element.BuyingPrice);
+      this.stockIn.FinalPrice = Number(element.BuyingPrice) - Number(element.Discount);
       this.mulitpleEntriesArray.push(this.stockIn);
     });
 
-
     this.spinner.show();
     this.inventoryService.postStockInItem(this.mulitpleEntriesArray).subscribe(data => {
-
-      this.toastr.success('Items saved');
+      this.toastr.success('Items Saved');
       this.updateAllRecordsCount = 0;
       this.mulitpleEntriesArray = [];
       this.uniqueArray = [];

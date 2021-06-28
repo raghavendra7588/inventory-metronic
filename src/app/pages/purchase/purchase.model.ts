@@ -188,6 +188,9 @@ export class customPriceList {
     BrandName?: string;
     Name?: string;
     CategoryId?: number;
+    SystemFinalPrice: number;
+    SystemDiscount: number;
+    SystemProductPrice: number;
 }
 
 export class PurchaseReport {
