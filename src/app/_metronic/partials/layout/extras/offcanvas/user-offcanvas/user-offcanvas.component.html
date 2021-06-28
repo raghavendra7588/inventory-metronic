@@ -1,4 +1,4 @@
-<div id="kt_quick_user" class="offcanvas p-10" [ngClass]="extrasUserOffcanvasDirection" #element>
+<div id="kt_quick_user" class="offcanvas p-10" [ngClass]="extrasUserOffcanvasDirection">
   <ng-container *ngIf="user$ | async as _user">
 
     <div class="offcanvas-header d-flex align-items-center justify-content-between pb-5">
@@ -78,7 +78,7 @@
           </a>
         </ng-container>
 
-        <a class="navi-item cursor-pointer" routerLink="/user-profile" (click)="closeOffCanvas()">
+        <a class="navi-item cursor-pointer" routerLink="/user-profile">
           <div class="navi-link">
             <div class="symbol symbol-40 bg-light mr-3">
               <div class="symbol-label">

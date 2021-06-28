@@ -20,7 +20,6 @@ export class UserOffcanvasComponent implements OnInit, OnDestroy {
   city: string;
   isSubscriptionValid: string;
   private unsubscribe: Subscription[] = [];
-  @ViewChildren('li') livs: QueryList<any>;
   @ViewChild('element') element: ElementRef;
 
   constructor(
